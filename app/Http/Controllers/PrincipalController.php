@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class PrincipalController extends Controller
 {
@@ -14,7 +15,7 @@ class PrincipalController extends Controller
     }
 
     public function index() {
-
+        App::setLocale(trim(session("idioma_codigo")));
         $view = "principal.index";
         $datos = array();
         $datos["subtitle"] = trans('traductor.sistema');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BaseModel;
 use App\Models\ModulosModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class ModulosController extends Controller
@@ -22,7 +23,7 @@ class ModulosController extends Controller
     }
 
     public function index() {
-
+        App::setLocale(trim(session("idioma_codigo")));
         $view            = "modulos.index";
         $data["title"]   = "Administración de Modulos";
         $data["tabla"]   = $this->modulos_model->tabla()->HTML();

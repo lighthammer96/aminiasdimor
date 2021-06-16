@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BaseModel;
 use App\Models\PerfilesModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class PerfilesController extends Controller
@@ -20,7 +21,7 @@ class PerfilesController extends Controller
     }
 
     public function index() {
-
+        App::setLocale(trim(session("idioma_codigo")));
         $view = "perfiles.index";
         $data["title"] = "Administración de Perfiles";
         $data["subtitle"] = "";

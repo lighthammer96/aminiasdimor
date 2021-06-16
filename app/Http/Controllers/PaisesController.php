@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BaseModel;
 use App\Models\PaisesModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class PaisesController extends Controller
@@ -20,7 +21,7 @@ class PaisesController extends Controller
     }
 
     public function index() {
-
+        App::setLocale(trim(session("idioma_codigo")));
         $view = "paises.index";
         $data["title"] = trans('traductor.titulo');
         $data["subtitle"] = "";

@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\UsuariosModel;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,6 +23,7 @@ class UsuariosController extends Controller
     }
 
     public function index() {
+        App::setLocale(trim(session("idioma_codigo")));
         $view             = "usuarios.index";
         $data["title"]    = "Administración de Usuarios";
         // $data["acciones"] = $this->getAcciones($modulo_id);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BaseModel;
 use App\Models\IdiomasModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class IdiomasController extends Controller
@@ -21,7 +22,7 @@ class IdiomasController extends Controller
     }
 
     public function index() {
-
+        App::setLocale(trim(session("idioma_codigo")));
         $view = "idiomas.index";
         $data["title"] = "Administración de Idiomas";
         $data["subtitle"] = "";

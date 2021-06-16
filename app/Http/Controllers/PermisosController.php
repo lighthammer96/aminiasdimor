@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class PermisosController extends Controller
@@ -18,6 +19,7 @@ class PermisosController extends Controller
     }
 
     public function index() {
+        App::setLocale(trim(session("idioma_codigo")));
         $view = "permisos.index";
         $data["title"] = "Administración de Permisos";
 
