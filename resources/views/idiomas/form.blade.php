@@ -12,20 +12,20 @@
                     <div class="row">
                         <input type="hidden" name="idioma_id" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('codigo')}}</label>
+                            <label class="control-label">{{ trans('traductor.codigo')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="idioma_codigo"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('descripcion')}}</label>
+                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="idioma_descripcion"  placeholder=""/>
 
                         </div>
                        
                         <div class="col-md-12">
-                            <label class="control-label">Estado</label>
+                            <label class="control-label">{{ trans('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
                                 <option value="I">INACTIVO</option>
