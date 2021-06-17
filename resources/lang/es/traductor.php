@@ -22,6 +22,20 @@ return [
     'codigo' => 'Código',
     'descripcion' => 'Descripción',
     'idioma' => 'Idioma',
-    'estado' => 'Estado'
+    'estado' => 'Estado',
+
+    'datatable_next' => 'Seguiente',
+    'datatable_prev' => 'Anterior',
+    'datatable_first' => 'Primero',
+    'datatable_last' => 'Ultimo',
+    'datatable_records' => 'Registros',
+    'datatable_vacio' => 'No Hay Datos en la Tabla',
+    'datatable_mostrando' => 'Mostrando',
+    'datatable_ver' => 'Ver',
+    'datatable_no_match' => 'No se encontraron registros coincidentes',
+    'datatable_a' => 'a',
+    'datatable_from' => 'de',
+
+
 
 ];

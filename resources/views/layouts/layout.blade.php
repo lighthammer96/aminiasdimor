@@ -152,7 +152,19 @@
     <script>
         var BaseUrl = "<?php echo URL::to('/'); ?>";
         var _token = "<?php echo csrf_token() ?>";
-      
+        var datatable_next = "<?php echo trans('traductor.datatable_next'); ?>";
+        var datatable_prev = "<?php echo trans('traductor.datatable_prev'); ?>";
+        var datatable_first = "<?php echo trans('traductor.datatable_first'); ?>";
+        var datatable_last = "<?php echo trans('traductor.datatable_last'); ?>";
+        var datatable_records = "<?php echo trans('traductor.datatable_records'); ?>";
+        var datatable_vacio = "<?php echo trans('traductor.datatable_vacio'); ?>";
+        var datatable_mostrando = "<?php echo trans('traductor.datatable_mostrando'); ?>";
+        var datatable_search = "<?php echo trans('traductor.buscar'); ?>";
+        var datatable_ver = "<?php echo trans('traductor.datatable_ver'); ?>";
+        var datatables_no_match = "<?php echo trans('traductor.datatables_no_match'); ?>";
+        var datatable_from = "<?php echo trans('traductor.datatable_from'); ?>";
+        var datatable_a = "<?php echo trans('traductor.datatable_a'); ?>";
+        var datatable_no_data = "<?php echo trans('traductor.datatable_no_data'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
