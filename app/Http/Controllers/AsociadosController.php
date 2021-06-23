@@ -64,13 +64,13 @@ class AsociadosController extends Controller
         $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
         $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server");
 
-        $_POST = $this->toUpper($_POST, ["tipolugarnac"]);
+        $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo"]);
         if ($request->input("idmiembro") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
         }
-        print_r($result); exit;
+        // print_r($result); exit;
         $_POST["idmiembro"] = $result["id"];
         if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == "0") {
 
