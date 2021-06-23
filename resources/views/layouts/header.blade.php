@@ -1,4 +1,4 @@
-<!-- @section('header') -->
+{{-- @section('header') --}}
 <header class="main-header">
     <!-- Logo -->
     <a href="#" class="logo">
@@ -185,4 +185,4 @@
     </nav>
 </header>
 
-<!-- @endsection -->
+{{-- @endsection --}}

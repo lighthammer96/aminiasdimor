@@ -20,6 +20,7 @@ class LoginController extends Controller
         // echo Hash::check("1235", $clave);
 
         $result = DB::select("SELECT * FROM seguridad.usuarios AS u 
+        INNER JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
         INNER JOIN seguridad.perfiles AS p ON(u.perfil_id=p.perfil_id)
         WHERE u.usuario_user='{$user}'");
        
@@ -32,12 +33,57 @@ class LoginController extends Controller
             session(['usuario_id' => $result[0]->usuario_id]);
             session(['usuario_user' => $result[0]->usuario_user]);
             session(['perfil_id' => $result[0]->perfil_id]);
-            session(['pais_id' => $request->input("pais_id")]);
+            session(['pais_id' => $result[0]->pais_id]);
             session(['perfil_descripcion' => $result[0]->perfil_descripcion]);
+            session(['idtipoacceso' => $result[0]->idtipoacceso]);
+
+            switch ($result[0]->idtipoacceso) {
+                case '1':
+                    $where_division = "AND iddivision = ".$result[0]->iddivision;
+                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                    $where_union = "AND u.idunion = ".$result[0]->idunion;
+                    $where_mision = "AND idmision = ".$result[0]->idmision;
+                    $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+                    break;
+                case '2':
+                    $where_division = "AND iddivision = ".$result[0]->iddivision;
+                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                    $where_union = "AND u.idunion = ".$result[0]->idunion;
+                    $where_mision = "AND idmision = ".$result[0]->idmision;
+                    $where_distrito_misionero = "";
+                    break;
+                case '3':
+                    $where_division = "AND iddivision = ".$result[0]->iddivision;
+                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                    $where_union = "AND u.idunion = ".$result[0]->idunion;
+                    $where_mision = "";
+                    $where_distrito_misionero = "";
+                    break;
+                case '4':
+                    $where_division = "AND iddivision = ".$result[0]->iddivision;
+                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                    $where_union = "";
+                    $where_mision = "";
+                    $where_distrito_misionero = "";
+                    break;
+                case '5':
+                    $where_division = "AND iddivision = ".$result[0]->iddivision;
+                    $where_pais = "";
+                    $where_union = "";
+                    $where_mision = "";
+                    $where_distrito_misionero = "";
+                    break;
+            }
+
+            session(['where_division' => $where_division]);
+            session(['where_pais' => $where_pais]);
+            session(['where_union' => $where_union]);
+            session(['where_mision' => $where_mision]);
+            session(['where_distrito_misionero' => $where_distrito_misionero]);
 
             $idioma = DB::select("SELECT p.*, i.idioma_codigo FROM public.paises AS p 
             INNER JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
-            WHERE p.pais_id={$request->input("pais_id")}");
+            WHERE p.pais_id={$result[0]->pais_id}");
             // print_r($idioma); exit;
             session(['idioma_id' => $idioma[0]->idioma_id]);
             session(['idioma_codigo' => $idioma[0]->idioma_codigo]);

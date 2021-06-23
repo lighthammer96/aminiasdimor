@@ -28,11 +28,11 @@ class PerfilesController extends Controller
         $data["tabla"] = $this->perfiles_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-perfil">Nuevo [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-perfil">Modificar [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-perfil">Eliminar [F7]</button>';
+        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-perfil">'.trans("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-perfil">'.trans("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-perfil">'.trans("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["perfiles.js"]);
+        $data["scripts"] = $this->cargar_js(["idiomas.js", "perfiles.js"]);
         return parent::init($view, $data);
 
       
@@ -54,6 +54,14 @@ class PerfilesController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("seguridad.perfiles", $_POST));
         }
 
+   
+        DB::table("seguridad.perfiles_idiomas")->where("perfil_id", $result["id"])->delete();
+        if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
+     
+            $_POST["perfil_id"] = $result["id"];
+           
+            $this->base_model->insertar($this->preparar_datos("seguridad.perfiles_idiomas", $_POST, "D"), "D");
+        }
         echo json_encode($result);
     }
 
@@ -76,5 +84,16 @@ class PerfilesController extends Controller
         echo json_encode($result);
     }
 
+
+    
+    public function obtener_traducciones(Request $request) {
+        $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM seguridad.perfiles_idiomas AS pi
+        INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
+        WHERE pi.perfil_id=".$request->input("perfil_id")."
+        ORDER BY pi.idioma_id ASC";
+       $result = DB::select($sql);
+       echo json_encode($result);
+       //print_r($_REQUEST);
+    }
     
 }

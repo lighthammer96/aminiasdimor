@@ -1,8 +1,8 @@
 @extends('layouts.layout')
-<!-- @extends('layouts.header')
-@extends('layouts.menu')
-@extends('layouts.aside')
-@extends('layouts.footer') -->
+{{-- @extends('layouts.header') --}}
+{{-- @extends('layouts.menu') --}}
+{{-- @extends('layouts.aside') --}}
+{{-- @extends('layouts.footer') --}}
 
 
 @section('content')
@@ -54,10 +54,10 @@
                            <div class="input-group m-bot15 col-md-12 sin-padding">
                                <select data-placeholder="Seleccione Padre" name="modulo_padre" id="modulo_padre" class="selectizejs entrada"></select>
 
-                               <span class="input-group-btn">
+                               <!-- <span class="input-group-btn">
                                    <button type="button" id="nuevo-padre" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
-                               </span>
+                               </span> -->
 
                            </div>
 
@@ -118,7 +118,7 @@
                                 <select data-placeholder="Seleccione Idioma " name="idioma" id="idioma" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
-                                    <button type="button" id="nuevo-idioma" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
+                                    <button type="button" id="nuevo-idioma" style="margin-top: -5px;" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
                                 </span>
 
@@ -159,7 +159,7 @@
    </div>
 </div>
 <div class="modal fade" id="modal-padres" data-keyboard="false" tabindex="-1" >
-   <div class="modal-dialog modal-sm" role="document">
+   <div class="modal-dialog" role="document">
        <div class="modal-content">
            <!-- <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -172,24 +172,62 @@
                    <div class="row">
                        <input type="hidden" name="modulo_id|padre">
                        <input type="hidden" name="modulo_padre|padre" value="1">
-                       <div class="col-md-12">
+                       <div class="col-md-4">
                            <label class="control-label">Nombre</label>
 
                            <input type="text" autofocus="autofocus" class="form-control input-sm entrada" name="modulo_nombre|padre" placeholder="Nuevo Modulo Padre ..."/>
 
                        </div>
-                       <div class="col-md-12">
+                       <div class="col-md-4">
                            <label class="control-label">Icono</label>
 
                            <input type="text" class="form-control input-sm entrada" name="modulo_icono|padre" placeholder="Seleccione Icono" />
 
                        </div>
-                       <div class="col-md-12">
+                       <div class="col-md-4">
                            <label class="control-label">Orden</label>
                            <input type="number" class="form-control input-sm entrada" name="modulo_orden|padre" />
                        </div>
                    
 
+                   </div>
+                   <div class="row">
+                       <div class="col-md-6">
+                            <label class="control-label">Idioma</label>
+
+                            <div class="input-group m-bot15 col-md-12 sin-padding">
+                                <select data-placeholder="Seleccione Idioma " name="idioma|padre" id="idioma-padre" class="selectizejs entrada"></select>
+
+                                <span class="input-group-btn">
+                                    <button type="button" id="nuevo-idioma-padre" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
+
+                                </span>
+
+                            </div>
+
+                       </div>
+                       <div class="col-md-6">
+                           <label class="control-label">Descripcion</label>
+                           <input type="text" class="form-control input-sm entrada limpiar" name="descripcion|padre" />
+                       </div>
+
+                   </div>
+                   <div class="row" style="margin-top: 15px;">
+                       <div class="col-md-12">
+                           <table class="table table-striped table-bordered display compact" id="detalle-traducciones-padre" style="font-size: 13px;">
+                               <thead>
+                                   <tr>
+                                       <th style="width: 100px;">Idioma</th>
+                                       <th style="width: 200px;">Descripcion</th>
+                                       <th style="width: 30px;"></th>
+                                   </tr>
+
+                               </thead>
+                               <tbody>
+
+                               </tbody>
+                           </table>
+                       </div>
                    </div>
                </div>
                <div class="modal-footer">

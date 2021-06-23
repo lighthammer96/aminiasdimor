@@ -1,12 +1,29 @@
 var usuarios = new BASE_JS('usuarios', 'usuarios');
 var perfiles = new BASE_JS('perfiles', 'perfiles');
+var asociados = new BASE_JS('asociados', 'asociados');
+var principal = new BASE_JS('principal', 'principal');
 var eventClick = new Event('click');
+
+asociados.TablaListado({
+    tablaID: '#tabla-asociados',
+    url: "/buscar_datos",
+});
 
 
 usuarios.TablaListado({
     tablaID: '#tabla-usuarios',
     url: "/buscar_datos",
 });
+
+
+principal.select({
+    name: "idtipoacceso",
+    url: '/obtener_tipos_acceso',
+    placeholder: 'Seleccione Tipo de Acceso'
+}).then(function() {
+    
+}) ;
+
 
 perfiles.select({
     name: "perfil_id",
@@ -37,8 +54,19 @@ document.getElementById("modificar-usuario").addEventListener("click", function(
 		});
 		return false;
     } 
-	usuarios.get(datos.usuario_id);
-
+	var promise = usuarios.get(datos.usuario_id);
+    promise.then(function(response) {
+        asociados.ajax({
+            url: '/get',
+            datos: { id: response.idmiembro }
+        }).then(function(datos) {
+            datos.idmiembro = datos[0].idmiembro;
+            datos.asociado = datos[0].apellidos +", "+ datos[0].nombres;
+            
+            usuarios.asignarDatos(datos);
+        });
+    
+    })
 })
 
 document.getElementById("ver-usuario").addEventListener("click", function(event) {
@@ -50,7 +78,19 @@ document.getElementById("ver-usuario").addEventListener("click", function(event)
         });
         return false;
     } 
-    usuarios.ver(datos.usuario_id);
+    var promise = usuarios.ver(datos.usuario_id);
+    promise.then(function(response) {
+        asociados.ajax({
+            url: '/get',
+            datos: { id: response.idmiembro }
+        }).then(function(datos) {
+            datos.idmiembro = datos.idmiembro;
+            datos.asociado = datos.apellidos +", "+ datos.nombres;
+            
+            usuarios.asignarDatos(datos);
+        });
+    
+    })
 
 })
 
@@ -84,15 +124,15 @@ document.getElementById("guardar-usuario").addEventListener("click", function(ev
     var usuario_id = document.getElementsByName("usuario_id")[0].value;
     // alert(usuario_id);
     var required = true;
-    required = required && usuarios.required("usuario_nombres");
+    // required = required && usuarios.required("usuario_nombres");
     required = required && usuarios.required("usuario_user");
     if(usuario_id == "") {
         required = required && usuarios.required("pass1");
-        required = required && usuarios.required("pass2");
+        // required = required && usuarios.required("pass2");
     }
-   
+
     required = required && usuarios.required("perfil_id");
-    required = required && usuarios.required("usuario_referencia");
+    // required = required && usuarios.required("usuario_referencia");
 
 
     if(required) {
@@ -117,45 +157,45 @@ document.getElementById("guardar-usuario").addEventListener("click", function(ev
 //     usuarios.validarvalueexist("usuario_user","usuarios",$(this).val(),"Usuario");
 // });
 //
-document.getElementsByName("pass1")[0].addEventListener("change", function(event) {
-    var pass2 = document.getElementsByName("pass2")[0].value;
+// document.getElementsByName("pass1")[0].addEventListener("change", function(event) {
+//     var pass2 = document.getElementsByName("pass2")[0].value;
 
-    var required = true;
-    required = required && usuarios.required("pass1");
-    required = required && usuarios.required("pass2");
-    if(required) {
-        if(this.value != pass2) {
-            BASE_JS.notificacion({
-                msg: 'LAS CONTRASEÑAS NO COINCIDEN',
-                type: 'warning',
-            });
+//     var required = true;
+//     required = required && usuarios.required("pass1");
+//     required = required && usuarios.required("pass2");
+//     if(required) {
+//         if(this.value != pass2) {
+//             BASE_JS.notificacion({
+//                 msg: 'LAS CONTRASEÑAS NO COINCIDEN',
+//                 type: 'warning',
+//             });
 
-            document.getElementById("guardar-usuario").disabled = true;
-        } else {
-            document.getElementById("guardar-usuario").disabled = false;
-        }
-    }
+//             document.getElementById("guardar-usuario").disabled = true;
+//         } else {
+//             document.getElementById("guardar-usuario").disabled = false;
+//         }
+//     }
 
-})
+// })
 
-document.getElementsByName("pass2")[0].addEventListener("change", function(event) {
-    var pass1 = document.getElementsByName("pass1")[0].value;
-    var required = true;
-    required = required && usuarios.required("pass1");
-    required = required && usuarios.required("pass2");
-    //alert(required);
-    if(required) {
-        if(this.value != pass1) {
-            BASE_JS.notificacion({
-                type: 'warning',
-                msg: 'LAS CONTRASEÑAS NO COINCIDEN'
-            });
-            document.getElementById("guardar-usuario").disabled = true;
-        } else {
-            document.getElementById("guardar-usuario").disabled = false;
-        }
-    }
-})
+// document.getElementsByName("pass2")[0].addEventListener("change", function(event) {
+//     var pass1 = document.getElementsByName("pass1")[0].value;
+//     var required = true;
+//     required = required && usuarios.required("pass1");
+//     required = required && usuarios.required("pass2");
+//     //alert(required);
+//     if(required) {
+//         if(this.value != pass1) {
+//             BASE_JS.notificacion({
+//                 type: 'warning',
+//                 msg: 'LAS CONTRASEÑAS NO COINCIDEN'
+//             });
+//             document.getElementById("guardar-usuario").disabled = true;
+//         } else {
+//             document.getElementById("guardar-usuario").disabled = false;
+//         }
+//     }
+// })
 
 
 document.addEventListener("keydown", function(event) {
@@ -225,3 +265,36 @@ document.getElementById("cancelar-usuario").addEventListener("click", function(e
 	event.preventDefault();
 	usuarios.CerrarModal();
 })
+
+
+
+document.getElementById("buscar_asociado").addEventListener("click", function(event) {
+	event.preventDefault();
+	$("#modal-lista-asociados").modal("show");
+})
+
+
+function cargar_datos_asociado(datos) {
+	usuarios.limpiarDatos("datos-asociado");
+	//console.log(datos);
+	usuarios.asignarDatos({
+		idmiembro: datos.idmiembro,
+		asociado: datos.nombres
+		
+	});
+	$("#modal-lista-asociados").modal("hide");
+
+
+}
+
+$("#tabla-asociados").on('key.dt', function(e, datatable, key, cell, originalEvent){
+	if(key === 13){
+		var datos = asociados.datatable.row(cell.index().row).data();
+		cargar_datos_asociado(datos);
+	}
+});
+
+$('#tabla-asociados').on('dblclick', 'tr', function () {
+	var datos = asociados.datatable.row( this ).data();
+	cargar_datos_asociado(datos);
+});

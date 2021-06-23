@@ -2,28 +2,37 @@
 
 return [
 
-
+    //LABELS SISTEMA
     'welcome' => 'Bienvenido',
     'sistema' => 'Sistema de Información',
     'desconectar' => 'Desconectar',
     'buscar' => 'Buscar',
     'online' => 'En Línea',
     
-
-    // FORMULARIOS
-    'titulo' => 'Administración de Paises ',
+    // BOTONES
     'nuevo' => 'Nuevo',
     'modificar' => 'Modificar',
     'eliminar' => 'Eliminar',
-
+    'ver' => 'Ver',
     'guardar' => 'Guardar',
     'cancelar' => 'Cancelar',
 
+    // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Código',
     'descripcion' => 'Descripción',
     'idioma' => 'Idioma',
     'estado' => 'Estado',
+    'pais' => "País",
+    'union' => "Unión",
+    'direccion' => "Dirección",
+    'telefono' => "Teléfono",
+    'email' => "Email",
+    'division' => "División",
+    'distrito_misionero' => "Distrito Misionero",
+    'posee_union' => "Posee Unión",
+    'mision' => "Misión",
 
+     // LABELS DATATABLES
     'datatable_next' => 'Seguiente',
     'datatable_prev' => 'Anterior',
     'datatable_first' => 'Primero',
@@ -35,6 +44,15 @@ return [
     'datatable_no_match' => 'No se encontraron registros coincidentes',
     'datatable_a' => 'a',
     'datatable_from' => 'de',
+    
+    // TITULOS MODULOS
+    'titulo_asociados' => 'Administración de Asociados',
+    'titulo_divisiones' => 'Administración de Divisiones',
+    'titulo_uniones' => 'Administración de Uniones',
+    'titulo_misiones' => 'Administración de Misiones',
+    'titulo_distritos_misioneros' => 'Administración de Distritos Misioneros',
+    'titulo_iglesias' => 'Administración de Iglesias',
+    'titulo_paises' => 'Administración de Paises',
 
 
 

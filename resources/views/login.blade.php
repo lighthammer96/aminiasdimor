@@ -53,11 +53,11 @@
                     <input type="password" class="form-control" placeholder="Contraseña" id="pass" name="pass">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
+                <!-- <div class="form-group has-feedback">
                     <select  name="pais_id" id="pais_id" class="selectizejs entrada">
 
                     </select>
-                </div>
+                </div> -->
                 
                 <div class="row">
                     <div class="col-xs-4">

@@ -2,31 +2,28 @@
 
 return [
 
-
-
-    
+    //LABELS SISTEMA
     'welcome' => 'Welcome',
     'sistema' => 'Information System',
-    
     'desconectar' => 'Sign Out',
     'buscar' => 'Search',
     'online' => 'Online',
     
-     // FORMULARIOS
-    'titulo' => 'Country Administration',
+    // BOTONES
     'nuevo' => 'New',
     'modificar' => 'Update',
     'eliminar' => 'Delete',
-
-
+    'ver' => 'Show',
     'guardar' => 'Save',
     'cancelar' => 'Cancel',
 
+    // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Code',
     'descripcion' => 'Description',
     'idioma' => 'Language',
     'estado' => 'State',
 
+    // LABELS DATATABLES
     'datatable_next' => 'Next',
     'datatable_prev' => 'Previous',
     'datatable_first' => 'First',
@@ -39,5 +36,7 @@ return [
     'datatable_a' => 'to',
     'datatable_from' => 'from',
 
+    // TITULOS MODULOS
+    'titulo_asociados' => 'Administración de Asociados',
 
 ];

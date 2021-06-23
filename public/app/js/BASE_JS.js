@@ -1,5 +1,5 @@
 /**
- * Version 1.2 fase Beta
+ * Version 1.3 fase Beta
  * Author: The Lighthammer
  *
  **/
@@ -295,8 +295,8 @@ class BASE_JS {
             if (response != null) {
                 for (let i = 0; i < elementos.length; i++) {
                     //alert(response[elementos[i].name]);
-                  
-                    if (response[elementos[i].name] != null) {
+                    
+                    if (response[elementos[i].name] != null && elementos[i].type != "file" ) {
                     
                         if (elementos[i].classList.contains("selectized")) {
                             // Para el selectizejs anteriormente le ponia asi como esta comentado en lineas abajo, pero mi problema era que el setValue dipara un change y malograba mis trigger de change, se cruzaban por eso opte por hacer la segunda opcion ue es destruir, asignar valor y volver poner el selecticejs
@@ -306,7 +306,22 @@ class BASE_JS {
                             elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user")
                             $("#" + elementos[i].name).selectize();
                         } else {
-                            elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
+                           
+                            if(elementos[i].type == "radio") {
+                                if(elementos[i].value == response[elementos[i].name]) {
+                                    
+                                    elementos[i].checked = true;
+                                    $("input[name='"+elementos[i].name+"']").attr("checked", "checked");
+                                    elementos[i].parentNode.classList.add("checked");
+                                } else {
+                                    elementos[i].checked = false;
+                                    $("input[name='"+elementos[i].name+"']").removeAttr("checked");
+                                    elementos[i].parentNode.classList.remove("checked");
+                                }
+                            } else {
+                                elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
+                            }
+                           
                         }
                     }
                 }
@@ -374,6 +389,13 @@ class BASE_JS {
     }
     ajax(parametros) {
         //var self = this;
+        if(typeof parametros.datos == "undefined") {
+            parametros.datos = {
+                '_token': _token
+            };
+        } else {
+            parametros.datos['_token'] = _token;
+        }
         parametros.type = (typeof parametros.type == "undefined") ? "POST" : parametros.type;
         parametros.contentType = (typeof parametros.contentType == "undefined") ? "json" : parametros.contentType;
         var datos = (typeof parametros.datos == "undefined") ? {} : new URLSearchParams(BASE_JS.serialize(parametros.datos));
@@ -455,14 +477,14 @@ class BASE_JS {
             //console.log(inputs[i]);
             var defaultValue = inputs[i].getAttribute("default-value");
             // console.log(inputs[i].name, inputs[i].type);
-            if (inputs[i].type == "checkbox") {
+            if (inputs[i].type == "checkbox" || inputs[i].type == "radio") {
                 inputs[i].checked = false;
             }
             if (defaultValue != null) {
                 // alert(defaultValue);
                 inputs[i].value = defaultValue;
             } else {
-                if (inputs[i].tagName != "SELECT") {
+                if (inputs[i].tagName != "SELECT" && inputs[i].type == "checkbox" && inputs[i].type == "radio") {
                     inputs[i].value = "";
                 } else {
                     if (inputs[i].classList.contains("selectized")) {
@@ -508,6 +530,10 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName("entrada");
         for (let i = 0; i < elementos.length; i++) {
             elementos[i].disabled = true;
+
+            if(elementos[i].type == "radio" && elementos[i].parentNode.classList.contains("iradio_minimal-blue")) {
+                elementos[i].parentNode.classList.add("disabled");
+            }
             //console.log(elementos[i]);
         }
         var botones = document.getElementById(this.formularioID).getElementsByTagName("button");
@@ -543,6 +569,9 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName("entrada");
         for (let i = 0; i < elementos.length; i++) {
             elementos[i].disabled = false;
+            if(elementos[i].type == "radio" && elementos[i].parentNode.classList.contains("iradio_minimal-blue")) {
+                elementos[i].parentNode.classList.remove("disabled");
+            }
         }
         var botones = document.getElementById(this.formularioID).getElementsByTagName("button");
         for (let i = 0; i < botones.length; i++) {
@@ -605,12 +634,28 @@ class BASE_JS {
                                 event.preventDefault();
                             }
                         } else {
-                            self.buscarEnFormulario(nextInput).focus();
-                            if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
-                                event.preventDefault();
-                            } else {
-                                return false;
+                            // agregado por manuel 21/06/2021 22:04
+                            if (self.buscarEnFormulario(nextInput).tagName == "SELECT" && self.buscarEnFormulario(nextInput).classList.contains("selectized")) {
+                                //console.log(self.buscarEnFormulario(nextInput).id);
+                                $("#" + self.buscarEnFormulario(nextInput).id)[0].selectize.focus();
+                                //self.buscarEnFormulario(nextInput).size = 5;
+                                // if(nextSelector.classList.contains('select2-hidden-accessible')) {
+                                //     $(nextInput).select2("open");
+                                // }
                             }
+                            if (typeof callback == "function") {
+                                callback();
+                            }
+                            self.buscarEnFormulario(nextInput).focus();
+                            event.preventDefault();
+                            // comentado por manuel 21/06/2021 21:57
+                            // self.buscarEnFormulario(nextInput).focus();
+                            
+                            // if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
+                            //     event.preventDefault();
+                            // } else {
+                            //     return false;
+                            // }
                         }
                     }
                     //console.log(e);
@@ -650,12 +695,29 @@ class BASE_JS {
                             //  return false;
                             // }
                         } else {
-                            self.buscarEnFormulario(nextInput).focus();
-                            if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
-                                event.preventDefault();
-                            } else {
-                                return false;
+                            // agregado por manuel 21/06/2021 22:04
+                            if (self.buscarEnFormulario(nextInput).tagName == "SELECT" && self.buscarEnFormulario(nextInput).classList.contains("selectized")) {
+                                //console.log(self.buscarEnFormulario(nextInput).id);
+                                $("#" + self.buscarEnFormulario(nextInput).id)[0].selectize.focus();
+                                //self.buscarEnFormulario(nextInput).size = 5;
+                                // if(nextSelector.classList.contains('select2-hidden-accessible')) {
+                                //     $(nextInput).select2("open");
+                                // }
                             }
+                            if (typeof callback == "function") {
+                                callback();
+                            }
+                            self.buscarEnFormulario(nextInput).focus();
+                            event.preventDefault();
+                            // comentado por manuel 21/06/2021 21:57
+                            // self.buscarEnFormulario(nextInput).focus();
+                            
+                            // if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
+                            //     event.preventDefault();
+                            // } else {
+                            //     return false;
+                            // }
+                            
                         }
                         //console.log("evento", event);
                         //return false;
@@ -814,10 +876,20 @@ class BASE_JS {
         }).join('&');
     }
     select(parametros) {
+        
+        // parametros.datos._token = _token;
+        if(typeof parametros.datos == "undefined") {
+            parametros.datos = {
+                '_token': _token
+            };
+        } else {
+            parametros.datos['_token'] = _token;
+        }
+       
         var selected = (typeof parametros.selected != "undefined") ? parametros.selected : "";
         var placeholder = (typeof parametros.placeholder != "undefined") ? parametros.placeholder : "";
-        var datos = (typeof parametros.datos == "undefined") ? new URLSearchParams("_token="+_token) : new URLSearchParams(BASE_JS.serialize(parametros.datos+"&_token="+_token));
-        // console.log(datos);
+        var datos = (typeof parametros.datos == "undefined") ? new URLSearchParams("_token="+_token) : new URLSearchParams(BASE_JS.serialize(parametros.datos));
+       
         var promise = fetch(this.controladorURL + parametros.url, {
             method: 'POST',
             body: datos
@@ -861,7 +933,8 @@ class BASE_JS {
                 // }
                 //console.log(options);
             }
-            if (document.getElementsByName(parametros.name)[0].tagName == "SELECT") {
+          
+            if (typeof document.getElementsByName(parametros.name)[0] != "undefined" && document.getElementsByName(parametros.name)[0].tagName == "SELECT") {
                 if (document.getElementsByName(parametros.name)[0].classList.contains("selectized")) {
                     // $("#"+document.getElementsByName(parametros.name)[0].id).selectize()[0].selectize.clear();
                     $("#" + document.getElementsByName(parametros.name)[0].id).selectize()[0].selectize.destroy();

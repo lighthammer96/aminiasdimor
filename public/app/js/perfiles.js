@@ -6,6 +6,47 @@ perfiles.TablaListado({
     url: "/buscar_datos",
 });
 
+combo_idioma.then(function() {
+    perfiles.enter("idioma", "descripcion");
+})
+
+perfiles.enter("descripcion", "idioma", function() {
+    var idioma_id = document.getElementsByName("idioma")[0];
+    var descripcion = document.getElementsByName("descripcion")[0];
+    // console.log(idioma_id.options[idioma_id.selectedIndex].text);
+    // console.log(descripciom);
+    var objeto = {
+        idioma_id: idioma_id.value,
+        idioma_descripcion: idioma_id.options[idioma_id.selectedIndex].text,
+        descripcion: descripcion.value
+    }
+
+
+    document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(objeto));
+   
+    perfiles.limpiarDatos("limpiar");
+});
+
+
+function html_detalle_traducciones(objeto, disabled) {
+    var attr = '';
+    var html = '';
+    if(typeof disabled != "undefined") {
+        attr = 'disabled="disabled"';
+    }
+    var tr = document.createElement("tr");
+
+    html = '  <input type="hidden" name="idioma_id[]" value="'+objeto.idioma_id+'" >';
+    html += '  <input type="hidden" name="pi_descripcion[]" value="'+objeto.descripcion+'" >';
+    html += '  <td>'+objeto.idioma_descripcion+'</td>';
+    html += '  <td>'+objeto.descripcion+'</td>';
+    html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+    tr.innerHTML = html;
+    return tr;
+}
+
+
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
     if(id == "" && !event.srcElement.parentNode.disabled) {
@@ -50,12 +91,36 @@ function modificar_perfil() {
         return false;
     } 
 
-    perfiles.get(datos.perfil_id);
+    var promise = perfiles.get(datos.perfil_id);
+
+     promise.then(function(response) {
+        perfiles.ajax({
+            url: '/obtener_traducciones',
+            datos: { perfil_id: response.perfil_id, _token: _token }
+        }).then(function(response) {
+            if(response.length > 0) {
+                for(let i = 0; i < response.length; i++){
+                    document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
+                }
+            }
+            //console.log(response);
+        })
+    })
 }
 
 function guardar_perfil() {
     var required = true;
-    required = required && perfiles.required("perfil_descripcion");
+    // required = required && perfiles.required("perfil_descripcion");
+
+    var detalle = document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+   
+    if(detalle.length <= 0) {
+        BASE_JS.sweet({
+            text: 'DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!'
+        });
+
+        return false;
+    }
     if(required) {
         var promise = perfiles.guardar();
         perfiles.CerrarModal();
@@ -180,4 +245,23 @@ document.addEventListener("keydown", function(event) {
 document.getElementById("cancelar-perfil").addEventListener("click", function(event) {
 	event.preventDefault();
 	perfiles.CerrarModal();
+})
+
+
+document.addEventListener("click", function(event) {
+
+    // console.log(event.target.classList);
+    // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+    if(event.target.classList.value.indexOf("eliminar-traduccion") != -1) {
+        event.preventDefault();
+        event.srcElement.parentNode.parentNode.parentNode.remove();
+
+    }
+
+    if(event.srcElement.parentNode.classList.value.indexOf("eliminar-traduccion") != -1 && !event.srcElement.parentNode.disabled) {
+        event.preventDefault();
+        ///console.log(event.srcElement.parentNode);
+        event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+    }
+
 })

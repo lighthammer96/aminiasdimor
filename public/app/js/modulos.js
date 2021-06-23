@@ -87,11 +87,11 @@ document.getElementById("nuevo-modulo").addEventListener("click", function(event
     modulos.abrirModal();
 })
 
-document.getElementById("nuevo-padre").addEventListener("click", function(event) {
-    event.preventDefault();
+// document.getElementById("nuevo-padre").addEventListener("click", function(event) {
+//     event.preventDefault();
    
-    padres.abrirModal();
-})
+//     padres.abrirModal();
+// })
 
 document.getElementById("modificar-modulo").addEventListener("click", function(event) {
     event.preventDefault();
@@ -291,7 +291,7 @@ function html_detalle_traducciones(objeto, disabled) {
     var tr = document.createElement("tr");
 
     html = '  <input type="hidden" name="idioma_id[]" value="'+objeto.idioma_id+'" >';
-    html += '  <input type="hidden" name="dt_descripcion[]" value="'+objeto.descripcion+'" >';
+    html += '  <input type="hidden" name="mi_descripcion[]" value="'+objeto.descripcion+'" >';
     html += '  <td>'+objeto.idioma_descripcion+'</td>';
     html += '  <td>'+objeto.descripcion+'</td>';
     html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';

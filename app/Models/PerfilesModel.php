@@ -24,11 +24,12 @@ class PerfilesModel extends Model
     public function tabla() {
         $this->tabla = new Tabla();
         $this->tabla->asignarID("tabla-perfiles");
-        $this->tabla->agregarColumna("perfil_id", "perfil_id", "Id");
-        $this->tabla->agregarColumna("perfil_descripcion", "perfil_descripcion", "Descripcion");
-        $this->tabla->agregarColumna("estado", "estado", "Estado");
-        $this->tabla->setSelect("perfil_id, perfil_descripcion, CASE WHEN estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
-        $this->tabla->setFrom("seguridad.perfiles");
+        $this->tabla->agregarColumna("p.perfil_id", "perfil_id", "Id");
+        $this->tabla->agregarColumna("pe.pi_descripcion", "pi_descripcion", "Descripcion");
+        $this->tabla->agregarColumna("p.estado", "estado", "Estado");
+        $this->tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN 'NO TRADUCCION' ELSE pi.pi_descripcion END AS pi_descripcion , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $this->tabla->setFrom("seguridad.perfiles AS p
+        \nLEFT JOIN seguridad.perfiles_idiomas AS pi on(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")");
 
 
     

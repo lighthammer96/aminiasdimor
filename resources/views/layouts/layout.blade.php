@@ -32,6 +32,15 @@
 
     <link rel="stylesheet" href="{{ URL::asset('plugins/iCheck/all.css') }}">
 
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="{{ URL::asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+ 
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="{{ URL::asset('plugins/timepicker/bootstrap-timepicker.min.css') }}">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -54,10 +63,10 @@
     <!-- Site wrapper -->
     <div class="wrapper">
 
-        <!-- @yield('header') -->
+        {{-- @yield('header') --}}
         @include('layouts.header')
 
-        <!-- @yield('menu') -->
+        {{-- @yield('menu') --}}
         @include('layouts.menu')
 
         <!-- Content Wrapper. Contains page content -->
@@ -138,10 +147,10 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <!-- @yield('footer') -->
+        {{-- @yield('footer') --}}
         @include('layouts.footer')
 
-        <!-- @yield('aside') -->
+        {{-- @yield('aside') --}}
         @include('layouts.aside')
        
         <!-- Add the sidebar's background. This div must be placed
@@ -194,6 +203,17 @@
     
 
     <script src="{{ URL::asset('plugins/iCheck/icheck.min.js') }}"></script>
+
+    <!-- InputMask -->
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script src="{{ URL::asset('plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>
+    <!-- date-range-picker -->
+    <script src="{{ URL::asset('bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <!-- bootstrap datepicker -->
+    <script src="{{ URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+
 
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
     <script src="{{ URL::asset('app/js/BASE_JS.js') }}"></script>

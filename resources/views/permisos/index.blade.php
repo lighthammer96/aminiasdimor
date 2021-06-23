@@ -1,8 +1,8 @@
 @extends('layouts.layout')
-<!-- @extends('layouts.header')
-@extends('layouts.menu')
-@extends('layouts.aside')
-@extends('layouts.footer') -->
+{{-- @extends('layouts.header') --}}
+{{-- @extends('layouts.menu') --}}
+{{-- @extends('layouts.aside') --}}
+{{-- @extends('layouts.footer') --}}
 
 
 @section('content')
@@ -48,14 +48,14 @@
             echo '<div class="col-md-3">';
             foreach ($modulos_all as $modulo) {
                 if(count($modulo->hijos) > 0) {
-                    echo '<h3 style="cursor:pointer" class="padre todo">'.$modulo->modulo_nombre.'</h3>';
+                    echo '<h3 style="cursor:pointer" class="padre todo">'.$modulo->mi_descripcion.'</h3>';
                     foreach ($modulo->hijos as $hijo) {
 
 
                
                         echo '  <label class="checkboxes">';
                         echo '  <input class="minimal" type="checkbox" name="modulo_id[]" value="'.$hijo->modulo_id.'">';
-                        echo    '&nbsp;&nbsp;'.$hijo->modulo_nombre;
+                        echo    '&nbsp;&nbsp;'.$hijo->mi_descripcion;
                         echo '  </label><br>';
                        
 

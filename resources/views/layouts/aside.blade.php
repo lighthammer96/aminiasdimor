@@ -1,4 +1,4 @@
-<!-- @section('aside') -->
+{{-- @section('aside') --}}
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
@@ -190,4 +190,4 @@
     </div>
 </aside>
 <!-- /.control-sidebar -->
-<!-- @endsection -->
+{{-- @endsection --}}

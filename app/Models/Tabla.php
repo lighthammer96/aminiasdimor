@@ -467,9 +467,9 @@ class Tabla extends Model
         }
         $limit = " LIMIT " . $_REQUEST['length'] . "  OFFSET " . $_REQUEST['start'] . "  ";
         $consulta = $select . $from . $where. $groupBy . $having. $orderBy. $limit;
-        //echo $consulta; exit;
-        //$registros = $this->ci->db->query($consulta)->result();
-        $registros = $result;
+        // echo $consulta; exit;
+        $registros = DB::select($consulta);
+       
 
 
         $json_data = array(

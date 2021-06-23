@@ -20,6 +20,14 @@ var combo_idioma = idiomas.select({
 });
 
 
+var combo_idioma_padre = idiomas.select({
+    name: 'idioma|padre',
+    url: '/obtener_idiomas',
+    placeholder: 'Seleccione Idioma'
+});
+
+
+
 
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
@@ -85,12 +93,21 @@ function guardar_idioma() {
 				return false;
 			}
             // $("select[name=idioma_id]").chosen("destroy");
-            idiomas.select({
+
+            combo_idiomas = idiomas.select({
                 name: 'idioma_id',
                 url: '/obtener_idiomas',
-                placeholder: 'Seleccione Pais',
+                placeholder: 'Seleccione Idioma',
                 selected: response.id
-            })
+            });
+
+            combo_idioma = idiomas.select({
+                name: 'idioma',
+                url: '/obtener_idiomas',
+                placeholder: 'Seleccione Idioma',
+                selected: response.id
+            });
+
         })
 
     }

@@ -18,7 +18,7 @@ $(function() {
         // required = required && modulos.required("modulo_nombre");
         required = required && login.required("user");
         required = required && login.required("pass");
-        required = required && login.required("pais_id");
+        // required = required && login.required("pais_id");
 
         if(!required) {
             return false;

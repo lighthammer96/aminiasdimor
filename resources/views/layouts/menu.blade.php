@@ -1,4 +1,4 @@
-<!-- @section('menu') -->
+{{-- @section('menu') --}}
 
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -29,7 +29,7 @@
             <?php
                 foreach ($modulos as $key => $value) {
                     echo   '<li class="treeview">
-                                <a href="#" ><i class="'.$value->modulo_icono.'"></i><span> '.$value->dt_descripcion.' </span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                                <a href="#" ><i class="'.$value->modulo_icono.'"></i><span> '.$value->mi_descripcion.' </span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
                         echo '<ul class="treeview-menu modulo">';
                             foreach ($value->hijos as $hijo) {
 
@@ -37,7 +37,7 @@
                                 modulo_route="'.$hijo->modulo_route.'"
                                 modulo_controlador="'.$hijo->modulo_controlador.'"
 
-                                modulo_id="'.$hijo->modulo_id.'"" href="'.URL::to($hijo->modulo_controlador).'" ><i class="fa fa-circle-o"></i>'.$hijo->dt_descripcion.'</a></li>';
+                                modulo_id="'.$hijo->modulo_id.'"" href="'.URL::to($hijo->modulo_controlador).'" ><i class="fa fa-circle-o"></i>'.$hijo->mi_descripcion.'</a></li>';
 
                             }
                         echo '</ul>';
@@ -219,4 +219,4 @@
     <!-- /.sidebar -->
 </aside>
 
-<!-- @endsection -->
+{{-- @endsection --}}

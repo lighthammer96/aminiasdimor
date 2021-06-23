@@ -6,9 +6,20 @@ paises.TablaListado({
     url: "/buscar_datos",
 });
 
+paises.select({
+    name: 'pais_id[]',
+    url: '/obtener_paises',
+    placeholder: 'Seleccionar Paises',
+ 
+})
 
 
-
+paises.select({
+    name: 'pais_id',
+    url: '/obtener_paises',
+    
+ 
+})
 
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
@@ -79,6 +90,13 @@ function guardar_pais() {
                 url: '/obtener_paises',
                 placeholder: 'Seleccione Pais',
                 selected: response.id
+            })
+
+            paises.select({
+                name: 'pais_id[]',
+                url: '/obtener_paises',
+                placeholder: 'Seleccionar Paises',
+             
             })
         })
 

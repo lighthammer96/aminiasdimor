@@ -172,10 +172,10 @@ fieldset {
     margin: 0 2px;
     padding: 0.35em 0.625em 0.75em;
 }
-legend {
+/* legend {
     border: 0;
     padding: 0;
-}
+} */
 textarea {
     overflow: auto;
 }
@@ -2585,7 +2585,7 @@ th {
         border-bottom: 0;
     }
 }
-fieldset {
+/* fieldset {
     min-width: 0;
     padding: 0;
     margin: 0;
@@ -2601,7 +2601,7 @@ legend {
     color: #333;
     border: 0;
     border-bottom: 1px solid #e5e5e5;
-}
+} */
 label {
     display: inline-block;
     max-width: 100%;
@@ -2805,7 +2805,7 @@ fieldset[disabled] .radio-inline {
     padding-left: 0;
 }
 .input-sm {
-    height: 25px;
+    height: 26px;
     padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
@@ -3516,7 +3516,7 @@ fieldset[disabled] .btn-link:hover {
 }
 .btn-group-sm > .btn,
 .btn-sm {
-    margin-top: -5px;   
+    /* width: 16px; */
     padding: 3.5px 10px;
     font-size: 12px;
     /* line-height: 1.5; */
@@ -3972,7 +3972,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     vertical-align: middle;
 }
 .input-group-addon {
-    padding: 6px 12px;
+    padding: 4px 8px;
     font-size: 14px;
     font-weight: 400;
     line-height: 1;
@@ -4059,7 +4059,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 5px 10px;
 }
 .nav > li > a:focus,
 .nav > li > a:hover {
@@ -6023,7 +6023,7 @@ button.close {
 }
 .modal-body {
     position: relative;
-    padding: 15px;
+    padding: 10px;
 }
 .modal-footer {
     padding: 15px;
