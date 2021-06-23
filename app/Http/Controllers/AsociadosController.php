@@ -61,6 +61,9 @@ class AsociadosController extends Controller
             $_POST["idunion"] = $res[0]->idunion;
         }
 
+        $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
+        $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server");
+
         $_POST = $this->toUpper($_POST, ["tipolugarnac"]);
         if ($request->input("idmiembro") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));

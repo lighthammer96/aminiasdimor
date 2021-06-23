@@ -240,4 +240,25 @@ class Controller extends BaseController
         return $response;
     }
 
+    public function FormatoFecha($fecha, $formato) {
+        if ($fecha != null) {
+            if ($formato == "user") {
+                $date = explode("-", $fecha);
+                if (count($date) == 3) {
+                    return $date[2] . "/" . $date[1] . "/" . $date[0];
+                }
+            }
+
+            if ($formato == "server") {
+                $date = explode("/", $fecha);
+                if (count($date) == 3) {
+                    return $date[2] . "-" . $date[1] . "-" . $date[0];
+                }
+            }
+        }
+
+        return $fecha;
+    }
+
+
 }
