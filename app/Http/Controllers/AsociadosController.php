@@ -67,7 +67,7 @@ class AsociadosController extends Controller
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
         }
-
+        print_r($result); exit;
         $_POST["idmiembro"] = $result["id"];
         if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == "0") {
 

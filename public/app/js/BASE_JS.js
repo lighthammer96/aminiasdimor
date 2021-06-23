@@ -947,9 +947,11 @@ class BASE_JS {
                     //alert("hola");
                     $("#" + document.getElementsByName(parametros.name)[0].id).selectize();
                     //CUANDO PONGO ESTO SE MALOGRA EN LOS SELECT DE DEPARTAMENTOS, PROVINCIAS Y DISTRITOS DEL MODULO CLIENTES. , PARA QUE NO LO MALOGRE LE PUSE EL IF SOLO EN CASO DE QUE EL SELECTED SEA DIFERENTE DE VACIO
-                    if (selected != "") {
-                        $("#" + document.getElementsByName(parametros.name)[0].id)[0].selectize.focus();
-                    }
+               
+                    // comentado por manuel 23/06/2021, porque cuando se da en modificar el combo se focusea solito desplegandose el div de options y eso no me gusta ._.
+                    // if (selected != "") {
+                    //     $("#" + document.getElementsByName(parametros.name)[0].id)[0].selectize.focus();
+                    // }
                 }
                 //$(".chosen-select").chosen({width: "100%"});
             }
