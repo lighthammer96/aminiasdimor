@@ -20,8 +20,9 @@ class LoginController extends Controller
         // echo Hash::check("1235", $clave);
 
         $result = DB::select("SELECT * FROM seguridad.usuarios AS u 
-        INNER JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
         INNER JOIN seguridad.perfiles AS p ON(u.perfil_id=p.perfil_id)
+        LEFT JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
+        
         WHERE u.usuario_user='{$user}'");
        
         if(!isset($result[0]->usuario_user)) {
