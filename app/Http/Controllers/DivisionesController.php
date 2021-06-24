@@ -33,7 +33,7 @@ class DivisionesController extends Controller
         $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-division">'.trans("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-division">'.trans("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js"]);
+        $data["scripts"] = $this->cargar_js(["idiomas.js", "divisiones.js"]);
         return parent::init($view, $data);
 
       
@@ -53,6 +53,14 @@ class DivisionesController extends Controller
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.division", $_POST));
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.division", $_POST));
+        }
+
+        DB::table("iglesias.division_idiomas")->where("iddivision", $result["id"])->delete();
+        if(isset($_REQUEST["iddivision"]) && isset($_REQUEST["di_descripcion"])) {
+     
+            $_POST["iddivision"] = $result["id"];
+           
+            $this->base_model->insertar($this->preparar_datos("iglesias.division_idiomas", $_POST, "D"), "D");
         }
 
         echo json_encode($result);
@@ -83,5 +91,16 @@ class DivisionesController extends Controller
 
         $result = DB::select($sql);
         echo json_encode($result);
+    }
+
+     
+    public function obtener_traducciones(Request $request) {
+        $sql = "SELECT di.iddivision, di.di_descripcion AS descripcion, i.idioma_descripcion FROM iglesias.division_idiomas AS di
+        INNER JOIN public.idiomas AS i ON(i.idioma_id=di.idioma_id)
+        WHERE di.iddivision=".$request->input("iddivision")."
+        ORDER BY di.iddivision ASC";
+       $result = DB::select($sql);
+       echo json_encode($result);
+       //print_r($_REQUEST);
     }
 }

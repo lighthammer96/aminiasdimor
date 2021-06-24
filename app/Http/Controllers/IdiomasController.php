@@ -48,7 +48,7 @@ class IdiomasController extends Controller
 
     public function guardar_idiomas(Request $request) {
    
-        $_POST = $this->toUpper($_POST, ["idioma_codigo"]);
+        $_POST = $this->toUpper($_POST, ["idioma_codigo", "idioma_descripcion"]);
         if ($request->input("idioma_id") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.idiomas", $_POST));
         }else{

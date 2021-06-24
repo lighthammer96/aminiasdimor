@@ -31,6 +31,13 @@ return [
     'distrito_misionero' => "Distrito Misionero",
     'posee_union' => "Posee Unión",
     'mision' => "Misión",
+    'categoria_iglesia' => "Categoria Iglesia",
+    'tipo_construccion' => "Tipo de Construcción",
+    'tipo_documentacion' => "Tipo de Documentación",
+    'tipo_inmueble' => "Tipo de Inmueble",
+    'condicion_inmueble' => "Condición de Inmueble",
+
+
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',

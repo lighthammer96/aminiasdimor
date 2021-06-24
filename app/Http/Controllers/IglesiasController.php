@@ -48,7 +48,7 @@ class IglesiasController extends Controller
 
     public function guardar_iglesias(Request $request) {
    
-        $_POST = $this->toUpper($_POST, ["descripcion"]);
+        $_POST = $this->toUpper($_POST, ["descripcion", "direccion"]);
         if ($request->input("idiglesia") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.iglesia", $_POST));
         }else{

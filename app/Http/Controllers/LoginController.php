@@ -37,44 +37,53 @@ class LoginController extends Controller
             session(['pais_id' => $result[0]->pais_id]);
             session(['perfil_descripcion' => $result[0]->perfil_descripcion]);
             session(['idtipoacceso' => $result[0]->idtipoacceso]);
+            
+            $where_division = "";
+            $where_pais = "";
+            $where_union = "";
+            $where_mision = "";
+            $where_distrito_misionero = "";
 
-            switch ($result[0]->idtipoacceso) {
-                case '1':
-                    $where_division = "AND iddivision = ".$result[0]->iddivision;
-                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                    $where_union = "AND u.idunion = ".$result[0]->idunion;
-                    $where_mision = "AND idmision = ".$result[0]->idmision;
-                    $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
-                    break;
-                case '2':
-                    $where_division = "AND iddivision = ".$result[0]->iddivision;
-                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                    $where_union = "AND u.idunion = ".$result[0]->idunion;
-                    $where_mision = "AND idmision = ".$result[0]->idmision;
-                    $where_distrito_misionero = "";
-                    break;
-                case '3':
-                    $where_division = "AND iddivision = ".$result[0]->iddivision;
-                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                    $where_union = "AND u.idunion = ".$result[0]->idunion;
-                    $where_mision = "";
-                    $where_distrito_misionero = "";
-                    break;
-                case '4':
-                    $where_division = "AND iddivision = ".$result[0]->iddivision;
-                    $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                    $where_union = "";
-                    $where_mision = "";
-                    $where_distrito_misionero = "";
-                    break;
-                case '5':
-                    $where_division = "AND iddivision = ".$result[0]->iddivision;
-                    $where_pais = "";
-                    $where_union = "";
-                    $where_mision = "";
-                    $where_distrito_misionero = "";
-                    break;
+            if($result[0]->perfil_id != 1) {
+                switch ($result[0]->idtipoacceso) {
+                    case '1':
+                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                        $where_union = "AND u.idunion = ".$result[0]->idunion;
+                        $where_mision = "AND idmision = ".$result[0]->idmision;
+                        $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+                        break;
+                    case '2':
+                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                        $where_union = "AND u.idunion = ".$result[0]->idunion;
+                        $where_mision = "AND idmision = ".$result[0]->idmision;
+                        $where_distrito_misionero = "";
+                        break;
+                    case '3':
+                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                        $where_union = "AND u.idunion = ".$result[0]->idunion;
+                        $where_mision = "";
+                        $where_distrito_misionero = "";
+                        break;
+                    case '4':
+                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                        $where_union = "";
+                        $where_mision = "";
+                        $where_distrito_misionero = "";
+                        break;
+                    case '5':
+                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_pais = "";
+                        $where_union = "";
+                        $where_mision = "";
+                        $where_distrito_misionero = "";
+                        break;
+                }
             }
+            
 
             session(['where_division' => $where_division]);
             session(['where_pais' => $where_pais]);

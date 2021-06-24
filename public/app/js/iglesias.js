@@ -1,5 +1,6 @@
 
 var iglesias = new BASE_JS('iglesias', 'iglesias');
+var principal = new BASE_JS('principal', 'principal');
 
 iglesias.TablaListado({
     tablaID: '#tabla-iglesias',
@@ -7,6 +8,42 @@ iglesias.TablaListado({
 });
 
 
+principal.select({
+    name: 'idcategoriaiglesia',
+    url: '/obtener_categorias_iglesia',
+    placeholder: 'Seleccione Categoria de Iglesia',
+   
+})
+
+principal.select({
+    name: 'idtipoconstruccion',
+    url: '/obtener_tipos_construccion',
+    placeholder: 'Seleccione Tipo de Construccióm',
+   
+})
+
+
+principal.select({
+    name: 'idtipodocumentacion',
+    url: '/obtener_tipos_documentacion',
+    placeholder: 'Seleccione Tipo de Documentación',
+   
+})
+
+principal.select({
+    name: 'idtipoinmueble',
+    url: '/obtener_tipos_inmueble',
+    placeholder: 'Seleccione Tipo de Inmueble',
+   
+})
+
+
+principal.select({
+    name: 'idcondicioninmueble',
+    url: '/obtener_condicion_inmueble',
+    placeholder: 'Seleccione Condición de Inmueble',
+   
+})
 
 iglesias.select({
     name: 'idiglesia',

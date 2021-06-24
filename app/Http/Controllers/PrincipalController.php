@@ -80,4 +80,39 @@ class PrincipalController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+    public function obtener_categorias_iglesia() {
+        $sql = "SELECT idcategoriaiglesia as id, descripcion FROM iglesias.categoriaiglesia 
+        ORDER BY idcategoriaiglesia ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_tipos_construccion() {
+        $sql = "SELECT idtipoconstruccion as id, descripcion FROM public.tipoconstruccion 
+        ORDER BY idtipoconstruccion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_tipos_documentacion() {
+        $sql = "SELECT idtipodocumentacion as id, descripcion FROM public.tipodocumentacion 
+        ORDER BY idtipodocumentacion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_tipos_inmueble() {
+        $sql = "SELECT idtipoinmueble as id, descripcion FROM public.tipoinmueble 
+        ORDER BY idtipoinmueble ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_condicion_inmueble() {
+        $sql = "SELECT idcondicioninmueble as id, descripcion FROM public.condicioninmueble 
+        ORDER BY idcondicioninmueble ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
 }
