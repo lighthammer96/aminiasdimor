@@ -98,3 +98,10 @@ INSERT INTO condicioninmueble VALUES (3, 'En Construcción');
 INSERT INTO condicioninmueble VALUES (4, 'En Litigio');
 
 
+
+ALTER TABLE "iglesias"."iglesia" 
+  ALTER COLUMN "idcategoriaiglesia" DROP NOT NULL,
+  ALTER COLUMN "idtipoconstruccion" DROP NOT NULL,
+  ALTER COLUMN "idtipodocumentacion" DROP NOT NULL,
+  ALTER COLUMN "idtipoinmueble" DROP NOT NULL,
+  ALTER COLUMN "idcondicioninmueble" DROP NOT NULL;

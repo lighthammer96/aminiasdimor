@@ -35,6 +35,7 @@ class Controller extends BaseController
         if (session('usuario_id')) {
 
             $datos["modulos"]   = $this->base_model->getPermisos(true);
+            $datos["idiomas"]   = $this->base_model->obtener_idiomas(true);
             return view($view, $datos);
         } else {
             // echo "ola";

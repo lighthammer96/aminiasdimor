@@ -92,3 +92,26 @@ document.addEventListener("DOMContentLoaded", function() {
 //         this.appendChild(div.children[0]);
 //     }
 // };
+
+
+document.getElementById("idioma_sistema").addEventListener("change", function() {
+	
+	$.ajax({
+		url: 'principal/cambiar_idioma',
+		type: 'POST',
+		dataType: 'json',
+		data: "idioma_codigo="+this.value
+	}).done(function(json) {
+		// console.log(json);
+		if(json.response == 'ok') {
+			window.location = "principal/index";
+		} else {
+			
+		}
+	}).fail(function() {
+		console.log("OCURRIO UN ERROR");
+	}).always(function() {
+		console.log("COMPLETAR JSON");
+	});
+}
+})

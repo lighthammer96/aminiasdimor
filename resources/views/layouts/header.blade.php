@@ -18,7 +18,19 @@
         </a>
 
         <div class="navbar-custom-menu">
+           
             <ul class="nav navbar-nav">
+                <li>
+                    <select style="margin-top: 8px;" name="idioma_sistema" class="form-control" id="idioma_sistema">
+                        <?php 
+                            foreach ($idiomas as $key => $value) {
+                                
+                                echo '<option value="'.trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
+                            }
+                        
+                        ?>
+                    </select>
+                </li>
                 <!-- <li class="dropdown messages-menus">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>

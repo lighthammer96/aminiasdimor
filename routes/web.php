@@ -51,6 +51,7 @@ Route::post('principal/obtener_tipos_construccion', [PrincipalController::class,
 Route::post('principal/obtener_tipos_documentacion', [PrincipalController::class, "obtener_tipos_documentacion"]);
 Route::post('principal/obtener_tipos_inmueble', [PrincipalController::class, "obtener_tipos_inmueble"]);
 Route::post('principal/obtener_condicion_inmueble', [PrincipalController::class, "obtener_condicion_inmueble"]);
+Route::post('principal/cambiar_idioma', [PrincipalController::class, "cambiar_idioma"]);
 
 
 /*************

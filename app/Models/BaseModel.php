@@ -465,4 +465,10 @@ class BaseModel extends Model
         return $modulos;
 
     }
+
+    public function obtener_idiomas() {
+        $sql = "SELECT * FROM public.idiomas WHERE estado='A'";
+
+        return DB::select($sql);
+    }
 }
