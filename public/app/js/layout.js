@@ -113,5 +113,5 @@ document.getElementById("idioma_sistema").addEventListener("change", function() 
 	}).always(function() {
 		console.log("COMPLETAR JSON");
 	});
-}
+// 
 })
