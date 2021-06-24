@@ -33,6 +33,45 @@
                             <input type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
 
                         </div>
+                        
+                        <div class="col-md-6">
+                            <label class="control-label">{{ trans('traductor.categoria_iglesia')}}</label>
+
+                            <select name="idcategoriaiglesia" id="idcategoriaiglesia" class="selectizejs entrada"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                  
+                        <div class="col-md-6">
+                            <label class="control-label">{{ trans('traductor.tipo_construccion')}}</label>
+
+                            <select name="idtipoconstruccion" id="idtipoconstruccion" class="selectizejs entrada"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">{{ trans('traductor.tipo_documentacion')}}</label>
+
+                            <select name="idtipodocumentacion" id="idtipodocumentacion" class="selectizejs entrada"></select>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="control-label">{{ trans('traductor.tipo_inmueble')}}</label>
+
+                            <select name="idtipoinmueble" id="idtipoinmueble" class="selectizejs entrada"></select>
+                        </div>
+                        
+                        
+                        <div class="col-md-6">
+                            <label class="control-label">{{ trans('traductor.condicion_inmueble')}}</label>
+
+                            <select name="idcondicioninmueble" id="idcondicioninmueble" class="selectizejs entrada"></select>
+                        </div>
+                       
+                    </div>
+                 
+                    <div class="row">
                         <div class="col-md-6">
                             <label class="control-label">{{ trans('traductor.distrito_misionero')}}</label>
 
@@ -40,16 +79,13 @@
                                 <select name="iddistritomisionero" id="iddistritomisionero" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
-                                    <button type="button" id="nuevo-distrito-misionero" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
+                                    <button style="margin-top: -5px;" type="button" id="nuevo-distrito-misionero" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
                                 </span>
 
                             </div>
 
                         </div>
-                        
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <label class="control-label">{{ trans('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">

@@ -46,6 +46,11 @@ Route::post('principal/obtener_distritos', [PrincipalController::class, "obtener
 Route::post('principal/obtener_divisiones', [PrincipalController::class, "obtener_divisiones"]);
 Route::post('principal/obtener_tipos_documento', [PrincipalController::class, "obtener_tipos_documento"]);
 Route::post('principal/obtener_tipos_acceso', [PrincipalController::class, "obtener_tipos_acceso"]);
+Route::post('principal/obtener_categorias_iglesia', [PrincipalController::class, "obtener_categorias_iglesia"]);
+Route::post('principal/obtener_tipos_construccion', [PrincipalController::class, "obtener_tipos_construccion"]);
+Route::post('principal/obtener_tipos_documentacion', [PrincipalController::class, "obtener_tipos_documentacion"]);
+Route::post('principal/obtener_tipos_inmueble', [PrincipalController::class, "obtener_tipos_inmueble"]);
+Route::post('principal/obtener_condicion_inmueble', [PrincipalController::class, "obtener_condicion_inmueble"]);
 
 
 /*************
@@ -104,6 +109,7 @@ Route::post('divisiones/guardar_divisiones', [DivisionesController::class, "guar
 Route::post('divisiones/get', [DivisionesController::class, "get"]);
 Route::post('divisiones/eliminar_divisiones', [DivisionesController::class, "eliminar_divisiones"]);
 Route::post('divisiones/obtener_divisiones', [DivisionesController::class, "obtener_divisiones"]);
+Route::post('divisiones/obtener_traducciones', [DivisionesController::class, "obtener_traducciones"]);
 
 // PAISES
 Route::get('paises/index', [PaisesController::class, "index"]);

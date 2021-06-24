@@ -204,6 +204,9 @@ class BASE_JS {
         console.log("TABLA -> " + parametros.tablaID);
         //console.log(datatable);
         this.datatable = table;
+        this.datatable.ajax.reload();
+        this.datatable.ajax.reload();
+        this.datatable.ajax.reload();
         //return datatable;
     }
     guardar() {
@@ -484,7 +487,7 @@ class BASE_JS {
                 // alert(defaultValue);
                 inputs[i].value = defaultValue;
             } else {
-                if (inputs[i].tagName != "SELECT" && inputs[i].type == "checkbox" && inputs[i].type == "radio") {
+                if (inputs[i].tagName != "SELECT" && inputs[i].type != "checkbox" && inputs[i].type != "radio") {
                     inputs[i].value = "";
                 } else {
                     if (inputs[i].classList.contains("selectized")) {

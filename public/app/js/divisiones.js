@@ -15,6 +15,59 @@ divisiones.select({
    
 })
 
+divisiones.enter("descripcion", "idioma", function() {
+    var idioma_id = document.getElementsByName("idioma")[0];
+    var descripcion = document.getElementsByName("descripcion")[0];
+    // console.log(idioma_id.options[idioma_id.selectedIndex].text);
+    // console.log(descripciom);
+    var objeto = {
+        idioma_id: idioma_id.value,
+        idioma_descripcion: idioma_id.options[idioma_id.selectedIndex].text,
+        descripcion: descripcion.value
+    }
+
+
+    document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(objeto));
+   
+    divisiones.limpiarDatos("limpiar");
+});
+
+function html_detalle_traducciones(objeto, disabled) {
+    var attr = '';
+    var html = '';
+    if(typeof disabled != "undefined") {
+        attr = 'disabled="disabled"';
+    }
+    var tr = document.createElement("tr");
+
+    html = '  <input type="hidden" name="idioma_id[]" value="'+objeto.idioma_id+'" >';
+    html += '  <input type="hidden" name="di_descripcion[]" value="'+objeto.descripcion+'" >';
+    html += '  <td>'+objeto.idioma_descripcion+'</td>';
+    html += '  <td>'+objeto.descripcion+'</td>';
+    html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+    tr.innerHTML = html;
+    return tr;
+}
+
+document.addEventListener("click", function(event) {
+
+    // console.log(event.target.classList);
+    // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+    if(event.target.classList.value.indexOf("eliminar-traduccion") != -1) {
+        event.preventDefault();
+        event.srcElement.parentNode.parentNode.parentNode.remove();
+
+    }
+
+    if(event.srcElement.parentNode.classList.value.indexOf("eliminar-traduccion") != -1 && !event.srcElement.parentNode.disabled) {
+        event.preventDefault();
+        ///console.log(event.srcElement.parentNode);
+        event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+    }
+
+})
+
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
     if(id == "" && !event.srcElement.parentNode.disabled) {
@@ -59,12 +112,28 @@ function modificar_division() {
         return false;
     } 
 
-    divisiones.get(datos.iddivision);
+    var promise = divisiones.get(datos.iddivision);
+
+    promise.then(function(response) {
+        document.getElementsByName("descripcion")[0].value = "";
+        divisiones.ajax({
+            url: '/obtener_traducciones',
+            datos: { iddivision: response.iddivision, _token: _token }
+        }).then(function(response) {
+         
+            if(response.length > 0) {
+                for(let i = 0; i < response.length; i++){
+                    document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
+                }
+            }
+            //console.log(response);
+        })
+    })
 }
 
 function guardar_division() {
     var required = true;
-    required = required && divisiones.required("descripcion");
+    // required = required && divisiones.required("descripcion");
     if(required) {
         var promise = divisiones.guardar();
         divisiones.CerrarModal();

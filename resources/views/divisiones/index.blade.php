@@ -7,6 +7,7 @@
 
 @section('content')
     @include('divisiones.form')
+    @include('idiomas.form')
 
 @endsection
 
