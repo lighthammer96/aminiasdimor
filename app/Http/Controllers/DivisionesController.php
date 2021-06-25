@@ -84,11 +84,16 @@ class DivisionesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT iddivision AS id, descripcion FROM iglesias.division WHERE estado='1' AND iddivision=".$request->input("iddivision")." ".session("where_division");
+			$sql = "SELECT d.iddivision AS id, di.di_descripcion AS descripcion
+            FROM iglesias.division AS d
+            LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
 		} else {
-            $sql = "SELECT iddivision AS id, descripcion FROM iglesias.division WHERE estado='1' ".session("where_division");
+            $sql = "SELECT d.iddivision AS id,  di.di_descripcion AS descripcion
+            FROM iglesias.division AS d
+            LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE d.estado='1' ".session("where_division");
 		}
-
         $result = DB::select($sql);
         echo json_encode($result);
     }

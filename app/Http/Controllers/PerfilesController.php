@@ -79,7 +79,10 @@ class PerfilesController extends Controller
     }
 
     public function obtener_perfiles() {
-        $sql = "SELECT perfil_id AS id, perfil_descripcion AS descripcion FROM seguridad.perfiles WHERE estado='A'";
+        $sql = "SELECT p.perfil_id AS id, p.perfil_descripcion AS descripcion 
+        FROM seguridad.perfiles AS p 
+        LEFT JOIN seguridad.perfiles_idiomas AS pi ON(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
+        WHERE p.estado='A'";
         $result = DB::select($sql);
         echo json_encode($result);
     }

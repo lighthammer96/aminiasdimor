@@ -29,6 +29,7 @@ class AsociadosController extends Controller
         $data["title"] = trans('traductor.titulo_asociados');
         $data["subtitle"] = "";
         $data["tabla"] = $this->asociados_model->tabla()->HTML();
+        $data["tabla_responsables"] = $this->asociados_model->tabla_responsables()->HTML();
 
         $botones = array();
         $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-asociado">'.trans("traductor.nuevo").' [F1]</button>';
@@ -45,6 +46,11 @@ class AsociadosController extends Controller
 
     public function buscar_datos() {
         $json_data = $this->asociados_model->tabla()->obtenerDatos();
+        echo json_encode($json_data);
+    }
+
+    public function buscar_datos_responsables() {
+        $json_data = $this->asociados_model->tabla_responsables()->obtenerDatos();
         echo json_encode($json_data);
     }
 
@@ -87,6 +93,62 @@ class AsociadosController extends Controller
         echo json_encode($result);
     }
 
+    public function guardar_bajas() {
+        try {
+            DB::beginTransaction();
+            $_POST = $this->toUpper($_POST, ["tabla"]);
+            $_POST["usuario"] = session("usuario_user");
+            $_POST["idmiembro"] = $_POST["idmiembro_baja"];
+            $_POST["responsable"] = $_POST["idresponsable"];
+            $_POST["alta"] = "0";
+            $_POST["rebautizo"] = "0";
+            
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
+            // print_r($result); exit; 
+            $_POST["estado"] = "0";
+            $_POST["idcondicioneclesiastica"] = 0;
+
+            $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+           
+            DB::commit();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo json_encode(array("status" => "ei", "msg" => $e->getMessage()));
+        }
+    }
+
+    
+    public function guardar_altas() {
+        // print_r($_POST); exit;
+        try {
+            DB::beginTransaction();
+            $_POST = $this->toUpper($_POST, ["tabla"]);
+            $_POST["usuario"] = session("usuario_user");
+            $_POST["idmiembro"] = $_POST["idmiembro_alta"];
+            $_POST["responsable"] = $_POST["idresponsable"];
+            $_POST["alta"] = "1";
+            $_POST["rebautizo"] = "0";
+            if(isset($_POST["rebautizo"]) && $_POST["rebautizo"] == "on") {
+                $_POST["rebautizo"] = "1";
+            } 
+      
+            
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
+           
+            $_POST["estado"] = "1";
+            $_POST["idcondicioneclesiastica"] = 1;
+
+            $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+           
+            DB::commit();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            DB::rollBack();
+            echo json_encode(array("status" => "ei", "msg" => $e->getMessage()));
+        }
+    }
+
     public function eliminar_asociados() {
         $result = $this->base_model->eliminar(["iglesias.miembro","idmiembro"]);
         echo json_encode($result);
@@ -96,7 +158,7 @@ class AsociadosController extends Controller
     public function get(Request $request) {
 
         $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union FROM iglesias.miembro AS m 
-        LEFT JOIN public.paises AS p ON(p.pais_id=m.pais_id)
+        LEFT JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
         WHERE m.idmiembro=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);

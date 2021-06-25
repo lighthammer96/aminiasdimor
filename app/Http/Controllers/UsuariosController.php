@@ -61,6 +61,7 @@ class UsuariosController extends Controller
 
         $_POST = $this->toUpper($_POST, ["usuario_user", "usuario_pass"]);
 
+        $_POST["usuario_user"] = strtolower($_POST["usuario_user"]);
         if ($request->input("usuario_id") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("seguridad.usuarios", $_POST));
         } else {

@@ -1,4 +1,7 @@
 var asociados = new BASE_JS('asociados', 'asociados');
+var bajas = new BASE_JS('bajas', 'asociados');
+var altas = new BASE_JS('altas', 'asociados');
+var responsables = new BASE_JS('responsables', 'asociados');
 var principal = new BASE_JS('principal', 'principal');
 var divisiones = new BASE_JS('divisiones', 'divisiones');
 var paises = new BASE_JS('paises', 'paises');
@@ -7,7 +10,7 @@ var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 var iglesias = new BASE_JS('iglesias', 'iglesias');
 
-
+document.getElementsByName("fecharegistro")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
 var eventClick = new Event('click');
 
 asociados.enter("nombres","apellidos");
@@ -23,14 +26,17 @@ asociados.enter("emailalternativo","iddepartamentodomicilio", "", false);
 
 asociados.enter("direccion","referenciadireccion");
 asociados.enter("referenciadireccion","fechanacimiento", "", false);
-asociados.enter("fechanacimiento","tipolugarnac");
-asociados.enter("tipolugarnac","iddepartamentonacimiento");
+asociados.enter("fechanacimiento","pais_id_nacimiento");
+asociados.enter("ciudadnacextranjero","idestadocivil");
 
-asociados.enter("fecharegistro","observaciones");
+asociados.enter("observaciones","iddivision", "", false);
+// asociados.enter("tipolugarnac","iddepartamentonacimiento");
 
-$("input[name=fechanacimiento], input[name=fecharegistro]").inputmask();
+// asociados.enter("fecharegistro","observaciones");
 
-jQuery( "input[name=fechanacimiento], input[name=fecharegistro]" ).datepicker({
+$("input[name=fechanacimiento], input[name=fecha]").inputmask();
+
+jQuery( "input[name=fechanacimiento], input[name=fecha]" ).datepicker({
 	format: "dd/mm/yyyy",
 	language: "es",
 	todayHighlight: true,
@@ -41,7 +47,7 @@ jQuery( "input[name=fechanacimiento], input[name=fecharegistro]" ).datepicker({
 });
 
 $(function() {
-    $('input[type="radio"]').iCheck({
+    $('input[type="radio"], input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass   : 'iradio_minimal-blue'
     })
@@ -53,18 +59,28 @@ $(function() {
 //     placeholder: 'Seleccione ...',
 // })
 
-paises.select({
-    name: 'pais_id_nacionalidad',
-    url: '/obtener_paises',
+// paises.select({
+//     name: 'pais_id_nacionalidad',
+//     url: '/obtener_paises',
+//     placeholder: 'Seleccione ...',
+// }).then(function() {
+//     asociados.enter("pais_id_nacionalidad","fecharegistro");
+// });
+
+principal.select({
+    name: 'idmotivobaja',
+    url: '/obtener_motivos_baja',
     placeholder: 'Seleccione ...',
 }).then(function() {
-    asociados.enter("pais_id_nacionalidad","fecharegistro");
-});
+    
+})
 
 paises.select({
     name: 'pais_id_nacimiento',
-    url: '/obtener_paises',
+    url: '/obtener_todos_paises',
     placeholder: 'Seleccione ...',
+}).then(function() {
+    asociados.enter("pais_id_nacimiento","ciudadnacextranjero");
 })
 
 
@@ -80,6 +96,8 @@ asociados.TablaListado({
     tablaID: '#tabla-asociados',
     url: "/buscar_datos",
 });
+
+
 
 
 asociados.select({
@@ -105,14 +123,14 @@ asociados.select({
     url: '/obtener_profesiones',
     placeholder: 'Seleccione ...'
 }).then(function() {
-    asociados.enter("idocupacion","pais_id_nacionalidad");
+    asociados.enter("idocupacion","observaciones");
     
 }) 
 
 principal.select({
     name: 'iddepartamentodomicilio',
     url: '/obtener_departamentos',
-    placeholder: 'Departamento ...'
+    placeholder: 'Seleccione ...'
 }).then(function() {
     
     $("#iddepartamentodomicilio").trigger("change", ["", "", ""]);
@@ -130,9 +148,9 @@ $(document).on('change', '#iddepartamentodomicilio', function(event, iddepartame
     principal.select({
         name: 'idprovinciadomicilio',
         url: '/obtener_provincias',
-        placeholder: 'Provincia ...',
+        placeholder: 'Seleccione ...',
         selected: selected,
-        datos: { iddepartamentodomicilio: d_id }
+        datos: { iddepartamento: d_id }
     }).then(function() {
        
         var condicion = typeof iddepartamentodomicilio == "undefined";
@@ -163,9 +181,9 @@ $(document).on('change', '#idprovinciadomicilio', function(event, idprovinciadom
     principal.select({
         name: 'iddistritodomicilio',
         url: '/obtener_distritos',
-        placeholder: 'Distrito ...',
+        placeholder: 'Seleccione ...',
         selected: selected,
-        datos: { idprovinciadomicilio:  p_id }
+        datos: { idprovincia:  p_id }
     }).then(function() {
         asociados.enter("iddistritodomicilio","direccion");
         
@@ -186,81 +204,81 @@ $(document).on('change', '#idprovinciadomicilio', function(event, idprovinciadom
 });
 
 
-principal.select({
-    name: 'iddepartamentonacimiento',
-    url: '/obtener_departamentos',
-    placeholder: 'Departamento ...'
-}).then(function() {
+// principal.select({
+//     name: 'iddepartamentonacimiento',
+//     url: '/obtener_departamentos',
+//     placeholder: 'Departamento ...'
+// }).then(function() {
    
-    $("#iddepartamentonacimiento").trigger("change", ["", "", ""]);
-    $("#idprovincianacimiento").trigger("change", ["", "", ""]);
-}) 
+//     $("#iddepartamentonacimiento").trigger("change", ["", "", ""]);
+//     $("#idprovincianacimiento").trigger("change", ["", "", ""]);
+// }) 
 
 
 
-$(document).on('change', '#iddepartamentonacimiento', function(event, iddepartamentonacimiento, idprovincianacimiento) {
+// $(document).on('change', '#iddepartamentonacimiento', function(event, iddepartamentonacimiento, idprovincianacimiento) {
 
-    var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-    d_id = (typeof iddepartamentonacimiento != "undefined" && iddepartamentonacimiento != null) ? iddepartamentonacimiento : d_id;
-    var selected = (typeof idprovincianacimiento != "undefined")  ? idprovincianacimiento : "";
+//     var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+//     d_id = (typeof iddepartamentonacimiento != "undefined" && iddepartamentonacimiento != null) ? iddepartamentonacimiento : d_id;
+//     var selected = (typeof idprovincianacimiento != "undefined")  ? idprovincianacimiento : "";
    
-    principal.select({
-        name: 'idprovincianacimiento',
-        url: '/obtener_provincias',
-        placeholder: 'Provincia ...',
-        selected: selected,
-        datos: { iddepartamentonacimiento: d_id }
-    }).then(function() {
+//     principal.select({
+//         name: 'idprovincianacimiento',
+//         url: '/obtener_provincias',
+//         placeholder: 'Provincia ...',
+//         selected: selected,
+//         datos: { iddepartamentonacimiento: d_id }
+//     }).then(function() {
        
-        var condicion = typeof iddepartamentonacimiento == "undefined";
-        condicion = condicion && typeof idprovincianacimiento == "undefined";
+//         var condicion = typeof iddepartamentonacimiento == "undefined";
+//         condicion = condicion && typeof idprovincianacimiento == "undefined";
        
-        if(condicion) {
-            var required = true;
-            required = required && asociados.required("iddepartamentonacimiento");
-            if(required) {
-                $("#idprovincianacimiento")[0].selectize.focus();
-            }
-        } 
+//         if(condicion) {
+//             var required = true;
+//             required = required && asociados.required("iddepartamentonacimiento");
+//             if(required) {
+//                 $("#idprovincianacimiento")[0].selectize.focus();
+//             }
+//         } 
        
        
         
-    })
+//     })
 
-});
+// });
 
 
-$(document).on('change', '#idprovincianacimiento', function(event, idprovincianacimiento, iddistritonacimiento) {
+// $(document).on('change', '#idprovincianacimiento', function(event, idprovincianacimiento, iddistritonacimiento) {
 
-    var p_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-    p_id = (typeof idprovincianacimiento != "undefined") ? idprovincianacimiento : p_id;
-    var selected = (typeof iddistritonacimiento != "undefined")  ? iddistritonacimiento : "";
+//     var p_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+//     p_id = (typeof idprovincianacimiento != "undefined") ? idprovincianacimiento : p_id;
+//     var selected = (typeof iddistritonacimiento != "undefined")  ? iddistritonacimiento : "";
 
     
-    principal.select({
-        name: 'iddistritonacimiento',
-        url: '/obtener_distritos',
-        placeholder: 'Distrito ...',
-        selected: selected,
-        datos: { idprovincianacimiento:  p_id }
-    }).then(function() {
-        asociados.enter("iddistritonacimiento","idestadocivil");
+//     principal.select({
+//         name: 'iddistritonacimiento',
+//         url: '/obtener_distritos',
+//         placeholder: 'Distrito ...',
+//         selected: selected,
+//         datos: { idprovincianacimiento:  p_id }
+//     }).then(function() {
+//         asociados.enter("iddistritonacimiento","idestadocivil");
       
-        var condicion = typeof idprovincianacimiento == "undefined";
-        condicion = condicion && typeof iddistritonacimiento == "undefined";
+//         var condicion = typeof idprovincianacimiento == "undefined";
+//         condicion = condicion && typeof iddistritonacimiento == "undefined";
 
-        if(condicion) {
-            var required = true;
-            required = required && asociados.required("idprovincianacimiento");
-            if(required) {
-                $("#iddistritonacimiento")[0].selectize.focus();
-            }
+//         if(condicion) {
+//             var required = true;
+//             required = required && asociados.required("idprovincianacimiento");
+//             if(required) {
+//                 $("#iddistritonacimiento")[0].selectize.focus();
+//             }
            
-        } 
-    })
+//         } 
+//     })
 
 
-});
+// });
 
 
 
@@ -459,8 +477,10 @@ document.getElementById("modificar-asociado").addEventListener("click", function
     } 
 	
     var promise = asociados.get(datos.idmiembro);
-
+    
     promise.then(function(response) {
+        var button = "";
+        crear_botones_altas_bajas(response.estado);
         if(response.foto != null) {
             document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
         } else {
@@ -472,10 +492,29 @@ document.getElementById("modificar-asociado").addEventListener("click", function
         } else {
             $(".union").show();
         }
+
+        $(".miembro").text(response.apellidos + ", "+response.nombres);
     })
     
 
 })
+
+function crear_botones_altas_bajas(estado) {
+    if(estado == "1") {
+        document.getElementById("estado_asociado").innerText = "Activo";
+        document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
+        document.getElementById("estado_asociado").style.color = "black";
+        button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">Dar de Baja</button>';
+    } else {
+        document.getElementById("estado_asociado").innerText = "Inactivo";
+        document.getElementById("estado_asociado").style.backgroundColor = "#666666";
+        document.getElementById("estado_asociado").style.color = "white";
+        button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">Dar de Alta</button>';
+
+    }
+    
+    document.getElementById("bajas_altas").innerHTML = button;
+}
 
 document.getElementById("ver-asociado").addEventListener("click", function(event) {
     event.preventDefault();
@@ -530,7 +569,9 @@ document.getElementById("ver-asociado").addEventListener("click", function(event
 
 document.getElementById("guardar-asociado").addEventListener("click", function(event) {
     event.preventDefault();
-  
+    var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
+    var pais_id = document.getElementsByName("pais_id")[0].value;
+    var array_pais = pais_id.split("|");
     // alert(idmiembro);
     var required = true;
     required = required && asociados.required("nombres");
@@ -541,16 +582,28 @@ document.getElementById("guardar-asociado").addEventListener("click", function(e
     required = required && asociados.required("celular");
     required = required && asociados.required("telefono");
     required = required && asociados.required("email");
+    required = required && asociados.validar_email("email");
+    if(emailalternativo != "") {
+        required = required && asociados.validar_email("emailalternativo");
+    }
     required = required && asociados.required("direccion");
     required = required && asociados.required("fechanacimiento");
-    required = required && asociados.required("tipolugarnac");
+    // required = required && asociados.required("tipolugarnac");
     required = required && asociados.required("idestadocivil");
     required = required && asociados.required("idgradoinstruccion");
     required = required && asociados.required("idocupacion");
-    required = required && asociados.required("pais_id_nacionalidad");
+    // required = required && asociados.required("pais_id_nacionalidad");
     required = required && asociados.required("fecharegistro");
-  
-
+    
+    required = required && asociados.required("iddivision");
+    required = required && asociados.required("pais_id");
+    // required = required && asociados.required("iddivision");
+    if(array_pais[1] == "S") {
+        required = required && asociados.required("idunion");
+    }
+    required = required && asociados.required("idmision");
+    required = required && asociados.required("iddistritomisionero");
+    required = required && asociados.required("idiglesia");
 
     if(required) {
         asociados.guardar();
@@ -668,14 +721,143 @@ document.getElementById("foto").onchange = function(e) {
 
 
 
-$("input[name='tipolugarnac']").on('ifChecked', function(event){
-    var tipolugarnac = $(this).val();
-    if(tipolugarnac == "extranjero") {
-        $(".extranjero").show();
-        $(".nacional").hide();
-    } else {
-        $(".extranjero").hide();
-        $(".nacional").show();
+// $("input[name='tipolugarnac']").on('ifChecked', function(event){
+//     var tipolugarnac = $(this).val();
+//     if(tipolugarnac == "extranjero") {
+//         $(".extranjero").show();
+//         $(".nacional").hide();
+//     } else {
+//         $(".extranjero").hide();
+//         $(".nacional").show();
+//     }
+// });
+
+
+document.getElementById("cancelar-baja").addEventListener("click", function(event) {
+	event.preventDefault();
+	bajas.CerrarModal();
+})
+
+
+document.getElementById("cancelar-alta").addEventListener("click", function(event) {
+	event.preventDefault();
+	altas.CerrarModal();
+})
+
+$(document).on("click", "#dar-baja", function(e) {
+    e.preventDefault();
+
+    bajas.abrirModal();
+
+    var idmiembro = document.getElementsByName("idmiembro")[0].value;
+    document.getElementsByName("idmiembro_baja")[0].value = idmiembro;
+
+    if(typeof responsables.datatable.length != "undefined") {
+        responsables.datatable.destroy();
     }
+
+    responsables.TablaListado({
+        tablaID: '#tabla-responsables',
+        url: "/buscar_datos_responsables",
+        idmiembro: idmiembro
+    });
+    
+    
+})
+
+
+$(document).on("click", "#dar-alta", function(e) {
+    e.preventDefault();
+    altas.abrirModal();
+
+    var idmiembro = document.getElementsByName("idmiembro")[0].value;
+   
+    document.getElementsByName("idmiembro_alta")[0].value = idmiembro;
+    
+    if(typeof responsables.datatable.length != "undefined") {
+        responsables.datatable.destroy();
+    }
+
+    responsables.TablaListado({
+        tablaID: '#tabla-responsables',
+        url: "/buscar_datos_responsables",
+        idmiembro: idmiembro
+    });
+})
+
+
+
+document.getElementById("buscar_responsable_baja").addEventListener("click", function(event) {
+	event.preventDefault();
+	$("#modal-lista-responsables").modal("show");
+})
+
+document.getElementById("buscar_responsable_alta").addEventListener("click", function(event) {
+	event.preventDefault();
+	$("#modal-lista-responsables").modal("show");
+})
+
+
+function cargar_datos_responsable(datos) {
+	bajas.limpiarDatos("datos-responsable");
+	altas.limpiarDatos("datos-responsable");
+	//console.log(datos);
+	bajas.asignarDatos({
+		idresponsable: datos.id,
+		responsable: datos.nombres,
+		tabla: datos.tabla
+		
+	});
+    altas.asignarDatos({
+		idresponsable: datos.id,
+		responsable: datos.nombres,
+		tabla: datos.tabla
+		
+	});
+    
+	$("#modal-lista-responsables").modal("hide");
+
+
+}
+
+$("#tabla-responsables").on('key.dt', function(e, datatable, key, cell, originalEvent){
+	if(key === 13){
+		var datos = responsables.datatable.row(cell.index().row).data();
+		cargar_datos_responsable(datos);
+	}
 });
 
+$('#tabla-responsables').on('dblclick', 'tr', function () {
+	var datos = responsables.datatable.row( this ).data();
+	cargar_datos_responsable(datos);
+});
+
+document.getElementById("guardar-baja").addEventListener("click", function(event) {
+    event.preventDefault();
+    
+    var required = true;
+    required = required && bajas.required("responsable");
+    required = required && bajas.required("fecha");
+    required = required && bajas.required("idmotivobaja");
+    required = required && bajas.required("observaciones");   
+    if(required) {
+        bajas.guardar();
+        bajas.CerrarModal();
+        crear_botones_altas_bajas("0");
+    }
+})
+
+
+document.getElementById("guardar-alta").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    var required = true;
+    required = required && altas.required("responsable");
+    required = required && altas.required("fecha");
+    required = required && altas.required("observaciones");   
+    if(required) {
+        altas.guardar();
+        altas.CerrarModal();
+        crear_botones_altas_bajas("1");
+    }
+})

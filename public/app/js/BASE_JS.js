@@ -204,9 +204,7 @@ class BASE_JS {
         console.log("TABLA -> " + parametros.tablaID);
         //console.log(datatable);
         this.datatable = table;
-        this.datatable.ajax.reload();
-        this.datatable.ajax.reload();
-        this.datatable.ajax.reload();
+       
         //return datatable;
     }
     guardar() {
@@ -259,6 +257,13 @@ class BASE_JS {
             }
             return response;
         });
+
+        if(typeof this.datatable.ajax != "undefined") {
+            this.datatable.ajax.reload();
+            this.datatable.ajax.reload();
+            this.datatable.ajax.reload();
+        }
+        
         this.LimpiarFormulario();
         $("#" + this.modalID).trigger('shown.bs.modal');
         return promise;
@@ -482,6 +487,11 @@ class BASE_JS {
             // console.log(inputs[i].name, inputs[i].type);
             if (inputs[i].type == "checkbox" || inputs[i].type == "radio") {
                 inputs[i].checked = false;
+              
+                // esto es por el icheck js
+                $("input[name='"+inputs[i].name+"']").removeAttr("checked");
+                elementos[i].parentNode.classList.remove("checked");
+                
             }
             if (defaultValue != null) {
                 // alert(defaultValue);
@@ -590,6 +600,7 @@ class BASE_JS {
         //var formularioSelector = document.getElementById(this.formularioID).querySelector(selector);
         if (this.buscarEnFormulario(name)) {
             if (this.buscarEnFormulario(name).value == "") {
+                console.log(this.buscarEnFormulario(name).parentNode);
                 //this.buscarEnFormulario(name).parentNode.classList.remove('has-success');
                 this.buscarEnFormulario(name).parentNode.classList.add('has-error');
                 return false;
@@ -1283,6 +1294,27 @@ class BASE_JS {
 
 
 
+
+    }
+
+    validar_email(name) {
+        var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        var valor = this.buscarEnFormulario(name).value;
+        if (this.buscarEnFormulario(name)) {
+            if (valor != "") {
+               
+                if (emailRegex.test(valor)) {
+                    this.buscarEnFormulario(name).parentNode.classList.remove('has-error');
+                    return true;
+                } else {
+                    
+                }
+            } 
+        }
+
+        BASE_JS.notificacion({title: 'ADVERTENCIA!', type: 'warning', msg: 'Email Inválido!'});
+        this.buscarEnFormulario(name).parentNode.classList.add('has-error');
+        return false;
 
     }
 }

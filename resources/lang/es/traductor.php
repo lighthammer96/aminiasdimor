@@ -36,6 +36,11 @@ return [
     'tipo_documentacion' => "Tipo de Documentación",
     'tipo_inmueble' => "Tipo de Inmueble",
     'condicion_inmueble' => "Condición de Inmueble",
+    'responsable' => "Responsable",
+    'fecha' => "Fecha",
+    'observaciones' => "Observaciones",
+    'motivo_baja' => "Motivo de Baja",
+    'bautizado_vez' => "Fue bautizado más de una vez",
 
 
 

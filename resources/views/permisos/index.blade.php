@@ -16,7 +16,7 @@
 
                 </select>
                 <span class="input-group-btn">
-                    <button type="button" id="nuevo-perfil" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
+                    <button style="margin-top: -5px;" type="button" id="nuevo-perfil" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
                 </span>
             </div>

@@ -52,6 +52,7 @@ Route::post('principal/obtener_tipos_documentacion', [PrincipalController::class
 Route::post('principal/obtener_tipos_inmueble', [PrincipalController::class, "obtener_tipos_inmueble"]);
 Route::post('principal/obtener_condicion_inmueble', [PrincipalController::class, "obtener_condicion_inmueble"]);
 Route::post('principal/cambiar_idioma', [PrincipalController::class, "cambiar_idioma"]);
+Route::post('principal/obtener_motivos_baja', [PrincipalController::class, "obtener_motivos_baja"]);
 
 
 /*************
@@ -120,6 +121,7 @@ Route::post('paises/get', [PaisesController::class, "get"]);
 Route::post('paises/eliminar_paises', [PaisesController::class, "eliminar_paises"]);
 Route::post('paises/obtener_paises', [PaisesController::class, "obtener_paises"]);
 Route::post('paises/obtener_paises_asociados', [PaisesController::class, "obtener_paises_asociados"]);
+Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_todos_paises"]);
 
 // UNIONES
 Route::get('uniones/index', [UnionesController::class, "index"]);
@@ -171,3 +173,6 @@ Route::post('asociados/get', [AsociadosController::class, "get"]);
 Route::post('asociados/obtener_estado_civil', [AsociadosController::class, "obtener_estado_civil"]);
 Route::post('asociados/obtener_nivel_educativo', [AsociadosController::class, "obtener_nivel_educativo"]);
 Route::post('asociados/obtener_profesiones', [AsociadosController::class, "obtener_profesiones"]);
+Route::post('asociados/buscar_datos_responsables', [AsociadosController::class, "buscar_datos_responsables"]);
+Route::post('asociados/guardar_bajas', [AsociadosController::class, "guardar_bajas"]);
+Route::post('asociados/guardar_altas', [AsociadosController::class, "guardar_altas"]);

@@ -76,7 +76,7 @@ class PrincipalController extends Controller
 
     public function obtener_tipos_acceso() {
         $sql = "SELECT idtipoacceso as id, descripcion FROM seguridad.tipoacceso 
-        ORDER BY idtipoacceso ASC";
+        ORDER BY idtipoacceso DESC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -112,6 +112,24 @@ class PrincipalController extends Controller
     public function obtener_condicion_inmueble() {
         $sql = "SELECT idcondicioninmueble as id, descripcion FROM public.condicioninmueble 
         ORDER BY idcondicioninmueble ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function cambiar_idioma(Request $request) {
+       
+        session(['idioma_codigo' => $request->input("idioma_codigo")]);
+        session(['idioma_id' => $request->input("idioma_id")]);
+        $response = array();
+        $response["response"] = "ok";
+
+        echo json_encode($response);
+    }
+
+    
+    public function obtener_motivos_baja() {
+        $sql = "SELECT idmotivobaja as id, descripcion FROM iglesias.motivobaja 
+        ORDER BY idmotivobaja ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }

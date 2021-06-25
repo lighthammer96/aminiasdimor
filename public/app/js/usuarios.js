@@ -43,6 +43,7 @@ document.getElementById("nuevo-usuario").addEventListener("click", function(even
     event.preventDefault();
    
     usuarios.abrirModal();
+    document.getElementById("buscar_asociado").disabled = false;
 })
 
 document.getElementById("modificar-usuario").addEventListener("click", function(event) {
@@ -64,6 +65,7 @@ document.getElementById("modificar-usuario").addEventListener("click", function(
             datos.asociado = datos[0].apellidos +", "+ datos[0].nombres;
             
             usuarios.asignarDatos(datos);
+            document.getElementById("buscar_asociado").disabled = true;
         });
     
     })

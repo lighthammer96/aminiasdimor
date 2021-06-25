@@ -13,7 +13,7 @@ class LoginController extends Controller
     public function loguearse(Request $request) {
         $data = array();
         $data["response"] = "nopass";
-        $user = $request->input('user');
+        $user = strtolower($request->input('user'));
         $pass = $request->input('pass');
         // $clave = Hash::make('1235');
         // echo $clave; exit;
@@ -47,35 +47,35 @@ class LoginController extends Controller
             if($result[0]->perfil_id != 1) {
                 switch ($result[0]->idtipoacceso) {
                     case '1':
-                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "AND pais_id = ".$result[0]->pais_id;
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "AND idmision = ".$result[0]->idmision;
                         $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
                         break;
                     case '2':
-                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "AND pais_id = ".$result[0]->pais_id;
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "AND idmision = ".$result[0]->idmision;
                         $where_distrito_misionero = "";
                         break;
                     case '3':
-                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "AND pais_id = ".$result[0]->pais_id;
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "";
                         $where_distrito_misionero = "";
                         break;
                     case '4':
-                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "AND pais_id = ".$result[0]->pais_id;
                         $where_union = "";
                         $where_mision = "";
                         $where_distrito_misionero = "";
                         break;
                     case '5':
-                        $where_division = "AND iddivision = ".$result[0]->iddivision;
+                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "";
                         $where_union = "";
                         $where_mision = "";
@@ -91,7 +91,7 @@ class LoginController extends Controller
             session(['where_mision' => $where_mision]);
             session(['where_distrito_misionero' => $where_distrito_misionero]);
 
-            $idioma = DB::select("SELECT p.*, i.idioma_codigo FROM public.paises AS p 
+            $idioma = DB::select("SELECT p.*, i.idioma_codigo FROM iglesias.paises AS p 
             INNER JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
             WHERE p.pais_id={$result[0]->pais_id}");
             // print_r($idioma); exit;

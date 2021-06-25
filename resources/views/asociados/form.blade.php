@@ -74,15 +74,18 @@
                                                     <input type="text" class="form-control input-sm entrada" name="emailalternativo" placeholder="" />
                                                 </div>
                                             </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Domicilio</legend>
                                             <div class="row">
                                                 <div class="col-md-4" style="padding-right: 5px;">
-                                                    <label class="control-label">Lugar de Domicilio</label>
+                                                    <label class="control-label">Departamento</label>
                                                     <select class="entrada selectizejs" name="iddepartamentodomicilio" id="iddepartamentodomicilio">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4" style="margin-top: 7px; padding-right: 5px; padding-left: 5px;">
-                                                    <label class="control-label"></label>
+                                                <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
+                                                    <label class="control-label">Provincia</label>
 
                                                     <select class="entrada selectizejs" name="idprovinciadomicilio" id="idprovinciadomicilio">
 
@@ -91,8 +94,8 @@
 
 
                                                 </div>
-                                                <div class="col-md-4" style="margin-top: 7px; padding-left: 5px;">
-                                                    <label class="control-label"></label>
+                                                <div class="col-md-4" style="padding-left: 5px;">
+                                                    <label class="control-label">Distrito</label>
 
                                                     <select class="entrada selectizejs" name="iddistritodomicilio" id="iddistritodomicilio">
 
@@ -103,15 +106,21 @@
                                             </div>
                                             <div class="row">
                                                
-                                                <div class="col-md-5" style="padding-right: 5px;">
+                                                <div class="col-md-6" style="padding-right: 5px;">
                                                     <label class="control-label">Dirección</label>
                                                     <input type="text" class="form-control input-sm entrada" name="direccion" placeholder="" />
                                                 </div>
-                                                <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
+                                                <div class="col-md-6" style="padding-left: 5px;">
                                                     <label class="control-label">Referencia</label>
                                                     <input type="text" class="form-control input-sm entrada" name="referenciadireccion" placeholder="" />
                                                 </div>
-                                                <div class="col-md-3" style="padding-left: 5px;">
+                                                
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Nacimiento</legend>
+                                            <div class="row">
+                                                <div class="col-md-4" style="padding-right: 5px;">
                                                     <label class="control-label">Fecha Nacimiento</label>
                                                     
 
@@ -122,30 +131,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                           
-
-                                            <div class="row">
-                                                <div class="col-md-2" style="padding-right: 5px; margin-top: 10px;">
-                                                    <!-- <label class="control-label">Sexo</label><br> -->
-                                                    <input type="radio" name="tipolugarnac" value="nacional" checked="checked" class="minimal entrada" >&nbsp;&nbsp;&nbsp;Nacional<br>
+                                                <!-- <div class="col-md-2" style="padding-right: 5px; margin-top: 10px;">
+                                                    <label class="control-label">Sexo</label><br>
+                                                    <input type="radio" name="tipolugarnac" value="" checked="checked" class="minimal entrada" >&nbsp;&nbsp;&nbsp;<br>
                                                     <input type="radio" name="tipolugarnac" value="extranjero" class="minimal entrada" >&nbsp;&nbsp;&nbsp;Extranjero
-                                                </div>
-                                                <div class="col-md-4 nacional" style="padding-right: 5px; padding-left: 5px;">
+                                                </div> -->
+                                                <!-- <div class="col-md-4 " style="padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">Lugar de Nacimiento</label>
                                                     <select class="entrada selectizejs" name="iddepartamentonacimiento" id="iddepartamentonacimiento">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3 nacional" style="margin-top: 7px; padding-right: 5px; padding-left: 5px;">
+                                                <div class="col-md-4 " style="margin-top: 7px; padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label"></label>
 
                                                     <select  class="entrada selectizejs" name="idprovincianacimiento" id="idprovincianacimiento">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3 nacional" style="margin-top: 7px; padding-left: 5px;">
+                                                <div class="col-md-4 " style="margin-top: 7px; padding-left: 5px;">
                                                     <label class="control-label"></label>
 
                                                     <select  class="entrada selectizejs" name="iddistritonacimiento" id="iddistritonacimiento">
@@ -153,58 +157,58 @@
                                                     </select>
 
 
-                                                </div>
-                                                <div class="col-md-3 extranjero" style="padding-left: 5px; display: none">
+                                                </div> -->
+                                                <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">País</label>
 
                                                     <select class="entrada selectizejs" name="pais_id_nacimiento" id="pais_id_nacimiento">
 
                                                     </select>
                                                 </div>
+
+                                                <div class="col-md-4" style="padding-left: 5px;">
+                                                    <label class="control-label">Ciudad</label>
+                                                    </select>
+                                                    <input type="text" class="form-control input-sm entrada" name="ciudadnacextranjero" placeholder="" />
+                                                </div>
                                             </div>
+                                        </fieldset>
+                                           
+
+                                           
                                             <div class="row">
                                                
-                                                <div class="col-md-3" style="padding-right: 5px;">
+                                                <div class="col-md-4" style="padding-right: 5px;">
                                                     <label class="control-label">Estado Civil</label>
                                                     <select class="entrada selectizejs" name="idestadocivil" id="idestadocivil">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
+                                                <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">Nivel Educativo</label>
 
                                                     <select class="entrada selectizejs" name="idgradoinstruccion" id="idgradoinstruccion">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
+                                                <div class="col-md-4" style="padding-left: 5px;">
                                                     <label class="control-label">Profesión</label>
 
                                                     <select class="entrada selectizejs" name="idocupacion" id="idocupacion">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3" style="padding-left: 5px;">
-                                                    <label class="control-label">Nacionalidad</label>
+                                                <!-- <div class="col-md-3" style="padding-left: 5px;">
+                                                    <label class="control-label">idad</label>
 
-                                                    <select class="entrada selectizejs" name="pais_id_nacionalidad" id="pais_id_nacionalidad">
+                                                    <select class="entrada selectizejs" name="pais_id_idad" id="pais_id_idad">
 
                                                     </select>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3" style="padding-right: 5px;">
-                                                    <label class="control-label">Fecha Registro</label>
-                                                    
-
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control input-sm entrada" name="fecharegistro" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-9">
+                                               
+                                                <div class="col-md-12">
                                                     <label class="control-label">Observaciones</label>
                                                     <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="2"></textarea>
                                                    
@@ -212,10 +216,11 @@
                                                 
                                             </div>
 
-                                        </fieldset>
+                                       
                                     </div>
                                     <div class="col-md-3" style="padding-left: 5px;">
                                         <div class="row">
+                                            
                                             <div class="col-md-12" style="margin-top: 9px;">
                                                 <center>
                                                     <img title="Cargar Foto ..." style="cursor: pointer;height: 105px !important;" src="{{ URL::asset('images/camara.png') }}"" class="thumb-lg img-thumbnail usuario_foto" alt="profile-image" id="cargar_foto">
@@ -270,6 +275,21 @@
                                                 </select>
 
                                             </div>
+                                            <div class="col-md-12" style="">
+                                                <label class="control-label">Fecha Registro</label>
+                                                
+
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-sm entrada" name="fecharegistro" readonly="readonly" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <h2 id="estado_asociado" style="text-align: center; font-weight: 600;"></h2>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -289,8 +309,13 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado">[Esc] [Cancelar]</button>
-                    <button type="button" id="guardar-asociado" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    <div class="pull-left" id="bajas_altas">
+                        
+                    </div>
+                    <div class="pull-rigth">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado">[Esc] [Cancelar]</button>
+                        <button type="button" id="guardar-asociado" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    </div>
                 </div>
             </form>
 

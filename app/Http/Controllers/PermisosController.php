@@ -26,7 +26,7 @@ class PermisosController extends Controller
         $data["modulos_all"] = $this->base_model->getPermisos();
         // echo "<pre>";
         // print_r($data["modulos"] ); exit;
-        $data["scripts"] = $this->cargar_js(["perfiles.js", "permisos.js"]);
+        $data["scripts"] = $this->cargar_js(["idiomas.js", "perfiles.js", "permisos.js"]);
         return parent::init($view, $data);
     }
 

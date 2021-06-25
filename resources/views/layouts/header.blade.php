@@ -24,8 +24,12 @@
                     <select style="margin-top: 8px;" name="idioma_sistema" class="form-control" id="idioma_sistema">
                         <?php 
                             foreach ($idiomas as $key => $value) {
-                                
-                                echo '<option value="'.trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
+                                if(session("idioma_codigo") == trim($value->idioma_codigo)) {
+                                    echo '<option selected="selected" value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
+                                } else {
+                                    echo '<option value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
+                                }
+                              
                             }
                         
                         ?>

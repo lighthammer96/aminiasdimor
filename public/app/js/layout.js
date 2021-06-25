@@ -94,24 +94,25 @@ document.addEventListener("DOMContentLoaded", function() {
 // };
 
 
-// document.getElementById("idioma_sistema").addEventListener("change", function() {
-	
-// 	$.ajax({
-// 		url: 'principal/cambiar_idioma',
-// 		type: 'POST',
-// 		dataType: 'json',
-// 		data: "idioma_codigo="+this.value
-// 	}).done(function(json) {
-// 		// console.log(json);
-// 		if(json.response == 'ok') {
-// 			window.location = "principal/index";
-// 		} else {
+document.getElementById("idioma_sistema").addEventListener("change", function() {
+	var array = this.value.toString().split("|");
+	$.ajax({
+		url: BaseUrl+'/principal/cambiar_idioma',
+		type: 'POST',
+		dataType: 'json',
+		data: "idioma_id="+array[0]+"&idioma_codigo="+array[1]+"&_token="+_token
+	}).done(function(json) {
+		// console.log(json);
+		if(json.response == 'ok') {
+			// alert();
+			window.location = BaseUrl+"/"+modulo_controlador;
+		} else {
 			
-// 		}
-// 	}).fail(function() {
-// 		console.log("OCURRIO UN ERROR");
-// 	}).always(function() {
-// 		console.log("COMPLETAR JSON");
-// 	});
-// // 
-// })
+		}
+	}).fail(function() {
+		console.log("ERROR 1");
+	}).always(function() {
+		console.log("ERROR 2");
+	});
+// 
+})

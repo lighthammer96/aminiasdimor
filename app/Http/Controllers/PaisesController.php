@@ -49,23 +49,23 @@ class PaisesController extends Controller
    
         $_POST = $this->toUpper($_POST, ["pais_descripcion", "direccion"]);
         if ($request->input("pais_id") == '') {
-            $result = $this->base_model->insertar($this->preparar_datos("public.paises", $_POST));
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.paises", $_POST));
         }else{
-            $result = $this->base_model->modificar($this->preparar_datos("public.paises", $_POST));
+            $result = $this->base_model->modificar($this->preparar_datos("iglesias.paises", $_POST));
         }
 
         echo json_encode($result);
     }
 
     public function eliminar_paises() {
-        $result = $this->base_model->eliminar(["public.paises","pais_id"]);
+        $result = $this->base_model->eliminar(["iglesias.paises","pais_id"]);
         echo json_encode($result);
     }
 
 
     public function get(Request $request) {
 
-        $sql = "SELECT * FROM public.paises WHERE pais_id=".$request->input("id");
+        $sql = "SELECT * FROM iglesias.paises WHERE pais_id=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }
@@ -75,9 +75,9 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM public.paises WHERE estado='A' AND iddivision=".$request->input("iddivision");
+			$sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision");
 		} else {
-            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM public.paises WHERE estado='A'";
+            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'";
 		}
 
         $result = DB::select($sql);
@@ -89,10 +89,20 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM public.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais");
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais");
 		} else {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM public.paises WHERE estado='A' ".session("where_pais");
+            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais");
 		}
+
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_todos_paises(Request $request) {
+
+      
+        $sql = "SELECT idpais AS id, descripcion FROM public.pais";
+		
 
         $result = DB::select($sql);
         echo json_encode($result);
