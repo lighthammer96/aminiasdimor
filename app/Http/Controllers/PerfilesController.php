@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\PerfilesModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -66,8 +67,28 @@ class PerfilesController extends Controller
     }
 
     public function eliminar_perfiles() {
-        $result = $this->base_model->eliminar(["seguridad.perfiles","perfil_id"]);
-        echo json_encode($result);
+       
+
+        try {
+            $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE perfil_id=".$_REQUEST["id"];
+            $usuarios = DB::select($sql_usuarios);
+
+            if(count($usuarios) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA ESTA ASIGNADO A UN USUARIO");
+            }
+
+            $sql_permisos = "SELECT * FROM seguridad.permisos WHERE perfil_id=".$_REQUEST["id"];
+            $permisos = DB::select($sql_permisos);
+
+            if(count($permisos) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA TIENE ASIGNADO PERMISOS");
+            }
+
+            $result = $this->base_model->eliminar(["seguridad.perfiles","perfil_id"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
 

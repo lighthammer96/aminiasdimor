@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\ModulosModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -86,8 +87,23 @@ class ModulosController extends Controller
      }
 
     public function eliminar_modulos() {
-        $result = $this->base_model->eliminar(["seguridad.modulos", "modulo_id"]);
-        echo json_encode($result);
+       
+
+        try {
+        
+
+            $sql_permisos = "SELECT * FROM seguridad.permisos WHERE modulo_id=".$_REQUEST["id"];
+            $permisos = DB::select($sql_permisos);
+
+            if(count($permisos) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE MODULO YA TIENE ASIGNADO PERMISOS");
+            }
+
+            $result = $this->base_model->eliminar(["seguridad.modulos", "modulo_id"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
     public function get(Request $request) {

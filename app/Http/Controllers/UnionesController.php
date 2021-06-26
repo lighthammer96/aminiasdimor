@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\UnionesModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -66,8 +67,21 @@ class UnionesController extends Controller
     }
 
     public function eliminar_uniones() {
-        $result = $this->base_model->eliminar(["iglesias.union","idunion"]);
-        echo json_encode($result);
+       
+
+        try {
+            $sql_misiones = "SELECT * FROM iglesias.mision WHERE idunion=".$_REQUEST["id"];
+            $misiones = DB::select($sql_misiones);
+
+            if(count($misiones) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTA UNIÓN YA ESTA ASIGNADO A UNA MISIÓN");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.union","idunion"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
 

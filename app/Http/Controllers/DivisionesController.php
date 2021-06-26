@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\DivisionesModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -67,8 +68,20 @@ class DivisionesController extends Controller
     }
 
     public function eliminar_divisiones() {
-        $result = $this->base_model->eliminar(["iglesias.division","iddivision"]);
-        echo json_encode($result);
+        try {
+            $sql_paises = "SELECT * FROM iglesias.paises WHERE iddivision=".$_REQUEST["id"];
+            $paises = DB::select($sql_paises);
+
+            if(count($paises) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTA DIVISIÓN YA ESTA ASIGNADA A UN PAÍS");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.division","iddivision"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+       
     }
 
 

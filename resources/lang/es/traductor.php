@@ -41,6 +41,8 @@ return [
     'observaciones' => "Observaciones",
     'motivo_baja' => "Motivo de Baja",
     'bautizado_vez' => "Fue bautizado más de una vez",
+    'area' => "Área",
+    'tipo_estructura' => "Tipo de Estructura",
 
 
 

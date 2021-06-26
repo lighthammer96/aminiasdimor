@@ -52,6 +52,84 @@ iglesias.select({
    
 })
 
+
+
+principal.select({
+    name: 'iddepartamento',
+    url: '/obtener_departamentos',
+    placeholder: 'Seleccione ...'
+}).then(function() {
+    
+    $("#iddepartamento").trigger("change", ["", "", ""]);
+    $("#idprovincia").trigger("change", ["", "", ""]);
+}) 
+
+
+
+$(document).on('change', '#iddepartamento', function(event, iddepartamento, idprovincia) {
+
+    var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+    d_id = (typeof iddepartamento != "undefined" && iddepartamento != null) ? iddepartamento : d_id;
+    var selected = (typeof idprovincia != "undefined")  ? idprovincia : "";
+   
+    principal.select({
+        name: 'idprovincia',
+        url: '/obtener_provincias',
+        placeholder: 'Seleccione ...',
+        selected: selected,
+        datos: { iddepartamento: d_id }
+    }).then(function() {
+       
+        var condicion = typeof iddepartamento == "undefined";
+        condicion = condicion && typeof idprovincia == "undefined";
+       
+        if(condicion) {
+            var required = true;
+            required = required && iglesias.required("iddepartamento");
+            if(required) {
+                $("#idprovincia")[0].selectize.focus();
+            }
+        } 
+       
+       
+        
+    })
+
+});
+
+
+$(document).on('change', '#idprovincia', function(event, idprovincia, iddistrito) {
+
+    var p_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+    p_id = (typeof idprovincia != "undefined") ? idprovincia : p_id;
+    var selected = (typeof iddistrito != "undefined")  ? iddistrito : "";
+
+    
+    principal.select({
+        name: 'iddistrito',
+        url: '/obtener_distritos',
+        placeholder: 'Seleccione ...',
+        selected: selected,
+        datos: { idprovincia:  p_id }
+    }).then(function() {
+        iglesias.enter("iddistrito","iddistritomisionero");
+        
+        var condicion = typeof idprovincia == "undefined";
+        condicion = condicion && typeof iddistrito == "undefined";
+
+        if(condicion) {
+            var required = true;
+            required = required && iglesias.required("idprovincia");
+            if(required) {
+                $("#iddistrito")[0].selectize.focus();
+            }
+           
+        } 
+    })
+
+
+});
+
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
     if(id == "" && !event.srcElement.parentNode.disabled) {

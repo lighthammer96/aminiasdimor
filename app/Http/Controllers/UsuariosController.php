@@ -83,8 +83,21 @@ class UsuariosController extends Controller
     }
 
     public function eliminar_usuarios() {
-        $result = $this->base_model->eliminar(["seguridad.usuarios", "usuario_id"]);
-        echo json_encode($result);
+        try {
+            $sql_asociados = "SELECT * FROM seguridad.usuarios AS u 
+            INNER JOIN iglesias.miembro AS m ON(m.idmiembro=u.idmiembro)
+            WHERE u.usuario_id=".$_REQUEST["id"];
+            $asociados = DB::select($sql_asociados);
+
+            if(count($asociados) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE USUARIO YA TIENE ASIGNADO UN ASOCIADO");
+            }
+
+            $result = $this->base_model->eliminar(["seguridad.usuarios", "usuario_id"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
     public function get(Request $request) {

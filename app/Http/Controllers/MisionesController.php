@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\MisionesModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -58,8 +59,20 @@ class MisionesController extends Controller
     }
 
     public function eliminar_misiones() {
-        $result = $this->base_model->eliminar(["iglesias.mision","idmision"]);
-        echo json_encode($result);
+        try {
+            $sql_distritos = "SELECT * FROM iglesias.distritomisionero WHERE idmision=".$_REQUEST["id"];
+            $distritos = DB::select($sql_distritos);
+
+            if(count($distritos) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTA MISIÓN YA ESTA ASIGNADO A UN DISTRITO MISIONERO");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.mision","idmision"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+       
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\DistritosmisionerosModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -58,8 +59,22 @@ class DistritosmisionerosController extends Controller
     }
 
     public function eliminar_distritos_misioneros() {
-        $result = $this->base_model->eliminar(["iglesias.distritomisionero","iddistritomisionero"]);
-        echo json_encode($result);
+
+        try {
+            $sql_iglesias = "SELECT * FROM iglesias.iglesia WHERE iddistritomisionero=".$_REQUEST["id"];
+            $iglesias = DB::select($sql_iglesias);
+
+            if(count($iglesias) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE DISTRITO MISIONERO YA ESTA ASIGNADO A UNA IGLESIA");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.distritomisionero","iddistritomisionero"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+       
+        
     }
 
 

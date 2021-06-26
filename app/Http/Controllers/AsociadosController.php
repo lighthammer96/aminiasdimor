@@ -57,40 +57,54 @@ class AsociadosController extends Controller
 
     public function guardar_asociados(Request $request) {
         // print_r($_REQUEST); exit;
-        $array_pais = explode("|", $_POST["pais_id"]);
-        $_POST["pais_id"] = $array_pais[0];
-        if($array_pais[1] == "N" && empty($request->input("idunion"))) {
-            $sql = "SELECT * FROM iglesias.union AS u 
-            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
-            WHERE up.pais_id={$_POST["pais_id"]}";
-            $res = DB::select($sql);
-            $_POST["idunion"] = $res[0]->idunion;
-        }
 
-        $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
-        $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server");
+        try {
+            
+            $sql_validacion = "SELECT * FROM iglesias.miembro WHERE idtipodoc={$request->input("idtipodoc")} AND nrodoc='{$request->input("nrodoc")}' AND pais_id_nacimiento={$request->input("pais_id_nacimiento")}";
+            // die($sql_validacion);
+            $validacion = DB::select($sql_validacion);
 
-        $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo"]);
-        if ($request->input("idmiembro") == '') {
-            $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
-        }else{
-            $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
-        }
-        // print_r($result); exit;
-        $_POST["idmiembro"] = $result["id"];
-        if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == "0") {
-
-            $response = $this->SubirArchivo($_FILES["foto"], base_path("public/fotos_asociados/"), "miembro_" . $_POST["idmiembro"]);
-            if ($response["response"] == "ERROR") {
-                throw new Exception('Error al subir foto del Usuario!');
+            if(count($validacion) > 0) {
+                throw new Exception("Ya existe un asociado con el mismo número de documento!");
             }
-            $_POST["foto"] = $response["NombreFile"];
-           
-            $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
-        }
 
-   
-        echo json_encode($result);
+            $array_pais = explode("|", $_POST["pais_id"]);
+            $_POST["pais_id"] = $array_pais[0];
+            if($array_pais[1] == "N" && empty($request->input("idunion"))) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_POST["pais_id"]}";
+                $res = DB::select($sql);
+                $_POST["idunion"] = $res[0]->idunion;
+            }
+
+            $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
+            $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server");
+
+            $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo"]);
+            if ($request->input("idmiembro") == '') {
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
+            }else{
+                $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+            }
+            // print_r($result); exit;
+            $_POST["idmiembro"] = $result["id"];
+            if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == "0") {
+
+                $response = $this->SubirArchivo($_FILES["foto"], base_path("public/fotos_asociados/"), "miembro_" . $_POST["idmiembro"]);
+                if ($response["response"] == "ERROR") {
+                    throw new Exception('Error al subir foto del Usuario!');
+                }
+                $_POST["foto"] = $response["NombreFile"];
+            
+                $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+            }
+
+    
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
     public function guardar_bajas() {
@@ -123,6 +137,7 @@ class AsociadosController extends Controller
         // print_r($_POST); exit;
         try {
             DB::beginTransaction();
+            
             $_POST = $this->toUpper($_POST, ["tabla"]);
             $_POST["usuario"] = session("usuario_user");
             $_POST["idmiembro"] = $_POST["idmiembro_alta"];

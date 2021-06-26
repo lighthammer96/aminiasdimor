@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\PaisesModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -58,8 +59,20 @@ class PaisesController extends Controller
     }
 
     public function eliminar_paises() {
-        $result = $this->base_model->eliminar(["iglesias.paises","pais_id"]);
-        echo json_encode($result);
+        
+        try {
+            $sql_uniones = "SELECT * FROM iglesias.union_paises WHERE idpais=".$_REQUEST["id"];
+            $uniones = DB::select($sql_uniones);
+
+            if(count($uniones) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PAÍS YA ESTA ASIGNADO A UNA UNIÓN");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.paises","pais_id"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
 

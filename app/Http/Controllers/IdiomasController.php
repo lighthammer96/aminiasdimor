@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\IdiomasModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -59,8 +60,45 @@ class IdiomasController extends Controller
     }
 
     public function eliminar_idiomas() {
-        $result = $this->base_model->eliminar(["public.idiomas","idioma_id"]);
-        echo json_encode($result);
+        try {
+           
+
+            $sql_divisiones = "SELECT * FROM iglesias.division_idiomas WHERE idioma_id=".$_REQUEST["id"];
+            $divisiones = DB::select($sql_divisiones);
+
+            if(count($divisiones) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE DIVISIONES");
+            }
+
+            $sql_paises = "SELECT * FROM iglesias.paises_idiomas WHERE idioma_id=".$_REQUEST["id"];
+            $paises = DB::select($sql_paises);
+
+            if(count($paises) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE PAISES");
+            }
+
+            $sql_modulos = "SELECT * FROM seguridad.modulos_idiomas WHERE idioma_id=".$_REQUEST["id"];
+            $modulos = DB::select($sql_modulos);
+
+            if(count($modulos) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE MODULOS");
+            }
+
+            $sql_perfiles = "SELECT * FROM seguridad.perfiles_idiomas WHERE idioma_id=".$_REQUEST["id"];
+            $perfiles = DB::select($sql_perfiles);
+
+            if(count($perfiles) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE PERFILES");
+            }
+
+
+            $result = $this->base_model->eliminar(["public.idiomas","idioma_id"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+		}
+		
+
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\IglesiasModel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -59,8 +60,21 @@ class IglesiasController extends Controller
     }
 
     public function eliminar_iglesias() {
-        $result = $this->base_model->eliminar(["iglesias.iglesia","idiglesia"]);
-        echo json_encode($result);
+       
+
+        try {
+            $sql_asociados = "SELECT * FROM iglesias.miembro WHERE idiglesia=".$_REQUEST["id"];
+            $asociados = DB::select($sql_asociados);
+
+            if(count($asociados) > 0) {
+                throw new Exception("NO SE PUEDE ELIMINAR, ESTA IGLESIA YA ESTA ASIGNADO A UN ASOCIADO");
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.iglesia","idiglesia"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
     }
 
 
