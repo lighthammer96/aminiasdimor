@@ -6,11 +6,11 @@ idiomas.TablaListado({
     url: "/buscar_datos",
 });
 
-var combo_idiomas = idiomas.select({
-    name: 'idioma_id',
-    url: '/obtener_idiomas',
-    placeholder: 'Seleccione Idioma'
-});
+// var combo_idiomas = idiomas.select({
+//     name: 'idioma_id',
+//     url: '/obtener_idiomas',
+//     placeholder: 'Seleccione Idioma'
+// });
 
 
 var combo_idioma = idiomas.select({
@@ -20,11 +20,11 @@ var combo_idioma = idiomas.select({
 });
 
 
-var combo_idioma_padre = idiomas.select({
-    name: 'idioma|padre',
-    url: '/obtener_idiomas',
-    placeholder: 'Seleccione Idioma'
-});
+// var combo_idioma_padre = idiomas.select({
+//     name: 'idioma|padre',
+//     url: '/obtener_idiomas',
+//     placeholder: 'Seleccione Idioma'
+// });
 
 
 
@@ -94,12 +94,12 @@ function guardar_idioma() {
 			}
             // $("select[name=idioma_id]").chosen("destroy");
 
-            combo_idiomas = idiomas.select({
-                name: 'idioma_id',
-                url: '/obtener_idiomas',
-                placeholder: 'Seleccione Idioma',
-                selected: response.id
-            });
+            // combo_idiomas = idiomas.select({
+            //     name: 'idioma_id',
+            //     url: '/obtener_idiomas',
+            //     placeholder: 'Seleccione Idioma',
+            //     selected: response.id
+            // });
 
             combo_idioma = idiomas.select({
                 name: 'idioma',
