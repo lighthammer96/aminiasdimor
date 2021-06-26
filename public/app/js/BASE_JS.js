@@ -259,9 +259,9 @@ class BASE_JS {
         });
 
         if(typeof this.datatable.ajax != "undefined") {
+            this.datatable.clear();
             this.datatable.ajax.reload();
-            this.datatable.ajax.reload();
-            this.datatable.ajax.reload();
+            this.datatable.draw();
         }
         
         this.LimpiarFormulario();
