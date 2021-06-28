@@ -709,7 +709,8 @@ document.getElementById("guardar-asociado").addEventListener("click", function(e
     }
     required = required && asociados.required("direccion");
     required = required && asociados.required("fechanacimiento");
-    // required = required && asociados.required("tipolugarnac");
+    required = required && asociados.required("pais_id_nacimiento");
+    required = required && asociados.required("ciudadnacextranjero");
     required = required && asociados.required("idestadocivil");
     required = required && asociados.required("idgradoinstruccion");
     required = required && asociados.required("idocupacion");
