@@ -83,7 +83,7 @@ class AsociadosController extends Controller
             }
 
             $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
-            $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server").date("H:i:s");
+            $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s");
             $_POST["fechabautizo"] = $this->FormatoFecha($_REQUEST["fechabautizo"], "server");
 
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo"]);
