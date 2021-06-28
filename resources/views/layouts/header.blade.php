@@ -154,13 +154,23 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ URL::asset('dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                        <?php if(!empty(session("foto"))) { ?>
+                            <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="user-image" alt="User Image">
+                        <?php } else { ?>
+                            <img src="{{ URL::asset('images/usuario.png') }}" class="user-image" alt="User Image">
+                        <?php } ?>
                         <span class="hidden-xs">{{ session("usuario_user") }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{ URL::asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                            <?php if(!empty(session("foto"))) { ?>
+                                <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
+                            <?php } else { ?>
+                                <img src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
+                            <?php } ?>
+
+                           
 
                             <p>
                                 {{ session("usuario_user") }} - {{ session("perfil_descripcion") }}

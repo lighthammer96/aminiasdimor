@@ -183,3 +183,4 @@ Route::post('asociados/guardar_bajas', [AsociadosController::class, "guardar_baj
 Route::post('asociados/guardar_altas', [AsociadosController::class, "guardar_altas"]);
 Route::post('asociados/obtener_periodos_ini', [AsociadosController::class, "obtener_periodos_ini"]);
 Route::post('asociados/obtener_periodos_fin', [AsociadosController::class, "obtener_periodos_fin"]);
+Route::post('asociados/obtener_cargos', [AsociadosController::class, "obtener_cargos"]);

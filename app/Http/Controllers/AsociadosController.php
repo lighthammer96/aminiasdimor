@@ -55,10 +55,14 @@ class AsociadosController extends Controller
 
 
     public function guardar_asociados(Request $request) {
-        // print_r($_REQUEST); exit;
+        // $r = $this->preparar_datos("iglesias.cargo_miembro", $_POST, "D");
+        // print_r($r);
+        //  exit;
         $response = array();
 
         try {
+            DB::beginTransaction();
+
             $sql_validacion = "SELECT * FROM iglesias.miembro WHERE idtipodoc={$request->input("idtipodoc")} AND nrodoc='{$request->input("nrodoc")}' AND pais_id_nacimiento={$request->input("pais_id_nacimiento")}";
             // die($sql_validacion);
             $validacion = DB::select($sql_validacion);
@@ -100,9 +104,16 @@ class AsociadosController extends Controller
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
             }
 
-    
+            DB::table("iglesias.cargo_miembro")->where("idmiembro", $result["id"])->delete();
+            if(isset($_REQUEST["idcargo"])) {
+                
+                $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
+            }
+
+            DB::commit();
             echo json_encode($result);
         } catch (Exception $e) {
+            DB::rollBack();
             $response["status"] = "ee"; 
             $response["msg"] = $e->getMessage(); 
             echo json_encode($response);
@@ -120,7 +131,7 @@ class AsociadosController extends Controller
             $_POST["rebautizo"] = "0";
             
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
-            // print_r($result); exit; 
+            print_r($result); exit; 
             $_POST["estado"] = "0";
             $_POST["idcondicioneclesiastica"] = 0;
 
@@ -152,7 +163,7 @@ class AsociadosController extends Controller
       
             
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
-           
+            print_r($result); exit; 
             $_POST["estado"] = "1";
             $_POST["idcondicioneclesiastica"] = 1;
 
@@ -242,5 +253,19 @@ class AsociadosController extends Controller
 
         echo json_encode($array);
     }
+
+
+    public function obtener_cargos(Request $request) {
+        $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo, i.descripcion AS institucion FROM iglesias.cargo_miembro AS cm
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        INNER JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)
+        INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)
+        WHERE cm.idmiembro=".$request->input("idmiembro")."
+        ORDER BY cm.idcargomiembro DESC";
+       $result = DB::select($sql);
+       echo json_encode($result);
+       //print_r($_REQUEST);
+   }
    
 }

@@ -218,7 +218,7 @@
                                             
                                             <div class="col-md-12" style="margin-top: 9px;">
                                                 <center>
-                                                    <img title="Cargar Foto ..." style="cursor: pointer;height: 105px !important;" src="{{ URL::asset('images/camara.png') }}"" class="thumb-lg img-thumbnail usuario_foto" alt="profile-image" id="cargar_foto">
+                                                    <img title="Cargar Foto ..." style="cursor: pointer;height: 105px !important;" src="{{ URL::asset('images/camara.png') }}" class="thumb-lg img-thumbnail usuario_foto" alt="profile-image" id="cargar_foto">
                                                     <input style="display: none;" type="file" class="form-control inpur-sm entrada" name="foto" id="foto">
                                                 </center>
                                             </div>

@@ -588,6 +588,19 @@ document.getElementById("modificar-asociado").addEventListener("click", function
             tabla_encargado_bautizo: response.tabla_encargado_bautizo
             
         });
+
+
+        asociados.ajax({
+            url: '/obtener_cargos',
+            datos: { idmiembro: response.idmiembro, _token: _token }
+        }).then(function(response) {
+            if(response.length > 0) {
+                for(let i = 0; i < response.length; i++){
+                    document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(response[i]));
+                }
+            }
+            //console.log(response);
+        })
     })
     
 
@@ -1010,8 +1023,14 @@ document.getElementById("agregar-cargo").addEventListener("click", function(e) {
         var periodoini = document.getElementsByName("periodoini")[0];
         var periodofin = document.getElementsByName("periodofin")[0];
         var observaciones_cargo = document.getElementsByName("observaciones_cargo")[0];
+        var idiglesia = document.getElementsByName("idiglesia")[0];
 
-     
+        if(idiglesia.value == "") {
+            BASE_JS.sweet({
+                text: "DEBE SELECCIONAR UNA IGLESIA!"
+            });
+            return false;
+        }
        
     
         var objeto = {
@@ -1024,7 +1043,8 @@ document.getElementById("agregar-cargo").addEventListener("click", function(e) {
             periodoini: periodoini.value,
             periodofin: periodofin.value,
             observaciones_cargo: observaciones_cargo.value,
-           
+            idiglesia_cargo: idiglesia.value,
+            vigente: 0
         }
     
     
@@ -1041,17 +1061,43 @@ function html_detalle_cargos(objeto, disabled) {
         attr = 'disabled="disabled"';
     }
     var tr = document.createElement("tr");
-
+    var checked = "";
+    if(objeto.vigente == 1) {
+        checked = 'checked="checked"';
+    }
     html = '  <input type="hidden" name="idtipocargo[]" value="'+objeto.idtipocargo+'" >';
-    html += '  <input type="hidden" name="mi_descripcion[]" value="'+objeto.descripcion+'" >';
+    html += '  <input type="hidden" name="idcargo[]" value="'+objeto.idcargo+'" >';
+    html += '  <input type="hidden" name="idinstitucion[]" value="'+objeto.idinstitucion+'" >';
+    html += '  <input type="hidden" name="periodoini[]" value="'+objeto.periodoini+'" >';
+    html += '  <input type="hidden" name="periodofin[]" value="'+objeto.periodofin+'" >';
+    html += '  <input type="hidden" name="observaciones_cargo[]" value="'+objeto.observaciones_cargo+'" >';
+    html += '  <input type="hidden" name="idiglesia_cargo[]" value="'+objeto.idiglesia_cargo+'" >';
     html += '  <td>'+objeto.tipo_cargo+'</td>';
     html += '  <td>'+objeto.cargo+'</td>';
     html += '  <td>'+objeto.institucion+'</td>';
     html += '  <td>'+objeto.periodoini+'-'+objeto.periodofin+'</td>';
     html += '  <td>'+objeto.observaciones_cargo+'</td>';
-    html += '  <td>1</td>';
-    html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+    html += '  <td><center><input '+checked+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
+    html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-cargo"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
 
     tr.innerHTML = html;
     return tr;
 }
+
+document.addEventListener("click", function(event) {
+
+    // console.log(event.target.classList);
+    // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+    if(event.target.classList.value.indexOf("eliminar-cargo") != -1) {
+        event.preventDefault();
+        event.srcElement.parentNode.parentNode.parentNode.remove();
+
+    }
+
+    if(event.srcElement.parentNode.classList.value.indexOf("eliminar-cargo") != -1 && !event.srcElement.parentNode.disabled) {
+        event.preventDefault();
+        ///console.log(event.srcElement.parentNode);
+        event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+    }
+
+})

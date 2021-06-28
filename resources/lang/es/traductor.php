@@ -54,6 +54,7 @@ return [
     'periodo_ini' => "Periodo Inicial",
     'periodo_fin' => "Periodo Final",
     'anio' => "Año",
+    'vigente' => "Vigente",
 
 
 

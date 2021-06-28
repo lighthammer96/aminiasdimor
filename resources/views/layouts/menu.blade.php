@@ -6,7 +6,12 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ URL::asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                <?php if(!empty(session("foto"))) { ?>
+                    <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
+                <?php } else { ?>
+                    <img src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
+                <?php } ?>
+               
             </div>
             <div class="pull-left info">
                 <p>{{ session("usuario_user") }}</p>
