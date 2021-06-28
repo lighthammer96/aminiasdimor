@@ -7,8 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-// use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 
 class Controller extends BaseController
@@ -29,8 +30,13 @@ class Controller extends BaseController
     }
 
     public function init($view, $datos = array()) {
-      
-        // App::setLocale(trim(session("idioma_codigo")));
+        // echo traducir("traductor.valor"); exit;
+        // App::setLocale("es");
+        // echo traducir("traductor.buscar"); 
+        // App::setLocale("en");
+        // echo traducir("traductor.buscar"); exit;
+        // echo Lang::has('traductor.buscar'); exit;
+        // ;
         // var_dump(session('usuario_id')); exit;
         if (session('usuario_id')) {
 

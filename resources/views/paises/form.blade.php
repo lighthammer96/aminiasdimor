@@ -12,25 +12,25 @@
                     <div class="row">
                         <input type="hidden" name="pais_id" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="pais_descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.direccion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.direccion')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="direccion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.telefono')}}</label>
+                            <label class="control-label">{{ traducir('traductor.telefono')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="telefono"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.posee_union')}}</label>
+                            <label class="control-label">{{ traducir('traductor.posee_union')}}</label>
 
                             <select name="posee_union" id="posee_union" class="form-control input-sm entrada" default-value="S">
                                 <option value="S">SI</option>
@@ -39,7 +39,7 @@
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.idioma')}}</label>
+                            <label class="control-label">{{ traducir('traductor.idioma')}}</label>
 
                             <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="idioma_id" id="idioma_id" class="selectizejs entrada"></select>
@@ -53,7 +53,7 @@
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.division')}}</label>
+                            <label class="control-label">{{ traducir('traductor.division')}}</label>
 
                             <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="iddivision" id="iddivision" class="selectizejs entrada"></select>
@@ -67,7 +67,7 @@
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.estado')}}</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
                                 <option value="I">INACTIVO</option>
@@ -76,8 +76,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-pais">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-pais" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-pais">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-pais" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 

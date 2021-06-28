@@ -407,7 +407,9 @@ class BaseModel extends Model
         // $modulos = $this->db->order_by("modulo_orden", "ASC")->get_where("modulos",array("estado" => "A", "modulo_padre" => "1", "modulo_id>"=> 1 ))->result();
 
         $sql_modulos = "SELECT m.*, 
-        CASE WHEN mi.mi_descripcion IS NULL THEN 'NO TRADUCCION' ELSE mi.mi_descripcion END AS mi_descripcion 
+        CASE WHEN mi.mi_descripcion IS NULL THEN 
+        (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=m.modulo_id AND idioma_id=".session("idioma_id_defecto").")
+        ELSE mi.mi_descripcion END AS mi_descripcion 
         FROM seguridad.modulos AS m
         LEFT JOIN seguridad.modulos_idiomas AS mi ON ( mi.modulo_id = m.modulo_id AND mi.idioma_id=".session("idioma_id").")
         WHERE m.estado='A' AND m.modulo_padre=1 AND m.modulo_id>1 
@@ -420,7 +422,9 @@ class BaseModel extends Model
             foreach ($modulos as $key => $value) {
                 // $modulos[$key]->hijos = $this->db->order_by("modulo_orden","asc")->get_where("modulos",array("modulo_padre" => $value->modulo_id, "estado" => "A"))->result();
 
-                $sql_hijos = "SELECT m.*,  CASE WHEN mi.mi_descripcion IS NULL THEN 'NO TRADUCCION' ELSE mi.mi_descripcion END AS mi_descripcion 
+                $sql_hijos = "SELECT m.*,  CASE WHEN mi.mi_descripcion IS NULL THEN 
+                (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=m.modulo_id AND idioma_id=".session("idioma_id_defecto").")
+                ELSE mi.mi_descripcion END AS mi_descripcion 
                 FROM seguridad.modulos AS m
                 LEFT JOIN seguridad.modulos_idiomas AS mi ON ( mi.modulo_id = m.modulo_id AND mi.idioma_id=".session("idioma_id").")
                 WHERE m.estado='A' AND m.modulo_padre={$value->modulo_id}
@@ -440,7 +444,9 @@ class BaseModel extends Model
                 // ORDER BY m.modulo_orden ASC")->result();
 
                 $sql_hijos = "SELECT m.*, 
-                CASE WHEN mi.mi_descripcion IS NULL THEN 'NO TRADUCCION' ELSE mi.mi_descripcion END AS mi_descripcion 
+                CASE WHEN mi.mi_descripcion IS NULL THEN 
+                (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=m.modulo_id AND idioma_id=".session("idioma_id_defecto").")
+                ELSE mi.mi_descripcion END AS mi_descripcion 
                 FROM seguridad.modulos AS m 
                 INNER JOIN seguridad.permisos AS p ON(m.modulo_id=p.modulo_id)
                 LEFT JOIN seguridad.modulos_idiomas AS mi ON ( mi.modulo_id = m.modulo_id AND mi.idioma_id=".session("idioma_id").")

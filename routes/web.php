@@ -53,6 +53,11 @@ Route::post('principal/obtener_tipos_inmueble', [PrincipalController::class, "ob
 Route::post('principal/obtener_condicion_inmueble', [PrincipalController::class, "obtener_condicion_inmueble"]);
 Route::post('principal/cambiar_idioma', [PrincipalController::class, "cambiar_idioma"]);
 Route::post('principal/obtener_motivos_baja', [PrincipalController::class, "obtener_motivos_baja"]);
+Route::post('principal/obtener_condicion_eclesiastica', [PrincipalController::class, "obtener_condicion_eclesiastica"]);
+Route::post('principal/obtener_religiones', [PrincipalController::class, "obtener_religiones"]);
+Route::post('principal/obtener_tipos_cargo', [PrincipalController::class, "obtener_tipos_cargo"]);
+Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_cargos"]);
+Route::post('principal/obtener_instituciones', [PrincipalController::class, "obtener_instituciones"]);
 
 
 /*************
@@ -176,3 +181,5 @@ Route::post('asociados/obtener_profesiones', [AsociadosController::class, "obten
 Route::post('asociados/buscar_datos_responsables', [AsociadosController::class, "buscar_datos_responsables"]);
 Route::post('asociados/guardar_bajas', [AsociadosController::class, "guardar_bajas"]);
 Route::post('asociados/guardar_altas', [AsociadosController::class, "guardar_altas"]);
+Route::post('asociados/obtener_periodos_ini', [AsociadosController::class, "obtener_periodos_ini"]);
+Route::post('asociados/obtener_periodos_fin', [AsociadosController::class, "obtener_periodos_fin"]);

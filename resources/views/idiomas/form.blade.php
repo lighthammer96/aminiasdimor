@@ -12,20 +12,28 @@
                     <div class="row">
                         <input type="hidden" name="idioma_id" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.codigo')}}</label>
+                            <label class="control-label">{{ traducir('traductor.codigo')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="idioma_codigo"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="idioma_descripcion"  placeholder=""/>
 
                         </div>
-                       
+                
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.estado')}}</label>
+                            <label class="control-label">Por Defecto</label>
+                            <select name="por_defecto" id="por_defecto" class="form-control input-sm entrada" default-value="N">
+                                <option value="N">NO</option>
+                                <option value="S">SI</option>
+                            </select>
+                        </div>
+                    
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
                                 <option value="I">INACTIVO</option>

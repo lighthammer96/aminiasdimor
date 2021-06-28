@@ -12,19 +12,19 @@
                     <div class="row">
                         <input type="hidden" name="idiglesia" class="input-sm entrada">
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.direccion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.direccion')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="direccion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.telefono')}}</label>
+                            <label class="control-label">{{ traducir('traductor.telefono')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="telefono"  placeholder=""/>
 
@@ -37,34 +37,52 @@
                     <div class="row">
                         
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.tipo_estructura')}}</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_estructura')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="tipoestructura"  placeholder=""/>
 
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.area')}}</label>
+                            <label class="control-label">{{ traducir('traductor.area')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="area"  placeholder=""/>
 
                         </div>
                         
                         <div class="col-md-4">
-                            <label class="control-label">{{ trans('traductor.categoria_iglesia')}}</label>
+                            <label class="control-label">{{ traducir('traductor.categoria_iglesia')}}</label>
 
                             <select name="idcategoriaiglesia" id="idcategoriaiglesia" class="selectizejs entrada"></select>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="col-md-4">
+                            <label class="control-label">{{ traducir('traductor.documento_propiedad')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="documentopropiedad"  placeholder=""/>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">{{ traducir('traductor.valor')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="valor"  placeholder=""/>
+
+                        </div>
+                        
+                      
                     </div>
                     <!-- <div class="row">
                         
                   
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.tipo_construccion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_construccion')}}</label>
 
                             <select name="idtipoconstruccion" id="idtipoconstruccion" class="selectizejs entrada"></select>
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.tipo_documentacion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_documentacion')}}</label>
 
                             <select name="idtipodocumentacion" id="idtipodocumentacion" class="selectizejs entrada"></select>
                         </div>
@@ -72,14 +90,14 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.tipo_inmueble')}}</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_inmueble')}}</label>
 
                             <select name="idtipoinmueble" id="idtipoinmueble" class="selectizejs entrada"></select>
                         </div>
                         
                         
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.condicion_inmueble')}}</label>
+                            <label class="control-label">{{ traducir('traductor.condicion_inmueble')}}</label>
 
                             <select name="idcondicioninmueble" id="idcondicioninmueble" class="selectizejs entrada"></select>
                         </div>
@@ -114,7 +132,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.distrito_misionero')}}</label>
+                            <label class="control-label">{{ traducir('traductor.distrito_misionero')}}</label>
 
                             <div class="input-group">
                                 <select name="iddistritomisionero" id="iddistritomisionero" class="selectizejs entrada"></select>
@@ -128,7 +146,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">{{ trans('traductor.estado')}}</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
                                 <option value="1">ACTIVO</option>
                                 <option value="0">INACTIVO</option>
@@ -146,8 +164,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-iglesia">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-iglesia" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-iglesia">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-iglesia" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 

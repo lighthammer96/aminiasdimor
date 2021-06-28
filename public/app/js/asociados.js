@@ -34,9 +34,9 @@ asociados.enter("observaciones","iddivision", "", false);
 
 // asociados.enter("fecharegistro","observaciones");
 
-$("input[name=fechanacimiento], input[name=fecha]").inputmask();
+$("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").inputmask();
 
-jQuery( "input[name=fechanacimiento], input[name=fecha]" ).datepicker({
+jQuery( "input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]" ).datepicker({
 	format: "dd/mm/yyyy",
 	language: "es",
 	todayHighlight: true,
@@ -126,6 +126,92 @@ asociados.select({
     asociados.enter("idocupacion","observaciones");
     
 }) 
+
+asociados.select({
+    name: 'periodoini',
+    url: '/obtener_periodos_ini',
+}).then(function() {
+      
+}) 
+
+asociados.select({
+    name: 'periodofin',
+    url: '/obtener_periodos_fin',
+}).then(function() {
+      
+}) 
+
+principal.select({
+    name: 'idcondicioneclesiastica',
+    url: '/obtener_condicion_eclesiastica',
+    placeholder: 'Seleccione ...'
+}).then(function() {
+    // asociados.enter("idocupacion","observaciones");
+    
+}) 
+
+
+principal.select({
+    name: 'idreligion',
+    url: '/obtener_religiones',
+    placeholder: 'Seleccione ...'
+}).then(function() {
+    // asociados.enter("idocupacion","observaciones");
+    
+}) 
+
+
+principal.select({
+    name: 'idinstitucion',
+    url: '/obtener_instituciones',
+    placeholder: 'Seleccione ...'
+}).then(function() {
+    // asociados.enter("idocupacion","observaciones");
+    
+}) 
+
+principal.select({
+    name: 'idtipocargo',
+    url: '/obtener_tipos_cargo',
+    placeholder: 'Seleccione ...'
+}).then(function() {
+    $("#idtipocargo").trigger("change", ["", "", ""]);
+    //$("#idcargo").trigger("change", ["", "", ""]);
+ 
+}) 
+
+$(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
+
+    var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+    d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
+    var selected = (typeof idcargo != "undefined")  ? idcargo : "";
+   
+    principal.select({
+        name: 'idcargo',
+        url: '/obtener_cargos',
+        placeholder: 'Seleccione ...',
+        selected: selected,
+        datos: { idtipocargo: d_id }
+    }).then(function() {
+       
+        var condicion = typeof idtipocargo == "undefined";
+        condicion = condicion && typeof idcargo == "undefined";
+       
+        if(condicion) {
+            var required = true;
+            required = required && asociados.required("idtipocargo");
+            if(required) {
+                $("#idcargo")[0].selectize.focus();
+            }
+        } 
+       
+       
+        
+    })
+
+});
+
+
 
 principal.select({
     name: 'iddepartamentodomicilio',
@@ -462,12 +548,13 @@ $(document).on('change', '#iddistritomisionero', function(event, iddistritomisio
 
 document.getElementById("nuevo-asociado").addEventListener("click", function(event) {
     event.preventDefault();
-   
+    $(".modificar").hide();
     asociados.abrirModal();
 })
 
 document.getElementById("modificar-asociado").addEventListener("click", function(event) {
     event.preventDefault();
+    $(".modificar").show();
     var datos = asociados.datatable.row('.selected').data();
     if(typeof datos == "undefined") {
 		BASE_JS.sweet({
@@ -479,7 +566,7 @@ document.getElementById("modificar-asociado").addEventListener("click", function
     var promise = asociados.get(datos.idmiembro);
     
     promise.then(function(response) {
-        var button = "";
+       
         crear_botones_altas_bajas(response.estado);
         if(response.foto != null) {
             document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -494,6 +581,13 @@ document.getElementById("modificar-asociado").addEventListener("click", function
         }
 
         $(".miembro").text(response.apellidos + ", "+response.nombres);
+
+        asociados.asignarDatos({
+            encargado_bautizo: response.encargado_bautizo,
+            responsable_bautizo: response.responsable,
+            tabla_encargado_bautizo: response.tabla_encargado_bautizo
+            
+        });
     })
     
 
@@ -606,14 +700,22 @@ document.getElementById("guardar-asociado").addEventListener("click", function(e
     required = required && asociados.required("idiglesia");
 
     if(required) {
-        asociados.guardar();
+        var promise = asociados.guardar();
+
+        promise.then(function(response) {
+            if(typeof response.validacion != "undefined" && response.validacion == "ED") {
+                document.getElementsByName("nrodoc")[0].focus();
+            } else {
+                asociados.datatable.destroy();
+                asociados.TablaListado({
+                    tablaID: '#tabla-asociados',
+                    url: "/buscar_datos",
+                });
+            }
+        })
         // asociados.CerrarModal();
         // asociados.LimpiarFormulario();
-        asociados.datatable.destroy();
-        asociados.TablaListado({
-            tablaID: '#tabla-asociados',
-            url: "/buscar_datos",
-        });
+        
 
         document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
         // asociados.select({
@@ -744,6 +846,7 @@ document.getElementById("cancelar-alta").addEventListener("click", function(even
 	altas.CerrarModal();
 })
 
+
 $(document).on("click", "#dar-baja", function(e) {
     e.preventDefault();
 
@@ -815,6 +918,15 @@ function cargar_datos_responsable(datos) {
 		
 	});
     
+    asociados.limpiarDatos("datos-encargado-bautizo");
+	//console.log(datos);
+	asociados.asignarDatos({
+		encargado_bautizo: datos.id,
+		responsable_bautizo: datos.nombres,
+		tabla_encargado_bautizo: datos.tabla
+		
+	});
+
 	$("#modal-lista-responsables").modal("hide");
 
 
@@ -861,3 +973,85 @@ document.getElementById("guardar-alta").addEventListener("click", function(event
         crear_botones_altas_bajas("1");
     }
 })
+
+
+document.getElementById("buscar-encargado-bautizo").addEventListener("click", function(event) {
+	event.preventDefault();
+    var idmiembro = document.getElementsByName("idmiembro")[0].value;
+    if(typeof responsables.datatable.length != "undefined") {
+        responsables.datatable.destroy();
+    }
+
+    responsables.TablaListado({
+        tablaID: '#tabla-responsables',
+        url: "/buscar_datos_responsables",
+        idmiembro: idmiembro
+    });
+
+	$("#modal-lista-responsables").modal("show");
+})
+
+
+
+document.getElementById("agregar-cargo").addEventListener("click", function(e) {
+    e.preventDefault();
+    required = true;
+    required = required && asociados.required("idtipocargo");
+    required = required && asociados.required("idcargo");
+    required = required && asociados.required("idinstitucion");
+    required = required && asociados.required("periodoini");
+    required = required && asociados.required("periodofin");
+
+    if(required) {
+
+        var idtipocargo = document.getElementsByName("idtipocargo")[0];
+        var idcargo = document.getElementsByName("idcargo")[0];
+        var idinstitucion = document.getElementsByName("idinstitucion")[0];
+        var periodoini = document.getElementsByName("periodoini")[0];
+        var periodofin = document.getElementsByName("periodofin")[0];
+        var observaciones_cargo = document.getElementsByName("observaciones_cargo")[0];
+
+     
+       
+    
+        var objeto = {
+            idtipocargo: idtipocargo.value,
+            tipo_cargo: idtipocargo.options[idtipocargo.selectedIndex].text,
+            idcargo: idcargo.value,
+            cargo: idcargo.options[idcargo.selectedIndex].text,
+            idinstitucion: idinstitucion.value,
+            institucion: idinstitucion.options[idinstitucion.selectedIndex].text,
+            periodoini: periodoini.value,
+            periodofin: periodofin.value,
+            observaciones_cargo: observaciones_cargo.value,
+           
+        }
+    
+    
+        document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(objeto));
+        //$("#detalleAcciones > tbody").append(HTMLDetallemodulos(objeto));
+        asociados.limpiarDatos("limpiar");
+    }
+});
+
+function html_detalle_cargos(objeto, disabled) {
+    var attr = '';
+    var html = '';
+    if(typeof disabled != "undefined") {
+        attr = 'disabled="disabled"';
+    }
+    var tr = document.createElement("tr");
+
+    html = '  <input type="hidden" name="idtipocargo[]" value="'+objeto.idtipocargo+'" >';
+    html += '  <input type="hidden" name="mi_descripcion[]" value="'+objeto.descripcion+'" >';
+    html += '  <td>'+objeto.tipo_cargo+'</td>';
+    html += '  <td>'+objeto.cargo+'</td>';
+    html += '  <td>'+objeto.institucion+'</td>';
+    html += '  <td>'+objeto.periodoini+'-'+objeto.periodofin+'</td>';
+    html += '  <td>'+objeto.observaciones_cargo+'</td>';
+    html += '  <td>1</td>';
+    html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+    tr.innerHTML = html;
+    return tr;
+}

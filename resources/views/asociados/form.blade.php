@@ -9,6 +9,9 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#datos-generales" data-toggle="tab">Datos Generales</a></li>
                             <li><a href="#informacion-eclesiastica" data-toggle="tab">Información Eclesiástica</a></li>
+                            <li><a class="modificar" href="#registro-administrativo" data-toggle="tab">Registro Administrativo</a></li>
+                            <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">Historial de Altas y Bajas</a></li>
+                            <li><a class="modificar" href="#historial-traslados" data-toggle="tab">Historial de Traslados</a></li>
                             
                           
                            
@@ -206,15 +209,7 @@
                                                     </select>
                                                 </div> -->
                                             </div>
-                                            <div class="row">
-                                               
-                                                <div class="col-md-12">
-                                                    <label class="control-label">Observaciones</label>
-                                                    <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="2"></textarea>
-                                                   
-                                                </div>
-                                                
-                                            </div>
+                                            
 
                                        
                                     </div>
@@ -297,10 +292,149 @@
                             </div>
 
                             <div class="tab-pane" id="informacion-eclesiastica">
+                                <div class="row">
+                                    <div class="col-md-3">
+                        
+                                        <label class="control-label">{{ traducir('traductor.condicion_eclesiastica') }}</label>
+                                        <select class="entrada selectizejs" name="idcondicioneclesiastica" id="idcondicioneclesiastica">
 
+                                        </select>
+                                    
+                                    </div>
+
+                                    <div class="col-md-2" style="padding-right: 5px;">
+                                        <label class="control-label">{{ traducir('traductor.fecha_bautizo') }}</label>
+                                        
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control input-sm entrada" name="fechabautizo" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="hidden" name="encargado_bautizo" class="input-sm entrada datos-encargado-bautizo">
+                                        
+                                        <input type="hidden" name="tabla_encargado_bautizo" class="input-sm entrada datos-encargado-bautizo" >
+
+                                        <label for="" class="control-label">{{ traducir('traductor.responsable') }}</label>
+                                        
+                                        <div class="input-group">
+                                            <input readonly="readonly" type="text" class="form-control input-sm entrada datos-encargado-bautizo" name="responsable_bautizo" placeholder="Buscar Responsable...">
+                                            <span class="input-group-btn">
+                                                <button type="button" id="buscar-encargado-bautizo" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                                            
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                        
+                                        <label class="control-label">{{ traducir('traductor.procedencia_religiosa') }}</label>
+                                        <select class="entrada selectizejs" name="idreligion" id="idreligion">
+
+                                        </select>
+                                    
+                                    </div>
+                                </div>
+                               
+                                <div class="row">
+                                               
+                                    <div class="col-md-12">
+                                        <label class="control-label">Observaciones</label>
+                                        <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="2"></textarea>
+                                        
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                            
+                            <div class="tab-pane" id="registro-administrativo">
+                                <div class="row">
+                                    <div class="col-md-2">
+                        
+                                        <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
+                                        <select class="entrada selectizejs" name="idtipocargo" id="idtipocargo">
+
+                                        </select>
+                                    
+                                    </div>
+
+                                    <div class="col-md-2">
+                        
+                                        <label class="control-label">{{ traducir('traductor.cargo') }}</label>
+                                        <select class="entrada selectizejs" name="idcargo" id="idcargo">
+
+                                        </select>
+                                    
+                                    </div>
+
+                                    <div class="col-md-2">
+                        
+                                        <label class="control-label">{{ traducir('traductor.institucion_iglesia') }}</label>
+                                        <select class="entrada selectizejs" name="idinstitucion" id="idinstitucion">
+
+                                        </select>
+                                    
+                                    </div>
+
+                                    <div class="col-md-2">
+                        
+                                        <label class="control-label">{{ traducir('traductor.periodo_ini') }}</label>
+                                        <select class="entrada selectizejs" name="periodoini" id="periodoini">
+
+                                        </select>
+ 
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <label class="control-label">{{ traducir('traductor.periodo_fin') }}</label>
+                                        <select class="entrada selectizejs" name="periodofin" id="periodofin">
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="margin-top: 27px;">
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[Agregar]</button> 
+
+                                    </div>
+
+                                </div>
+                               
+                                <div class="row">
+                                               
+                                    <div class="col-md-12">
+                                        <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
+                                        <textarea class="form-control input-sm entrada" name="observaciones_cargo" id="" cols="30" rows="2"></textarea>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row" style="margin-top: 15px;">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped table-bordered display compact" id="detalle-cargos">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 200px;">{{ traducir('traductor.tipo_cargo') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.cargo') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.institucion_iglesia') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.observaciones') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.vigente') }}</th>
+                                                    <th style="width: 30px;">{{ traducir('traductor.eliminar') }}</th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                               
                             </div>
 
-                           
 
                         </div>
 

@@ -67,6 +67,7 @@ function modificar_union() {
 function guardar_union() {
     var required = true;
     required = required && misiones.required("descripcion");
+    required = required && misiones.validar_email("email");
     if(required) {
         var promise = misiones.guardar();
         misiones.CerrarModal();

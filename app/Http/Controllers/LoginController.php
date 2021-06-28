@@ -37,6 +37,7 @@ class LoginController extends Controller
             session(['pais_id' => $result[0]->pais_id]);
             session(['perfil_descripcion' => $result[0]->perfil_descripcion]);
             session(['idtipoacceso' => $result[0]->idtipoacceso]);
+            session(['foto' => $result[0]->foto]);
             
             $where_division = "";
             $where_pais = "";
@@ -97,6 +98,13 @@ class LoginController extends Controller
             // print_r($idioma); exit;
             session(['idioma_id' => $idioma[0]->idioma_id]);
             session(['idioma_codigo' => $idioma[0]->idioma_codigo]);
+
+            $sql_idioma = "SELECT * FROM public.idiomas WHERE por_defecto='S'";
+            $idioma_defecto = DB::select($sql_idioma);
+
+            session(['idioma_defecto' => $idioma_defecto[0]->idioma_codigo]);
+            session(['idioma_id_defecto' => $idioma_defecto[0]->idioma_id]);
+
         }
 
         echo json_encode($data);    

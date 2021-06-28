@@ -24,18 +24,17 @@ class AsociadosController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "asociados.index";
-        $data["title"] = trans('traductor.titulo_asociados');
+        $data["title"] = traducir('traductor.titulo_asociados');
         $data["subtitle"] = "";
         $data["tabla"] = $this->asociados_model->tabla()->HTML();
         $data["tabla_responsables"] = $this->asociados_model->tabla_responsables()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-asociado">'.trans("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-asociado">'.trans("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.trans("traductor.ver").' [F4]</button>';
-        // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.trans("traductor.eliminar").' [F7]</button>';
+        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-asociado">'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-asociado">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
+        // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["asociados.js"]);
         return parent::init($view, $data);
@@ -57,14 +56,15 @@ class AsociadosController extends Controller
 
     public function guardar_asociados(Request $request) {
         // print_r($_REQUEST); exit;
+        $response = array();
 
         try {
-            
             $sql_validacion = "SELECT * FROM iglesias.miembro WHERE idtipodoc={$request->input("idtipodoc")} AND nrodoc='{$request->input("nrodoc")}' AND pais_id_nacimiento={$request->input("pais_id_nacimiento")}";
             // die($sql_validacion);
             $validacion = DB::select($sql_validacion);
 
-            if(count($validacion) > 0) {
+            if($request->input("idmiembro") == '' && count($validacion) > 0) {
+                $response["validacion"] = "ED"; //EXISTE DOCUMENTO
                 throw new Exception("Ya existe un asociado con el mismo número de documento!");
             }
 
@@ -81,7 +81,7 @@ class AsociadosController extends Controller
             $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
             $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server");
 
-            $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo"]);
+            $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo"]);
             if ($request->input("idmiembro") == '') {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
             }else{
@@ -103,7 +103,9 @@ class AsociadosController extends Controller
     
             echo json_encode($result);
         } catch (Exception $e) {
-            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+            $response["status"] = "ee"; 
+            $response["msg"] = $e->getMessage(); 
+            echo json_encode($response);
         }
     }
 
@@ -172,8 +174,10 @@ class AsociadosController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union FROM iglesias.miembro AS m 
+        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable
+        FROM iglesias.miembro AS m 
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         WHERE m.idmiembro=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
@@ -215,5 +219,28 @@ class AsociadosController extends Controller
         echo json_encode($result);
     }
 
+    public function obtener_periodos_ini() {
+        $result = array();
+        $array = array();
+        for($i=date("Y"); $i>=1900; $i-- ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
+
+        echo json_encode($array);
+    }
+
+    public function obtener_periodos_fin() {
+        $result = array();
+        $array = array();
+        for($i=date("Y")+4; $i>=1900; $i-- ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
+
+        echo json_encode($array);
+    }
    
 }

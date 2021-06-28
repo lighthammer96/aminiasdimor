@@ -22,16 +22,15 @@ class PaisesController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "paises.index";
-        $data["title"] = trans('traductor.titulo_paises');
+        $data["title"] = traducir('traductor.titulo_paises');
         $data["subtitle"] = "";
         $data["tabla"] = $this->paises_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-pais">'.trans("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-pais">'.trans("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-pais">'.trans("traductor.eliminar").' [F7]</button>';
+        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-pais">'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-pais">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-pais">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js"]);
         return parent::init($view, $data);
@@ -61,7 +60,7 @@ class PaisesController extends Controller
     public function eliminar_paises() {
         
         try {
-            $sql_uniones = "SELECT * FROM iglesias.union_paises WHERE idpais=".$_REQUEST["id"];
+            $sql_uniones = "SELECT * FROM iglesias.union_paises WHERE pais_id=".$_REQUEST["id"];
             $uniones = DB::select($sql_uniones);
 
             if(count($uniones) > 0) {

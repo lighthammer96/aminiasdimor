@@ -19,7 +19,6 @@ class PermisosController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "permisos.index";
         $data["title"] = "Administración de Permisos";
 

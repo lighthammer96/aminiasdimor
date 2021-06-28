@@ -43,6 +43,17 @@ return [
     'bautizado_vez' => "Fue bautizado más de una vez",
     'area' => "Área",
     'tipo_estructura' => "Tipo de Estructura",
+    'documento_propiedad' => "Documento de Propiedad",
+    'valor' => "Valor",
+    'condicion_eclesiastica' => "Condición Eclesiástica",
+    'fecha_bautizo' => "Fecha de Bautizo",
+    'procedencia_religiosa' => "Procedencia Religiosa",
+    'tipo_cargo' => "Tipo de Cargo",
+    'cargo' => "Cargo",
+    'institucion_iglesia' => "Institución / Iglesia",
+    'periodo_ini' => "Periodo Inicial",
+    'periodo_fin' => "Periodo Final",
+    'anio' => "Año",
 
 
 

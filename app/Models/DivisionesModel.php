@@ -21,8 +21,8 @@ class DivisionesModel extends Model
         $this->tabla = new Tabla();
         $this->tabla->asignarID("tabla-divisiones");
         $this->tabla->agregarColumna("d.iddivision", "iddivision", "Id");
-        $this->tabla->agregarColumna("di.di_descripcion", "descripcion", trans('traductor.descripcion'));
-        $this->tabla->agregarColumna("d.estado", "estado", trans('traductor.estado'));
+        $this->tabla->agregarColumna("di.di_descripcion", "descripcion", traducir('traductor.descripcion'));
+        $this->tabla->agregarColumna("d.estado", "estado", traducir('traductor.estado'));
         $this->tabla->setSelect("d.iddivision, di.di_descripcion AS descripcion, CASE WHEN d.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $this->tabla->setFrom("iglesias.division AS d
         \nLEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")");

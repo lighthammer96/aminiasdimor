@@ -16,11 +16,10 @@ class PrincipalController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "principal.index";
         $datos = array();
-        $datos["subtitle"] = trans('traductor.sistema');
-        $datos["title"] = trans('traductor.welcome');
+        $datos["subtitle"] = traducir('traductor.sistema');
+        $datos["title"] = traducir('traductor.welcome');
 
         $datos["scripts"] = $this->cargar_js(["principal.js"]);
         
@@ -117,7 +116,7 @@ class PrincipalController extends Controller
     }
 
     public function cambiar_idioma(Request $request) {
-       
+        
         session(['idioma_codigo' => $request->input("idioma_codigo")]);
         session(['idioma_id' => $request->input("idioma_id")]);
         $response = array();
@@ -130,6 +129,51 @@ class PrincipalController extends Controller
     public function obtener_motivos_baja() {
         $sql = "SELECT idmotivobaja as id, descripcion FROM iglesias.motivobaja 
         ORDER BY idmotivobaja ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_condicion_eclesiastica() {
+        $sql = "SELECT idcondicioneclesiastica as id, descripcion FROM iglesias.condicioneclesiastica 
+        ORDER BY idcondicioneclesiastica ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_religiones() {
+        $sql = "SELECT idreligion as id, descripcion FROM iglesias.religion 
+        ORDER BY idreligion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_tipos_cargo() {
+        $sql = "SELECT idtipocargo as id, descripcion FROM public.tipocargo 
+        ORDER BY idtipocargo ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_cargos(Request $request) {
+        $sql = "";
+		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
+            $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
+            WHERE idtipocargo=".$request->input("idtipocargo")." 
+            ORDER BY idcargo ASC";
+		} else {
+			$sql = "SELECT idcargo as id, descripcion FROM public.cargo 
+            ORDER BY idcargo ASC";
+		}
+
+        
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_instituciones() {
+
+        $sql = "SELECT idinstitucion as id, descripcion FROM iglesias.institucion 
+        ORDER BY idinstitucion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }

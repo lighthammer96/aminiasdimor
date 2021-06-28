@@ -11,13 +11,13 @@
                     <div class="row">
                         <input type="hidden" name="idunion" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.pais')}}</label>
+                            <label class="control-label">{{ traducir('traductor.pais')}}</label>
 
                             <div class="input-group">
                                 <select class="selectizejs entrada" multiple="multiple" name="pais_id[]" id="pais_id"></select>
@@ -32,7 +32,7 @@
                         </div>
                        
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.estado')}}</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
                                 <option value="1">ACTIVO</option>
                                 <option value="0">INACTIVO</option>
@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-union">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-union" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-union">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-union" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 

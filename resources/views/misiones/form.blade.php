@@ -11,31 +11,31 @@
                     <div class="row">
                         <input type="hidden" name="idmision" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.direccion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.direccion')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="direccion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.telefono')}}</label>
+                            <label class="control-label">{{ traducir('traductor.telefono')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="telefono"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.email')}}</label>
+                            <label class="control-label">{{ traducir('traductor.email')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="email"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.union')}}</label>
+                            <label class="control-label">{{ traducir('traductor.union')}}</label>
 
                             <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="idunion" id="idunion" class="selectizejs entrada"></select>
@@ -50,7 +50,7 @@
                         </div>
                        
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.estado')}}</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
                                 <option value="1">ACTIVO</option>
                                 <option value="0">INACTIVO</option>
@@ -59,8 +59,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-mision">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-mision" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-mision">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-mision" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 

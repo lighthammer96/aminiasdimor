@@ -23,16 +23,15 @@ class IglesiasController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "iglesias.index";
-        $data["title"] = trans('traductor.titulo_iglesias');
+        $data["title"] = traducir('traductor.titulo_iglesias');
         $data["subtitle"] = "";
         $data["tabla"] = $this->iglesias_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-iglesia">'.trans("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-iglesia">'.trans("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-iglesia">'.trans("traductor.eliminar").' [F7]</button>';
+        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-iglesia">'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-iglesia">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-iglesia">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js", "misiones.js", "distritos_misioneros.js", "iglesias.js"]);
         return parent::init($view, $data);

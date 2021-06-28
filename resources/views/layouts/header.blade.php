@@ -24,7 +24,8 @@
                     <select style="margin-top: 8px;" name="idioma_sistema" class="form-control" id="idioma_sistema">
                         <?php 
                             foreach ($idiomas as $key => $value) {
-                                if(session("idioma_codigo") == trim($value->idioma_codigo)) {
+                              
+                                if(trim(session("idioma_codigo")) == trim($value->idioma_codigo)) {
                                     echo '<option selected="selected" value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
                                 } else {
                                     echo '<option value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
@@ -187,7 +188,7 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div> -->
                             <div class="pull-right">
-                                <a href="{{ URL::to('login/logout') }}" class="btn btn-default btn-flat">{{ trans('traductor.desconectar') }}</a>
+                                <a href="{{ URL::to('login/logout') }}" class="btn btn-default btn-flat">{{ traducir('traductor.desconectar') }}</a>
                             </div>
                         </li>
                     </ul>

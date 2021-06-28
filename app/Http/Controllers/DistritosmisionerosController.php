@@ -22,16 +22,15 @@ class DistritosmisionerosController extends Controller
     }
 
     public function index() {
-        App::setLocale(trim(session("idioma_codigo")));
         $view = "distritos_misioneros.index";
-        $data["title"] = trans('traductor.titulo_distritos_misioneros');
+        $data["title"] = traducir('traductor.titulo_distritos_misioneros');
         $data["subtitle"] = "";
         $data["tabla"] = $this->distritos_misioneros_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-distrito-misionero">'.trans("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-distrito-misionero">'.trans("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-distrito-misionero">'.trans("traductor.eliminar").' [F7]</button>';
+        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-distrito-misionero">'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-distrito-misionero">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-distrito-misionero">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js", "misiones.js", "distritos_misioneros.js"]);
         return parent::init($view, $data);

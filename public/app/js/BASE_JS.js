@@ -264,8 +264,13 @@ class BASE_JS {
             this.datatable.draw();
         }
         
-        this.LimpiarFormulario();
-        $("#" + this.modalID).trigger('shown.bs.modal');
+        promise.then(function(response) {
+            if(typeof response.validacion == "undefined") {
+                self.LimpiarFormulario();
+                $("#" + self.modalID).trigger('shown.bs.modal');
+            }
+        }) 
+       
         return promise;
     }
     // evento(selector, evento, funcion) {
@@ -600,7 +605,7 @@ class BASE_JS {
         //var formularioSelector = document.getElementById(this.formularioID).querySelector(selector);
         if (this.buscarEnFormulario(name)) {
             if (this.buscarEnFormulario(name).value == "") {
-                console.log(this.buscarEnFormulario(name).parentNode);
+                //console.log(this.buscarEnFormulario(name).parentNode);
                 //this.buscarEnFormulario(name).parentNode.classList.remove('has-success');
                 this.buscarEnFormulario(name).parentNode.classList.add('has-error');
                 return false;

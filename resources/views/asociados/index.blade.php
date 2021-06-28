@@ -26,7 +26,7 @@
                             <input type="hidden" name="idresponsable" class="input-sm entrada datos-responsable" >
                             <input type="hidden" name="tabla" class="input-sm entrada datos-responsable" >
 
-                            <label for="" class="control-label">{{ trans('traductor.responsable') }}</label>
+                            <label for="" class="control-label">{{ traducir('traductor.responsable') }}</label>
                             
                             <div class="input-group">
                                 <input readonly="readonly" type="text" class="form-control input-sm entrada datos-responsable" name="responsable" placeholder="Buscar Responsable...">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-md-12" style="">
-                            <label class="control-label">{{ trans('traductor.fecha') }}</label>
+                            <label class="control-label">{{ traducir('traductor.fecha') }}</label>
                             
 
                             <div class="input-group">
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.motivo_baja') }}</label>
+                            <label class="control-label">{{ traducir('traductor.motivo_baja') }}</label>
                             <select class="selectizejs entrada" name="idmotivobaja" id="idmotivobaja"></select>
                             <!-- <div class="input-group">
                                 <select class="selectizejs entrada" name="idmotivobaja" id="idmotivobaja"></select>
@@ -63,7 +63,7 @@
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.observaciones')}}</label>
+                            <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
 
                       
                             <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="4"></textarea>
@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 
@@ -103,7 +103,7 @@
                             <input type="hidden" name="idresponsable" class="input-sm entrada datos-responsable" >
                             <input type="hidden" name="tabla" class="input-sm entrada datos-responsable" >
 
-                            <label for="" class="control-label">{{ trans('traductor.responsable') }}</label>
+                            <label for="" class="control-label">{{ traducir('traductor.responsable') }}</label>
                             
                             <div class="input-group">
                                 <input readonly="readonly" type="text" class="form-control input-sm entrada datos-responsable" name="responsable" placeholder="Buscar Responsable...">
@@ -115,14 +115,14 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.bautizado_vez')}}</label>
+                            <label class="control-label">{{ traducir('traductor.bautizado_vez')}}</label>
 
                             &nbsp;&nbsp;    
                             <input class="minimal entrada" type="checkbox" name="rebautizo" >
 
                         </div>
                         <div class="col-md-12" style="">
-                            <label class="control-label">{{ trans('traductor.fecha') }}</label>
+                            <label class="control-label">{{ traducir('traductor.fecha') }}</label>
                             
 
                             <div class="input-group">
@@ -134,7 +134,7 @@
                         </div>
                       
                         <div class="col-md-12">
-                            <label class="control-label">{{ trans('traductor.observaciones')}}</label>
+                            <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
 
                       
                             <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="4"></textarea>
@@ -146,8 +146,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[Esc] [{{ trans('cancelar') }}]</button>
-                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[F9] [{{ trans('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[Esc] [{{ traducir('cancelar') }}]</button>
+                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
                 </div>
             </form>
 

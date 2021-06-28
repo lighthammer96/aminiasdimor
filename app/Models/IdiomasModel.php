@@ -24,9 +24,9 @@ class IdiomasModel extends Model
         $this->tabla = new Tabla();
         $this->tabla->asignarID("tabla-idiomas");
         $this->tabla->agregarColumna("idioma_id", "idioma_id", "Id");
-        $this->tabla->agregarColumna("idioma_codigo", "idioma_codigo", trans('traductor.codigo'));
-        $this->tabla->agregarColumna("idioma_descripcion", "idioma_descripcion", trans('traductor.descripcion'));
-        $this->tabla->agregarColumna("estado", "estado", trans('traductor.estado'));
+        $this->tabla->agregarColumna("idioma_codigo", "idioma_codigo", traducir('traductor.codigo'));
+        $this->tabla->agregarColumna("idioma_descripcion", "idioma_descripcion", traducir('traductor.descripcion'));
+        $this->tabla->agregarColumna("estado", "estado", traducir('traductor.estado'));
         $this->tabla->setSelect("idioma_id, idioma_codigo, idioma_descripcion, CASE WHEN estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $this->tabla->setFrom("public.idiomas");
 

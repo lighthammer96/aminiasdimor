@@ -10,13 +10,13 @@
             </div>
             <div class="pull-left info">
                 <p>{{ session("usuario_user") }}</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('traductor.online') }}</a>
+                <a href="#"><i class="fa fa-circle text-success"></i> {{ traducir('traductor.online') }}</a>
             </div>
         </div>
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="{{ trans('traductor.buscar') }}...">
+                <input type="text" name="q" class="form-control" placeholder="{{ traducir('traductor.buscar') }}...">
                 <span class="input-group-btn">
                     <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
