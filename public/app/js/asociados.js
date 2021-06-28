@@ -549,6 +549,8 @@ $(document).on('change', '#iddistritomisionero', function(event, iddistritomisio
 document.getElementById("nuevo-asociado").addEventListener("click", function(event) {
     event.preventDefault();
     $(".modificar").hide();
+    $("#bajas_altas").hide();
+    $("#estado_asociado").hide();
     asociados.abrirModal();
 })
 
@@ -597,6 +599,18 @@ document.getElementById("modificar-asociado").addEventListener("click", function
             if(response.length > 0) {
                 for(let i = 0; i < response.length; i++){
                     document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(response[i]));
+                }
+            }
+            //console.log(response);
+        })
+
+        asociados.ajax({
+            url: '/obtener_historial_altas_bajas',
+            datos: { idmiembro: response.idmiembro, _token: _token }
+        }).then(function(response) {
+            if(response.length > 0) {
+                for(let i = 0; i < response.length; i++){
+                    document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
                 }
             }
             //console.log(response);
@@ -1079,6 +1093,28 @@ function html_detalle_cargos(objeto, disabled) {
     html += '  <td>'+objeto.observaciones_cargo+'</td>';
     html += '  <td><center><input '+checked+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
     html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-cargo"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+    tr.innerHTML = html;
+    return tr;
+}
+
+
+function html_detalle_historial(objeto, disabled) {
+    var attr = '';
+    var html = '';
+    if(typeof disabled != "undefined") {
+        attr = 'disabled="disabled"';
+    }
+    var tr = document.createElement("tr");
+   
+    
+    html += '  <td>'+objeto.tipo+'</td>';
+    html += '  <td>'+objeto.motivo_baja+'</td>';
+    html += '  <td>'+objeto.responsable+'</td>';
+    html += '  <td>'+objeto.fecha+'</td>';
+    html += '  <td>'+objeto.observaciones+'</td>';
+    html += '  <td>'+objeto.rebautizo+'</td>';
+  
 
     tr.innerHTML = html;
     return tr;

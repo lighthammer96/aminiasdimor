@@ -94,7 +94,8 @@ document.addEventListener("DOMContentLoaded", function() {
 // };
 
 
-document.getElementById("idioma_sistema").addEventListener("change", function() {
+$(document).on("click", "#idioma_sistema", function(e) {
+	e.preventDefault();
 	var array = this.value.toString().split("|");
 	$.ajax({
 		url: BaseUrl+'/principal/cambiar_idioma',
@@ -114,5 +115,5 @@ document.getElementById("idioma_sistema").addEventListener("change", function() 
 	}).always(function() {
 		console.log("ERROR 2");
 	});
-// 
 })
+

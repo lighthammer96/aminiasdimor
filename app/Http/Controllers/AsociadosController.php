@@ -129,9 +129,10 @@ class AsociadosController extends Controller
             $_POST["responsable"] = $_POST["idresponsable"];
             $_POST["alta"] = "0";
             $_POST["rebautizo"] = "0";
+            $_POST["fecha"] = $this->FormatoFecha($_REQUEST["fecha"], "server");
             
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
-            print_r($result); exit; 
+            // print_r($result); exit; 
             $_POST["estado"] = "0";
             $_POST["idcondicioneclesiastica"] = 0;
 
@@ -157,13 +158,14 @@ class AsociadosController extends Controller
             $_POST["responsable"] = $_POST["idresponsable"];
             $_POST["alta"] = "1";
             $_POST["rebautizo"] = "0";
+            $_POST["fecha"] = $this->FormatoFecha($_REQUEST["fecha"], "server");
             if(isset($_POST["rebautizo"]) && $_POST["rebautizo"] == "on") {
                 $_POST["rebautizo"] = "1";
             } 
       
             
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));
-            print_r($result); exit; 
+            // print_r($result); exit; 
             $_POST["estado"] = "1";
             $_POST["idcondicioneclesiastica"] = 1;
 
@@ -263,9 +265,20 @@ class AsociadosController extends Controller
         INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)
         WHERE cm.idmiembro=".$request->input("idmiembro")."
         ORDER BY cm.idcargomiembro DESC";
-       $result = DB::select($sql);
-       echo json_encode($result);
+        $result = DB::select($sql);
+        echo json_encode($result);
        //print_r($_REQUEST);
-   }
+    }
+
+    public function obtener_historial_altas_bajas(Request $request) {
+        $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, mb.descripcion AS motivo_baja, to_char(h.fecha, 'DD/MM/YYYY') AS fecha
+        FROM iglesias.historial_altasybajas AS h
+        INNER JOIN iglesias.motivobaja  AS mb ON(mb.idmotivobaja=h.idmotivobaja)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(vr.id=h.responsable AND vr.tabla=h.tabla)
+        WHERE h.idmiembro=".$request->input("idmiembro");
+        // die($sql);
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
    
 }

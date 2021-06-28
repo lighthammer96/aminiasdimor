@@ -434,7 +434,29 @@
                                 </div>
                                
                             </div>
+                            <div class="tab-pane" id="historial-altas-bajas">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered display compact" id="detalle-historial">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 200px;">{{ traducir('traductor.tipo') }}</th>
+                                                <th style="width: 200px;">{{ traducir('traductor.motivo') }}</th>
+                                                <th style="width: 200px;">{{ traducir('traductor.responsable') }}</th>
+                                                <th style="width: 200px;">{{ traducir('traductor.fecha') }}</th>
+                                                <th style="width: 300px;">{{ traducir('traductor.observaciones') }}</th>
+                                                <th style="width: 200px;">{{ traducir('traductor.nuevo_bautismo') }}</th>
+                                            
+                                            </tr>
 
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                               
+                            </div>
 
                         </div>
 

@@ -55,6 +55,9 @@ return [
     'periodo_fin' => "Periodo Final",
     'anio' => "Año",
     'vigente' => "Vigente",
+    'nuevo_bautismo' => "Nuevo Bautismo",
+    'motivo' => "Motivo",
+    'tipo' => "Tipo",
 
 
 
