@@ -121,7 +121,9 @@ class ModulosController extends Controller
     }
 
     public function obtener_padres() {
-        $sql = "SELECT m.modulo_id AS id, CASE WHEN mi.mi_descripcion IS NULL THEN 'NO TRADUCCION' ELSE mi.mi_descripcion END AS descripcion
+        $sql = "SELECT m.modulo_id AS id, CASE WHEN mi.mi_descripcion IS NULL THEN 
+        'NO TRADUCCION' 
+        ELSE mi.mi_descripcion END AS descripcion
         FROM seguridad.modulos AS m 
         LEFT JOIN seguridad.modulos_idiomas AS mi ON(mi.modulo_id=m.modulo_id AND mi.idioma_id=".session("idioma_id").")
         WHERE m.modulo_padre=1 AND m.estado='A'";
