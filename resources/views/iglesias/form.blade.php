@@ -10,6 +10,54 @@
                 
                 <div class="modal-body">
                     <div class="row">
+                        
+                        <div class="col-md-4">
+                            <label class="control-label">División</label>
+
+                            <select  class="entrada selectizejs" name="iddivision" id="iddivision">
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">País</label>
+
+                            <select  class="entrada selectizejs" name="pais_id" id="pais_id">
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-4 union">
+                            <label class="control-label">Unión</label>
+
+                            <select  class="entrada selectizejs" name="idunion" id="idunion">
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">Asociación/Misión</label>
+
+                            <select  class="entrada selectizejs" name="idmision" id="idmision">
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">{{ traducir('traductor.distrito_misionero')}}</label>
+
+                            <select name="iddistritomisionero" id="iddistritomisionero" class="selectizejs entrada"></select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">{{ traducir('traductor.categoria_iglesia')}}</label>
+
+                            <select name="idcategoriaiglesia" id="idcategoriaiglesia" class="selectizejs entrada"></select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <input type="hidden" name="idiglesia" class="input-sm entrada">
                         <div class="col-md-4">
                             <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
@@ -42,37 +90,27 @@
                             <input type="text" class="form-control input-sm entrada" name="tipoestructura"  placeholder=""/>
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label class="control-label">{{ traducir('traductor.area')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="area"  placeholder=""/>
 
                         </div>
-                        
-                        <div class="col-md-4">
-                            <label class="control-label">{{ traducir('traductor.categoria_iglesia')}}</label>
+                        <div class="col-md-2">
+                            <label class="control-label">{{ traducir('traductor.valor')}}</label>
 
-                            <select name="idcategoriaiglesia" id="idcategoriaiglesia" class="selectizejs entrada"></select>
+                            <input type="text" class="form-control input-sm entrada" name="valor"  placeholder=""/>
+
                         </div>
-                    </div>
-
-                    <div class="row">
-                        
                         <div class="col-md-4">
                             <label class="control-label">{{ traducir('traductor.documento_propiedad')}}</label>
 
                             <input type="text" class="form-control input-sm entrada" name="documentopropiedad"  placeholder=""/>
 
                         </div>
-                        <div class="col-md-4">
-                            <label class="control-label">{{ traducir('traductor.valor')}}</label>
-
-                            <input type="text" class="form-control input-sm entrada" name="valor"  placeholder=""/>
-
-                        </div>
-                        
-                      
+                       
                     </div>
+
                     <!-- <div class="row">
                         
                   
@@ -131,21 +169,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label class="control-label">{{ traducir('traductor.distrito_misionero')}}</label>
-
-                            <div class="input-group">
-                                <select name="iddistritomisionero" id="iddistritomisionero" class="selectizejs entrada"></select>
-
-                                <span class="input-group-btn">
-                                    <button style="margin-top: -5px;" type="button" id="nuevo-distrito-misionero" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
-
-                                </span>
-
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
+                        
+                        <div class="col-md-4">
                             <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
                                 <option value="1">ACTIVO</option>

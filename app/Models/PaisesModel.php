@@ -32,7 +32,7 @@ class PaisesModel extends Model
         $this->tabla->agregarColumna("p.estado", "estado", traducir('traductor.estado'));
         $this->tabla->setSelect("p.pais_id, p.pais_descripcion, p.direccion, p.telefono, i.idioma_descripcion, d.descripcion AS division, CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $this->tabla->setFrom("iglesias.paises AS p
-        \nINNER JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
+        \nLEFT JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
         \nLEFT JOIN iglesias.division AS d ON(d.iddivision=p.iddivision)");
 
 

@@ -58,7 +58,13 @@ return [
     'nuevo_bautismo' => "Nuevo Bautismo",
     'motivo' => "Motivo",
     'tipo' => "Tipo",
-
+    'numero_documento' => "Número de Documento",
+    'nombre_completo' => "Nombre Completo",
+    'tipo_documento' => "Tipo de Documento",
+    'nombres' => "Nombres",
+    'departamento' => "Departamento",
+    'provincia' => "Provincia",
+    'distrito' => "Distrito",
 
 
      // LABELS DATATABLES
@@ -82,6 +88,7 @@ return [
     'titulo_distritos_misioneros' => 'Administración de Distritos Misioneros',
     'titulo_iglesias' => 'Administración de Iglesias',
     'titulo_paises' => 'Administración de Paises',
+    'titulo_pastores' => 'Administración de Pastores',
 
 
 

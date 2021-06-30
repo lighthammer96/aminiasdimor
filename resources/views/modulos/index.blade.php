@@ -131,11 +131,27 @@
                        </div>
 
                    </div>
-                   
+                   <div class="row" style="margin-top: 15px;">
+                       <div class="col-md-12">
+                           <table class="table table-striped table-bordered display compact" id="detalle-traducciones" style="font-size: 13px;">
+                               <thead>
+                                   <tr>
+                                       <th style="width: 100px;">Idioma</th>
+                                       <th style="width: 200px;">Descripcion</th>
+                                       <th style="width: 30px;"></th>
+                                   </tr>
+
+                               </thead>
+                               <tbody>
+
+                               </tbody>
+                           </table>
+                       </div>
+                   </div>
                </div>
                <div class="modal-footer">
                    <button type="button" class="btn btn-default btn-sm" id="cancelar-modulo">[Esc] [Cancelar]</button>
-                   <button type="button" class="btn btn-primary" id="guardar-modulo">[F9] [Guardar]</button>
+                   <button type="button" class="btn btn-primary btn-sm" id="guardar-modulo">[F9] [Guardar]</button>
                </div>
            </form>
 

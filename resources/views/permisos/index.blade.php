@@ -88,6 +88,7 @@
 
 
 @include('perfiles.form')
+@include('idiomas.form')
 
 
 

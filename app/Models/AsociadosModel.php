@@ -42,12 +42,14 @@ class AsociadosModel extends Model
         $this->tabla = new Tabla();
         $this->tabla->asignarID("tabla-responsables");
         $this->tabla->agregarColumna("id", "id", "Id");
-        $this->tabla->agregarColumna("nombres", "nombres", "Nombres");
+        $this->tabla->agregarColumna("tipo_documento", "tipo_documento", traducir("traductor.tipo_documento"));
+        $this->tabla->agregarColumna("nrodoc", "nrodoc", traducir("traductor.numero_documento"));
+        $this->tabla->agregarColumna("nombres", "nombres", traducir("traductor.nombres"));
         // $this->tabla->agregarColumna("cargo", "cargo", "Cargo");
         // $this->tabla->agregarColumna("periodo", "periodo", "Periodo");
         // $this->tabla->agregarColumna("vigente", "vigente", "Vigente");
         // $this->tabla->agregarColumna("tabla", "tabla", "Tabla");
-        $this->tabla->setSelect("id, nombres /*, cargo, periodo, vigente, tabla*/");
+        $this->tabla->setSelect("id, tipo_documento, nrodoc, nombres /*, cargo, periodo, vigente, tabla*/");
         $this->tabla->setFrom("iglesias.vista_responsables");
 
         if(isset($_REQUEST["idmiembro"])) {

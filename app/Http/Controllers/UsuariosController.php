@@ -7,7 +7,6 @@ use App\Models\UsuariosModel;
 use App\Models\AsociadosModel;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 

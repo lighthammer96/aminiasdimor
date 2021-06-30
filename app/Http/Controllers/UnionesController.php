@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class UnionesController extends Controller

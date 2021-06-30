@@ -6,12 +6,10 @@
 
 
 @section('content')
-    @include('iglesias.form')
-    {{-- @include('distritos_misioneros.form')
-    @include('misiones.form')
-    @include('uniones.form')
+    @include('departamentos.form')
     @include('paises.form')
     @include('idiomas.form')
-    @include('divisiones.form') --}}
+    @include('divisiones.form')
+  
 @endsection
 

@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\PerfilesModel;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class PerfilesController extends Controller

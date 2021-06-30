@@ -138,7 +138,7 @@ function guardar_perfil() {
             perfiles.select({
                 name: 'perfil_id',
                 url: '/obtener_perfiles',
-                placeholder: 'Seleccione Perfil',
+                placeholder: 'Seleccione ...',
                 selected: response.id
             })
         })

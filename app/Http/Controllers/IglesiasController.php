@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Models\IglesiasModel;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class IglesiasController extends Controller
@@ -33,7 +32,8 @@ class IglesiasController extends Controller
         $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-iglesia">'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-iglesia">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js", "misiones.js", "distritos_misioneros.js", "iglesias.js"]);
+        // $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js", "misiones.js", "distritos_misioneros.js", "iglesias.js"]);
+        $data["scripts"] = $this->cargar_js(["iglesias.js"]);
         return parent::init($view, $data);
 
       
@@ -49,6 +49,18 @@ class IglesiasController extends Controller
     public function guardar_iglesias(Request $request) {
    
         $_POST = $this->toUpper($_POST, ["descripcion", "direccion"]);
+
+        $array_pais = explode("|", $_POST["pais_id"]);
+        $_POST["pais_id"] = $array_pais[0];
+        if($array_pais[1] == "N" && empty($request->input("idunion"))) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_POST["pais_id"]}";
+            $res = DB::select($sql);
+            $_POST["idunion"] = $res[0]->idunion;
+        }
+
+
         if ($request->input("idiglesia") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.iglesia", $_POST));
         }else{
@@ -79,7 +91,9 @@ class IglesiasController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT * FROM iglesias.iglesia WHERE idiglesia=".$request->input("id");
+        $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union FROM iglesias.iglesia AS i
+         LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
+        WHERE i.idiglesia=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }

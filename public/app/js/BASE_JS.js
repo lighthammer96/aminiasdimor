@@ -332,6 +332,18 @@ class BASE_JS {
                                     elementos[i].parentNode.classList.remove("checked");
                                 }
                             } else {
+                                if(elementos[i].type == "checkbox" ) {
+                                    if(response[elementos[i].name] == 1) {
+                                        elementos[i].checked = true;
+                                        $("input[name='"+elementos[i].name+"']").attr("checked", "checked");
+                                        elementos[i].parentNode.classList.add("checked");
+                                    } else {
+                                        elementos[i].checked = false;
+                                        $("input[name='"+elementos[i].name+"']").removeAttr("checked");
+                                        elementos[i].parentNode.classList.remove("checked");
+                                        
+                                    }
+                                }
                                 elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
                             }
                            

@@ -1,17 +1,35 @@
 
-var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
+var pastores = new BASE_JS('pastores', 'pastores');
+var principal = new BASE_JS('principal', 'principal');
 
-distritos_misioneros.TablaListado({
-    tablaID: '#tabla-distritos-misioneros',
+pastores.TablaListado({
+    tablaID: '#tabla-pastores',
     url: "/buscar_datos",
 });
 
-
-distritos_misioneros.select({
-    name: 'iddistritomisionero',
-    url: '/obtener_distritos_misioneros',
-    placeholder: 'Seleccione ...'
+principal.select({
+    name: 'idtipodoc',
+    url: '/obtener_tipos_documento',
+    placeholder: 'Seleccione ...',
+}).then(function() {
+    pastores.enter("idtipodoc","nrodoc");
 })
+
+pastores.select({
+    name: 'idcargo',
+    url: '/obtener_cargos',
+    placeholder: 'Seleccione ...',
+}).then(function() {
+})
+
+$(function() {
+    $('input[type="checkbox"]').iCheck({
+        checkboxClass: 'icheckbox_minimal-blue',
+        radioClass   : 'iradio_minimal-blue'
+    })
+})
+
+
 
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
@@ -20,26 +38,26 @@ document.addEventListener("click", function(event) {
     }
     //console.log(event.srcElement);
     switch (id) {
-        case 'nuevo-distrito-misionero':
+        case 'nuevo-pastor':
             event.preventDefault();
           
-            distritos_misioneros.abrirModal();
+            pastores.abrirModal();
         break;
 
-        case 'modificar-distrito-misionero':
+        case 'modificar-pastor':
             event.preventDefault();
           
-            modificar_distrito_misionero();
+            modificar_pastor();
         break;
 
-        case 'eliminar-distrito-misionero':
+        case 'eliminar-pastor':
             event.preventDefault();
-            eliminar_distrito_misionero();
+            eliminar_pastor();
         break;
 
-        case 'guardar-distrito-misionero':
+        case 'guardar-pastor':
             event.preventDefault();
-            guardar_distrito_misionero();
+            guardar_pastor();
         break;
 
     }
@@ -47,8 +65,8 @@ document.addEventListener("click", function(event) {
 })
 
 
-function modificar_distrito_misionero() {
-    var datos = distritos_misioneros.datatable.row('.selected').data();
+function modificar_pastor() {
+    var datos = pastores.datatable.row('.selected').data();
     if(typeof datos == "undefined") {
         BASE_JS.sweet({
             text: "DEBE SELECCIONAR UN REGISTRO!"
@@ -57,22 +75,24 @@ function modificar_distrito_misionero() {
         return false;
     } 
 
-    var promise = distritos_misioneros.get(datos.iddistritomisionero);
+    var promise = pastores.get(datos.idotrospastores);
 
-    promise.then(function(response) {
-		
-	});
+     promise.then(function(response) {
+       
+    })
 }
 
-function guardar_distrito_misionero() {
+function guardar_pastor() {
     var required = true;
-    required = required && distritos_misioneros.required("descripcion");
+    // required = required && pastores.required("perfil_descripcion");
+
+  
     if(required) {
-        var promise = distritos_misioneros.guardar();
-        distritos_misioneros.CerrarModal();
-        distritos_misioneros.datatable.destroy();
-        distritos_misioneros.TablaListado({
-            tablaID: '#tabla-distritos-misioneros',
+        var promise = pastores.guardar();
+        pastores.CerrarModal();
+        pastores.datatable.destroy();
+        pastores.TablaListado({
+            tablaID: '#tabla-pastores',
             url: "/buscar_datos",
         });
 
@@ -80,20 +100,14 @@ function guardar_distrito_misionero() {
 			if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
 				return false;
 			}
-            // $("select[name=iddistritomisionero]").chosen("destroy");
-            distritos_misioneros.select({
-                name: 'iddistritomisionero',
-                url: '/obtener_distritos_misioneros',
-                placeholder: 'Seleccione ...',
-                selected: response.id
-            })
+          
         })
 
     }
 }
 
-function eliminar_distrito_misionero() {
-    var datos = distritos_misioneros.datatable.row('.selected').data();
+function eliminar_pastor() {
+    var datos = pastores.datatable.row('.selected').data();
     if(typeof datos == "undefined") {
         BASE_JS.sweet({
             text: "DEBE SELECCIONAR UN REGISTRO!"
@@ -104,10 +118,10 @@ function eliminar_distrito_misionero() {
         confirm: true,
         text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
         callbackConfirm: function() {
-            distritos_misioneros.Operacion(datos.iddistritomisionero, "E");
-            distritos_misioneros.datatable.destroy();
-            distritos_misioneros.TablaListado({
-                tablaID: '#tabla-distritos-misioneros',
+            pastores.Operacion(datos.idotrospastores, "E");
+            pastores.datatable.destroy();
+            pastores.TablaListado({
+                tablaID: '#tabla-pastores',
                 url: "/buscar_datos",
             });
         }
@@ -118,18 +132,18 @@ function eliminar_distrito_misionero() {
 
 document.addEventListener("keydown", function(event) {
         // alert(modulo_controlador);
-    if(modulo_controlador == "distritos_misioneros/index") {
+    if(modulo_controlador == "pastores/index") {
         //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
-        if(!$('#modal-distritos_misioneros').is(':visible')) {
+        if(!$('#modal-pastores').is(':visible')) {
            
             switch (event.code) {
                 case 'F1':
-					distritos_misioneros.abrirModal();
+					pastores.abrirModal();
 					event.preventDefault();
 					event.stopPropagation();
                     break;
                 case 'F2':
-					modificar_distrito_misionero();
+					modificar_pastor();
 					event.preventDefault();
 					event.stopPropagation();
                     break;
@@ -140,7 +154,7 @@ document.addEventListener("keydown", function(event) {
 				
                 //     break;
 				case 'F7':
-					eliminar_distrito_misionero();
+					eliminar_pastor();
 					event.preventDefault();
 					event.stopPropagation();
 				
@@ -173,8 +187,8 @@ document.addEventListener("keydown", function(event) {
 
         if(event.code == "F9") {
             
-            if($('#modal-distritos_misioneros').is(':visible')) {
-                guardar_distrito_misionero();
+            if($('#modal-pastores').is(':visible')) {
+                guardar_pastor();
 			}
 			event.preventDefault();
 			event.stopPropagation();
@@ -188,7 +202,18 @@ document.addEventListener("keydown", function(event) {
 	
 })
 
-document.getElementById("cancelar-distrito-misionero").addEventListener("click", function(event) {
+document.getElementById("cancelar-pastor").addEventListener("click", function(event) {
 	event.preventDefault();
-	distritos_misioneros.CerrarModal();
+	pastores.CerrarModal();
 })
+
+
+
+$("input[name='vigente']").on('ifChanged', function(event){
+
+    $(this).val("0");
+    $("input[name='vigente']").on('ifChecked', function(event){
+        $(this).val("1");
+    });
+
+});

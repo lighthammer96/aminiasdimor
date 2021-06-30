@@ -1,17 +1,22 @@
 
-var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
+var distritos = new BASE_JS('distritos', 'distritos');
 
-distritos_misioneros.TablaListado({
-    tablaID: '#tabla-distritos-misioneros',
+distritos.TablaListado({
+    tablaID: '#tabla-distritos',
     url: "/buscar_datos",
 });
 
-
-distritos_misioneros.select({
-    name: 'iddistritomisionero',
-    url: '/obtener_distritos_misioneros',
+distritos.select({
+    name: 'iddistrito',
+    url: '/obtener_distritos',
     placeholder: 'Seleccione ...'
-})
+}).then(function() {
+    
+    
+}) 
+
+
+
 
 document.addEventListener("click", function(event) {
     var id = event.srcElement.id;
@@ -20,26 +25,26 @@ document.addEventListener("click", function(event) {
     }
     //console.log(event.srcElement);
     switch (id) {
-        case 'nuevo-distrito-misionero':
+        case 'nuevo-distrito':
             event.preventDefault();
           
-            distritos_misioneros.abrirModal();
+            distritos.abrirModal();
         break;
 
-        case 'modificar-distrito-misionero':
+        case 'modificar-distrito':
             event.preventDefault();
           
-            modificar_distrito_misionero();
+            modificar_distrito();
         break;
 
-        case 'eliminar-distrito-misionero':
+        case 'eliminar-distrito':
             event.preventDefault();
-            eliminar_distrito_misionero();
+            eliminar_distrito();
         break;
 
-        case 'guardar-distrito-misionero':
+        case 'guardar-distrito':
             event.preventDefault();
-            guardar_distrito_misionero();
+            guardar_distrito();
         break;
 
     }
@@ -47,8 +52,8 @@ document.addEventListener("click", function(event) {
 })
 
 
-function modificar_distrito_misionero() {
-    var datos = distritos_misioneros.datatable.row('.selected').data();
+function modificar_distrito() {
+    var datos = distritos.datatable.row('.selected').data();
     if(typeof datos == "undefined") {
         BASE_JS.sweet({
             text: "DEBE SELECCIONAR UN REGISTRO!"
@@ -57,22 +62,24 @@ function modificar_distrito_misionero() {
         return false;
     } 
 
-    var promise = distritos_misioneros.get(datos.iddistritomisionero);
+    var promise = distritos.get(datos.iddistrito);
 
-    promise.then(function(response) {
-		
-	});
+     promise.then(function(response) {
+       
+    })
 }
 
-function guardar_distrito_misionero() {
+function guardar_distrito() {
     var required = true;
-    required = required && distritos_misioneros.required("descripcion");
+    // required = required && distritos.required("perfil_descripcion");
+
+    
     if(required) {
-        var promise = distritos_misioneros.guardar();
-        distritos_misioneros.CerrarModal();
-        distritos_misioneros.datatable.destroy();
-        distritos_misioneros.TablaListado({
-            tablaID: '#tabla-distritos-misioneros',
+        var promise = distritos.guardar();
+        distritos.CerrarModal();
+        distritos.datatable.destroy();
+        distritos.TablaListado({
+            tablaID: '#tabla-distritos',
             url: "/buscar_datos",
         });
 
@@ -80,10 +87,10 @@ function guardar_distrito_misionero() {
 			if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
 				return false;
 			}
-            // $("select[name=iddistritomisionero]").chosen("destroy");
-            distritos_misioneros.select({
-                name: 'iddistritomisionero',
-                url: '/obtener_distritos_misioneros',
+            // $("select[name=iddistrito]").chosen("destroy");
+            distritos.select({
+                name: 'iddistrito',
+                url: '/obtener_distritos',
                 placeholder: 'Seleccione ...',
                 selected: response.id
             })
@@ -92,8 +99,8 @@ function guardar_distrito_misionero() {
     }
 }
 
-function eliminar_distrito_misionero() {
-    var datos = distritos_misioneros.datatable.row('.selected').data();
+function eliminar_distrito() {
+    var datos = distritos.datatable.row('.selected').data();
     if(typeof datos == "undefined") {
         BASE_JS.sweet({
             text: "DEBE SELECCIONAR UN REGISTRO!"
@@ -104,10 +111,10 @@ function eliminar_distrito_misionero() {
         confirm: true,
         text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
         callbackConfirm: function() {
-            distritos_misioneros.Operacion(datos.iddistritomisionero, "E");
-            distritos_misioneros.datatable.destroy();
-            distritos_misioneros.TablaListado({
-                tablaID: '#tabla-distritos-misioneros',
+            distritos.Operacion(datos.iddistrito, "E");
+            distritos.datatable.destroy();
+            distritos.TablaListado({
+                tablaID: '#tabla-distritos',
                 url: "/buscar_datos",
             });
         }
@@ -118,18 +125,18 @@ function eliminar_distrito_misionero() {
 
 document.addEventListener("keydown", function(event) {
         // alert(modulo_controlador);
-    if(modulo_controlador == "distritos_misioneros/index") {
+    if(modulo_controlador == "distritos/index") {
         //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
-        if(!$('#modal-distritos_misioneros').is(':visible')) {
+        if(!$('#modal-distritos').is(':visible')) {
            
             switch (event.code) {
                 case 'F1':
-					distritos_misioneros.abrirModal();
+					distritos.abrirModal();
 					event.preventDefault();
 					event.stopPropagation();
                     break;
                 case 'F2':
-					modificar_distrito_misionero();
+					modificar_distrito();
 					event.preventDefault();
 					event.stopPropagation();
                     break;
@@ -140,7 +147,7 @@ document.addEventListener("keydown", function(event) {
 				
                 //     break;
 				case 'F7':
-					eliminar_distrito_misionero();
+					eliminar_distrito();
 					event.preventDefault();
 					event.stopPropagation();
 				
@@ -173,8 +180,8 @@ document.addEventListener("keydown", function(event) {
 
         if(event.code == "F9") {
             
-            if($('#modal-distritos_misioneros').is(':visible')) {
-                guardar_distrito_misionero();
+            if($('#modal-distritos').is(':visible')) {
+                guardar_distrito();
 			}
 			event.preventDefault();
 			event.stopPropagation();
@@ -188,7 +195,8 @@ document.addEventListener("keydown", function(event) {
 	
 })
 
-document.getElementById("cancelar-distrito-misionero").addEventListener("click", function(event) {
+document.getElementById("cancelar-distrito").addEventListener("click", function(event) {
 	event.preventDefault();
-	distritos_misioneros.CerrarModal();
+	distritos.CerrarModal();
 })
+

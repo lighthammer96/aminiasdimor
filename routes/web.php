@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AsociadosController;
+use App\Http\Controllers\DepartamentosController;
+use App\Http\Controllers\DistritosController;
 use App\Http\Controllers\DistritosmisionerosController;
 use App\Http\Controllers\IdiomasController;
 use App\Http\Controllers\LoginController;
@@ -13,6 +15,8 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
 use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\MisionesController;
+use App\Http\Controllers\PastoresController;
+use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\UnionesController;
 use Illuminate\Support\Facades\Route;
 
@@ -164,6 +168,41 @@ Route::post('iglesias/get', [IglesiasController::class, "get"]);
 Route::post('iglesias/eliminar_iglesias', [IglesiasController::class, "eliminar_iglesias"]);
 Route::post('iglesias/obtener_iglesias', [IglesiasController::class, "obtener_iglesias"]);
 
+
+// PASTORES
+Route::get('pastores/index', [PastoresController::class, "index"]);
+Route::post('pastores/buscar_datos', [PastoresController::class, "buscar_datos"]);
+Route::post('pastores/guardar_pastores', [PastoresController::class, "guardar_pastores"]);
+Route::post('pastores/get', [PastoresController::class, "get"]);
+Route::post('pastores/eliminar_pastores', [PastoresController::class, "eliminar_pastores"]);
+Route::post('pastores/obtener_pastores', [PastoresController::class, "obtener_pastores"]);
+Route::post('pastores/obtener_cargos', [PastoresController::class, "obtener_cargos"]);
+
+// DEPARTAMENTOS
+Route::get('departamentos/index', [DepartamentosController::class, "index"]);
+Route::post('departamentos/buscar_datos', [DepartamentosController::class, "buscar_datos"]);
+Route::post('departamentos/guardar_departamentos', [DepartamentosController::class, "guardar_departamentos"]);
+Route::post('departamentos/get', [DepartamentosController::class, "get"]);
+Route::post('departamentos/eliminar_departamentos', [DepartamentosController::class, "eliminar_departamentos"]);
+Route::post('departamentos/obtener_departamentos', [DepartamentosController::class, "obtener_departamentos"]);
+
+
+// PROVINCIAS
+Route::get('provincias/index', [ProvinciasController::class, "index"]);
+Route::post('provincias/buscar_datos', [ProvinciasController::class, "buscar_datos"]);
+Route::post('provincias/guardar_provincias', [ProvinciasController::class, "guardar_provincias"]);
+Route::post('provincias/get', [ProvinciasController::class, "get"]);
+Route::post('provincias/eliminar_provincias', [ProvinciasController::class, "eliminar_provincias"]);
+Route::post('provincias/obtener_provincias', [ProvinciasController::class, "obtener_provincias"]);
+
+
+// DISTRITOS
+Route::get('distritos/index', [DistritosController::class, "index"]);
+Route::post('distritos/buscar_datos', [DistritosController::class, "buscar_datos"]);
+Route::post('distritos/guardar_distritos', [DistritosController::class, "guardar_distritos"]);
+Route::post('distritos/get', [DistritosController::class, "get"]);
+Route::post('distritos/eliminar_distritos', [DistritosController::class, "eliminar_distritos"]);
+Route::post('distritos/obtener_distritos', [DistritosController::class, "obtener_distritos"]);
 
 /*************
  * MODULO GESTION DE IGLESIAS *
