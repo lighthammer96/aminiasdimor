@@ -17,6 +17,7 @@ use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\MisionesController;
 use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\ProvinciasController;
+use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
 use Illuminate\Support\Facades\Route;
 
@@ -121,6 +122,7 @@ Route::post('divisiones/get', [DivisionesController::class, "get"]);
 Route::post('divisiones/eliminar_divisiones', [DivisionesController::class, "eliminar_divisiones"]);
 Route::post('divisiones/obtener_divisiones', [DivisionesController::class, "obtener_divisiones"]);
 Route::post('divisiones/obtener_traducciones', [DivisionesController::class, "obtener_traducciones"]);
+Route::post('divisiones/obtener_divisiones_todos', [DivisionesController::class, "obtener_divisiones_todos"]);
 
 // PAISES
 Route::get('paises/index', [PaisesController::class, "index"]);
@@ -131,6 +133,7 @@ Route::post('paises/eliminar_paises', [PaisesController::class, "eliminar_paises
 Route::post('paises/obtener_paises', [PaisesController::class, "obtener_paises"]);
 Route::post('paises/obtener_paises_asociados', [PaisesController::class, "obtener_paises_asociados"]);
 Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_todos_paises"]);
+Route::post('paises/obtener_paises_asociados_todos', [PaisesController::class, "obtener_paises_asociados_todos"]);
 
 // UNIONES
 Route::get('uniones/index', [UnionesController::class, "index"]);
@@ -141,6 +144,7 @@ Route::post('uniones/eliminar_uniones', [UnionesController::class, "eliminar_uni
 Route::post('uniones/obtener_uniones', [UnionesController::class, "obtener_uniones"]);
 Route::post('uniones/obtener_paises', [UnionesController::class, "obtener_paises"]);
 Route::post('uniones/obtener_uniones_paises', [UnionesController::class, "obtener_uniones_paises"]);
+Route::post('uniones/obtener_uniones_paises_todos', [UnionesController::class, "obtener_uniones_paises_todos"]);
 
 
 // MISIONES
@@ -150,6 +154,7 @@ Route::post('misiones/guardar_misiones', [MisionesController::class, "guardar_mi
 Route::post('misiones/get', [MisionesController::class, "get"]);
 Route::post('misiones/eliminar_misiones', [MisionesController::class, "eliminar_misiones"]);
 Route::post('misiones/obtener_misiones', [MisionesController::class, "obtener_misiones"]);
+Route::post('misiones/obtener_misiones_todos', [MisionesController::class, "obtener_misiones_todos"]);
 
 
 // DISTRITOS MISIONEROS
@@ -159,6 +164,7 @@ Route::post('distritos_misioneros/guardar_distritos_misioneros', [Distritosmisio
 Route::post('distritos_misioneros/get', [DistritosmisionerosController::class, "get"]);
 Route::post('distritos_misioneros/eliminar_distritos_misioneros', [DistritosmisionerosController::class, "eliminar_distritos_misioneros"]);
 Route::post('distritos_misioneros/obtener_distritos_misioneros', [DistritosmisionerosController::class, "obtener_distritos_misioneros"]);
+Route::post('distritos_misioneros/obtener_distritos_misioneros_todos', [DistritosmisionerosController::class, "obtener_distritos_misioneros_todos"]);
 
 // IGLESIAS
 Route::get('iglesias/index', [IglesiasController::class, "index"]);
@@ -224,3 +230,14 @@ Route::post('asociados/obtener_periodos_ini', [AsociadosController::class, "obte
 Route::post('asociados/obtener_periodos_fin', [AsociadosController::class, "obtener_periodos_fin"]);
 Route::post('asociados/obtener_cargos', [AsociadosController::class, "obtener_cargos"]);
 Route::post('asociados/obtener_historial_altas_bajas', [AsociadosController::class, "obtener_historial_altas_bajas"]);
+
+
+
+// TRASLADOS
+Route::get('traslados/index', [TrasladosController::class, "index"]);
+
+Route::post('traslados/guardar_traslados', [TrasladosController::class, "guardar_traslados"]);
+Route::post('traslados/get', [TrasladosController::class, "get"]);
+Route::post('traslados/eliminar_traslados', [TrasladosController::class, "eliminar_traslados"]);
+Route::post('traslados/obtener_traslados', [TrasladosController::class, "obtener_traslados"]);
+Route::post('traslados/guardar_traslados_temp', [TrasladosController::class, "guardar_traslados_temp"]);

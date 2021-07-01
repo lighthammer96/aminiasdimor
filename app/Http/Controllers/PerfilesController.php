@@ -22,7 +22,7 @@ class PerfilesController extends Controller
 
     public function index() {
         $view = "perfiles.index";
-        $data["title"] = "Administración de Perfiles";
+        $data["title"] = traducir("traductor.titulo_perfiles");
         $data["subtitle"] = "";
         $data["tabla"] = $this->perfiles_model->tabla()->HTML();
 

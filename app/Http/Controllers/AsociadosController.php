@@ -104,9 +104,10 @@ class AsociadosController extends Controller
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
             }
 
-            DB::table("iglesias.cargo_miembro")->where("idmiembro", $result["id"])->delete();
-            if(isset($_REQUEST["idcargo"])) {
-                
+            
+           
+            if(isset($_REQUEST["idcargo"]) && !empty($_REQUEST["idcargo"])) {
+                DB::table("iglesias.cargo_miembro")->where("idmiembro", $result["id"])->delete();
                 $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
             }
 

@@ -23,7 +23,7 @@
 
         </div>
 
-        <div class="col-md-2" style="margin-top: 4px;">
+        <div class="col-md-2" style="">
             <button type="button" class="btn btn-success btn-sm" id="guardar-permisos">Guardar</button>
         </div>
 

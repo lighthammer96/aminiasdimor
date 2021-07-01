@@ -7,9 +7,9 @@
         <div class="user-panel">
             <div class="pull-left image">
                 <?php if(!empty(session("foto"))) { ?>
-                    <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
+                    <img style="height: 45px !important;" src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
                 <?php } else { ?>
-                    <img src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
+                    <img style="height: 45px !important;" src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
                 <?php } ?>
                
             </div>
@@ -35,10 +35,10 @@
                 foreach ($modulos as $key => $value) {
                     echo   '<li class="treeview">
                                 <a href="#" ><i class="'.$value->modulo_icono.'"></i><span> '.$value->mi_descripcion.' </span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
-                        echo '<ul class="treeview-menu modulo">';
+                        echo '<ul class="treeview-menu modulo" style="">';
                             foreach ($value->hijos as $hijo) {
 
-                                echo  '<li><a class="modulosUrl"
+                                echo  '<li ><a style="text-align: justify;" class="modulosUrl"
                                 modulo_route="'.$hijo->modulo_route.'"
                                 modulo_controlador="'.$hijo->modulo_controlador.'"
 

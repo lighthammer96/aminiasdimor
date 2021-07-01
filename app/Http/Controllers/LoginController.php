@@ -19,12 +19,13 @@ class LoginController extends Controller
         // echo $clave; exit;
         // echo Hash::check("1235", $clave);
 
-        $result = DB::select("SELECT * FROM seguridad.usuarios AS u 
+        $result = DB::select("SELECT u.*, p.*, m.*, ta.descripcion AS tipo_acceso FROM seguridad.usuarios AS u 
         INNER JOIN seguridad.perfiles AS p ON(u.perfil_id=p.perfil_id)
         LEFT JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
+        LEFT JOIN seguridad.tipoacceso AS ta ON(ta.idtipoacceso=u.idtipoacceso)
         
         WHERE u.usuario_user='{$user}'");
-       
+        // var_dump($result[0]->idmiembro); exit;
         if(!isset($result[0]->usuario_user)) {
             $data["response"] = "nouser";
         }
@@ -38,6 +39,8 @@ class LoginController extends Controller
             session(['perfil_descripcion' => $result[0]->perfil_descripcion]);
             session(['idtipoacceso' => $result[0]->idtipoacceso]);
             session(['foto' => $result[0]->foto]);
+            session(['responsable' => $result[0]->apellidos.", ".$result[0]->nombres]);
+            session(['tipo_acceso' => $result[0]->tipo_acceso]);
             
             $where_division = "";
             $where_pais = "";

@@ -159,7 +159,7 @@
                         <?php } else { ?>
                             <img src="{{ URL::asset('images/usuario.png') }}" class="user-image" alt="User Image">
                         <?php } ?>
-                        <span class="hidden-xs">{{ session("usuario_user") }}</span>
+                        <span class="hidden-xs">{{ session("responsable") }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -172,8 +172,9 @@
 
                            
 
-                            <p>
-                                {{ session("usuario_user") }} - {{ session("perfil_descripcion") }}
+                            <p style="margin-top: 0px;">
+                                {{ session("responsable") }} <br> {{ session("perfil_descripcion") }}
+                                <br> {{ session("tipo_acceso") }}
                                 <!-- <small>Member since Nov. 2012</small> -->
                             </p>
                         </li>

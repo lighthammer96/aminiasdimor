@@ -16,6 +16,7 @@ return [
     'ver' => 'Ver',
     'guardar' => 'Guardar',
     'cancelar' => 'Cancelar',
+    'ver_lista' => 'Ver Lista',
 
     // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Código',
@@ -89,6 +90,7 @@ return [
     'titulo_iglesias' => 'Administración de Iglesias',
     'titulo_paises' => 'Administración de Paises',
     'titulo_pastores' => 'Administración de Pastores',
+    'titulo_perfiles' => 'Administración de Perfiles',
 
 
 

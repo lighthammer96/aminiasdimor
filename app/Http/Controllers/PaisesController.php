@@ -104,7 +104,7 @@ class PaisesController extends Controller
 		} else {
             $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais");
 		}
-
+        // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -119,5 +119,17 @@ class PaisesController extends Controller
         echo json_encode($result);
     }
 
-  
+    public function obtener_paises_asociados_todos(Request $request) {
+
+        $sql = "";
+		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
+	
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision");
+		} else {
+            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ";
+		}
+        // die($sql);
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
 }

@@ -56,7 +56,14 @@ class BaseModel extends Model
             // }
 
             if($tipoTabla == 'N') {
+                // var_dump(DB); exit;
+                // if(isset(DB::getPdo())) { 
+                //     $lastid = DB::getPdo()->lastInsertId();
+                // }
+
                 $lastid = DB::getPdo()->lastInsertId();
+               
+               
             }
             // else {
             //     throw new Exception("NO TIENE UNA LLAVE DE TIPO AUTO INCREMENTAL");

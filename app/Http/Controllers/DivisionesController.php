@@ -100,7 +100,7 @@ class DivisionesController extends Controller
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision")." ".session("where_division");
 		} else {
             $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
@@ -109,6 +109,7 @@ class DivisionesController extends Controller
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
             WHERE d.estado='1' ".session("where_division");
 		}
+        // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -122,5 +123,30 @@ class DivisionesController extends Controller
        $result = DB::select($sql);
        echo json_encode($result);
        //print_r($_REQUEST);
+    }
+
+
+    public function obtener_divisiones_todos(Request $request) {
+
+        $sql = "";
+		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
+	
+			$sql = "SELECT d.iddivision AS id, CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS descripcion
+            FROM iglesias.division AS d
+            LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
+		} else {
+            $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS descripcion
+            FROM iglesias.division AS d
+            LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE d.estado='1' ";
+		}
+        // die($sql);
+        $result = DB::select($sql);
+        echo json_encode($result);
     }
 }

@@ -128,6 +128,7 @@ document.getElementById("guardar-usuario").addEventListener("click", function(ev
     var required = true;
     // required = required && usuarios.required("usuario_nombres");
     required = required && usuarios.required("usuario_user");
+    required = required && usuarios.required("asociado");
     if(usuario_id == "") {
         required = required && usuarios.required("pass1");
         // required = required && usuarios.required("pass2");
