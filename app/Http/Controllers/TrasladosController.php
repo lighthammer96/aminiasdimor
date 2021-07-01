@@ -66,29 +66,39 @@ class TrasladosController extends Controller
 
     public function guardar_traslados_temp(Request $request) {
         // print_r($_REQUEST);
-        $array_pais = explode("|", $_POST["pais_id"]);
-        $_POST["pais_id"] = $array_pais[0];
-        if($array_pais[1] == "N" && empty($request->input("idunion"))) {
-            $sql = "SELECT * FROM iglesias.union AS u 
-            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
-            WHERE up.pais_id={$_POST["pais_id"]}";
-            $res = DB::select($sql);
-            $_POST["idunion"] = $res[0]->idunion;
-     
-        }
-
-        $sql = "SELECT * FROM iglesias.vista_asociados_traslados 
-        WHERE iddivision={$request->input('iddivision')} AND pais_id={$_POST["pais_id"]} AND idunion={$_POST["idunion"]} AND idmision={$request->input('idmision')} AND iddistritomisionero={$request->input('iddistritomisionero')} AND  idiglesia={$request->input('idiglesia')}";
+        try {
         
-        $asociados = DB::select($sql);
-
-        foreach($asociados as $value) {
-            $array = (array) $value;
-            $result = $this->base_model->insertar($this->preparar_datos("iglesias.temp_traslados", $array));
+            $array_pais = explode("|", $_POST["pais_id"]);
+            $_POST["pais_id"] = $array_pais[0];
+            if($array_pais[1] == "N" && empty($request->input("idunion"))) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_POST["pais_id"]}";
+                $res = DB::select($sql);
+                $_POST["idunion"] = $res[0]->idunion;
+         
+            }
+    
+            $sql = "SELECT * FROM iglesias.vista_asociados_traslados 
+            WHERE iddivision={$request->input('iddivision')} AND pais_id={$_POST["pais_id"]} AND idunion={$_POST["idunion"]} AND idmision={$request->input('idmision')} AND iddistritomisionero={$request->input('iddistritomisionero')} AND  idiglesia={$request->input('idiglesia')}";
+            
+            $asociados = DB::select($sql);
+            if(count($asociados) > 0) {
+                foreach($asociados as $value) {
+                    $array = (array) $value;
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.temp_traslados", $array));
+                }
+        
+            } else {
+                throw new Exception("No hay asociados en la iglesia origen!");
+            }
+            
+    
+            echo json_encode($result);
+        } catch(Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
         }
-
-
-        echo json_encode($result);
+       
     
        
     }

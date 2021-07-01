@@ -47,7 +47,7 @@ class LoginController extends Controller
             $where_union = "";
             $where_mision = "";
             $where_distrito_misionero = "";
-
+            $array_tipos_acceso = array();
             if($result[0]->perfil_id != 1) {
                 switch ($result[0]->idtipoacceso) {
                     case '1':
@@ -56,6 +56,11 @@ class LoginController extends Controller
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "AND idmision = ".$result[0]->idmision;
                         $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+                        array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
+                        array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
+                        array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
+                        array_push($array_tipos_acceso, array("idmision" => $result[0]->idmision));
+                        array_push($array_tipos_acceso, array("where_distrito_misionero" => $result[0]->where_distrito_misionero));
                         break;
                     case '2':
                         $where_division = "AND d.iddivision = ".$result[0]->iddivision;
@@ -63,6 +68,12 @@ class LoginController extends Controller
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "AND idmision = ".$result[0]->idmision;
                         $where_distrito_misionero = "";
+
+                        array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
+                        array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
+                        array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
+                        array_push($array_tipos_acceso, array("idmision" => $result[0]->idmision));
+                       
                         break;
                     case '3':
                         $where_division = "AND d.iddivision = ".$result[0]->iddivision;
@@ -70,6 +81,11 @@ class LoginController extends Controller
                         $where_union = "AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "";
                         $where_distrito_misionero = "";
+
+                        array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
+                        array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
+                        array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
+                        
                         break;
                     case '4':
                         $where_division = "AND d.iddivision = ".$result[0]->iddivision;
@@ -77,6 +93,10 @@ class LoginController extends Controller
                         $where_union = "";
                         $where_mision = "";
                         $where_distrito_misionero = "";
+
+                        array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
+                        array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
+                       
                         break;
                     case '5':
                         $where_division = "AND d.iddivision = ".$result[0]->iddivision;
@@ -84,16 +104,20 @@ class LoginController extends Controller
                         $where_union = "";
                         $where_mision = "";
                         $where_distrito_misionero = "";
+                        array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
+                        
                         break;
                 }
             }
-            
+
+            // print_r($array_tipos_acceso); exit;
 
             session(['where_division' => $where_division]);
             session(['where_pais' => $where_pais]);
             session(['where_union' => $where_union]);
             session(['where_mision' => $where_mision]);
             session(['where_distrito_misionero' => $where_distrito_misionero]);
+            session(['array_tipos_acceso' => $array_tipos_acceso]);
 
             $idioma = DB::select("SELECT p.*, i.idioma_codigo FROM iglesias.paises AS p 
             INNER JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)

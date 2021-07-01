@@ -25,7 +25,11 @@ class ModulosModel extends Model
         $tabla->agregarColumna("h.estado", "estado", "Estado");
         $tabla->setSelect("h.modulo_id as modulo_id, CASE WHEN mi.mi_descripcion IS NULL THEN 
         (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=h.modulo_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE mi.mi_descripcion END AS mi_descripcion , p.modulo_id as idpadre, p.modulo_nombre as padre, h.modulo_icono, h.modulo_controlador, CASE WHEN h.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        ELSE mi.mi_descripcion END AS mi_descripcion , p.modulo_id as idpadre, 
+
+        CASE WHEN (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id").") IS NULL THEN (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id_defecto").") ELSE (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id").") END AS padre, 
+        
+        h.modulo_icono, h.modulo_controlador, CASE WHEN h.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $tabla->setFrom("seguridad.modulos as p 
         \nINNER JOIN seguridad.modulos as h on(p.modulo_id=h.modulo_padre)
         \nLEFT JOIN seguridad.modulos_idiomas as mi on(mi.modulo_id=h.modulo_id AND mi.idioma_id=".session("idioma_id").")");

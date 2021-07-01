@@ -35,6 +35,18 @@ class AsociadosModel extends Model
         $this->tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)");
 
+        $array_where = array();
+        $where = "";
+        if(count(session("array_tipos_acceso")) > 0) {
+            foreach (session("array_tipos_acceso") as $value) {
+                foreach ($value as $k => $v) {
+                    array_push($array_where, "m.".$k." = ".$v);
+                }
+            }
+            $where = implode('AND', $array_where);
+        }
+        $this->tabla->setWhere($where);
+      
         return $this->tabla;
     }
 
