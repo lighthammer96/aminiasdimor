@@ -26,7 +26,7 @@ class ProvinciasModel extends Model
         $this->tabla->asignarID("tabla-provincias");
         $this->tabla->agregarColumna("p.idprovincia", "idprovincia", "Id");
         $this->tabla->agregarColumna("p.descripcion", "descripcion", traducir("traductor.descripcion"));
-        $this->tabla->agregarColumna("d.descripcion", "departamento", traducir("traductor.departamento"));
+        $this->tabla->agregarColumna("d.descripcion", "departamento", traducir("traductor.division_1"));
         $this->tabla->setSelect("p.idprovincia, p.descripcion, d.descripcion AS departamento");
         $this->tabla->setFrom("public.provincia AS p
         \nLEFT JOIN public.departamento AS d ON(d.iddepartamento=p.iddepartamento)");

@@ -1,7 +1,8 @@
+
+var divisiones = new BASE_JS('divisiones', 'divisiones');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var divisiones = new BASE_JS('divisiones', 'divisiones');
-
     divisiones.TablaListado({
         tablaID: '#tabla-divisiones',
         url: "/buscar_datos",
@@ -17,6 +18,13 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     divisiones.enter("descripcion", "idioma", function() {
+        var required = true;
+        required = modulos.required("idioma");
+
+        if(!required) {
+            return false;
+        }
+
         var idioma_id = document.getElementsByName("idioma")[0];
         var descripcion = document.getElementsByName("descripcion")[0];
         // console.log(idioma_id.options[idioma_id.selectedIndex].text);

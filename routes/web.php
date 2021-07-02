@@ -134,6 +134,7 @@ Route::post('paises/obtener_paises', [PaisesController::class, "obtener_paises"]
 Route::post('paises/obtener_paises_asociados', [PaisesController::class, "obtener_paises_asociados"]);
 Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_todos_paises"]);
 Route::post('paises/obtener_paises_asociados_todos', [PaisesController::class, "obtener_paises_asociados_todos"]);
+Route::post('paises/obtener_jerarquia', [PaisesController::class, "obtener_jerarquia"]);
 
 // UNIONES
 Route::get('uniones/index', [UnionesController::class, "index"]);

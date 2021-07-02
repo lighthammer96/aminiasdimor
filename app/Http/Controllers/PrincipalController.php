@@ -26,8 +26,14 @@ class PrincipalController extends Controller
         // return view($view, $datos);
     }
 
-    public function obtener_departamentos() {
-        $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento";
+    public function obtener_departamentos(Request $request) {
+        $sql = "";
+        if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
+            $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento WHERE pais_id=".$request->input("pais_id");
+        } else {
+            $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento
+            WHERE pais_id = ".session("pais_id");
+        }
         $result = DB::select($sql);
         echo json_encode($result);
     }

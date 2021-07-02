@@ -1,7 +1,8 @@
+var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
-
+    
     distritos_misioneros.TablaListado({
         tablaID: '#tabla-distritos-misioneros',
         url: "/buscar_datos",
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     distritos_misioneros.select({
         name: 'iddistritomisionero',
         url: '/obtener_distritos_misioneros',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     })
 
     document.addEventListener("click", function(event) {
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 distritos_misioneros.select({
                     name: 'iddistritomisionero',
                     url: '/obtener_distritos_misioneros',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

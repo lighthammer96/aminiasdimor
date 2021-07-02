@@ -1,7 +1,7 @@
+var paises = new BASE_JS('paises', 'paises');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var paises = new BASE_JS('paises', 'paises');
-
     paises.TablaListado({
         tablaID: '#tabla-paises',
         url: "/buscar_datos",
@@ -18,9 +18,65 @@ document.addEventListener("DOMContentLoaded", function() {
     paises.select({
         name: 'pais_id',
         url: '/obtener_paises',
-        
-    
     })
+
+    paises.enter("descripcion", "item", function() {
+        var item = document.getElementsByName("item")[0];
+        var descripcion = document.getElementsByName("descripcion")[0];
+        // console.log(idioma_id.options[idioma_id.selectedIndex].text);
+        // console.log(descripciom);
+        var objeto = {
+            item: item.value,
+            descripcion: descripcion.value
+        }
+
+
+        document.getElementById("detalle-jerarquia").getElementsByTagName("tbody")[0].appendChild(html_detalle_jerarquia(objeto));
+    
+        paises.limpiarDatos("limpiar");
+    });
+
+
+    function html_detalle_jerarquia(objeto, disabled) {
+        var attr = '';
+        var html = '';
+        if(typeof disabled != "undefined") {
+            attr = 'disabled="disabled"';
+        }
+        var tr = document.createElement("tr");
+
+        document.getElementsByName("item")[0].value = parseInt(objeto.item) + 1; 
+
+        html = '  <input type="hidden" name="pj_item[]" value="'+objeto.item+'" >';
+        html += '  <input type="hidden" name="pj_descripcion[]" value="'+objeto.descripcion+'" >';
+        html += '  <td>'+objeto.item+'</td>';
+        html += '  <td>'+objeto.descripcion+'</td>';
+        html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-traduccion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+        tr.innerHTML = html;
+        return tr;
+    }
+
+    document.addEventListener("click", function(event) {
+       
+        // console.log(event.target.classList);
+        // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+        if(event.target.classList.value.indexOf("eliminar-traduccion") != -1) {
+            event.preventDefault();
+            document.getElementsByName("item")[0].value = parseInt(document.getElementsByName("item")[0].value) - 1; ;
+            event.srcElement.parentNode.parentNode.parentNode.remove();
+        }
+
+        if(event.srcElement.parentNode.classList.value.indexOf("eliminar-traduccion") != -1 && !event.srcElement.parentNode.disabled) {
+            event.preventDefault();
+            ///console.log(event.srcElement.parentNode);
+            document.getElementsByName("item")[0].value = parseInt(document.getElementsByName("item")[0].value) - 1; 
+            event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+            
+        }
+
+    })
+
 
     document.addEventListener("click", function(event) {
         var id = event.srcElement.id;
@@ -66,7 +122,22 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        paises.get(datos.pais_id);
+        var promise = paises.get(datos.pais_id);
+
+        promise.then(function(response) {
+            paises.ajax({
+                url: '/obtener_jerarquia',
+                datos: { pais_id: response.pais_id, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementsByName("item")[0].value = response[i].pj_item;
+                        document.getElementById("detalle-jerarquia").getElementsByTagName("tbody")[0].appendChild(html_detalle_jerarquia(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+        })
     }
 
     function guardar_pais() {

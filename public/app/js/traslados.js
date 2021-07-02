@@ -1,17 +1,16 @@
+var divisiones = new BASE_JS('divisiones', 'divisiones');
+var paises = new BASE_JS('paises', 'paises');
+var uniones = new BASE_JS('uniones', 'uniones');
+var misiones = new BASE_JS('misiones', 'misiones');
+var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
+var iglesias = new BASE_JS('iglesias', 'iglesias');
+
+
+var traslados = new BASE_JS('traslados', 'traslados');
+var traslados_temp = new BASE_JS('traslados_temp', 'traslados');
+
 
 document.addEventListener("DOMContentLoaded", function() {
-            
-    var divisiones = new BASE_JS('divisiones', 'divisiones');
-    var paises = new BASE_JS('paises', 'paises');
-    var uniones = new BASE_JS('uniones', 'uniones');
-    var misiones = new BASE_JS('misiones', 'misiones');
-    var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
-    var iglesias = new BASE_JS('iglesias', 'iglesias');
-
-
-    var traslados = new BASE_JS('traslados', 'traslados');
-    var traslados_temp = new BASE_JS('traslados_temp', 'traslados');
-
 
     document.addEventListener("click", function(event) {
         var id = event.srcElement.id;
@@ -104,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 traslados.select({
                     name: 'perfil_id',
                     url: '/obtener_traslados',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })
@@ -215,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
     divisiones.select({
         name: 'iddivision',
         url: '/obtener_divisiones',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
 
         $("#iddivision").trigger("change", ["", "", ""]);
@@ -237,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
         paises.select({
             name: 'pais_id',
             url: '/obtener_paises_asociados',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
@@ -270,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function() {
         uniones.select({
             name: 'idunion',
             url: '/obtener_uniones_paises',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
             misiones.select({
                 name: 'idmision',
                 url: '/obtener_misiones',
-                placeholder: 'Seleccione ...',
+                placeholder: seleccione,
                 datos: { pais_id: d_id }
             })
         } else {
@@ -313,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function() {
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
@@ -341,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function() {
         distritos_misioneros.select({
             name: 'iddistritomisionero',
             url: '/obtener_distritos_misioneros',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
@@ -369,7 +368,7 @@ document.addEventListener("DOMContentLoaded", function() {
         iglesias.select({
             name: 'idiglesia',
             url: '/obtener_iglesias',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function() {
@@ -399,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function() {
     divisiones.select({
         name: 'iddivisiondestino',
         url: '/obtener_divisiones_todos',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
 
         $("#iddivisiondestino").trigger("change", ["", "", ""]);
@@ -421,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function() {
         paises.select({
             name: 'pais_iddestino',
             url: '/obtener_paises_asociados_todos',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
@@ -454,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function() {
         uniones.select({
             name: 'iduniondestino',
             url: '/obtener_uniones_paises_todos',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
@@ -477,7 +476,7 @@ document.addEventListener("DOMContentLoaded", function() {
             misiones.select({
                 name: 'idmisiondestino',
                 url: '/obtener_misiones_todos',
-                placeholder: 'Seleccione ...',
+                placeholder: seleccione,
                 datos: { pais_id: d_id }
             })
         } else {
@@ -497,7 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
         misiones.select({
             name: 'idmisiondestino',
             url: '/obtener_misiones_todos',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
@@ -525,7 +524,7 @@ document.addEventListener("DOMContentLoaded", function() {
         distritos_misioneros.select({
             name: 'iddistritomisionerodestino',
             url: '/obtener_distritos_misioneros_todos',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
@@ -553,7 +552,7 @@ document.addEventListener("DOMContentLoaded", function() {
         iglesias.select({
             name: 'idiglesiadestino',
             url: '/obtener_iglesias',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function() {

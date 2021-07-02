@@ -1,13 +1,12 @@
+var iglesias = new BASE_JS('iglesias', 'iglesias');
+var principal = new BASE_JS('principal', 'principal');
+var divisiones = new BASE_JS('divisiones', 'divisiones');
+var paises = new BASE_JS('paises', 'paises');
+var uniones = new BASE_JS('uniones', 'uniones');
+var misiones = new BASE_JS('misiones', 'misiones');
+var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 
 document.addEventListener("DOMContentLoaded", function() {
-
-    var iglesias = new BASE_JS('iglesias', 'iglesias');
-    var principal = new BASE_JS('principal', 'principal');
-    var divisiones = new BASE_JS('divisiones', 'divisiones');
-    var paises = new BASE_JS('paises', 'paises');
-    var uniones = new BASE_JS('uniones', 'uniones');
-    var misiones = new BASE_JS('misiones', 'misiones');
-    var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 
     iglesias.TablaListado({
         tablaID: '#tabla-iglesias',
@@ -18,14 +17,14 @@ document.addEventListener("DOMContentLoaded", function() {
     principal.select({
         name: 'idcategoriaiglesia',
         url: '/obtener_categorias_iglesia',
-        placeholder: 'Seleccione ...',
+        placeholder: seleccione,
     
     })
 
     // principal.select({
     //     name: 'idtipoconstruccion',
     //     url: '/obtener_tipos_construccion',
-    //     placeholder: 'Seleccione ...',
+    //     placeholder: seleccione,
     
     // })
 
@@ -33,14 +32,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // principal.select({
     //     name: 'idtipodocumentacion',
     //     url: '/obtener_tipos_documentacion',
-    //     placeholder: 'Seleccione ...',
+    //     placeholder: seleccione,
     
     // })
 
     // principal.select({
     //     name: 'idtipoinmueble',
     //     url: '/obtener_tipos_inmueble',
-    //     placeholder: 'Seleccione ...',
+    //     placeholder: seleccione,
     
     // })
 
@@ -48,14 +47,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // principal.select({
     //     name: 'idcondicioninmueble',
     //     url: '/obtener_condicion_inmueble',
-    //     placeholder: 'Seleccione ...',
+    //     placeholder: seleccione,
     
     // })
 
     iglesias.select({
         name: 'idiglesia',
         url: '/obtener_iglesias',
-        placeholder: 'Seleccione ...',
+        placeholder: seleccione,
     
     })
 
@@ -64,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     principal.select({
         name: 'iddepartamento',
         url: '/obtener_departamentos',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
         
         $("#iddepartamento").trigger("change", ["", "", ""]);
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
         principal.select({
             name: 'idprovincia',
             url: '/obtener_provincias',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddepartamento: d_id }
         }).then(function() {
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
         principal.select({
             name: 'iddistrito',
             url: '/obtener_distritos',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idprovincia:  p_id }
         }).then(function() {
@@ -142,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
     divisiones.select({
         name: 'iddivision',
         url: '/obtener_divisiones',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
 
         $("#iddivision").trigger("change", ["", "", ""]);
@@ -164,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
         paises.select({
             name: 'pais_id',
             url: '/obtener_paises_asociados',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
@@ -197,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
         uniones.select({
             name: 'idunion',
             url: '/obtener_uniones_paises',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
@@ -220,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function() {
             misiones.select({
                 name: 'idmision',
                 url: '/obtener_misiones',
-                placeholder: 'Seleccione ...',
+                placeholder: seleccione,
                 datos: { pais_id: d_id }
             })
         } else {
@@ -240,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function() {
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
@@ -268,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
         distritos_misioneros.select({
             name: 'iddistritomisionero',
             url: '/obtener_distritos_misioneros',
-            placeholder: 'Seleccione ...',
+            placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
@@ -357,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 iglesias.select({
                     name: 'idiglesia',
                     url: '/obtener_iglesias',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

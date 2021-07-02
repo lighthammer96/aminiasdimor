@@ -1,6 +1,6 @@
+var provincias = new BASE_JS('provincias', 'provincias');
+
 document.addEventListener("DOMContentLoaded", function() {
-            
-    var provincias = new BASE_JS('provincias', 'provincias');
 
     provincias.TablaListado({
         tablaID: '#tabla-provincias',
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     provincias.select({
         name: 'idprovincia',
         url: '/obtener_provincias',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
         
         
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 provincias.select({
                     name: 'idprovincia',
                     url: '/obtener_provincias',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

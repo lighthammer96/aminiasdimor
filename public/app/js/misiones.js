@@ -1,6 +1,6 @@
+var misiones = new BASE_JS('misiones', 'misiones');
+
 document.addEventListener("DOMContentLoaded", function() {
-            
-    var misiones = new BASE_JS('misiones', 'misiones');
 
     misiones.TablaListado({
         tablaID: '#tabla-misiones',

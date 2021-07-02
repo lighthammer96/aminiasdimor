@@ -1,25 +1,31 @@
+
+var idiomas = new BASE_JS('idiomas', 'idiomas');
+var combo_idioma = ""; // declaracion global
+var combo_idiomas = ""; // declaracion global
+
 document.addEventListener("DOMContentLoaded", function() {
         
-    var idiomas = new BASE_JS('idiomas', 'idiomas');
+    
 
     idiomas.TablaListado({
         tablaID: '#tabla-idiomas',
         url: "/buscar_datos",
     });
 
-    var combo_idiomas = idiomas.select({
+    combo_idiomas = idiomas.select({
         name: 'idioma_id',
         url: '/obtener_idiomas',
         placeholder: 'Seleccione Idioma'
     });
 
 
-    var combo_idioma = idiomas.select({
+    combo_idioma = idiomas.select({
         name: 'idioma',
         url: '/obtener_idiomas',
         placeholder: 'Seleccione Idioma'
     });
 
+    
 
     // var combo_idioma_padre = idiomas.select({
     //     name: 'idioma|padre',
@@ -217,3 +223,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 })
+

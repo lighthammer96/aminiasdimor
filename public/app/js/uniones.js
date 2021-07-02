@@ -1,7 +1,6 @@
+var uniones = new BASE_JS('uniones', 'uniones');
 
 document.addEventListener("DOMContentLoaded", function() {
-    
-    var uniones = new BASE_JS('uniones', 'uniones');
 
     uniones.TablaListado({
         tablaID: '#tabla-uniones',
@@ -97,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 uniones.select({
                     name: 'idunion',
                     url: '/obtener_uniones',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

@@ -1,7 +1,8 @@
+var distritos = new BASE_JS('distritos', 'distritos');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var distritos = new BASE_JS('distritos', 'distritos');
-
+    
     distritos.TablaListado({
         tablaID: '#tabla-distritos',
         url: "/buscar_datos",
@@ -10,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     distritos.select({
         name: 'iddistrito',
         url: '/obtener_distritos',
-        placeholder: 'Seleccione ...'
+        placeholder: seleccione
     }).then(function() {
         
         
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 distritos.select({
                     name: 'iddistrito',
                     url: '/obtener_distritos',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

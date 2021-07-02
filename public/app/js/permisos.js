@@ -1,8 +1,7 @@
+// var perfiles = new BASE_JS("perfiles", 'PerfilesController');
+var permisos = new BASE_JS("permisos", "permisos");
 
 document.addEventListener("DOMContentLoaded", function() {
-            
-    // var perfiles = new BASE_JS("perfiles", 'PerfilesController');
-    var permisos = new BASE_JS("permisos", "permisos");
 
     perfiles.select({
         name: 'perfil_id',

@@ -174,6 +174,14 @@
         var datatable_from = "<?php echo traducir('traductor.datatable_from'); ?>";
         var datatable_a = "<?php echo traducir('traductor.datatable_a'); ?>";
         var datatable_no_data = "<?php echo traducir('traductor.datatable_no_data'); ?>";
+        var jerarquia_traductor = new Array();
+        jerarquia_traductor['departamento'] = "<?php echo traducir('traductor.departamento'); ?>";
+        jerarquia_traductor['provincia'] = "<?php echo traducir('traductor.provincia'); ?>";
+        jerarquia_traductor['distrito'] = "<?php echo traducir('traductor.distrito'); ?>";
+        jerarquia_traductor['estado'] = "<?php echo traducir('traductor.estado'); ?>";
+        jerarquia_traductor['municipio'] = "<?php echo traducir('traductor.municipio'); ?>";
+        jerarquia_traductor['parroquias'] = "<?php echo traducir('traductor.parroquias'); ?>";
+        var seleccione = "<?php echo traducir('traductor.seleccione'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

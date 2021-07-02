@@ -53,6 +53,15 @@ class PaisesController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.paises", $_POST));
         }
 
+
+        DB::table("iglesias.paises_jerarquia")->where("pais_id", $result["id"])->delete();
+        if(isset($_REQUEST["pj_item"]) && isset($_REQUEST["pj_descripcion"])) {
+     
+            $_POST["pais_id"] = $result["id"];
+           
+            $this->base_model->insertar($this->preparar_datos("iglesias.paises_jerarquia", $_POST, "D"), "D");
+        }
+
         echo json_encode($result);
     }
 
@@ -92,6 +101,7 @@ class PaisesController extends Controller
 		}
 
         $result = DB::select($sql);
+
         echo json_encode($result);
     }
 
@@ -131,5 +141,24 @@ class PaisesController extends Controller
         // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
+    }
+
+
+    public function obtener_jerarquia(Request $request) {
+        if(!empty($_REQUEST["pais_id"])) {
+            $sql = "SELECT pj_item AS item, pj_descripcion AS descripcion
+            FROM iglesias.paises_jerarquia 
+            WHERE pais_id=".$request->input("pais_id")."
+            ORDER BY pj_item ASC";  
+        } else {
+            $sql = "SELECT pj_item AS item, pj_descripcion AS descripcion
+            FROM iglesias.paises_jerarquia 
+            WHERE pais_id=".session("pais_id")."
+            ORDER BY pj_item ASC";  
+        }
+        
+        $result = DB::select($sql);
+        echo json_encode($result);
+       //print_r($_REQUEST);
     }
 }

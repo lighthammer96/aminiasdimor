@@ -12,6 +12,7 @@
                             <li><a class="modificar" href="#registro-administrativo" data-toggle="tab">Registro Administrativo</a></li>
                             <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">Historial de Altas y Bajas</a></li>
                             <li><a class="modificar" href="#historial-traslados" data-toggle="tab">Historial de Traslados</a></li>
+                            <li><a class="modificar" href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>
                             
                           
                            
@@ -81,13 +82,13 @@
                                         <fieldset>
                                             <legend>Domicilio</legend>
                                             <div class="row">
-                                                <div class="col-md-4" style="padding-right: 5px;">
+                                                <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px;">
                                                     <label class="control-label">Departamento</label>
                                                     <select class="entrada selectizejs" name="iddepartamentodomicilio" id="iddepartamentodomicilio">
 
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
+                                                <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">Provincia</label>
 
                                                     <select class="entrada selectizejs" name="idprovinciadomicilio" id="idprovinciadomicilio">
@@ -97,7 +98,7 @@
 
 
                                                 </div>
-                                                <div class="col-md-4" style="padding-left: 5px;">
+                                                <div class="col-md-4 jerarquia" style="display: none; padding-left: 5px;">
                                                     <label class="control-label">Distrito</label>
 
                                                     <select class="entrada selectizejs" name="iddistritodomicilio" id="iddistritodomicilio">

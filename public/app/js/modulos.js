@@ -1,10 +1,8 @@
+var modulos = new BASE_JS('modulos', 'modulos');
+var padres = new BASE_JS('padres', 'modulos');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var modulos = new BASE_JS('modulos', 'modulos');
-    var padres = new BASE_JS('padres', 'modulos');
-
-
-
     var eventClick = new Event('click');
 
     padres.enter("modulo_nombre|padre","modulo_icono|padre");
@@ -49,6 +47,13 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     modulos.enter("descripcion", "idioma", function() {
+        var required = true;
+        required = modulos.required("idioma");
+
+        if(!required) {
+            return false;
+        }
+
         var idioma_id = document.getElementsByName("idioma")[0];
         var descripcion = document.getElementsByName("descripcion")[0];
         // console.log(idioma_id.options[idioma_id.selectedIndex].text);

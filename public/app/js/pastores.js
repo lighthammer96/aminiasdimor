@@ -1,7 +1,7 @@
+var pastores = new BASE_JS('pastores', 'pastores');
+var principal = new BASE_JS('principal', 'principal');
+
 document.addEventListener("DOMContentLoaded", function() {
-            
-    var pastores = new BASE_JS('pastores', 'pastores');
-    var principal = new BASE_JS('principal', 'principal');
 
     pastores.TablaListado({
         tablaID: '#tabla-pastores',
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     principal.select({
         name: 'idtipodoc',
         url: '/obtener_tipos_documento',
-        placeholder: 'Seleccione ...',
+        placeholder: seleccione,
     }).then(function() {
         pastores.enter("idtipodoc","nrodoc");
     })
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     pastores.select({
         name: 'idcargo',
         url: '/obtener_cargos',
-        placeholder: 'Seleccione ...',
+        placeholder: seleccione,
     }).then(function() {
     })
 

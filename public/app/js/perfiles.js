@@ -1,7 +1,8 @@
+var perfiles = new BASE_JS('perfiles', 'perfiles');
+
 document.addEventListener("DOMContentLoaded", function() {
         
-    var perfiles = new BASE_JS('perfiles', 'perfiles');
-
+   
     perfiles.TablaListado({
         tablaID: '#tabla-perfiles',
         url: "/buscar_datos",
@@ -12,6 +13,13 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     perfiles.enter("descripcion", "idioma", function() {
+        var required = true;
+        required = modulos.required("idioma");
+
+        if(!required) {
+            return false;
+        }
+
         var idioma_id = document.getElementsByName("idioma")[0];
         var descripcion = document.getElementsByName("descripcion")[0];
         // console.log(idioma_id.options[idioma_id.selectedIndex].text);
@@ -139,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 perfiles.select({
                     name: 'perfil_id',
                     url: '/obtener_perfiles',
-                    placeholder: 'Seleccione ...',
+                    placeholder: seleccione,
                     selected: response.id
                 })
             })

@@ -66,6 +66,12 @@ return [
     'departamento' => "Departamento",
     'provincia' => "Provincia",
     'distrito' => "Distrito",
+    'seleccione' => "Seleccione ...",
+    'municipio' => "Municipio",
+    'parroquias' => "Parroquias",
+    'division_1' => "División Política 1",
+    'division_2' => "División Política 2",
+    'division_3' => "División Política 3",
 
 
      // LABELS DATATABLES

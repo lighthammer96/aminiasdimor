@@ -1,10 +1,12 @@
 
+var usuarios = new BASE_JS('usuarios', 'usuarios');
+var perfiles = new BASE_JS('perfiles', 'perfiles');
+var asociados = new BASE_JS('asociados', 'asociados');
+var principal = new BASE_JS('principal', 'principal');
+
+
 document.addEventListener("DOMContentLoaded", function() {
-    
-    var usuarios = new BASE_JS('usuarios', 'usuarios');
-    var perfiles = new BASE_JS('perfiles', 'perfiles');
-    var asociados = new BASE_JS('asociados', 'asociados');
-    var principal = new BASE_JS('principal', 'principal');
+
     var eventClick = new Event('click');
 
     asociados.TablaListado({

@@ -1,7 +1,8 @@
+var departamentos = new BASE_JS('departamentos', 'departamentos');
+
 document.addEventListener("DOMContentLoaded", function() {
             
-    var departamentos = new BASE_JS('departamentos', 'departamentos');
-
+   
     departamentos.TablaListado({
         tablaID: '#tabla-departamentos',
         url: "/buscar_datos",
