@@ -357,7 +357,16 @@
                                     <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
-                                        <select class="entrada selectizejs" name="idtipocargo" id="idtipocargo">
+                                        <select class="entrada selectizejs limpiar-cargos" name="idtipocargo" id="idtipocargo">
+
+                                        </select>
+                                    
+                                    </div>
+
+                                    <div class="col-md-2 nivel">
+                        
+                                        <label class="control-label">{{ traducir('traductor.nivel') }}</label>
+                                        <select class="entrada selectizejs limpiar-cargos" name="idnivel" id="idnivel">
 
                                         </select>
                                     
@@ -366,32 +375,32 @@
                                     <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.cargo') }}</label>
-                                        <select class="entrada selectizejs" name="idcargo" id="idcargo">
+                                        <select class="entrada selectizejs limpiar-cargos" name="idcargo" id="idcargo">
 
                                         </select>
                                     
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <!-- <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.institucion_iglesia') }}</label>
                                         <select class="entrada selectizejs" name="idinstitucion" id="idinstitucion">
 
                                         </select>
                                     
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.periodo_ini') }}</label>
-                                        <select class="entrada selectizejs" name="periodoini" id="periodoini">
+                                        <select class="entrada selectizejs limpiar-cargos" name="periodoini" id="periodoini">
 
                                         </select>
  
                                     </div>
                                     <div class="col-md-2" >
                                         <label class="control-label">{{ traducir('traductor.periodo_fin') }}</label>
-                                        <select class="entrada selectizejs" name="periodofin" id="periodofin">
+                                        <select class="entrada selectizejs limpiar-cargos" name="periodofin" id="periodofin">
 
                                         </select>
                                     </div>
@@ -406,7 +415,7 @@
                                                
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
-                                        <textarea class="form-control input-sm entrada" name="observaciones_cargo" id="" cols="30" rows="2"></textarea>
+                                        <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_cargo" id="" cols="30" rows="2"></textarea>
                                         
                                     </div>
                                     
@@ -419,7 +428,7 @@
                                                 <tr>
                                                     <th style="width: 200px;">{{ traducir('traductor.tipo_cargo') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.cargo') }}</th>
-                                                    <th style="width: 200px;">{{ traducir('traductor.institucion_iglesia') }}</th>
+                                                    <!-- <th style="width: 200px;">{{ traducir('traductor.institucion_iglesia') }}</th> -->
                                                     <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.observaciones') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.vigente') }}</th>

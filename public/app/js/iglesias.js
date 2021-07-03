@@ -60,14 +60,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
     principal.select({
         name: 'iddepartamento',
         url: '/obtener_departamentos',
         placeholder: seleccione
     }).then(function() {
         
-        $("#iddepartamento").trigger("change", ["", "", ""]);
-        $("#idprovincia").trigger("change", ["", "", ""]);
+        $("#iddepartamento").trigger("change", ["", ""]);
+        $("#idprovincia").trigger("change", ["", ""]);
     }) 
 
 
@@ -86,15 +87,15 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { iddepartamento: d_id }
         }).then(function() {
         
-            var condicion = typeof iddepartamento == "undefined";
-            condicion = condicion && typeof idprovincia == "undefined";
+            var condicion = typeof iddepartamento == "undefined" && iddepartamento != "";
+            condicion = condicion && typeof idprovincia == "undefined" && idprovincia != "";
         
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("iddepartamento");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("iddepartamento");
+                // if(required) {
                     $("#idprovincia")[0].selectize.focus();
-                }
+                // }
             } 
         
         
@@ -120,15 +121,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }).then(function() {
             iglesias.enter("iddistrito","iddistritomisionero");
             
-            var condicion = typeof idprovincia == "undefined";
-            condicion = condicion && typeof iddistrito == "undefined";
+            var condicion = typeof idprovincia == "undefined" && idprovincia != "";
+            condicion = condicion && typeof iddistrito == "undefined" && iddistrito != "";
 
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("idprovincia");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("idprovincia");
+                // if(required) {
                     $("#iddistrito")[0].selectize.focus();
-                }
+                // }
             
             } 
         })
@@ -136,6 +137,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
+    
+    function jerarquia(pais_id) {
+      
+        $(".jerarquia").hide();
+        var jerarquia = document.getElementsByClassName("jerarquia");
+        var promise = paises.ajax({
+            url: '/obtener_jerarquia',
+            datos: { pais_id: pais_id, _token: _token }
+        }).then(function(response) {
+            if(response.length > 0) {
+                for (let index = 0; index < jerarquia.length; index++) {
+                    if(typeof response[index] != "undefined") {
+                        // console.log($(jerarquia[index]).find("label")[0]);
+                        $(jerarquia[index]).show();
+                        $(jerarquia[index]).find("label").text(jerarquia_traductor[response[index].descripcion]);
+                    }
+                
+                    
+                }
+            }
+            
+            //console.log(response);
+        })
+        return promise;
+        
+    }
 
 
     divisiones.select({
@@ -144,12 +171,12 @@ document.addEventListener("DOMContentLoaded", function() {
         placeholder: seleccione
     }).then(function() {
 
-        $("#iddivision").trigger("change", ["", "", ""]);
+        $("#iddivision").trigger("change", ["", ""]);
         $("#pais_id").trigger("change", ["", "", ""]);
-        $("#idunion").trigger("change", ["", "", ""]);
-        $("#idmision").trigger("change", ["", "", ""]);
-        $("#iddistritomisionero").trigger("change", ["", "", ""]);
-        $("#idiglesia").trigger("change", ["", "", ""]);
+        $("#idunion").trigger("change", ["", ""]);
+        $("#idmision").trigger("change", ["", ""]);
+        $("#iddistritomisionero").trigger("change", ["", ""]);
+        $("#idiglesia").trigger("change", ["", ""]);
         
         
     }) 
@@ -168,15 +195,15 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { iddivision: d_id }
         }).then(function(response) {
             
-            var condicion = typeof iddivision == "undefined";
-            condicion = condicion && typeof pais_id == "undefined";
+            var condicion = typeof iddivision == "undefined" && iddivision != "";
+            condicion = condicion && typeof pais_id == "undefined" && pais_id != "";
         
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("iddivision");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("iddivision");
+                // if(required) {
                     $("#pais_id")[0].selectize.focus();
-                }
+                // }
             } 
         
         })
@@ -184,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    $(document).on('change', '#pais_id', function(event, pais_id, idunion) {
+    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamento) {
         var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
@@ -193,6 +220,9 @@ document.addEventListener("DOMContentLoaded", function() {
         var posee_union = array[1];
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
+        var selected_iddepartamento = (typeof iddepartamento != "undefined")  ? iddepartamento : "";
+        jerarquia(d_id);
+
         uniones.select({
             name: 'idunion',
             url: '/obtener_uniones_paises',
@@ -201,15 +231,22 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: d_id }
         }).then(function() {
         
-            var condicion = typeof pais_id == "undefined";
-            condicion = condicion && typeof idunion == "undefined";
+            var condicion = typeof pais_id == "undefined" && pais_id != "";
+            condicion = condicion && typeof idunion == "undefined" && idunion != "";
+            condicion = condicion && typeof iddepartamento == "undefined" && iddepartamento != "";
         
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("pais_id");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("pais_id");
+                // if(required) {
                     $("#idunion")[0].selectize.focus();
-                }
+                // }
+
+                
+                // if(session_pais_id != d_id) {
+                    
+                // }
+               
             } 
         
         })
@@ -225,6 +262,23 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             $(".union").show();
         }
+
+
+        principal.select({
+            name: 'iddepartamento',
+            url: '/obtener_departamentos',
+            placeholder: seleccione,
+            selected: selected_iddepartamento,
+            datos: { pais_id: d_id }
+        }).then(function() {
+            var condicion = typeof pais_id == "undefined" && pais_id != "";
+            condicion = condicion && typeof iddepartamento == "undefined" && iddepartamento != "";
+
+            if(condicion) {
+                $("#iddepartamento").trigger("change", ["", ""]);
+                $("#idprovincia").trigger("change", ["", ""]);  
+            }
+        }) 
         
     });
 
@@ -244,15 +298,15 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { idunion: d_id }
         }).then(function() {
         
-            var condicion = typeof idunion == "undefined";
-            condicion = condicion && typeof idmision == "undefined";
+            var condicion = typeof idunion == "undefined" && idunion != "";
+            condicion = condicion && typeof idmision == "undefined" && idmision != "";
         
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("idunion");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("idunion");
+                // if(required) {
                     $("#idmision")[0].selectize.focus();
-                }
+                // }
             } 
         
         })
@@ -272,15 +326,15 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { idmision: d_id }
         }).then(function() {
         
-            var condicion = typeof idmision == "undefined";
-            condicion = condicion && typeof iddistritomisionero == "undefined";
+            var condicion = typeof idmision == "undefined" && idmision != "";
+            condicion = condicion && typeof iddistritomisionero == "undefined" && iddistritomisionero != "";
         
             if(condicion) {
-                var required = true;
-                required = required && iglesias.required("idmision");
-                if(required) {
+                // var required = true;
+                // required = required && iglesias.required("idmision");
+                // if(required) {
                     $("#iddistritomisionero")[0].selectize.focus();
-                }
+                // }
             } 
         
         })
@@ -298,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nueva-iglesia':
                 event.preventDefault();
-            
+                jerarquia("");
                 iglesias.abrirModal();
             break;
 
@@ -333,20 +387,66 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        iglesias.get(datos.idiglesia);
+        var promise = iglesias.get(datos.idiglesia);
+        promise.then(function(response) {
+            var array_pais = response.pais_id.split("|");
+            jerarquia(array_pais[0]);
+            // principal.select({
+            //     name: 'iddepartamento',
+            //     url: '/obtener_departamentos',
+            //     placeholder: seleccione,
+            //     selected: response.iddepartamento,
+            //     datos: { pais_id: array_pais[0] }
+            // }).then(function() {
+                
+            //     $("#iddepartamento").trigger("change", [response.iddepartamento, response.idprovincia]);
+            //     $("#idprovincia").trigger("change", [response.idprovincia, response.iddistrito]);
+            // }) 
+
+            if(response.posee_union == "N") {
+                $(".union").hide();
+            } else {
+                $(".union").show();
+            }
+
+            $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
+            $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+            $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
+
+
+            $("#iddepartamento").trigger("change", [response.iddepartamento, response.idprovincia]);
+            $("#idprovincia").trigger("change", [response.idprovincia, response.iddistrito]);
+        })
     }
 
     function guardar_iglesia() {
+
+        var pais_id = document.getElementsByName("pais_id")[0].value;
+        var array_pais = pais_id.split("|");
+      
         var required = true;
+        required = required && iglesias.required("iddivision");
+        required = required && iglesias.required("pais_id");
+        // required = required && iglesias.required("iddivision");
+        if(array_pais[1] == "S") {
+            required = required && iglesias.required("idunion");
+        }
+        required = required && iglesias.required("idmision");
+        required = required && iglesias.required("iddistritomisionero");
+        // required = required && iglesias.required("idiglesia");
         required = required && iglesias.required("descripcion");
+        required = required && iglesias.required("iddepartamento");
+  
         if(required) {
             var promise = iglesias.guardar();
             iglesias.CerrarModal();
-            iglesias.datatable.destroy();
-            iglesias.TablaListado({
-                tablaID: '#tabla-iglesias',
-                url: "/buscar_datos",
-            });
+            // iglesias.datatable.destroy();
+            // iglesias.TablaListado({
+            //     tablaID: '#tabla-iglesias',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -377,11 +477,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 iglesias.Operacion(datos.idiglesia, "E");
-                iglesias.datatable.destroy();
-                iglesias.TablaListado({
-                    tablaID: '#tabla-iglesias',
-                    url: "/buscar_datos",
-                });
+                // iglesias.datatable.destroy();
+                // iglesias.TablaListado({
+                //     tablaID: '#tabla-iglesias',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }
@@ -396,6 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
                 switch (event.code) {
                     case 'F1':
+                        jerarquia("");
                         iglesias.abrirModal();
                         event.preventDefault();
                         event.stopPropagation();

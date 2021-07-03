@@ -12,6 +12,7 @@ class BaseModel extends Model
     use HasFactory;
 
     public function __construct() {
+
         $this->camposLogInsertar = ['fecha_registro', 'usuario_registro', 'pc_registro'];
         $this->camposLogModificar = ['fecha_ultima_modificacion', 'usuario_ultima_modificacion', 'pc_ultima_modificacion'];
         $this->camposLogAnular = ['fecha_ultima_anulacion', 'usuario_ultima_anulacion', 'pc_ultima_anulacion'];
@@ -42,46 +43,40 @@ class BaseModel extends Model
                     // $value["pc_registro"] = $this->session->caja_pcname;
 
                 }
-                //$fields = $this->db->list_fields($tabla);
-                // $this->db->insert($parametros["tabla"], $value);
-              
+
                 DB::table($parametros["tabla"])->insert($value);
                
             }
 
-            // $db_error = $this->db->error();
-            // if ($db_error["code"] != 0) {
-            //     throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
-            //     return false; // unreachable retrun statement !!!
-            // }
 
             if($tipoTabla == 'N') {
                 // var_dump(DB); exit;
                 // if(isset(DB::getPdo())) { 
                 //     $lastid = DB::getPdo()->lastInsertId();
                 // }
-
                 $lastid = DB::getPdo()->lastInsertId();
-               
-               
+                $parametros["id"] = $lastid;
             }
             // else {
             //     throw new Exception("NO TIENE UNA LLAVE DE TIPO AUTO INCREMENTAL");
 
             // }
 
+            // if ($tipoTabla == 'N') {
+            //     $parametros["status"] = "i";
+            //     $parametros["id"] = $lastid;
+            //     $parametros["type"] = "success";
+            //     $parametros["msg"] = "SE GUARDÓ CORRECTAMENTE";
+            //     return $parametros;
+            //     // return array("status" => "i", "id" => $lastid);
+
+            // }
 
 
-            if ($tipoTabla == 'N') {
-                $parametros["status"] = "i";
-                $parametros["id"] = $lastid;
-                $parametros["type"] = "success";
-                $parametros["msg"] = "SE GUARDÓ CORRECTAMENTE";
-                return $parametros;
-                // return array("status" => "i", "id" => $lastid);
-
-            }
-
+            $parametros["status"] = "i";
+            $parametros["type"] = "success";
+            $parametros["msg"] = "SE GUARDÓ CORRECTAMENTE";
+            return $parametros;
 
 
         } catch (\Illuminate\Database\QueryException $e) {

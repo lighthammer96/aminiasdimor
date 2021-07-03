@@ -37,7 +37,8 @@ class AsociadosModel extends Model
 
         $array_where = array();
         $where = "";
-        if(count(session("array_tipos_acceso")) > 0) {
+        // var_dump(session("array_tipos_acceso")); exit;
+        if(session("array_tipos_acceso") != NULL && count(session("array_tipos_acceso")) > 0) {
             foreach (session("array_tipos_acceso") as $value) {
                 foreach ($value as $k => $v) {
                     array_push($array_where, "m.".$k." = ".$v);

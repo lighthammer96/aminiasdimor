@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			botones[index].disabled = false;
 
 		}
-	}, '2500');
+	}, '3000');
 
 
 	// $.post(BaseUrl + 'PrincipalController/validarInicioSistema', {}, function(data, textStatus, xhr) {

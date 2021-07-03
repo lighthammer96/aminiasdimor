@@ -142,13 +142,13 @@
                        
                     </div> -->
                     <div class="row">
-                        <div class="col-md-4" style="padding-right: 5px;">
+                        <div class="col-md-4 jerarquia" style="padding-right: 5px;">
                             <label class="control-label">Departamento</label>
                             <select class="entrada selectizejs" name="iddepartamento" id="iddepartamento">
 
                             </select>
                         </div>
-                        <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
+                        <div class="col-md-4 jerarquia" style="padding-right: 5px; padding-left: 5px;">
                             <label class="control-label">Provincia</label>
 
                             <select class="entrada selectizejs" name="idprovincia" id="idprovincia">
@@ -158,7 +158,7 @@
 
 
                         </div>
-                        <div class="col-md-4" style="padding-left: 5px;">
+                        <div class="col-md-4 jerarquia" style="padding-left: 5px;">
                             <label class="control-label">Distrito</label>
 
                             <select class="entrada selectizejs" name="iddistrito" id="iddistrito">

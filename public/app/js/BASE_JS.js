@@ -258,17 +258,19 @@ class BASE_JS {
             return response;
         });
 
-        if(typeof this.datatable.ajax != "undefined") {
-            this.datatable.clear();
-            this.datatable.ajax.reload();
-            this.datatable.draw();
-        }
-        
+     
         promise.then(function(response) {
             if(typeof response.validacion == "undefined") {
                 self.LimpiarFormulario();
                 $("#" + self.modalID).trigger('shown.bs.modal');
             }
+
+            if(typeof self.datatable.ajax != "undefined") {
+                self.datatable.clear();
+                self.datatable.ajax.reload();
+                self.datatable.draw();
+            }
+        
         }) 
        
         return promise;
@@ -406,6 +408,16 @@ class BASE_JS {
             BASE_JS.mensaje(response);
             return response;
         });
+
+        promise.then(function(response) {
+
+            if(typeof self.datatable.ajax != "undefined") {
+                self.datatable.clear();
+                self.datatable.ajax.reload();
+                self.datatable.draw();
+            }
+        
+        }) 
         return promise
     }
     ver(id) {
@@ -543,6 +555,16 @@ class BASE_JS {
             elementos[i].value = "";
             //elementos[i].innerText = "";
             //console.log(elementos[i]);
+           // console.log(elementos[i].classList);
+            if (elementos[i].tagName == "SELECT") {
+                if (elementos[i].classList.contains("selectized")) {
+                    $("#" + elementos[i].id).selectize()[0].selectize.destroy();
+                    elementos[i].selectedIndex = 0;
+                    $("#" + elementos[i].id).selectize();
+                } else {
+                    elementos[i].selectedIndex = 0;
+                }
+            }
         }
         console.log("ELEMENTOS LIMPIADOS CUYA CLASE ES -> " + className);
         //return elementos;

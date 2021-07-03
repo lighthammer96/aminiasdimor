@@ -81,6 +81,9 @@ class AsociadosController extends Controller
                 $_POST["idunion"] = $res[0]->idunion;
             }
 
+            // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
+            // $_POST["idtipocargo"] = $array_tipo_cargo[0];
+
             $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
             $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s");
             $_POST["fechabautizo"] = $this->FormatoFecha($_REQUEST["fechabautizo"], "server");
@@ -105,10 +108,13 @@ class AsociadosController extends Controller
             }
 
             
-           
+        //    var_dump(isset($_REQUEST["idcargo"]));
+        //    var_dump(!empty($_REQUEST["idcargo"]));
+        //    exit;
             if(isset($_REQUEST["idcargo"]) && !empty($_REQUEST["idcargo"])) {
                 DB::table("iglesias.cargo_miembro")->where("idmiembro", $result["id"])->delete();
-                $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
+                // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"));
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
             }
 
             DB::commit();
@@ -259,11 +265,11 @@ class AsociadosController extends Controller
 
 
     public function obtener_cargos(Request $request) {
-        $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo, i.descripcion AS institucion FROM iglesias.cargo_miembro AS cm
+        $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo /*, i.descripcion AS institucion*/ FROM iglesias.cargo_miembro AS cm
         INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
         INNER JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)
-        INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)
+        /*INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)*/
         WHERE cm.idmiembro=".$request->input("idmiembro")."
         ORDER BY cm.idcargomiembro DESC";
         $result = DB::select($sql);

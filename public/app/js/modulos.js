@@ -205,9 +205,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
             modulos.datatable.destroy();
             modulos.TablaListado({
-            tablaID: '#tabla-modulos',
-            url: "/buscar_datos",
-        });
+                tablaID: '#tabla-modulos',
+                url: "/buscar_datos",
+            });
 
             modulos.select({
                 name: "modulo_padre",

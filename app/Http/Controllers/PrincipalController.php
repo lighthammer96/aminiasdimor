@@ -152,28 +152,28 @@ class PrincipalController extends Controller
         echo json_encode($result);
     }
 
-    public function obtener_tipos_cargo() {
-        $sql = "SELECT idtipocargo as id, descripcion FROM public.tipocargo 
-        ORDER BY idtipocargo ASC";
-        $result = DB::select($sql);
-        echo json_encode($result);
-    }
+    // public function obtener_tipos_cargo() {
+    //     $sql = "SELECT idtipocargo as id, descripcion FROM public.tipocargo 
+    //     ORDER BY idtipocargo ASC";
+    //     $result = DB::select($sql);
+    //     echo json_encode($result);
+    // }
 
-    public function obtener_cargos(Request $request) {
-        $sql = "";
-		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
-            $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
-            WHERE idtipocargo=".$request->input("idtipocargo")." 
-            ORDER BY idcargo ASC";
-		} else {
-			$sql = "SELECT idcargo as id, descripcion FROM public.cargo 
-            ORDER BY idcargo ASC";
-		}
+    // public function obtener_cargos(Request $request) {
+    //     $sql = "";
+	// 	if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
+    //         $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
+    //         WHERE idtipocargo=".$request->input("idtipocargo")." 
+    //         ORDER BY idcargo ASC";
+	// 	} else {
+	// 		$sql = "SELECT idcargo as id, descripcion FROM public.cargo 
+    //         ORDER BY idcargo ASC";
+	// 	}
 
         
-        $result = DB::select($sql);
-        echo json_encode($result);
-    }
+    //     $result = DB::select($sql);
+    //     echo json_encode($result);
+    // }
 
     public function obtener_instituciones() {
 

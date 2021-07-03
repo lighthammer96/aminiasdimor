@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsociadosController;
+use App\Http\Controllers\CargosController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\DistritosController;
 use App\Http\Controllers\DistritosmisionerosController;
@@ -15,8 +16,10 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
 use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\MisionesController;
+use App\Http\Controllers\NivelesController;
 use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\ProvinciasController;
+use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
 use Illuminate\Support\Facades\Route;
@@ -210,6 +213,33 @@ Route::post('distritos/guardar_distritos', [DistritosController::class, "guardar
 Route::post('distritos/get', [DistritosController::class, "get"]);
 Route::post('distritos/eliminar_distritos', [DistritosController::class, "eliminar_distritos"]);
 Route::post('distritos/obtener_distritos', [DistritosController::class, "obtener_distritos"]);
+
+
+
+// TIPOS CARGO
+Route::get('tipos_cargo/index', [TiposcargoController::class, "index"]);
+Route::post('tipos_cargo/buscar_datos', [TiposcargoController::class, "buscar_datos"]);
+Route::post('tipos_cargo/guardar_tipos_cargo', [TiposcargoController::class, "guardar_tipos_cargo"]);
+Route::post('tipos_cargo/get', [TiposcargoController::class, "get"]);
+Route::post('tipos_cargo/eliminar_tipos_cargo', [TiposcargoController::class, "eliminar_tipos_cargo"]);
+Route::post('tipos_cargo/obtener_tipos_cargo', [TiposcargoController::class, "obtener_tipos_cargo"]);
+
+// NIVELES
+Route::get('niveles/index', [NivelesController::class, "index"]);
+Route::post('niveles/buscar_datos', [NivelesController::class, "buscar_datos"]);
+Route::post('niveles/guardar_niveles', [NivelesController::class, "guardar_niveles"]);
+Route::post('niveles/get', [NivelesController::class, "get"]);
+Route::post('niveles/eliminar_niveles', [NivelesController::class, "eliminar_niveles"]);
+Route::post('niveles/obtener_niveles', [NivelesController::class, "obtener_niveles"]);
+
+// CARGOS
+Route::get('cargos/index', [CargosController::class, "index"]);
+Route::post('cargos/buscar_datos', [CargosController::class, "buscar_datos"]);
+Route::post('cargos/guardar_cargos', [CargosController::class, "guardar_cargos"]);
+Route::post('cargos/get', [CargosController::class, "get"]);
+Route::post('cargos/eliminar_cargos', [CargosController::class, "eliminar_cargos"]);
+Route::post('cargos/obtener_cargos', [CargosController::class, "obtener_cargos"]);
+
 
 /*************
  * MODULO GESTION DE IGLESIAS *

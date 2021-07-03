@@ -161,6 +161,7 @@
     <script>
         var BaseUrl = "<?php echo URL::to('/'); ?>";
         var _token = "<?php echo csrf_token() ?>";
+        var session_pais_id = "<?php echo session("pais_id"); ?>";
         var datatable_next = "<?php echo traducir('traductor.datatable_next'); ?>";
         var datatable_prev = "<?php echo traducir('traductor.datatable_prev'); ?>";
         var datatable_first = "<?php echo traducir('traductor.datatable_first'); ?>";

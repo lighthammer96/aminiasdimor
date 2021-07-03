@@ -9,6 +9,9 @@ var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 var iglesias = new BASE_JS('iglesias', 'iglesias');
+var niveles = new BASE_JS('niveles', 'niveles');
+var cargos = new BASE_JS('cargos', 'cargos');
+var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -76,6 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }).then(function() {
         
     })
+
+  
 
     paises.select({
         name: 'pais_id_nacimiento',
@@ -163,40 +168,105 @@ document.addEventListener("DOMContentLoaded", function() {
     }) 
 
 
-    principal.select({
-        name: 'idinstitucion',
-        url: '/obtener_instituciones',
-        placeholder: seleccione
-    }).then(function() {
-        // asociados.enter("idocupacion","observaciones");
+    // principal.select({
+    //     name: 'idinstitucion',
+    //     url: '/obtener_instituciones',
+    //     placeholder: seleccione
+    // }).then(function() {
+    //     // asociados.enter("idocupacion","observaciones");
         
-    }) 
+    // }) 
 
-    principal.select({
+    tipos_cargo.select({
         name: 'idtipocargo',
         url: '/obtener_tipos_cargo',
         placeholder: seleccione
     }).then(function() {
         $("#idtipocargo").trigger("change", ["", ""]);
+        $("#idnivel").trigger("change", ["", ""]);
         //$("#idcargo").trigger("change", ["", ""]);
     
     }) 
 
-    $(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-        d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
+
+    $(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
+        var array = valor.toString().split("|");
+
+        // var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        // d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
+
+        var d_id = array[0];
+        var posee_nivel = array[1];
         var selected = (typeof idcargo != "undefined")  ? idcargo : "";
-    
-        principal.select({
-            name: 'idcargo',
-            url: '/obtener_cargos',
+        
+
+
+        niveles.select({
+            name: 'idnivel',
+            url: '/obtener_niveles',
             placeholder: seleccione,
             selected: selected,
             datos: { idtipocargo: d_id }
         }).then(function() {
         
             var condicion = typeof idtipocargo == "undefined" && idtipocargo != "";
+            condicion = condicion && typeof idcargo == "undefined" && idcargo != "";
+        
+            if(condicion) {
+                // var required = true;
+                // required = required && asociados.required("idtipocargo");
+                // if(required) {
+                    if(posee_nivel == "N") {
+                        //$("#idcargo")[0].selectize.focus();
+                    } else {
+                        $("#idnivel")[0].selectize.focus();
+                    }
+                    
+                // }
+            } 
+        
+        
+            
+        })
+
+        if(posee_nivel == "N") {
+            $(".nivel").hide();
+
+            cargos.select({
+                name: 'idcargo',
+                url: '/obtener_cargos',
+                placeholder: seleccione,
+                datos: { idtipocargo: d_id }
+            }).then(function() {
+                $("#idcargo")[0].selectize.focus();
+            })
+        } else {
+            $(".nivel").show();
+           
+        }
+
+    });
+
+
+    $(document).on('change', '#idnivel', function(event, idnivel, idcargo) {
+
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        d_id = (typeof idnivel != "undefined" && idnivel != null) ? idnivel : d_id;
+        var selected = (typeof idcargo != "undefined")  ? idcargo : "";
+        
+
+
+        cargos.select({
+            name: 'idcargo',
+            url: '/obtener_cargos',
+            placeholder: seleccione,
+            selected: selected,
+            datos: { idnivel: d_id }
+        }).then(function() {
+        
+            var condicion = typeof idnivel == "undefined" && idnivel != "";
             condicion = condicion && typeof idcargo == "undefined" && idcargo != "";
         
             if(condicion) {
@@ -377,7 +447,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }).then(function() {
 
         $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", ""]);
+        $("#pais_id").trigger("change", ["", "", ""]);
         $("#idunion").trigger("change", ["", ""]);
         $("#idmision").trigger("change", ["", ""]);
         $("#iddistritomisionero").trigger("change", ["", ""]);
@@ -418,7 +488,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    $(document).on('change', '#pais_id', function(event, pais_id, idunion) {
+    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio) {
         var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
@@ -427,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var posee_union = array[1];
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
-
+        var selected_iddepartamentodomicilio = (typeof iddepartamentodomicilio != "undefined")  ? iddepartamentodomicilio : "";
         jerarquia(d_id);
 
         uniones.select({
@@ -440,6 +510,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             var condicion = typeof pais_id == "undefined" && pais_id != "";
             condicion = condicion && typeof idunion == "undefined" && idunion != "";
+            condicion = condicion && typeof iddepartamentodomicilio == "undefined" && iddepartamentodomicilio != "";
         
             if(condicion) {
                 // var required = true;
@@ -448,16 +519,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("#idunion")[0].selectize.focus();
                 // }
 
-                principal.select({
-                    name: 'iddepartamentodomicilio',
-                    url: '/obtener_departamentos',
-                    placeholder: seleccione,
-                    datos: { pais_id: d_id }
-                }).then(function() {
-                    
-                    $("#iddepartamentodomicilio").trigger("change", ["", ""]);
-                    $("#idprovinciadomicilio").trigger("change", ["", ""]);
-                }) 
+             
                 
             } 
         
@@ -475,6 +537,22 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".union").show();
         }
        
+
+        principal.select({
+            name: 'iddepartamentodomicilio',
+            url: '/obtener_departamentos',
+            placeholder: seleccione,
+            selected: selected_iddepartamentodomicilio,
+            datos: { pais_id: d_id }
+        }).then(function() {
+            var condicion = typeof pais_id == "undefined" && pais_id != "";
+            condicion = condicion && typeof iddepartamentodomicilio == "undefined" && iddepartamentodomicilio != "";
+
+            if(condicion) {
+                $("#iddepartamentodomicilio").trigger("change", ["", ""]);
+                $("#idprovinciadomicilio").trigger("change", ["", ""]);  
+            }
+        }) 
        
         
     });
@@ -567,6 +645,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function jerarquia(pais_id) {
+        
         $(".jerarquia").hide();
         var jerarquia = document.getElementsByClassName("jerarquia");
         var promise = paises.ajax({
@@ -580,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         $(jerarquia[index]).show();
                         $(jerarquia[index]).find("label").text(jerarquia_traductor[response[index].descripcion]);
                     }
-                   
+                
                     
                 }
             }
@@ -588,6 +667,7 @@ document.addEventListener("DOMContentLoaded", function() {
             //console.log(response);
         })
         return promise;
+    
     }
 
     document.getElementById("nuevo-asociado").addEventListener("click", function(event) {
@@ -597,7 +677,10 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#estado_asociado").hide();
         jerarquia("");
 
-
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
         asociados.abrirModal();
 
         
@@ -605,7 +688,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("modificar-asociado").addEventListener("click", function(event) {
         event.preventDefault();
-        $(".modificar").show();
+
         var datos = asociados.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
@@ -614,17 +697,18 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-
+        $(".modificar").show();
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
 
         var promise = asociados.get(datos.idmiembro);
 
         promise.then(function(response) {   
+            
             var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]).then(function() {
-                // $("#" + elementos[i].name).selectize()[0].selectize.destroy();
-                // elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user")
-                // $("#" + elementos[i].name).selectize();
-            });
+            jerarquia(array_pais[0]);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -672,16 +756,30 @@ document.addEventListener("DOMContentLoaded", function() {
                 //console.log(response);
             })
 
-            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
-            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+
+            // principal.select({
+            //     name: 'iddepartamentodomicilio',
+            //     url: '/obtener_departamentos',
+            //     placeholder: seleccione,
+            //     selected: response.iddepartamentodomicilio,
+            //     datos: { pais_id: array_pais[0] }
+            // }).then(function() {
+                
+            //     $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            //     $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            // }) 
+
+           
 
             $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
             $("#idunion").trigger("change", [response.idunion, response.idmision]);
             $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
 
-
+            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            
         })
         
 
@@ -712,16 +810,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: "DEBE SELECCIONAR UN REGISTRO!"
             });
             return false;
-        } 
+        }
+
+        $(".modificar").show();
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
         var promise = asociados.ver(datos.idmiembro);
 
         promise.then(function(response) {
+            
             var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]).then(function() {
-                // $("#" + elementos[i].name).selectize()[0].selectize.destroy();
-                // elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user")
-                // $("#" + elementos[i].name).selectize();
-            });
+            jerarquia(array_pais[0]);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -769,14 +870,29 @@ document.addEventListener("DOMContentLoaded", function() {
                 //console.log(response);
             })
 
-            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
-            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+
+            // principal.select({
+            //     name: 'iddepartamentodomicilio',
+            //     url: '/obtener_departamentos',
+            //     placeholder: seleccione,
+            //     selected: response.iddepartamentodomicilio,
+            //     datos: { pais_id: array_pais[0] }
+            // }).then(function() {
+                
+            //     $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            //     $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            // }) 
+
+           
 
             $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
             $("#idunion").trigger("change", [response.idunion, response.idmision]);
             $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
+
+            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
         })
     })
 
@@ -851,12 +967,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(typeof response.validacion != "undefined" && response.validacion == "ED") {
                     document.getElementsByName("nrodoc")[0].focus();
                 } else {
-                    asociados.datatable.destroy();
-                    asociados.TablaListado({
-                        tablaID: '#tabla-asociados',
-                        url: "/buscar_datos",
-                    });
+                    // asociados.datatable.destroy();
+                    // asociados.TablaListado({
+                    //     tablaID: '#tabla-asociados',
+                    //     url: "/buscar_datos",
+                    // });
                 }
+
+                $(".nav-tabs").find("li").removeClass("active");
+                $("a[href='#datos-generales']").parent("li").addClass("active");
+                $(".tab-pane").removeClass("active");
+                $("#datos-generales").addClass("active");
+
+                
             })
             // asociados.CerrarModal();
             // asociados.LimpiarFormulario();
@@ -1143,7 +1266,7 @@ document.addEventListener("DOMContentLoaded", function() {
         required = true;
         required = required && asociados.required("idtipocargo");
         required = required && asociados.required("idcargo");
-        required = required && asociados.required("idinstitucion");
+        // required = required && asociados.required("idinstitucion");
         required = required && asociados.required("periodoini");
         required = required && asociados.required("periodofin");
 
@@ -1151,7 +1274,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var idtipocargo = document.getElementsByName("idtipocargo")[0];
             var idcargo = document.getElementsByName("idcargo")[0];
-            var idinstitucion = document.getElementsByName("idinstitucion")[0];
+            var idnivel = document.getElementsByName("idnivel")[0];
+            // var idinstitucion = document.getElementsByName("idinstitucion")[0];
             var periodoini = document.getElementsByName("periodoini")[0];
             var periodofin = document.getElementsByName("periodofin")[0];
             var observaciones_cargo = document.getElementsByName("observaciones_cargo")[0];
@@ -1170,8 +1294,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 tipo_cargo: idtipocargo.options[idtipocargo.selectedIndex].text,
                 idcargo: idcargo.value,
                 cargo: idcargo.options[idcargo.selectedIndex].text,
-                idinstitucion: idinstitucion.value,
-                institucion: idinstitucion.options[idinstitucion.selectedIndex].text,
+                //idinstitucion: idinstitucion.value,
+               // institucion: idinstitucion.options[idinstitucion.selectedIndex].text,
+                idnivel: idnivel.value,
                 periodoini: periodoini.value,
                 periodofin: periodofin.value,
                 observaciones_cargo: observaciones_cargo.value,
@@ -1182,7 +1307,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(objeto));
             //$("#detalleAcciones > tbody").append(HTMLDetallemodulos(objeto));
-            asociados.limpiarDatos("limpiar");
+            asociados.limpiarDatos("limpiar-cargos");
         }
     });
 
@@ -1197,16 +1322,22 @@ document.addEventListener("DOMContentLoaded", function() {
         if(objeto.vigente == 1) {
             checked = 'checked="checked"';
         }
-        html = '  <input type="hidden" name="idtipocargo[]" value="'+objeto.idtipocargo+'" >';
+
+        // console.log(objeto.idnivel);
+
+        var array_tipos_cargo = objeto.idtipocargo.toString().split("|");
+
+        html = '  <input type="hidden" name="idtipocargo[]" value="'+array_tipos_cargo[0]+'" >';
         html += '  <input type="hidden" name="idcargo[]" value="'+objeto.idcargo+'" >';
-        html += '  <input type="hidden" name="idinstitucion[]" value="'+objeto.idinstitucion+'" >';
+       // html += '  <input type="hidden" name="idinstitucion[]" value="'+objeto.idinstitucion+'" >';
+        html += '  <input type="hidden" name="idnivel[]" value="'+objeto.idnivel+'" >';
         html += '  <input type="hidden" name="periodoini[]" value="'+objeto.periodoini+'" >';
         html += '  <input type="hidden" name="periodofin[]" value="'+objeto.periodofin+'" >';
         html += '  <input type="hidden" name="observaciones_cargo[]" value="'+objeto.observaciones_cargo+'" >';
         html += '  <input type="hidden" name="idiglesia_cargo[]" value="'+objeto.idiglesia_cargo+'" >';
         html += '  <td>'+objeto.tipo_cargo+'</td>';
         html += '  <td>'+objeto.cargo+'</td>';
-        html += '  <td>'+objeto.institucion+'</td>';
+        //html += '  <td>'+objeto.institucion+'</td>';
         html += '  <td>'+objeto.periodoini+'-'+objeto.periodofin+'</td>';
         html += '  <td>'+objeto.observaciones_cargo+'</td>';
         html += '  <td><center><input '+checked+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
@@ -1255,5 +1386,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     })
+
+
+    
 
 })

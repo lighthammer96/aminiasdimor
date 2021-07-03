@@ -141,7 +141,13 @@ class Controller extends BaseController
                         // para que inserte solo los campos que tiene dicha tabla
                         if (in_array($key, $fields)) {
                             // echo $primer_key." ".$key."\n";
-                            @$parametros["datos"][$i][$key] = $value[$i];
+                            if(!empty($value[$i]) && $value[$i] != "null") {
+                                //@$parametros["datos"][$i][$key] = NULL;
+                                @$parametros["datos"][$i][$key] = $value[$i];
+                            } else {
+
+                            }
+                            
                         }
                     }
                 }
@@ -150,9 +156,11 @@ class Controller extends BaseController
         } elseif ($tipoTabla == "N") {
             foreach ($datos as $key => $value) {
                 if (in_array($key, $fields)) {
-                    if ($value != "") {
-                        $parametros["datos"][0][$key] = $value;
-
+                    if (!empty($value) && $value != "null") {
+                        $parametros["datos"][0][$key] = $value; 
+                        // $parametros["datos"][0][$key] = NULL; 
+                    } else {
+                        //$parametros["datos"][0][$key] = $value; 
                     }
                 }
 
