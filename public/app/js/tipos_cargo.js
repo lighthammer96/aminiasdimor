@@ -79,17 +79,17 @@ document.addEventListener("DOMContentLoaded", function() {
             case 'modificar-tipo-cargo':
                 event.preventDefault();
             
-                modificar_perfil();
+                modificar_tipos_cargo();
             break;
 
             case 'eliminar-tipo-cargo':
                 event.preventDefault();
-                eliminar_perfil();
+                eliminar_tipos_cargo();
             break;
 
             case 'guardar-tipo-cargo':
                 event.preventDefault();
-                guardar_perfil();
+                guardar_tipos_cargo();
             break;
 
         }
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    function modificar_perfil() {
+    function modificar_tipos_cargo() {
         var datos = tipos_cargo.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
-    function guardar_perfil() {
+    function guardar_tipos_cargo() {
         var required = true;
         // required = required && tipos_cargo.required("perfil_descripcion");
 
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function eliminar_perfil() {
+    function eliminar_tipos_cargo() {
         var datos = tipos_cargo.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
@@ -175,11 +175,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 tipos_cargo.Operacion(datos.idtipocargo, "E");
-                tipos_cargo.datatable.destroy();
-                tipos_cargo.TablaListado({
-                    tablaID: '#tabla-tipos-cargo',
-                    url: "/buscar_datos",
-                });
+                // tipos_cargo.datatable.destroy();
+                // tipos_cargo.TablaListado({
+                //     tablaID: '#tabla-tipos-cargo',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.stopPropagation();
                         break;
                     case 'F2':
-                        modificar_perfil();
+                        modificar_tipos_cargo();
                         event.preventDefault();
                         event.stopPropagation();
                         break;
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     
                     //     break;
                     case 'F7':
-                        eliminar_perfil();
+                        eliminar_tipos_cargo();
                         event.preventDefault();
                         event.stopPropagation();
                     
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if(event.code == "F9") {
                 
                 if($('#modal-tipos_cargo').is(':visible')) {
-                    guardar_perfil();
+                    guardar_tipos_cargo();
                 }
                 event.preventDefault();
                 event.stopPropagation();

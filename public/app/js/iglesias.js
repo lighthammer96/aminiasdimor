@@ -376,6 +376,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     })
 
+    function crear_botones_iglesia(activos, inactivos, idiglesia) {
+        var botones = "";
+        botones += '<button id="activos" cont="'+activos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-success btn-sm" id="dar-baja">[ Ver Asociados Activos ('+activos+') ]</button>';
+    
+        botones += '<button id="inactivos" cont="'+inactivos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-danger btn-sm" id="dar-alta">[ Ver Asociados Inactivos ('+inactivos+') ]</button>';
+
+    
+        document.getElementById("botones_iglesia").innerHTML = botones;
+    }
+
 
     function modificar_iglesia() {
         var datos = iglesias.datatable.row('.selected').data();
@@ -389,6 +399,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var promise = iglesias.get(datos.idiglesia);
         promise.then(function(response) {
+            
             var array_pais = response.pais_id.split("|");
             jerarquia(array_pais[0]);
             // principal.select({
@@ -418,6 +429,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             $("#iddepartamento").trigger("change", [response.iddepartamento, response.idprovincia]);
             $("#idprovincia").trigger("change", [response.idprovincia, response.iddistrito]);
+
+            crear_botones_iglesia(response.activos, response.inactivos, response.idiglesia);
         })
     }
 
@@ -564,6 +577,34 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cancelar-iglesia").addEventListener("click", function(event) {
         event.preventDefault();
         iglesias.CerrarModal();
+    })
+
+
+    $(document).on("click", "#activos", function(e) {
+        e.preventDefault();
+        var idiglesia = $(this).attr("idiglesia");
+        var cont = $(this).attr("cont");
+        if(cont <= 0) {
+            BASE_JS.sweet({
+                text: "NO HAY DATOS!"
+            });
+            return false;
+        }
+        
+        window.open(BaseUrl + "/iglesias/ver_activos/"+idiglesia);
+    })
+
+    $(document).on("click", "#inactivos", function(e) {
+        e.preventDefault();
+        var idiglesia = $(this).attr("idiglesia");
+        var cont = $(this).attr("cont");
+        if(cont <= 0) {
+            BASE_JS.sweet({
+                text: "NO HAY DATOS!"
+            });
+            return false;
+        }
+        window.open(BaseUrl + "/iglesias/ver_inactivos/"+idiglesia);
     })
 
 

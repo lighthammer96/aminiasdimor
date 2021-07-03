@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = perfiles.guardar();
             perfiles.CerrarModal();
-            perfiles.datatable.destroy();
-            perfiles.TablaListado({
-                tablaID: '#tabla-perfiles',
-                url: "/buscar_datos",
-            });
+            // perfiles.datatable.destroy();
+            // perfiles.TablaListado({
+            //     tablaID: '#tabla-perfiles',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -168,11 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 perfiles.Operacion(datos.perfil_id, "E");
-                perfiles.datatable.destroy();
-                perfiles.TablaListado({
-                    tablaID: '#tabla-perfiles',
-                    url: "/buscar_datos",
-                });
+                // perfiles.datatable.destroy();
+                // perfiles.TablaListado({
+                //     tablaID: '#tabla-perfiles',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

@@ -146,11 +146,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = paises.guardar();
             paises.CerrarModal();
-            paises.datatable.destroy();
-            paises.TablaListado({
-                tablaID: '#tabla-paises',
-                url: "/buscar_datos",
-            });
+            // paises.datatable.destroy();
+            // paises.TablaListado({
+            //     tablaID: '#tabla-paises',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -188,11 +188,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 paises.Operacion(datos.pais_id, "E");
-                paises.datatable.destroy();
-                paises.TablaListado({
-                    tablaID: '#tabla-paises',
-                    url: "/buscar_datos",
-                });
+                // paises.datatable.destroy();
+                // paises.TablaListado({
+                //     tablaID: '#tabla-paises',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

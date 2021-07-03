@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = misiones.guardar();
             misiones.CerrarModal();
-            misiones.datatable.destroy();
-            misiones.TablaListado({
-                tablaID: '#tabla-misiones',
-                url: "/buscar_datos",
-            });
+            // misiones.datatable.destroy();
+            // misiones.TablaListado({
+            //     tablaID: '#tabla-misiones',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -107,11 +107,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 misiones.Operacion(datos.idmision, "E");
-                misiones.datatable.destroy();
-                misiones.TablaListado({
-                    tablaID: '#tabla-misiones',
-                    url: "/buscar_datos",
-                });
+                // misiones.datatable.destroy();
+                // misiones.TablaListado({
+                //     tablaID: '#tabla-misiones',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

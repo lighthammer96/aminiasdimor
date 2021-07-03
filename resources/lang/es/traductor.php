@@ -72,6 +72,9 @@ return [
     'division_1' => "División Política 1",
     'division_2' => "División Política 2",
     'division_3' => "División Política 3",
+    'apellidos' => "Apellidos",
+    'miembros_activos' => "Miembros Activos en la Iglesia:",
+    'celular' => "Celular",
 
 
      // LABELS DATATABLES

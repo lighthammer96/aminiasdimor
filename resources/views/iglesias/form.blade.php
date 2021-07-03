@@ -189,8 +189,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-iglesia">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-iglesia" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <div class="pull-left" id="botones_iglesia">
+                        
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-iglesia">[Esc] [{{ traducir('cancelar') }}]</button>
+                        <button type="button" id="guardar-iglesia" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    </div>
                 </div>
             </form>
 

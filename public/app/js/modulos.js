@@ -144,11 +144,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
             modulos.Operacion(datos.modulo_id, "E");
-            modulos.datatable.destroy();
-            modulos.TablaListado({
-                tablaID: '#tabla-modulos',
-                url: "/buscar_datos",
-            });
+            // modulos.datatable.destroy();
+            // modulos.TablaListado({
+            //     tablaID: '#tabla-modulos',
+            //     url: "/buscar_datos",
+            // });
         }
     });
     })
@@ -203,11 +203,11 @@ document.addEventListener("DOMContentLoaded", function() {
             modulos.guardar();
             modulos.CerrarModal();
         
-            modulos.datatable.destroy();
-            modulos.TablaListado({
-                tablaID: '#tabla-modulos',
-                url: "/buscar_datos",
-            });
+            // modulos.datatable.destroy();
+            // modulos.TablaListado({
+            //     tablaID: '#tabla-modulos',
+            //     url: "/buscar_datos",
+            // });
 
             modulos.select({
                 name: "modulo_padre",
@@ -249,11 +249,11 @@ document.addEventListener("DOMContentLoaded", function() {
             var promise = padres.guardar();
             padres.CerrarModal();
         
-            modulos.datatable.destroy();
-            modulos.TablaListado({
-            tablaID: '#tabla-modulos',
-            url: "/buscar_datos",
-        });
+            // modulos.datatable.destroy();
+            //     modulos.TablaListado({
+            //     tablaID: '#tabla-modulos',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 //console.log(response);

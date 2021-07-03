@@ -76,11 +76,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = provincias.guardar();
             provincias.CerrarModal();
-            provincias.datatable.destroy();
-            provincias.TablaListado({
-                tablaID: '#tabla-provincias',
-                url: "/buscar_datos",
-            });
+            // provincias.datatable.destroy();
+            // provincias.TablaListado({
+            //     tablaID: '#tabla-provincias',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -111,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 provincias.Operacion(datos.idprovincia, "E");
-                provincias.datatable.destroy();
-                provincias.TablaListado({
-                    tablaID: '#tabla-provincias',
-                    url: "/buscar_datos",
-                });
+                // provincias.datatable.destroy();
+                // provincias.TablaListado({
+                //     tablaID: '#tabla-provincias',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

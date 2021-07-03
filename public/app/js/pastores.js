@@ -91,11 +91,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = pastores.guardar();
             pastores.CerrarModal();
-            pastores.datatable.destroy();
-            pastores.TablaListado({
-                tablaID: '#tabla-pastores',
-                url: "/buscar_datos",
-            });
+            // pastores.datatable.destroy();
+            // pastores.TablaListado({
+            //     tablaID: '#tabla-pastores',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 pastores.Operacion(datos.idotrospastores, "E");
-                pastores.datatable.destroy();
-                pastores.TablaListado({
-                    tablaID: '#tabla-pastores',
-                    url: "/buscar_datos",
-                });
+                // pastores.datatable.destroy();
+                // pastores.TablaListado({
+                //     tablaID: '#tabla-pastores',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

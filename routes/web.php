@@ -177,6 +177,8 @@ Route::post('iglesias/guardar_iglesias', [IglesiasController::class, "guardar_ig
 Route::post('iglesias/get', [IglesiasController::class, "get"]);
 Route::post('iglesias/eliminar_iglesias', [IglesiasController::class, "eliminar_iglesias"]);
 Route::post('iglesias/obtener_iglesias', [IglesiasController::class, "obtener_iglesias"]);
+Route::get('iglesias/ver_activos/{idiglesia}', [IglesiasController::class, "ver_activos"]);
+Route::get('iglesias/ver_inactivos/{idiglesia}', [IglesiasController::class, "ver_inactivos"]);
 
 
 // PASTORES

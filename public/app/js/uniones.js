@@ -82,11 +82,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = uniones.guardar();
             uniones.CerrarModal();
-            uniones.datatable.destroy();
-            uniones.TablaListado({
-                tablaID: '#tabla-uniones',
-                url: "/buscar_datos",
-            });
+            // uniones.datatable.destroy();
+            // uniones.TablaListado({
+            //     tablaID: '#tabla-uniones',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -117,11 +117,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 uniones.Operacion(datos.idunion, "E");
-                uniones.datatable.destroy();
-                uniones.TablaListado({
-                    tablaID: '#tabla-uniones',
-                    url: "/buscar_datos",
-                });
+                // uniones.datatable.destroy();
+                // uniones.TablaListado({
+                //     tablaID: '#tabla-uniones',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

@@ -89,11 +89,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = idiomas.guardar();
             idiomas.CerrarModal();
-            idiomas.datatable.destroy();
-            idiomas.TablaListado({
-                tablaID: '#tabla-idiomas',
-                url: "/buscar_datos",
-            });
+            // idiomas.datatable.destroy();
+            // idiomas.TablaListado({
+            //     tablaID: '#tabla-idiomas',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 idiomas.Operacion(datos.idioma_id, "E");
-                idiomas.datatable.destroy();
-                idiomas.TablaListado({
-                    tablaID: '#tabla-idiomas',
-                    url: "/buscar_datos",
-                });
+                // idiomas.datatable.destroy();
+                // idiomas.TablaListado({
+                //     tablaID: '#tabla-idiomas',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

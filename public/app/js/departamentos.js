@@ -76,11 +76,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = departamentos.guardar();
             departamentos.CerrarModal();
-            departamentos.datatable.destroy();
-            departamentos.TablaListado({
-                tablaID: '#tabla-departamentos',
-                url: "/buscar_datos",
-            });
+            // departamentos.datatable.destroy();
+            // departamentos.TablaListado({
+            //     tablaID: '#tabla-departamentos',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -111,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 departamentos.Operacion(datos.iddepartamento, "E");
-                departamentos.datatable.destroy();
-                departamentos.TablaListado({
-                    tablaID: '#tabla-departamentos',
-                    url: "/buscar_datos",
-                });
+                // departamentos.datatable.destroy();
+                // departamentos.TablaListado({
+                //     tablaID: '#tabla-departamentos',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

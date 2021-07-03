@@ -117,11 +117,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 usuarios.Operacion(datos.usuario_id, 'E');
-                usuarios.datatable.destroy();
-                usuarios.TablaListado({
-                    tablaID: '#tabla-usuarios',
-                    url: "/buscar_datos",
-                });
+                // usuarios.datatable.destroy();
+                // usuarios.TablaListado({
+                //     tablaID: '#tabla-usuarios',
+                //     url: "/buscar_datos",
+                // });
         }
     });
     })
@@ -147,11 +147,11 @@ document.addEventListener("DOMContentLoaded", function() {
             usuarios.guardar();
             usuarios.CerrarModal();
             // usuarios.LimpiarFormulario();
-            usuarios.datatable.destroy();
-            usuarios.TablaListado({
-                tablaID: '#tabla-usuarios',
-                url: "/buscar_datos",
-            });
+            // usuarios.datatable.destroy();
+            // usuarios.TablaListado({
+            //     tablaID: '#tabla-usuarios',
+            //     url: "/buscar_datos",
+            // });
 
             // usuarios.select({
             //     name: "modulo_padre",

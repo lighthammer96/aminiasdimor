@@ -79,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = distritos.guardar();
             distritos.CerrarModal();
-            distritos.datatable.destroy();
-            distritos.TablaListado({
-                tablaID: '#tabla-distritos',
-                url: "/buscar_datos",
-            });
+            // distritos.datatable.destroy();
+            // distritos.TablaListado({
+            //     tablaID: '#tabla-distritos',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -114,11 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 distritos.Operacion(datos.iddistrito, "E");
-                distritos.datatable.destroy();
-                distritos.TablaListado({
-                    tablaID: '#tabla-distritos',
-                    url: "/buscar_datos",
-                });
+                // distritos.datatable.destroy();
+                // distritos.TablaListado({
+                //     tablaID: '#tabla-distritos',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

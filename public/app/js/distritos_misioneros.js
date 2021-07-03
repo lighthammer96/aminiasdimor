@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = distritos_misioneros.guardar();
             distritos_misioneros.CerrarModal();
-            distritos_misioneros.datatable.destroy();
-            distritos_misioneros.TablaListado({
-                tablaID: '#tabla-distritos-misioneros',
-                url: "/buscar_datos",
-            });
+            // distritos_misioneros.datatable.destroy();
+            // distritos_misioneros.TablaListado({
+            //     tablaID: '#tabla-distritos-misioneros',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -107,11 +107,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 distritos_misioneros.Operacion(datos.iddistritomisionero, "E");
-                distritos_misioneros.datatable.destroy();
-                distritos_misioneros.TablaListado({
-                    tablaID: '#tabla-distritos-misioneros',
-                    url: "/buscar_datos",
-                });
+                // distritos_misioneros.datatable.destroy();
+                // distritos_misioneros.TablaListado({
+                //     tablaID: '#tabla-distritos-misioneros',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

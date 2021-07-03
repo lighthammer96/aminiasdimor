@@ -89,11 +89,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = traslados.guardar();
             traslados.CerrarModal();
-            traslados.datatable.destroy();
-            traslados.TablaListado({
-                tablaID: '#tabla-traslados',
-                url: "/buscar_datos",
-            });
+            // traslados.datatable.destroy();
+            // traslados.TablaListado({
+            //     tablaID: '#tabla-traslados',
+            //     url: "/buscar_datos",
+            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -124,11 +124,11 @@ document.addEventListener("DOMContentLoaded", function() {
             text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
             callbackConfirm: function() {
                 traslados.Operacion(datos.perfil_id, "E");
-                traslados.datatable.destroy();
-                traslados.TablaListado({
-                    tablaID: '#tabla-traslados',
-                    url: "/buscar_datos",
-                });
+                // traslados.datatable.destroy();
+                // traslados.TablaListado({
+                //     tablaID: '#tabla-traslados',
+                //     url: "/buscar_datos",
+                // });
             }
         });
     }

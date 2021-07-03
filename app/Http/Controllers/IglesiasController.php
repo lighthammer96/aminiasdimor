@@ -28,9 +28,9 @@ class IglesiasController extends Controller
         $data["tabla"] = $this->iglesias_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-iglesia">'.traducir("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-iglesia">'.traducir("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-iglesia">'.traducir("traductor.eliminar").' [F7]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-iglesia">'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-iglesia">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-iglesia">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         // $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js", "misiones.js", "distritos_misioneros.js", "iglesias.js"]);
         $data["scripts"] = $this->cargar_js(["iglesias.js"]);
@@ -92,9 +92,19 @@ class IglesiasController extends Controller
     public function get(Request $request) {
 
         $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union FROM iglesias.iglesia AS i
-         LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
+        LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
         WHERE i.idiglesia=".$request->input("id");
         $one = DB::select($sql);
+        
+        $sql_activos = "SELECT * FROM iglesias.miembro WHERE estado='1' AND idiglesia=".$request->input("id");
+        $activos = DB::select($sql_activos);
+
+        $sql_inactivos = "SELECT * FROM iglesias.miembro WHERE estado='0' AND idiglesia=".$request->input("id");
+        $inactivos = DB::select($sql_inactivos);
+
+        $one[0]->activos = count($activos);
+        $one[0]->inactivos = count($inactivos);
+       
         echo json_encode($one);
     }
 
@@ -110,5 +120,29 @@ class IglesiasController extends Controller
 
         $result = DB::select($sql);
         echo json_encode($result);
+    }
+
+    public function ver_activos($idiglesia) {
+        $sql = "SELECT *, i.descripcion AS iglesia, td.descripcion AS tipo_documento
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.iglesia AS i ON(m.idiglesia=i.idiglesia)
+        INNER JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
+        WHERE m.estado='1' AND m.idiglesia=".$idiglesia;
+
+        $iglesias = DB::select($sql);
+        return view("iglesias.activos", array("iglesias" => $iglesias));
+    }
+
+
+    public function ver_inactivos($idiglesia) {
+        $sql = "SELECT *, i.descripcion AS iglesia, td.descripcion AS tipo_documento
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.iglesia AS i ON(m.idiglesia=i.idiglesia)
+        INNER JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
+        WHERE m.estado='0' AND m.idiglesia=".$idiglesia;
+
+        $iglesias = DB::select($sql);
+        return view("iglesias.inactivos", array("iglesias" => $iglesias));
+       
     }
 }
