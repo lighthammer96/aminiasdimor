@@ -24,7 +24,7 @@ idmiembro=113
 
 --- vista_asociados_traslados
 SELECT m.idmiembro, m.idtipodoc, m.nrodoc, d.descripcion AS division, p.pais_descripcion AS pais, u.descripcion AS union,
-mi.descripcion AS mision, dm.descripcion AS distrito, i.descripcion AS iglesia, td.descripcion AS tipo_documento,
+mi.descripcion AS mision, dm.descripcion AS distritomisionero, i.descripcion AS iglesia, td.descripcion AS tipo_documento,
 m.iddivision, m.pais_id, m.idunion, m.idmision, m.iddistritomisionero, m.idiglesia
 FROM iglesias.miembro AS m
 INNER JOIN iglesias.division AS d ON(m.iddivision=d.iddivision)
@@ -34,3 +34,17 @@ INNER JOIN iglesias.mision AS mi ON(m.idmision=mi.idmision)
 INNER JOIN iglesias.distritomisionero AS dm ON(m.iddistritomisionero=dm.iddistritomisionero)
 INNER JOIN iglesias.iglesia AS i ON(m.idiglesia=i.idiglesia)
 INNER JOIN public.tipodoc AS td ON(td.idtipodoc=i.idiglesia)
+
+
+--- vista_jerarquia
+
+SELECT d.descripcion AS division, p.pais_descripcion AS pais, u.descripcion AS union,
+mi.descripcion AS mision, dm.descripcion AS distritomisionero, i.descripcion AS iglesia,
+d.iddivision, p.pais_id, u.idunion, mi.idmision, dm.iddistritomisionero, i.idiglesia
+FROM  iglesias.division AS d  
+INNER JOIN iglesias.paises AS p ON(d.iddivision=p.iddivision)
+INNER JOIN iglesias.union_paises AS up ON(up.pais_id=p.pais_id)
+INNER JOIN iglesias.union AS u ON(up.idunion=u.idunion)
+INNER JOIN iglesias.mision AS mi ON(u.idunion=mi.idunion)
+INNER JOIN iglesias.distritomisionero AS dm ON(mi.idmision=dm.idmision)
+INNER JOIN iglesias.iglesia AS i ON(dm.iddistritomisionero=i.iddistritomisionero)

@@ -75,6 +75,11 @@ return [
     'apellidos' => "Apellidos",
     'miembros_activos' => "Miembros Activos en la Iglesia:",
     'celular' => "Celular",
+    'volver' => "Volver",
+    'trasladar_ahora' => "Trasladar Ahora",
+    'iglesia' => "Iglesia ",
+    'iglesia_anterior' => "Iglesia Anterior",
+    'iglesia_traslado' => "Iglesia Traslado",
 
 
      // LABELS DATATABLES

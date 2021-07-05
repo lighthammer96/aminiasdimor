@@ -56,6 +56,8 @@ class BaseModel extends Model
                 // }
                 $lastid = DB::getPdo()->lastInsertId();
                 $parametros["id"] = $lastid;
+
+                $this->log_sistema($lastid, "insertar", $parametros["tabla"]);
             }
             // else {
             //     throw new Exception("NO TIENE UNA LLAVE DE TIPO AUTO INCREMENTAL");
@@ -122,6 +124,9 @@ class BaseModel extends Model
                 $parametros["id"] = $valorid;
                 $parametros["msg"] = "SE MODIFICÓ CORRECTAMENTE";
                 $parametros["type"] = "success";
+
+                $this->log_sistema($valorid, "modificar", $parametros["tabla"]);
+
                 return $parametros;
                 // return array(
                 // 	"status" => "m",
@@ -167,6 +172,7 @@ class BaseModel extends Model
             // $this->db->where($array[1], $_REQUEST["id"]);
             // $estado = $this->db->delete($array[0]);
             $estado = DB::table($array[0])->where($array[1], $_REQUEST["id"])->delete();
+            
             // $db_error = $this->db->error();
             // // print_r($db_error); exit;
 
@@ -177,6 +183,8 @@ class BaseModel extends Model
             // }
             // var_dump($estado);
             if ($estado) {
+
+                $this->log_sistema($_REQUEST["id"], "eliminar", $array[0]);
                 return array(
                     "status" => "e",
                     "id" => $_REQUEST["id"],
@@ -479,4 +487,49 @@ class BaseModel extends Model
 
         return DB::select($sql);
     }
+
+    public function obtener_ip() {
+
+        if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+
+            return $_SERVER["HTTP_CLIENT_IP"];
+
+        } elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+
+            return $_SERVER["HTTP_X_FORWARDED_FOR"];
+
+        } elseif (isset($_SERVER["HTTP_X_FORWARDED"])) {
+
+            return $_SERVER["HTTP_X_FORWARDED"];
+
+        } elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])) {
+
+            return $_SERVER["HTTP_FORWARDED_FOR"];
+
+        } elseif (isset($_SERVER["HTTP_FORWARDED"])) {
+
+            return $_SERVER["HTTP_FORWARDED"];
+
+        } else {
+
+            return $_SERVER["REMOTE_ADDR"];
+
+        }
+    }
+
+	public function log_sistema($id, $operacion, $tabla) {
+		$datos = array();
+		$datos["fecha"] = date("Y-m-d H:i:s");
+		$datos["usuario"] = session("usuario_user");
+		$datos["nombres"] = session("responsable");
+		$datos["idperfil"] = session("perfil_id"); 
+		$datos["idreferencia"] = $id;
+		$datos["ip"] = $this->obtener_ip();
+		$datos["operacion"] = $operacion; 
+		$datos["tabla"] = $tabla; 
+
+        DB::table("seguridad.log_sistema")->insert($datos);
+
+		
+	}
 }

@@ -249,7 +249,9 @@ class BASE_JS {
                 //  return response;
                 // }
             }
-            BASE_JS.notificacion(response);
+            if(typeof response.msg != "undefined") {
+                BASE_JS.notificacion(response);
+            }
             for (var i = 0; i < botones.length; i++) {
                 if (botones[i].id.indexOf("guardar") != -1) {
                     botones[i].disabled = false;
@@ -260,7 +262,8 @@ class BASE_JS {
 
      
         promise.then(function(response) {
-            if(typeof response.validacion == "undefined") {
+           
+            if(typeof response.validacion == "undefined" && typeof response.status != "undefined" &&  response.status.indexOf("ee") == -1 && response.status.indexOf("e") == -1) {
                 self.LimpiarFormulario();
                 $("#" + self.modalID).trigger('shown.bs.modal');
             }
@@ -405,12 +408,14 @@ class BASE_JS {
                 text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
             });
         }).then(function(response) {
-            BASE_JS.mensaje(response);
+            if(typeof response.msg != "undefined") {
+                BASE_JS.mensaje(response);
+            }
             return response;
         });
 
         promise.then(function(response) {
-
+            // alert();
             if(typeof self.datatable.ajax != "undefined") {
                 self.datatable.clear();
                 self.datatable.ajax.reload();

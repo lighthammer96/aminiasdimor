@@ -287,5 +287,18 @@ class AsociadosController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+    public function obtener_traslados(Request $request) {
+        $sql = "SELECT 
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaanterior) AS iglesia_anterior,
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,
+        to_char(ht.fecha, 'DD/MM/YYYY') AS fecha
+        FROM iglesias.historial_traslados AS ht
+        WHERE ht.idmiembro = ".$request->input("idmiembro");
+
+        $result = DB::select($sql);
+
+        echo json_encode($result);
+    }
    
 }

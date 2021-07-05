@@ -7,8 +7,18 @@
 
 @section('content')
 <form id="formulario-traslados_temp" class="form-horizontal" role="form">
-    <div class="row formulario">
-        <div class="col-md-3 col-md-offset-2">
+    <div class="row combo-tipo-traslado">
+        <div class="col-md-2 col-md-offset-5">
+            <label for="">Tipo de Traslado</label>
+            <select name="tipo_traslado" id="tipo_traslado" class="form-control input-sm">
+                <option value="1">De Iglesia a Iglesia</option>
+                <option value="2">Masivo</option>
+                <option value="3">Individual</option>
+            </select>
+        </div>
+    </div>
+    <div class="row iglesia">
+        <div class="col-md-3 col-md-offset-2" id="destino-iglesia">
             <fieldset>
                 <legend>Iglesia de Origen</legend>
                 <div class="col-md-12">
@@ -68,7 +78,7 @@
         <div class="col-md-3">
             <fieldset>
                 <legend>Iglesia de Destino</legend>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <label class="control-label">División</label>
 
                     <select  class="entrada selectizejs" name="iddivisiondestino" id="iddivisiondestino">
@@ -115,13 +125,13 @@
 
                     </select>
 
-                </div>
+                </div> -->
 
             </fieldset>
         </div>
 
     </div>
-    <div class="row formulario">
+    <div class="row iglesia">
         <div class="col-md-2 col-md-offset-5" style="margin-top: 10px;">
             <button type="button" class="btn btn-primary" id="ver-lista">[{{ traducir('traductor.ver_lista') }}]</button>
         </div>
@@ -129,6 +139,98 @@
 
 </form>
 
+
+<div class="row" >
+    <div class="col-md-2 iglesia masivo_individual" style="display: none;">
+        <button type="button" class="btn btn-success" id="volver">[{{ traducir('traductor.volver') }}]</button>
+    </div>
+    <div class="col-md-2 col-md-offset-8 iglesia masivo_individual" style="text-align: right; display: none;" >
+        <button type="button" class="btn btn-primary" id="trasladar">[{{ traducir('traductor.trasladar_ahora') }}]</button>
+    </div>
+   
+
+    <div class="col-md-12 masivo_individual" style="margin-top: 20px; display: none;">
+        <?php echo $tabla_asociados_traslados; ?>
+    </div>
+
+    <div class="col-md-12 iglesia masivo_individual" style="margin-top: 20px; display: none;">
+        <?php echo $tabla_traslados; ?>
+    </div>
+
+</div>
+<div id="modal-traslados_mi" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+ 
+            <form id="formulario-traslados_mi" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <div class="row" >
+                        <div class="col-md-12" id="destino-masivo-individual">
+                            <fieldset>
+                                <legend>Iglesia de Destino</legend>
+                                <div class="col-md-12">
+                                    <label class="control-label">División</label>
+
+                                    <select  class="entrada selectizejs" name="iddivisiondestino" id="iddivisiondestino">
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label">País</label>
+
+                                    <select  class="entrada selectizejs" name="pais_iddestino" id="pais_iddestino">
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12 union-destino">
+                                    <label class="control-label">Unión</label>
+
+                                    <select  class="entrada selectizejs" name="iduniondestino" id="iduniondestino">
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label">Asociación/Misión</label>
+
+                                    <select  class="entrada selectizejs" name="idmisiondestino" id="idmisiondestino">
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label">Distrito Misionero</label>
+
+                                    <select  class="entrada selectizejs" name="iddistritomisionerodestino" id="iddistritomisionerodestino">
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label">Iglesia</label>
+
+                                    <select  class="entrada selectizejs" name="idiglesiadestino" id="idiglesiadestino">
+
+                                    </select>
+
+                                </div>
+
+                            </fieldset>
+                        </div>
+                    </div>
+   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[Cancelar]</button>
+                    <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[Guardar]</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
    
 @endsection
 

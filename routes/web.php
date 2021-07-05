@@ -263,14 +263,19 @@ Route::post('asociados/obtener_periodos_ini', [AsociadosController::class, "obte
 Route::post('asociados/obtener_periodos_fin', [AsociadosController::class, "obtener_periodos_fin"]);
 Route::post('asociados/obtener_cargos', [AsociadosController::class, "obtener_cargos"]);
 Route::post('asociados/obtener_historial_altas_bajas', [AsociadosController::class, "obtener_historial_altas_bajas"]);
+Route::post('asociados/obtener_traslados', [AsociadosController::class, "obtener_traslados"]);
 
 
 
 // TRASLADOS
 Route::get('traslados/index', [TrasladosController::class, "index"]);
-
+Route::post('traslados/buscar_datos', [TrasladosController::class, "buscar_datos"]);
+Route::post('traslados/buscar_datos_asociados_traslados', [TrasladosController::class, "buscar_datos_asociados_traslados"]);
 Route::post('traslados/guardar_traslados', [TrasladosController::class, "guardar_traslados"]);
 Route::post('traslados/get', [TrasladosController::class, "get"]);
 Route::post('traslados/eliminar_traslados', [TrasladosController::class, "eliminar_traslados"]);
+Route::post('traslados/eliminar_traslados_temp', [TrasladosController::class, "eliminar_traslados_temp"]);
 Route::post('traslados/obtener_traslados', [TrasladosController::class, "obtener_traslados"]);
 Route::post('traslados/guardar_traslados_temp', [TrasladosController::class, "guardar_traslados_temp"]);
+Route::post('traslados/trasladar', [TrasladosController::class, "trasladar"]);
+Route::post('traslados/agregar_traslado', [TrasladosController::class, "agregar_traslado"]);

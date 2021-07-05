@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
-
+use App\Models\TrasladosModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,13 +18,15 @@ class TrasladosController extends Controller
         parent:: __construct();
       
         $this->base_model = new BaseModel();
+        $this->traslados_model = new TrasladosModel();
     }
 
     public function index() {
         $view = "traslados.index";
         $data["title"] = traducir("traductor.titulo_traslados_iglesia");
         $data["subtitle"] = "";
-        // $data["tabla"] = $this->traslados_model->tabla()->HTML();
+        $data["tabla_traslados"] = $this->traslados_model->tabla()->HTML();
+        $data["tabla_asociados_traslados"] = $this->traslados_model->tabla_asociados_traslados()->HTML();
 
         // $botones = array();
         // $botones[0] = '<button tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-perfil">'.traducir("traductor.nuevo").' [F1]</button>';
@@ -38,10 +40,15 @@ class TrasladosController extends Controller
        
     }
 
-    // public function buscar_datos() {
-    //     $json_data = $this->traslados_model->tabla()->obtenerDatos();
-    //     echo json_encode($json_data);
-    // }
+    public function buscar_datos() {
+        $json_data = $this->traslados_model->tabla()->obtenerDatos();
+        echo json_encode($json_data);
+    }
+
+    public function buscar_datos_asociados_traslados() {
+        $json_data = $this->traslados_model->tabla_asociados_traslados()->obtenerDatos();
+        echo json_encode($json_data);
+    }
 
 
     public function guardar_traslados(Request $request) {
@@ -54,18 +61,19 @@ class TrasladosController extends Controller
         }
 
    
-        DB::table("seguridad.traslados_idiomas")->where("perfil_id", $result["id"])->delete();
-        if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
+        // DB::table("seguridad.traslados_idiomas")->where("perfil_id", $result["id"])->delete();
+        // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
      
-            $_POST["perfil_id"] = $result["id"];
+        //     $_POST["perfil_id"] = $result["id"];
            
-            $this->base_model->insertar($this->preparar_datos("seguridad.traslados_idiomas", $_POST, "D"), "D");
-        }
+        //     $this->base_model->insertar($this->preparar_datos("seguridad.traslados_idiomas", $_POST, "D"), "D");
+        // }
+        $result = array();
         echo json_encode($result);
     }
 
     public function guardar_traslados_temp(Request $request) {
-        // print_r($_REQUEST);
+        // print_r($_REQUEST); exit;
         try {
         
             $array_pais = explode("|", $_POST["pais_id"]);
@@ -78,8 +86,29 @@ class TrasladosController extends Controller
                 $_POST["idunion"] = $res[0]->idunion;
          
             }
-    
-            $sql = "SELECT * FROM iglesias.vista_asociados_traslados 
+
+            $array_pais_destino = explode("|", $_POST["pais_iddestino"]);
+            $_POST["pais_iddestino"] = $array_pais_destino[0];
+            if($array_pais_destino[1] == "N" && empty($request->input("iduniondestino"))) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_POST["pais_iddestino"]}";
+                $res = DB::select($sql);
+                $_POST["iduniondestino"] = $res[0]->idunion;
+         
+            }
+
+            $sql_destino = "";
+            $sql_destino .= $_POST["iddivisiondestino"]." AS iddivisiondestino, ";
+            $sql_destino .= $_POST["pais_iddestino"]." AS pais_iddestino, ";
+            $sql_destino .= $_POST["iduniondestino"]." AS iduniondestino, ";
+            $sql_destino .= $_POST["idmisiondestino"]." AS idmisiondestino, ";
+            $sql_destino .= $_POST["iddistritomisionerodestino"]." AS iddistritomisionerodestino, ";
+            $sql_destino .= $_POST["idiglesiadestino"]." AS idiglesiadestino ";
+            
+            DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $_REQUEST["tipo_traslado"]))->delete();
+
+            $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado, ".$sql_destino."  FROM iglesias.vista_asociados_traslados AS vat
             WHERE iddivision={$request->input('iddivision')} AND pais_id={$_POST["pais_id"]} AND idunion={$_POST["idunion"]} AND idmision={$request->input('idmision')} AND iddistritomisionero={$request->input('iddistritomisionero')} AND  idiglesia={$request->input('idiglesia')}";
             
             $asociados = DB::select($sql);
@@ -93,8 +122,8 @@ class TrasladosController extends Controller
                 throw new Exception("No hay asociados en la iglesia origen!");
             }
             
-    
-            echo json_encode($result);
+            
+            echo json_encode($_REQUEST);
         } catch(Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
         }
@@ -103,25 +132,10 @@ class TrasladosController extends Controller
        
     }
 
-    public function eliminar_traslados() {
-       
-
+    public function eliminar_traslados_temp() {
         try {
-            $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE perfil_id=".$_REQUEST["id"];
-            $usuarios = DB::select($sql_usuarios);
-
-            if(count($usuarios) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA ESTA ASIGNADO A UN USUARIO");
-            }
-
-            $sql_permisos = "SELECT * FROM seguridad.permisos WHERE perfil_id=".$_REQUEST["id"];
-            $permisos = DB::select($sql_permisos);
-
-            if(count($permisos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA TIENE ASIGNADO PERMISOS");
-            }
-
-            $result = $this->base_model->eliminar(["seguridad.traslados","perfil_id"]);
+            $result = $this->base_model->eliminar(["iglesias.temp_traslados","idtemptraslados"]);
+            $result = array();
             echo json_encode($result);
         } catch (Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
@@ -136,29 +150,56 @@ class TrasladosController extends Controller
         echo json_encode($one);
     }
 
-    public function obtener_traslados() {
-        $sql = "SELECT p.perfil_id AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
-        (SELECT pi_descripcion FROM seguridad.traslados_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM seguridad.traslados AS p 
-        LEFT JOIN seguridad.traslados_idiomas AS pi ON(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
-        WHERE p.estado='A'";
-        // die($sql);
-        $result = DB::select($sql);
+    
+    public function trasladar(Request $request) {
+        $sql = "SELECT * FROM iglesias.temp_traslados WHERE tipo_traslado=".$request->input("tipo_traslado")." AND usuario_id=".session("usuario_id");
+
+        $traslados = DB::select($sql);
+
+        foreach($traslados as $key => $value) {
+            $value->idiglesiaanterior = $value->idiglesia;
+            $value->idiglesiaactual = $value->idiglesiadestino;
+            $value->fecha = date("Y-m-d");
+            $array = (array) $value;
+            
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_traslados", $array));
+
+
+            $update = array();
+            $update["idmiembro"] = $value->idmiembro;
+            $update["iddivision"] = $value->iddivisiondestino;
+            $update["pais_id"] = $value->pais_iddestino;
+            $update["idunion"] = $value->iduniondestino;
+            $update["idmision"] = $value->idmisiondestino;
+            $update["idiglesia"] = $value->idiglesiadestino;
+            
+
+            $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $update));
+
+            
+
+        }
+
+        DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $request->input("tipo_traslado")))->delete();
+
+        echo json_encode($result);
+    }
+
+    public function agregar_traslado(Request $request) {
+        DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $_REQUEST["tipo_traslado"], "idmiembro" => $request->input('idmiembro')))->delete();
+
+        $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado  FROM iglesias.vista_asociados_traslados AS vat
+        WHERE idmiembro={$request->input('idmiembro')}";
+        $miembro = DB::select($sql);
+
+        foreach($miembro as $value) {
+            $array = (array) $value;
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.temp_traslados", $array));
+        }
+
         echo json_encode($result);
     }
 
 
-    
-    public function obtener_traducciones(Request $request) {
-        $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM seguridad.traslados_idiomas AS pi
-        INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
-        WHERE pi.perfil_id=".$request->input("perfil_id")."
-        ORDER BY pi.idioma_id ASC";
-       $result = DB::select($sql);
-       echo json_encode($result);
-       //print_r($_REQUEST);
-    }
     
 }

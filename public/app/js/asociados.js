@@ -731,7 +731,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             });
 
-
+            document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_cargos',
                 datos: { idmiembro: response.idmiembro, _token: _token }
@@ -744,17 +744,33 @@ document.addEventListener("DOMContentLoaded", function() {
                 //console.log(response);
             })
 
+            document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = "";
+
             asociados.ajax({
                 url: '/obtener_historial_altas_bajas',
                 datos: { idmiembro: response.idmiembro, _token: _token }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
+                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
                     }
                 }
                 //console.log(response);
             })
+
+            document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = "";
+            asociados.ajax({
+                url: '/obtener_traslados',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = html_traslados(response[i]);
+                    }
+                }
+                //console.log(response);
+            })
+            
 
 
             // principal.select({
@@ -1348,13 +1364,23 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    function html_detalle_historial(objeto, disabled) {
-        var attr = '';
+    function html_traslados(objeto) {
+
         var html = '';
-        if(typeof disabled != "undefined") {
-            attr = 'disabled="disabled"';
-        }
-        var tr = document.createElement("tr");
+
+        html += '  <td>'+objeto.iglesia_anterior+'</td>';
+        html += '  <td>'+objeto.iglesia_traslado+'</td>';
+
+        html += '  <td>'+objeto.fecha+'</td>';
+
+        return html;
+    }
+
+    function html_detalle_historial(objeto) {
+
+        var html = '';
+       
+        // var tr = document.createElement("tr");
     
         
         html += '  <td>'+objeto.tipo+'</td>';
@@ -1365,8 +1391,8 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+objeto.rebautizo+'</td>';
     
 
-        tr.innerHTML = html;
-        return tr;
+        // tr.innerHTML = html;
+        return html;
     }
 
     document.addEventListener("click", function(event) {

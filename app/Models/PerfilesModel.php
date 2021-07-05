@@ -25,8 +25,8 @@ class PerfilesModel extends Model
         $this->tabla = new Tabla();
         $this->tabla->asignarID("tabla-perfiles");
         $this->tabla->agregarColumna("p.perfil_id", "perfil_id", "Id");
-        $this->tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", "Descripcion");
-        $this->tabla->agregarColumna("p.estado", "estado", "Estado");
+        $this->tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.descripcion"));
+        $this->tabla->agregarColumna("p.estado", "estado", traducir("traductor.estado"));
         $this->tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN 
         (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
         ELSE pi.pi_descripcion END AS pi_descripcion , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
