@@ -415,8 +415,93 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && actividad_misionera.required("anio");
         required = required && actividad_misionera.required("idtrimestre");
 
-        if(required) {
+        if(!required) {
+            actividad_misionera.ajax({
+                url: '/obtener_actividades',
+                
+            }).then(function(response) {
+                // console.log(response);
 
+                var html = "";
+                var semanal = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
+                var actmasiva = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
+                var actmasiva2 = "<tr></tr><th>Descripcion</th><th>Cantidad</th><th>Asistentes</th><th>Interesados</th></tr>";
+                var materialestudiado = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
+                var cont = 1;
+                if(response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        if(response[index].tipo == "semanal") {
+                            semanal += '<tr>';
+                            semanal += '    <td>'+response[index].descripcion+'</td>';
+                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" accion="valor" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            semanal += '</tr>';
+                        }
+
+                        if(response[index].tipo == "actmasiva") {
+                            actmasiva += '<tr>';
+                            actmasiva += '    <td>'+response[index].descripcion+'</td>';
+                            actmasiva += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva += '</tr>';
+                        }
+
+                        if(response[index].tipo == "actmasiva2") {
+                            actmasiva2 += '<tr>';
+                            actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            cont++;
+                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            cont++;
+                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '</tr>';
+                        }
+
+                        if(response[index].tipo == "materialestudiado") {
+                            materialestudiado += '<tr>';
+                            materialestudiado += '    <td>'+response[index].descripcion+'</td>';
+                            materialestudiado += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            materialestudiado += '</tr>';
+                        }
+                        cont++;
+                    }
+
+                    html += '<div class="col-md-5">';
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>Actividad Misionera</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
+                    html += '   </fieldset>';
+                    html += '</div>';
+
+                    html += '<div class="col-md-7">';
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>Actividades Masivas</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
+                    html += '   </fieldset>';
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>Eventos Masivos</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
+                    html += '   </fieldset>';
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>Material Estudiado</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
+                    html += '   </fieldset>';
+                    html += '</div>';
+
+                    document.getElementById("actividades").innerHTML = html;
+
+                    $(document).on("keydown", "input[name='valor[]']", function() {
+                        // console.log($(this));
+                        var cont = parseInt($(this).attr("cont"));
+                        if($(this).val() != "") {
+                            $("input[cont="+(cont+1)+"]").focus();
+                        }
+                    })
+
+                    $(document).on("change", "input[name='valor[]']", function() {
+                        console.log($(this).val());
+                    })
+                }
+                
+            })  
             
         }
     })

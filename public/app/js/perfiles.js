@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     perfiles.enter("descripcion", "idioma", function() {
         var required = true;
-        required = modulos.required("idioma");
+        required = perfiles.required("idioma");
 
         if(!required) {
             return false;

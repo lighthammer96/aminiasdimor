@@ -97,30 +97,7 @@ class ActividadmisioneraController extends Controller
         echo json_encode($one);
     }
 
-    public function obtener_perfiles() {
-        $sql = "SELECT p.perfil_id AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
-        (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM seguridad.perfiles AS p 
-        LEFT JOIN seguridad.perfiles_idiomas AS pi ON(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
-        WHERE p.estado='A'";
-        // die($sql);
-        $result = DB::select($sql);
-        echo json_encode($result);
-    }
-
-
-    
-    public function obtener_traducciones(Request $request) {
-        $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM seguridad.perfiles_idiomas AS pi
-        INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
-        WHERE pi.perfil_id=".$request->input("perfil_id")."
-        ORDER BY pi.idioma_id ASC";
-       $result = DB::select($sql);
-       echo json_encode($result);
-       //print_r($_REQUEST);
-    }
+ 
 
     public function obtener_anios() {
         $result = array();
@@ -136,9 +113,16 @@ class ActividadmisioneraController extends Controller
 
 
     public function obtener_trimestres() {
-        $sql = "SELECT * FROM public.trimestre
+        $sql = "SELECT idtrimestre AS id, descripcion FROM public.trimestre
         ORDER BY idtrimestre ASC";
         $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_actividades() {
+        $sql = "SELECT * FROM iglesias.actividadmisionera";
+        $result = DB::select($sql);
+
         echo json_encode($result);
     }
     

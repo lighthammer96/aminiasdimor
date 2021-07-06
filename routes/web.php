@@ -293,3 +293,4 @@ Route::get('actividad_misionera/index', [ActividadmisioneraController::class, "i
 Route::post('actividad_misionera/buscar_datos', [ActividadmisioneraController::class, "buscar_datos"]);
 Route::post('actividad_misionera/obtener_anios', [ActividadmisioneraController::class, "obtener_anios"]);
 Route::post('actividad_misionera/obtener_trimestres', [ActividadmisioneraController::class, "obtener_trimestres"]);
+Route::post('actividad_misionera/obtener_actividades', [ActividadmisioneraController::class, "obtener_actividades"]);

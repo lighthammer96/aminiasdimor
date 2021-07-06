@@ -72,13 +72,16 @@
                 <div class="col-md-1">
                     <label class="control-label" style="float: right;">{{ traducir("traductor.trimestre") }}:</label>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div>
                 <div class="col-md-1">
                     <button type="button" id="ver" class="btn btn-primary btn-sm">{{ traducir("traductor.ver") }}</button>
                 </div>   
+            </div>
+            <div class="row" id="actividades">
+                
             </div>
         </div>
     </div>
