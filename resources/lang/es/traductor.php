@@ -83,6 +83,7 @@ return [
     'carta_traslado' => "Carta de Traslado",
     'carta_aceptacion' => "Carta de Aceptación",
     'finalizar_traslado' => "Finalizar Traslado",
+    'trimestre' => "Trimestre",
 
 
      // LABELS DATATABLES
@@ -108,6 +109,15 @@ return [
     'titulo_paises' => 'Administración de Paises',
     'titulo_pastores' => 'Administración de Pastores',
     'titulo_perfiles' => 'Administración de Perfiles',
+    'titulo_departamentos' => 'División Política 1',
+    'titulo_provincias' => 'División Política 2',
+    'titulo_distritos' => 'División Política 3',
+    'titulo_tipos_cargo' => 'Administración de Tipos de Cargo',
+    'titulo_niveles' => 'Administración de Niveles',
+    'titulo_cargos' => 'Administración de Cargos',
+    'titulo_traslados_iglesia' => 'Traslado de Asociados',
+    'titulo_control_traslados' => 'Control de Traslados',
+    'titulo_actividad_misionera' => 'Administración de Actividades Misioneras',
 
 
 

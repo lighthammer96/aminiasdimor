@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActividadmisioneraController;
 use App\Http\Controllers\AsociadosController;
 use App\Http\Controllers\CargosController;
 use App\Http\Controllers\DepartamentosController;
@@ -285,3 +286,10 @@ Route::get('traslados/control', [TrasladosController::class, "control"]);
 Route::post('traslados/buscar_datos_control', [TrasladosController::class, "buscar_datos_control"]);
 Route::post('traslados/guardar_control', [TrasladosController::class, "guardar_control"]);
 
+
+// ACTIVIDAD MISIONERA
+
+Route::get('actividad_misionera/index', [ActividadmisioneraController::class, "index"]);
+Route::post('actividad_misionera/buscar_datos', [ActividadmisioneraController::class, "buscar_datos"]);
+Route::post('actividad_misionera/obtener_anios', [ActividadmisioneraController::class, "obtener_anios"]);
+Route::post('actividad_misionera/obtener_trimestres', [ActividadmisioneraController::class, "obtener_trimestres"]);
