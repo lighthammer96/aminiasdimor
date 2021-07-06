@@ -399,9 +399,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var promise = iglesias.get(datos.idiglesia);
         promise.then(function(response) {
-            
-            var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]);
+            if(response.pais_id != null ) {
+                var array_pais = response.pais_id.split("|");
+                jerarquia(array_pais[0]);
+            }
+           
             // principal.select({
             //     name: 'iddepartamento',
             //     url: '/obtener_departamentos',
@@ -451,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // required = required && iglesias.required("idiglesia");
         required = required && iglesias.required("descripcion");
         required = required && iglesias.required("iddepartamento");
-  
+        // alert(array_pais[1]);
         if(required) {
             var promise = iglesias.guardar();
             iglesias.CerrarModal();

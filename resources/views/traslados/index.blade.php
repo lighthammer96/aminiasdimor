@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="row iglesia">
-        <div class="col-md-3 col-md-offset-2" id="destino-iglesia">
+        <div class="col-md-3 col-md-offset-2">
             <fieldset>
                 <legend>Iglesia de Origen</legend>
                 <div class="col-md-12">
@@ -75,10 +75,10 @@
         <div class="col-md-2" style="margin-top: 125px">
             <img src="{{ URL::asset('images/flecha.gif') }}" >
         </div>    
-        <div class="col-md-3">
-            <fieldset>
+        <div class="col-md-3" id="destino-iglesia">
+            <!-- <fieldset>
                 <legend>Iglesia de Destino</legend>
-                <!-- <div class="col-md-12">
+                <div class="col-md-12">
                     <label class="control-label">División</label>
 
                     <select  class="entrada selectizejs" name="iddivisiondestino" id="iddivisiondestino">
@@ -125,9 +125,9 @@
 
                     </select>
 
-                </div> -->
+                </div>
 
-            </fieldset>
+            </fieldset> -->
         </div>
 
     </div>
@@ -164,6 +164,7 @@
  
             <form id="formulario-traslados_mi" class="form-horizontal" role="form">
                 <div class="modal-body">
+                    <input type="hidden" name="tipo_traslado_mi" id="tipo_traslado_mi">
                     <div class="row" >
                         <div class="col-md-12" id="destino-masivo-individual">
                             <fieldset>
@@ -216,6 +217,9 @@
                                     </select>
 
                                 </div>
+
+                               
+
 
                             </fieldset>
                         </div>

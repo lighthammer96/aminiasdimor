@@ -80,6 +80,9 @@ return [
     'iglesia' => "Iglesia ",
     'iglesia_anterior' => "Iglesia Anterior",
     'iglesia_traslado' => "Iglesia Traslado",
+    'carta_traslado' => "Carta de Traslado",
+    'carta_aceptacion' => "Carta de Aceptación",
+    'finalizar_traslado' => "Finalizar Traslado",
 
 
      // LABELS DATATABLES

@@ -73,5 +73,35 @@ class TrasladosModel extends Model
     }
 
 
-  
+    public function tabla_control() {
+        
+        $this->tabla = new Tabla();
+        $this->tabla->asignarID("tabla-control-traslados");
+        $this->tabla->agregarColumna("ct.idcontrol", "idcontrol", "Id");
+        $this->tabla->agregarColumna("(m.apellidos || ', ' || m.nombres),", "asociado", traducir("traductor.asociado"));
+        $this->tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior)", "iglesia_anterior", traducir("traductor.iglesia_anterior"));
+     
+        $this->tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) ", "iglesia_traslado", traducir("traductor.iglesia_traslado"));
+        $this->tabla->agregarColumna("ct.fecha", "fecha", traducir("traductor.fecha"));
+        $this->tabla->agregarColumna("ct.estado", "estado", traducir("traductor.estado"));
+
+
+        $this->tabla->setSelect(" 
+        ct.idcontrol,
+        (m.apellidos || ', ' || m.nombres) AS asociado,
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_anterior,
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_traslado,
+        to_char(ct.fecha, 'DD/MM/YYYY') AS fecha,
+        CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado");
+        $this->tabla->setFrom("iglesias.control_traslados AS ct 
+        \nINNER JOIN iglesias.miembro AS m ON(ct.idmiembro=m.idmiembro)");
+
+     
+        return $this->tabla;
+    }
+
+    
+    
+    
+
 }

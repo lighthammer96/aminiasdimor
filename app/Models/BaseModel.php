@@ -106,8 +106,8 @@ class BaseModel extends Model
                 $parametros["datos"][0]["usuario_ultima_modificacion"] = session("usuario_user");
                 // $parametros["datos"][0]["pc_ultima_modificacion"] = $this->session->caja_pcname;
             }
-
-
+            // print_r($parametros["datos"][0]);
+            // exit;
             // $this->db->where($id, $valorid);
             // $estado = $this->db->update($parametros["tabla"], $parametros["datos"][0]);
             $estado = DB::table($parametros["tabla"])
