@@ -91,8 +91,10 @@ class AsociadosController extends Controller
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo"]);
             if ($request->input("idmiembro") == '') {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
-            }else{
+            }else{ 
+                // print_r($this->preparar_datos("iglesias.miembro", $_POST)); exit;
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+                // print_r($result);
             }
             // print_r($result); exit;
             $_POST["idmiembro"] = $result["id"];
@@ -105,23 +107,25 @@ class AsociadosController extends Controller
                 $_POST["foto"] = $response["NombreFile"];
             
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+              
             }
-
+            
             
         //    var_dump(isset($_REQUEST["idcargo"]));
         //    var_dump(!empty($_REQUEST["idcargo"]));
         //    exit;
-            if(isset($_REQUEST["idcargo"]) && !empty($_REQUEST["idcargo"])) {
-                DB::table("iglesias.cargo_miembro")->where("idmiembro", $result["id"])->delete();
-                // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"));
+            if(isset($_REQUEST["idcargo"]) && count($_REQUEST["idcargo"]) > 0) {
+                DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+                // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
+               
             }
 
             DB::commit();
             echo json_encode($result);
         } catch (Exception $e) {
             DB::rollBack();
-            $response["status"] = "ee"; 
+            $response["status"] = "ei"; 
             $response["msg"] = $e->getMessage(); 
             echo json_encode($response);
         }
@@ -264,7 +268,7 @@ class AsociadosController extends Controller
     }
 
 
-    public function obtener_cargos(Request $request) {
+    public function obtener_cargos_miembro(Request $request) {
         $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo /*, i.descripcion AS institucion*/ FROM iglesias.cargo_miembro AS cm
         INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)

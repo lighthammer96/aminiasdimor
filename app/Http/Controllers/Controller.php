@@ -141,11 +141,11 @@ class Controller extends BaseController
                         // para que inserte solo los campos que tiene dicha tabla
                         if (in_array($key, $fields)) {
                             // echo $primer_key." ".$key."\n";
-                            if($value[$i] != "" && $value[$i] != "null") {
+                            if(isset($value[$i]) && $value[$i] != "" && $value[$i] != "null") {
                                 //@$parametros["datos"][$i][$key] = NULL;
                                 @$parametros["datos"][$i][$key] = $value[$i];
                             } else {
-
+                                @$parametros["datos"][$i][$key] = NULL;
                             }
                             
                         }

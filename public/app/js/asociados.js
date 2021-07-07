@@ -733,7 +733,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
-                url: '/obtener_cargos',
+                url: '/obtener_cargos_miembro',
                 datos: { idmiembro: response.idmiembro, _token: _token }
             }).then(function(response) {
                 if(response.length > 0) {
@@ -863,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             asociados.ajax({
-                url: '/obtener_cargos',
+                url: '/obtener_cargos_miembro',
                 datos: { idmiembro: response.idmiembro, _token: _token }
             }).then(function(response) {
                 if(response.length > 0) {
