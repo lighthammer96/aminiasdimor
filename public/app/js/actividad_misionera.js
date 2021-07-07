@@ -440,25 +440,25 @@ document.addEventListener("DOMContentLoaded", function() {
                         if(response[index].tipo == "actmasiva") {
                             actmasiva += '<tr>';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva += '    <td style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             actmasiva += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva2") {
                             actmasiva2 += '<tr>';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             actmasiva2 += '</tr>';
                         }
 
                         if(response[index].tipo == "materialestudiado") {
                             materialestudiado += '<tr>';
                             materialestudiado += '    <td>'+response[index].descripcion+'</td>';
-                            materialestudiado += '    <td style="width: 60px !important;"><input cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            materialestudiado += '    <td style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             materialestudiado += '</tr>';
                         }
                         cont++;
