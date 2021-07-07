@@ -44,49 +44,69 @@ class ActividadmisioneraController extends Controller
     // }
 
 
-    public function guardar_perfiles(Request $request) {
+    public function guardar_actividad(Request $request) {
    
-        $_POST = $this->toUpper($_POST);
-        if ($request->input("perfil_id") == '') {
-            $result = $this->base_model->insertar($this->preparar_datos("seguridad.perfiles", $_POST));
-        }else{
-            $result = $this->base_model->modificar($this->preparar_datos("seguridad.perfiles", $_POST));
+        // $_POST = $this->toUpper($_POST);
+        // if ($request->input("perfil_id") == '') {
+        //     $result = $this->base_model->insertar($this->preparar_datos("seguridad.perfiles", $_POST));
+        // }else{
+        //     $result = $this->base_model->modificar($this->preparar_datos("seguridad.perfiles", $_POST));
+        // }
+        
+        $accion = $request->input("accion");
+        $idactividadmisionera = $request->input("idactividadmisionera");
+        $valor = $request->input("valor");
+        $semana = $request->input("semana");
+        $anio = $request->input("anio");
+        $idtrimestre = $request->input("idtrimestre");
+        $_POST["trimestre"] = $idtrimestre;
+        $idiglesia = $request->input("idiglesia");
+
+        $sql_validacion = "SELECT * FROM iglesias.controlactmisionera WHERE idactividadmisionera={$idactividadmisionera} AND anio='{$anio}' AND trimestre={$idtrimestre} AND idiglesia={$idiglesia} AND semana={$semana}";
+
+        // die($sql_validacion);
+        $validacion = DB::select($sql_validacion);
+
+        if($accion == "valor") {
+            DB::table("iglesias.controlactmisionera")->where(array("idactividadmisionera" => $idactividadmisionera, "anio" => $anio, "trimestre" => $idtrimestre, "semana" => $semana, "idiglesia" => $idiglesia))->delete();
+
+
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+        }
+        
+
+        if($accion == "cantidad") {
+            
+            if(count($validacion) > 0) {
+                $result = $this->base_model->modificar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            } else {
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            } 
         }
 
-   
-        DB::table("seguridad.perfiles_idiomas")->where("perfil_id", $result["id"])->delete();
-        if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
-            $_POST["perfil_id"] = $result["id"];
-           
-            $this->base_model->insertar($this->preparar_datos("seguridad.perfiles_idiomas", $_POST, "D"), "D");
+        if($accion == "asistentes") {
+            $_POST["valor"] = "";
+            $_POST["asistentes"] = $valor;
+            if(count($validacion) > 0) {
+                $result = $this->base_model->modificar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            } else {
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            }
+          
         }
+
+        if($accion == "interesados") {
+            $_POST["valor"] = "";
+            $_POST["interesados"] = $valor;
+            if(count($validacion) > 0) {
+                $result = $this->base_model->modificar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            } else {
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
+            }
+          
+        }
+    
         echo json_encode($result);
-    }
-
-    public function eliminar_perfiles() {
-       
-
-        try {
-            $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE perfil_id=".$_REQUEST["id"];
-            $usuarios = DB::select($sql_usuarios);
-
-            if(count($usuarios) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA ESTA ASIGNADO A UN USUARIO");
-            }
-
-            $sql_permisos = "SELECT * FROM seguridad.permisos WHERE perfil_id=".$_REQUEST["id"];
-            $permisos = DB::select($sql_permisos);
-
-            if(count($permisos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA TIENE ASIGNADO PERMISOS");
-            }
-
-            $result = $this->base_model->eliminar(["seguridad.perfiles","perfil_id"]);
-            echo json_encode($result);
-        } catch (Exception $e) {
-            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
-        }
     }
 
 
@@ -119,8 +139,14 @@ class ActividadmisioneraController extends Controller
         echo json_encode($result);
     }
 
-    public function obtener_actividades() {
-        $sql = "SELECT * FROM iglesias.actividadmisionera";
+    public function obtener_actividades(Request $request) {
+        $anio = $request->input("anio");
+        $idtrimestre = $request->input("idtrimestre");
+        $idiglesia = $request->input("idiglesia");
+
+        $sql = "SELECT am.*, c.anio, c.trimestre, c.idiglesia, c.semana, c.valor, c.asistentes, c.interesados FROM iglesias.actividadmisionera AS am
+        LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera AND c.anio='{$anio}' AND c.trimestre={$idtrimestre} AND c.idiglesia={$idiglesia})";
+        // die($sql);
         $result = DB::select($sql);
 
         echo json_encode($result);

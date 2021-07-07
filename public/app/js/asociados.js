@@ -978,7 +978,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(required) {
             var promise = asociados.guardar();
-
+            asociados.CerrarModal();
             promise.then(function(response) {
                 if(typeof response.validacion != "undefined" && response.validacion == "ED") {
                     document.getElementsByName("nrodoc")[0].focus();

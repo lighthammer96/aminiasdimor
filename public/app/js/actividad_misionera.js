@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && traslados_temp.required("iddivision");
+                required = required && actividad_misionera.required("iddivision");
                 if(required) {
                     $("#pais_id")[0].selectize.focus();
                 }
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && traslados_temp.required("pais_id");
+                required = required && actividad_misionera.required("pais_id");
                 if(required) {
                     $("#idunion")[0].selectize.focus();
                 }
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && traslados_temp.required("idunion");
+                required = required && actividad_misionera.required("idunion");
                 if(required) {
                     $("#idmision")[0].selectize.focus();
                 }
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && traslados_temp.required("idmision");
+                required = required && actividad_misionera.required("idmision");
                 if(required) {
                     $("#iddistritomisionero")[0].selectize.focus();
                 }
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && traslados_temp.required("iddistritomisionero");
+                required = required && actividad_misionera.required("iddistritomisionero");
                 if(required) {
                     $("#idiglesia")[0].selectize.focus();
                 }
@@ -397,6 +397,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("ver").addEventListener("click", function(event) {
         event.preventDefault();
+        var anio = $("#anio").val();
+        var idtrimestre = $("#idtrimestre").val();
+        var idiglesia = $("#idiglesia").val();
 
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
@@ -415,10 +418,10 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && actividad_misionera.required("anio");
         required = required && actividad_misionera.required("idtrimestre");
 
-        if(!required) {
+        if(required) {
             actividad_misionera.ajax({
                 url: '/obtener_actividades',
-                
+                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre }
             }).then(function(response) {
                 // console.log(response);
 
@@ -430,35 +433,39 @@ document.addEventListener("DOMContentLoaded", function() {
                 var cont = 1;
                 if(response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
+                        var valor = parseInt(response[index].valor);
+                        var cantidad = parseInt(response[index].cantidad);
+                        var asistentes = parseInt(response[index].asistentes);
+                        var interesados = parseInt(response[index].interesados);
                         if(response[index].tipo == "semanal") {
                             semanal += '<tr>';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
-                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             semanal += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva") {
                             actmasiva += '<tr>';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva += '    <td style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva += '    <td style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             actmasiva += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva2") {
                             actmasiva2 += '<tr>';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+asistentes+'"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+interesados+'"></td>';
                             actmasiva2 += '</tr>';
                         }
 
                         if(response[index].tipo == "materialestudiado") {
                             materialestudiado += '<tr>';
                             materialestudiado += '    <td>'+response[index].descripcion+'</td>';
-                            materialestudiado += '    <td style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            materialestudiado += '    <td style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             materialestudiado += '</tr>';
                         }
                         cont++;
@@ -488,16 +495,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     document.getElementById("actividades").innerHTML = html;
 
-                    $(document).on("keydown", "input[name='valor[]']", function() {
-                        // console.log($(this));
+                    $(document).on("keydown", "input[name='valor[]']", function(e) {
+                        // console.log(e);
+
                         var cont = parseInt($(this).attr("cont"));
-                        if($(this).val() != "") {
+                        if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
                             $("input[cont="+(cont+1)+"]").focus();
                         }
                     })
 
                     $(document).on("change", "input[name='valor[]']", function() {
-                        console.log($(this).val());
+                        var semana = $(this).attr("semana");
+                        var idactividadmisionera = $(this).attr("idactividadmisionera");
+                        var accion = $(this).attr("accion");
+                        var anio = $("#anio").val();
+                        var idtrimestre = $("#idtrimestre").val();
+                        var idiglesia = $("#idiglesia").val();
+                        var valor = $(this).val();
+                        // console.log($(this).val());
+                        actividad_misionera.ajax({
+                            url: '/guardar_actividad',
+                            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, idtrimestre: idtrimestre, valor: valor, idiglesia: idiglesia }
+                        }).then(function(response) {
+                        
+                        })
                     })
                 }
                 
