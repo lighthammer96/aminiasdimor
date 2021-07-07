@@ -104,7 +104,7 @@ class CargosController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT *, (tc.idtipocargo || '|' || tc.posee_nivel) AS idtipocargo, tc.posee_nivel FROM public.cargo AS c
+        $sql = "SELECT c.*, (tc.idtipocargo || '|' || tc.posee_nivel) AS idtipocargo, tc.posee_nivel FROM public.cargo AS c
         LEFT JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)
         WHERE c.idcargo=".$request->input("id");
         $one = DB::select($sql);

@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         if(response[index].tipo == "semanal") {
                             semanal += '<tr>';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
-                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" accion="valor" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
+                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number"></td>';
                             semanal += '</tr>';
                         }
 
