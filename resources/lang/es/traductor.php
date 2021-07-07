@@ -84,7 +84,7 @@ return [
     'carta_aceptacion' => "Carta de Aceptación",
     'finalizar_traslado' => "Finalizar Traslado",
     'trimestre' => "Trimestre",
-    'nivel' => "Trimestre",
+    'nivel' => "Nivel",
 
 
      // LABELS DATATABLES
