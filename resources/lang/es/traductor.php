@@ -87,7 +87,7 @@ return [
     'nivel' => "Nivel",
     'capacitacion' => "Capacitación",
     'centro_estudios' => "Centro de Estudios",
-    'cargos' => "Ce",
+    'cargos' => "Cargos",
 
 
      // LABELS DATATABLES
