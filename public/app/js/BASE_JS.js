@@ -172,12 +172,7 @@ class BASE_JS {
                 [0, "DESC"]
             ],
             "initComplete": function(settings, json) {
-                // $(parametros.tablaID+'input').unbind();
-                // $(parametros.tablaID+'input').bind('keyup', function(e) {
-                //     if(e.keyCode == 13) {
-                //         oTable.search( this.value ).draw();
-                //     }
-                // }); 
+                // referencia: https://stackoverflow.com/questions/14619498/datatables-global-search-on-keypress-of-enter-key-instead-of-any-key-keypress
                 // esto ess para que solo busque cuando se presione enter
                 $('.dataTables_filter input').unbind();
                 $('.dataTables_filter input').bind('keyup', function(e){
