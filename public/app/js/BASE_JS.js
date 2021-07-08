@@ -142,9 +142,10 @@ class BASE_JS {
 
                 },
                 error: function() {
-                    BASE_JS.sweet({
-                        text: 'HUBO UN ERROR EN LA CARGA DE DATOS ... POR FAVOR CONTACTE CON EL ADMINISTRADOR DEL SISTEMA'
-                    });
+                    // BASE_JS.sweet({
+                    //     text: 'HUBO UN ERROR EN LA CARGA DE DATOS ... POR FAVOR CONTACTE CON EL ADMINISTRADOR DEL SISTEMA'
+                    // });
+                    console.log('HUBO UN ERROR EN LA CARGA DE DATOS ... POR FAVOR CONTACTE CON EL ADMINISTRADOR DEL SISTEMA');
                 }
             },
             "columns": array,
@@ -227,9 +228,10 @@ class BASE_JS {
             return response.json();
         }).catch(function(error) {
             //console.log(error);
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
             self.CerrarModal();
         }).then(function(response) {
             if (typeof response != "undefined") {
@@ -300,9 +302,10 @@ class BASE_JS {
             //console.log(response.json());
             return response.json();
         }).catch(function(error) {
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
         }).then(function(response) {
             //console.log(self.formularioID);
             var elementos = document.getElementById(self.formularioID).getElementsByClassName("entrada");
@@ -404,9 +407,10 @@ class BASE_JS {
             //console.log(response.json());
             return response.json();
         }).catch(function(error) {
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
         }).then(function(response) {
             if(typeof response.msg != "undefined") {
                 BASE_JS.mensaje(response);
@@ -466,9 +470,10 @@ class BASE_JS {
                 return response.text();
             }
         }).catch(function(error) {
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
         }).then(function(response) {
             return response;
         });
@@ -493,9 +498,10 @@ class BASE_JS {
             // let data = await response.json();
             // return data;
         } catch (error) {
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN ASYNC FETCH -> ' + error
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN ASYNC FETCH -> ' + error
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN ASYNC FETCH -> ' + error);
         }
 
         // url referencia:
@@ -954,9 +960,10 @@ class BASE_JS {
         }).then(function(response) {
             return response.json();
         }).catch(function(error) {
-            BASE_JS.sweet({
-                text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
-            });
+            // BASE_JS.sweet({
+            //     text: 'HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message
+            // });
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
         }).then(function(response) {
             var options = "";
             var prioridadSelected = false;
