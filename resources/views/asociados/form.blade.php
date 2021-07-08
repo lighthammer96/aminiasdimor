@@ -9,7 +9,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#datos-generales" data-toggle="tab">Datos Generales</a></li>
                             <li><a href="#informacion-eclesiastica" data-toggle="tab">Información Eclesiástica</a></li>
-                            <li><a class="modificar" href="#registro-administrativo" data-toggle="tab">Registro Administrativo</a></li>
+                            <li><a class="modificar" href="#registro-administrativo" data-toggle="tab">{{ }traducir("traductor.cargos") }}</a></li>
                             <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">Historial de Altas y Bajas</a></li>
                             <li><a class="modificar" href="#historial-traslados" data-toggle="tab">Historial de Traslados</a></li>
                             <li><a class="modificar" href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>

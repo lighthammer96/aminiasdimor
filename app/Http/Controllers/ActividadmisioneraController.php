@@ -122,7 +122,7 @@ class ActividadmisioneraController extends Controller
     public function obtener_anios() {
         $result = array();
         $array = array();
-        for($i=date("Y"); $i>=2014; $i-- ) {
+        for($i=date("Y"); $i>=2021; $i-- ) {
             $result["id"] = $i;
             $result["descripcion"] = $i;
             array_push($array, $result);

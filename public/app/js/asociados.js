@@ -756,7 +756,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
+                        // document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
+                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
                     }
                 }
                 //console.log(response);
@@ -769,7 +770,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = html_traslados(response[i]);
+                        // document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = html_traslados(response[i]);
+
+                        document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].appendChild(html_traslados(response[i]));
                     }
                 }
                 //console.log(response);
