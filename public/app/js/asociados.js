@@ -1449,20 +1449,20 @@ document.addEventListener("DOMContentLoaded", function() {
     function html_traslados(objeto) {
 
         var html = '';
-
+        var tr = document.createElement("tr");
         html += '  <td>'+objeto.iglesia_anterior+'</td>';
         html += '  <td>'+objeto.iglesia_traslado+'</td>';
 
         html += '  <td>'+objeto.fecha+'</td>';
-
-        return html;
+        tr.innerHTML = html;
+        return tr;
     }
 
     function html_detalle_historial(objeto) {
 
         var html = '';
        
-        // var tr = document.createElement("tr");
+        var tr = document.createElement("tr");
     
         
         html += '  <td>'+objeto.tipo+'</td>';
@@ -1473,8 +1473,8 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+objeto.rebautizo+'</td>';
     
 
-        // tr.innerHTML = html;
-        return html;
+        tr.innerHTML = html;
+        return tr;
     }
 
     document.addEventListener("click", function(event) {
