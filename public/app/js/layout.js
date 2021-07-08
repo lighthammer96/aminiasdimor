@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // };
 
 
-$(document).on("click", "#idioma_sistema", function(e) {
+$(document).on("change", "#idioma_sistema", function(e) {
 	e.preventDefault();
 	var array = this.value.toString().split("|");
 	$.ajax({
