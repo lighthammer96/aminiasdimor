@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <form id="formulario-asociados" class="form-horizontal" role="form">
-
+                <input type="hidden" name="pais_id_change" id="pais_id_change">
                 <div class="modal-body">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">

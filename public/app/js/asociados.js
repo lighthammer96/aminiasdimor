@@ -14,7 +14,7 @@ var cargos = new BASE_JS('cargos', 'cargos');
 var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    document.getElementById("pais_id_change").value = session_pais_id;
     document.getElementsByName("fecharegistro")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
     var eventClick = new Event('click');
 
@@ -502,7 +502,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         var selected_iddepartamentodomicilio = (typeof iddepartamentodomicilio != "undefined")  ? iddepartamentodomicilio : "";
-        jerarquia(d_id);
+
+        var pais_id_change = document.getElementById("pais_id_change").value;
+        if(pais_id_change != d_id) {
+            jerarquia(d_id);
+        }
+       
 
         uniones.select({
             name: 'idunion',
@@ -540,23 +545,29 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             $(".union").show();
         }
+
+        
        
+        if(pais_id_change != d_id) {
+            document.getElementById("pais_id_change").value = d_id;
 
-        principal.select({
-            name: 'iddepartamentodomicilio',
-            url: '/obtener_departamentos',
-            placeholder: seleccione,
-            selected: selected_iddepartamentodomicilio,
-            datos: { pais_id: d_id }
-        }).then(function() {
-            var condicion = typeof pais_id == "undefined" && pais_id != "";
-            condicion = condicion && typeof iddepartamentodomicilio == "undefined" && iddepartamentodomicilio != "";
-
-            if(condicion) {
-                $("#iddepartamentodomicilio").trigger("change", ["", ""]);
-                $("#idprovinciadomicilio").trigger("change", ["", ""]);  
-            }
-        }) 
+            principal.select({
+                name: 'iddepartamentodomicilio',
+                url: '/obtener_departamentos',
+                placeholder: seleccione,
+                selected: selected_iddepartamentodomicilio,
+                datos: { pais_id: d_id }
+            }).then(function() {
+                var condicion = typeof pais_id == "undefined" && pais_id != "";
+                condicion = condicion && typeof iddepartamentodomicilio == "undefined" && iddepartamentodomicilio != "";
+    
+                if(condicion) {
+                    $("#iddepartamentodomicilio").trigger("change", ["", ""]);
+                    $("#idprovinciadomicilio").trigger("change", ["", ""]);  
+                }
+            }) 
+        }
+       
        
         
     });
