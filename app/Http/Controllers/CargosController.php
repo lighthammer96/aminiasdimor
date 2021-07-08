@@ -48,8 +48,8 @@ class CargosController extends Controller
         
         $_POST = $this->toUpper($_POST);
        
-        $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
-        $_POST["idtipocargo"] = $array_tipo_cargo[0];
+        // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
+        // $_POST["idtipocargo"] = $array_tipo_cargo[0];
         if ($request->input("idcargo") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.cargo", $_POST));
         }else{
@@ -57,11 +57,11 @@ class CargosController extends Controller
         }
 
 
-        if(empty($_REQUEST["idnivel"])) {
-            $estado = DB::table("public.cargo")
-            ->where("idcargo", $result["id"])
-            ->update(array("idnivel" => null));
-        }
+        // if(empty($_REQUEST["idnivel"])) {
+        //     $estado = DB::table("public.cargo")
+        //     ->where("idcargo", $result["id"])
+        //     ->update(array("idnivel" => null));
+        // }
    
         // DB::table("public.cargo_idiomas")->where("idcargo", $result["id"])->delete();
         // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
@@ -104,7 +104,7 @@ class CargosController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT c.*, (tc.idtipocargo || '|' || tc.posee_nivel) AS idtipocargo, tc.posee_nivel FROM public.cargo AS c
+        $sql = "SELECT c.*, /*(tc.idtipocargo || '|' || tc.posee_nivel) AS*/ tc.idtipocargo, tc.posee_nivel FROM public.cargo AS c
         LEFT JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)
         WHERE c.idcargo=".$request->input("id");
         $one = DB::select($sql);

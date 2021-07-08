@@ -31,14 +31,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
-        var array = valor.toString().split("|");
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1"; 
+        // var array = valor.toString().split("|");
 
-        // var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-        // d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
 
-        var d_id = array[0];
-        var posee_nivel = array[1];
+        // var d_id = array[0];
+        // var posee_nivel = array[1];
         var selected = (typeof idcargo != "undefined")  ? idcargo : "";
         
 
@@ -54,13 +54,13 @@ document.addEventListener("DOMContentLoaded", function() {
             
         })
 
-        if(posee_nivel == "N") {
-            $(".nivel").hide();
+        // if(posee_nivel == "N") {
+        //     $(".nivel").hide();
 
             
-        } else {
-            $(".nivel").show();
-        }
+        // } else {
+        //     $(".nivel").show();
+        // }
 
     });
 
@@ -159,11 +159,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = cargos.get(datos.idcargo);
 
         promise.then(function(response) {
-            if(response.posee_nivel == "N") {
-                $(".nivel").hide();
-            } else {
-                $(".nivel").show();
-            }
+            // if(response.posee_nivel == "N") {
+            //     $(".nivel").hide();
+            // } else {
+            //     $(".nivel").show();
+            // }
 
             // cargos.ajax({
             //     url: '/obtener_traducciones',

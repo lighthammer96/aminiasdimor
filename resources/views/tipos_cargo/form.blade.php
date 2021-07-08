@@ -16,7 +16,7 @@
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion" />
 
                         </div>
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.posee_nivel')}}</label>
 
                             <select name="posee_nivel" id="posee_nivel" class="form-control input-sm entrada" default-value="S">
@@ -24,7 +24,7 @@
                                 <option value="N">NO</option>
                             </select>
 
-                        </div>
+                        </div> -->
                         <!-- <div class="col-md-6">
                             <label class="control-label">Estado</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">

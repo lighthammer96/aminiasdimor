@@ -98,7 +98,7 @@ class TiposcargoController extends Controller
     }
 
     public function obtener_tipos_cargo() {
-        $sql = "SELECT (p.idtipocargo || '|' || p.posee_nivel) AS id, p.descripcion
+        $sql = "SELECT /*(p.idtipocargo || '|' || p.posee_nivel)*/ p.idtipocargo  AS id, p.descripcion
         FROM public.tipocargo AS p";
         // die($sql);
         $result = DB::select($sql);
