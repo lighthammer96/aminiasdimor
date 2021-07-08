@@ -170,7 +170,23 @@ class BASE_JS {
             },
             "order": [
                 [0, "DESC"]
-            ]
+            ],
+            "initComplete": function(settings, json) {
+                // $(parametros.tablaID+'input').unbind();
+                // $(parametros.tablaID+'input').bind('keyup', function(e) {
+                //     if(e.keyCode == 13) {
+                //         oTable.search( this.value ).draw();
+                //     }
+                // }); 
+                // esto ess para que solo busque cuando se presione enter
+                $('.dataTables_filter input').unbind();
+                $('.dataTables_filter input').bind('keyup', function(e){
+                    var code = e.keyCode || e.which;
+                    if (code == 13) { 
+                        table.search(this.value).draw();
+                    }
+                });
+            }
         });
 
          //referencia del select focus: https://www.gyrocode.com/articles/jquery-datatables-how-to-navigate-rows-with-keytable-plugin/
@@ -201,6 +217,14 @@ class BASE_JS {
                 // $("#example-console").html(data.join(', '));
             }
         });
+        // $('div.dataTables_filter input').bind('keyup', function(e) {
+        //     console.log(e);
+        //     if(e.keyCode == 13) {
+        //         table.search(this.value).draw();   
+        //     }
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        // }); 
         //console.log(datatable);
         console.log("TABLA -> " + parametros.tablaID);
         //console.log(datatable);
