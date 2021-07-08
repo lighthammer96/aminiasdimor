@@ -106,7 +106,7 @@ class AsociadosController extends Controller
                 }
                 $_POST["foto"] = $response["NombreFile"];
             
-                $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+                $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
               
             }
             
