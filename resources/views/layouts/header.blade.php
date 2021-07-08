@@ -154,8 +154,8 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php if(!empty(session("foto"))) { ?>
-                            <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="user-image" alt="User Image">
+                        <?php if(!empty(session("foto")) && file_exists(URL::asset('fotos_asociados/'.session("foto")))) { ?>
+                            <img src="{{ URL::asset('fotos_asociados/'.session("foto"))}}" class="user-image" alt="User Image">
                         <?php } else { ?>
                             <img src="{{ URL::asset('images/usuario.png') }}" class="user-image" alt="User Image">
                         <?php } ?>
@@ -164,7 +164,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?php if(!empty(session("foto"))) { ?>
+                            <?php if(!empty(session("foto")) && file_exists(URL::asset('fotos_asociados/'.session("foto")))) { ?>
                                 <img src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
                             <?php } else { ?>
                                 <img src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">

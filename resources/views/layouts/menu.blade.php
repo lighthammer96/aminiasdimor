@@ -6,7 +6,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <?php if(!empty(session("foto"))) { ?>
+                <?php if(!empty(session("foto")) && file_exists(URL::asset('fotos_asociados/'.session("foto")))) { ?>
                     <img style="height: 45px !important;" src="{{ URL::asset('fotos_asociados/'.session("foto")) }}" class="img-circle" alt="User Image">
                 <?php } else { ?>
                     <img style="height: 45px !important;" src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
