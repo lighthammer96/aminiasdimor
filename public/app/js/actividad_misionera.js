@@ -438,34 +438,34 @@ document.addEventListener("DOMContentLoaded", function() {
                         var asistentes = parseInt(response[index].asistentes);
                         var interesados = parseInt(response[index].interesados);
                         if(response[index].tipo == "semanal") {
-                            semanal += '<tr>';
+                            semanal += '<tr class="fila">';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
-                            semanal += '    <td style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            semanal += '    <td class="celda" style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             semanal += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva") {
-                            actmasiva += '<tr>';
+                            actmasiva += '<tr class="fila">';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva += '    <td style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            actmasiva += '    <td class="celda" style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             actmasiva += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva2") {
-                            actmasiva2 += '<tr>';
+                            actmasiva2 += '<tr class="fila">';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+cantidad+'"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+asistentes+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+asistentes+'"></td>';
                             cont++;
-                            actmasiva2 += '    <td style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+interesados+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+interesados+'"></td>';
                             actmasiva2 += '</tr>';
                         }
 
                         if(response[index].tipo == "materialestudiado") {
-                            materialestudiado += '<tr>';
+                            materialestudiado += '<tr class="fila">';
                             materialestudiado += '    <td>'+response[index].descripcion+'</td>';
-                            materialestudiado += '    <td style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            materialestudiado += '    <td class="celda" style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
                             materialestudiado += '</tr>';
                         }
                         cont++;
@@ -495,36 +495,39 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     document.getElementById("actividades").innerHTML = html;
 
-                    $(document).on("keydown", "input[name='valor[]']", function(e) {
-                        // console.log(e);
-
-                        var cont = parseInt($(this).attr("cont"));
-                        if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
-                            $("input[cont="+(cont+1)+"]").focus();
-                        }
-                    })
-
-                    $(document).on("change", "input[name='valor[]']", function() {
-                        var semana = $(this).attr("semana");
-                        var idactividadmisionera = $(this).attr("idactividadmisionera");
-                        var accion = $(this).attr("accion");
-                        var anio = $("#anio").val();
-                        var idtrimestre = $("#idtrimestre").val();
-                        var idiglesia = $("#idiglesia").val();
-                        var valor = $(this).val();
-                        // console.log($(this).val());
-                        actividad_misionera.ajax({
-                            url: '/guardar_actividad',
-                            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, idtrimestre: idtrimestre, valor: valor, idiglesia: idiglesia }
-                        }).then(function(response) {
-                        
-                        })
-                    })
+                  
                 }
                 
             })  
             
         }
+    })
+
+
+    $(document).on("keydown", "input[name='valor[]']", function(e) {
+        // console.log(e);
+
+        var cont = parseInt($(this).attr("cont"));
+        if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
+            $("input[cont="+(cont+1)+"]").focus();
+        }
+    })
+
+    $(document).on("change", "input[name='valor[]']", function() {
+        var semana = $(this).attr("semana");
+        var idactividadmisionera = $(this).attr("idactividadmisionera");
+        var accion = $(this).attr("accion");
+        var anio = $("#anio").val();
+        var idtrimestre = $("#idtrimestre").val();
+        var idiglesia = $("#idiglesia").val();
+        var valor = $(this).val();
+        console.log($(this).val());
+        actividad_misionera.ajax({
+            url: '/guardar_actividad',
+            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, idtrimestre: idtrimestre, valor: valor, idiglesia: idiglesia }
+        }).then(function(response) {
+        
+        })
     })
 
 

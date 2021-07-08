@@ -6,6 +6,16 @@
 
 
 @section('content')
+<style>
+  .celda:hover {
+    background-color: #FFCC00;
+    cursor: pointer
+  }
+
+  .fila:hover {
+    background-color: #FFFF99
+  }
+</style>
 <form id="formulario-actividad_misionera" class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-2">
