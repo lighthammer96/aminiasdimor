@@ -716,7 +716,7 @@ function agregar_temp_traslado(idmiembro) {
         if(typeof traslados_temp.datatable.length != "undefined") {
             traslados_temp.datatable.destroy();
         }
-        alert(response.tipo_traslado);
+        // alert(response.tipo_traslado);
         traslados_temp.TablaListado({
             tablaID: '#tabla-traslados',
             url: "/buscar_datos",
