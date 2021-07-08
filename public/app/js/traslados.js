@@ -720,7 +720,7 @@ function agregar_temp_traslado(idmiembro) {
         traslados_temp.TablaListado({
             tablaID: '#tabla-traslados',
             url: "/buscar_datos",
-            tipo_traslado: response.tipo_traslado
+            tipo_traslado: tipo_traslado
         });
         
     })  
