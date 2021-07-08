@@ -494,6 +494,68 @@
 
                             </div>
 
+                            <div class="tab-pane" id="capacitaciones">
+                                <div class="row">
+                                    <div class="col-md-2">
+                        
+                                        <label class="control-label">{{ traducir('traductor.anio') }}</label>
+                                        <select class="entrada selectizejs limpiar-capacitacion" name="anio" id="anio">
+
+                                        </select>
+                                    
+                                    </div>
+                                    <div class="col-md-4" style="padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.capacitacion") }}</label>
+                                        <input type="text" class="form-control input-sm entrada limpiar-capacitacion" name="capacitacion" placeholder="" />
+                                    </div>
+                                    <div class="col-md-4" style="padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.centro_estudios") }}</label>
+                                        <input type="text" class="form-control input-sm entrada limpiar-capacitacion" name="centro_estudios" placeholder="" />
+                                    </div>
+                                    
+
+                                    
+                                    <div class="col-md-2" style="margin-top: 27px;">
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-capacitacion">[Agregar]</button> 
+
+                                    </div>
+
+                                </div>
+                               
+                                <div class="row">
+                                               
+                                    <div class="col-md-12">
+                                        <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
+                                        <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_capacitacion" id="" cols="30" rows="2"></textarea>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row" style="margin-top: 15px;">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped table-bordered display compact" id="detalle-capacitacion">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.capacitacion') }}</th>
+                                              
+                                                    <th style="width: 200px;">{{ traducir('traductor.centro_estudios') }}</th>
+                                                    <th style="width: 400px;">{{ traducir('traductor.observaciones') }}</th>
+                                                
+                                                    <th style="width: 30px;">{{ traducir('traductor.eliminar') }}</th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                               
+                            </div>
+
                     </div>
 
                     

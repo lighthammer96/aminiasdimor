@@ -121,6 +121,14 @@ class AsociadosController extends Controller
                
             }
 
+
+            if(isset($_REQUEST["capacitacion"]) && count($_REQUEST["capacitacion"]) > 0) {
+                DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+                // print_r($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D")); exit;
+                $result = $this->base_model->insertar($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D"), "D");
+               
+            }
+
             DB::commit();
             echo json_encode($result);
         } catch (Exception $e) {
@@ -281,6 +289,16 @@ class AsociadosController extends Controller
        //print_r($_REQUEST);
     }
 
+    public function obtener_capacitacion_miembro(Request $request) {
+        $sql = "SELECT cm.* FROM iglesias.capacitacion_miembro AS cm
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idmiembro=".$request->input("idmiembro")."
+        ORDER BY cm.idcapacitacion DESC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+       //print_r($_REQUEST);
+    }
+
     public function obtener_historial_altas_bajas(Request $request) {
         $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, mb.descripcion AS motivo_baja, to_char(h.fecha, 'DD/MM/YYYY') AS fecha
         FROM iglesias.historial_altasybajas AS h
@@ -303,6 +321,19 @@ class AsociadosController extends Controller
         $result = DB::select($sql);
 
         echo json_encode($result);
+    }
+
+    
+    public function obtener_anios() {
+        $result = array();
+        $array = array();
+        for($i=date("Y"); $i>=2014; $i-- ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
+
+        echo json_encode($array);
     }
    
 }

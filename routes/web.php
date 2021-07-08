@@ -265,6 +265,8 @@ Route::post('asociados/obtener_periodos_fin', [AsociadosController::class, "obte
 Route::post('asociados/obtener_cargos_miembro', [AsociadosController::class, "obtener_cargos_miembro"]);
 Route::post('asociados/obtener_historial_altas_bajas', [AsociadosController::class, "obtener_historial_altas_bajas"]);
 Route::post('asociados/obtener_traslados', [AsociadosController::class, "obtener_traslados"]);
+Route::post('asociados/obtener_anios', [AsociadosController::class, "obtener_anios"]);
+Route::post('asociados/obtener_capacitacion_miembro', [AsociadosController::class, "obtener_capacitacion_miembro"]);
 
 
 

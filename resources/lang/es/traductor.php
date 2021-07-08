@@ -85,6 +85,8 @@ return [
     'finalizar_traslado' => "Finalizar Traslado",
     'trimestre' => "Trimestre",
     'nivel' => "Nivel",
+    'capacitacion' => "Capacitación",
+    'centro_estudios' => "Centro de Estudios",
 
 
      // LABELS DATATABLES

@@ -80,7 +80,11 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
-  
+    asociados.select({
+        name: 'anio',
+        url: '/obtener_anios',
+        placeholder: seleccione
+    })
 
     paises.select({
         name: 'pais_id_nacimiento',
@@ -772,6 +776,21 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             
 
+            document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].innerHTML = "";
+            asociados.ajax({
+                url: '/obtener_capacitacion_miembro',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].appendChild(html_detalle_capacitaciones(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+
+            
+
 
             // principal.select({
             //     name: 'iddepartamentodomicilio',
@@ -1327,6 +1346,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+
+
     function html_detalle_cargos(objeto, disabled) {
         var attr = '';
         var html = '';
@@ -1363,6 +1384,64 @@ document.addEventListener("DOMContentLoaded", function() {
         return tr;
     }
 
+    document.getElementById("agregar-capacitacion").addEventListener("click", function(e) {
+        e.preventDefault();
+        required = true;
+        required = required && asociados.required("anio");
+        required = required && asociados.required("capacitacion");
+        required = required && asociados.required("centro_estudios");
+
+        if(required) {
+
+            var anio = document.getElementsByName("anio")[0];
+            var capacitacion = document.getElementsByName("capacitacion")[0];
+            var centro_estudios = document.getElementsByName("centro_estudios")[0];
+         
+            var observaciones_capacitacion = document.getElementsByName("observaciones_capacitacion")[0];
+       
+            var objeto = {
+                anio: anio.value,
+                capacitacion: capacitacion.value,
+                centro_estudios: centro_estudios.value,
+           
+                observaciones_capacitacion: observaciones_capacitacion.value,
+              
+            }
+        
+        
+            document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].appendChild(html_detalle_capacitaciones(objeto));
+            //$("#detalleAcciones > tbody").append(HTMLDetallemodulos(objeto));
+            asociados.limpiarDatos("limpiar-capacitacion");
+        }
+    });
+
+
+    function html_detalle_capacitaciones(objeto, disabled) {
+        var attr = '';
+        var html = '';
+        if(typeof disabled != "undefined") {
+            attr = 'disabled="disabled"';
+        }
+        var tr = document.createElement("tr");
+
+        html = '  <input type="hidden" name="anio[]" value="'+objeto.anio+'" >';
+        html += '  <input type="hidden" name="capacitacion[]" value="'+objeto.capacitacion+'" >';
+
+        html += '  <input type="hidden" name="centro_estudios[]" value="'+objeto.centro_estudios+'" >';
+       
+        html += '  <input type="hidden" name="observaciones_capacitacion[]" value="'+objeto.observaciones_capacitacion+'" >';
+      
+        html += '  <td>'+objeto.anio+'</td>';
+        html += '  <td>'+objeto.capacitacion+'</td>';
+        html += '  <td>'+objeto.centro_estudios+'</td>';
+   
+        html += '  <td>'+objeto.observaciones_capacitacion+'</td>';
+  
+        html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-capacitacion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+        tr.innerHTML = html;
+        return tr;
+    }
 
     function html_traslados(objeto) {
 
@@ -1406,6 +1485,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if(event.srcElement.parentNode.classList.value.indexOf("eliminar-cargo") != -1 && !event.srcElement.parentNode.disabled) {
+            event.preventDefault();
+            ///console.log(event.srcElement.parentNode);
+            event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+
+        if(event.target.classList.value.indexOf("eliminar-capacitacion") != -1) {
+            event.preventDefault();
+            event.srcElement.parentNode.parentNode.parentNode.remove();
+
+        }
+
+        if(event.srcElement.parentNode.classList.value.indexOf("eliminar-capacitacion") != -1 && !event.srcElement.parentNode.disabled) {
             event.preventDefault();
             ///console.log(event.srcElement.parentNode);
             event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
