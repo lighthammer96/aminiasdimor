@@ -114,6 +114,7 @@ class AsociadosController extends Controller
         //    var_dump(isset($_REQUEST["idcargo"]));
         //    var_dump(!empty($_REQUEST["idcargo"]));
         //    exit;
+            $_REQUEST["idcargo"] = (array) $_REQUEST["idcargo"];
             if(isset($_REQUEST["idcargo"]) && count($_REQUEST["idcargo"]) > 0) {
                 DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
                 // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
@@ -121,6 +122,7 @@ class AsociadosController extends Controller
                
             }
 
+            $_REQUEST["capacitacion"] = (array) $_REQUEST["capacitacion"];
 
             if(isset($_REQUEST["capacitacion"]) && count($_REQUEST["capacitacion"]) > 0) {
                 DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
