@@ -840,6 +840,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
             document.getElementById("estado_asociado").style.color = "black";
             button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">Dar de Baja</button>';
+            
         } else {
             document.getElementById("estado_asociado").innerText = "Inactivo";
             document.getElementById("estado_asociado").style.backgroundColor = "#666666";
@@ -847,7 +848,7 @@ document.addEventListener("DOMContentLoaded", function() {
             button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">Dar de Alta</button>';
 
         }
-        
+        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">Imprimir Ficha</button>';
         document.getElementById("bajas_altas").innerHTML = button;
     }
 
@@ -1519,6 +1520,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     })
 
+
+    
+    $(document).on("click", "#imprimir-ficha-asociado", function(e) {
+        e.preventDefault();
+
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
+        window.open(BaseUrl + "/asociados/imprimir_ficha_asociado/"+idmiembro);
+    })
 
     
 

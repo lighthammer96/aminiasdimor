@@ -267,7 +267,7 @@ Route::post('asociados/obtener_historial_altas_bajas', [AsociadosController::cla
 Route::post('asociados/obtener_traslados', [AsociadosController::class, "obtener_traslados"]);
 Route::post('asociados/obtener_anios', [AsociadosController::class, "obtener_anios"]);
 Route::post('asociados/obtener_capacitacion_miembro', [AsociadosController::class, "obtener_capacitacion_miembro"]);
-
+Route::get('asociados/imprimir_ficha_asociado/{idmiembro}', [AsociadosController::class, "imprimir_ficha_asociado"]);
 
 
 // TRASLADOS

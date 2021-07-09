@@ -95,6 +95,7 @@ class TrasladosModel extends Model
         CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado");
         $this->tabla->setFrom("iglesias.control_traslados AS ct 
         \nINNER JOIN iglesias.miembro AS m ON(ct.idmiembro=m.idmiembro)");
+        $this->tabla->setWhere("ct.estado='1'");
 
      
         return $this->tabla;

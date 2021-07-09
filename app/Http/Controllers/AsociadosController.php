@@ -7,7 +7,7 @@ use App\Models\BaseModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
+use PDF;
 
 class AsociadosController extends Controller
 {
@@ -337,6 +337,50 @@ class AsociadosController extends Controller
         }
 
         echo json_encode($array);
+    }
+
+
+    public function imprimir_ficha_asociado($idmiembro) {
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)";
+        $miembro = DB::select($sql_miembro);
+
+        $sql_estado_civil = "SELECT * FROM public.estadocivil";
+        $estado_civil = DB::select($sql_estado_civil);
+
+        $sql_baja = "SELECT h.*, to_char( h.fecha, 'DD/MM/YYYY') AS fecha 
+        FROM iglesias.historial_altasybajas AS h
+        WHERE h.idmiembro=".$idmiembro."
+        ORDER BY h.fecha DESC";
+        $baja = DB::select($sql_baja);
+
+        $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
+        $motivos_baja = DB::select($sql_motivos_baja);
+
+        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, '' AS lugar FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        WHERE m.idmiembro=".$idmiembro;
+        $cargos = DB::select($sql_cargos);
+        
+        $datos["miembro"] = $miembro;
+        $datos["estado_civil"] = $estado_civil;
+        $datos["baja"] = $baja;
+        $datos["motivos_baja"] = $motivos_baja; 
+        $datos["cargos"] = $cargos; 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("asociados.ficha", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("ficha_asociado.pdf"); // ver
     }
    
 }
