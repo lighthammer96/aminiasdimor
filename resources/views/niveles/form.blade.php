@@ -38,6 +38,13 @@
                             </div>
 
                         </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Estado</label>
+                            <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
+                                <option value="1">ACTIVO</option>
+                                <option value="0">INACTIVO</option>
+                            </select>
+                        </div>
                     </div>
                     <!-- <div class="row">
                         <div class="col-md-6">

@@ -268,6 +268,7 @@ Route::post('asociados/obtener_traslados', [AsociadosController::class, "obtener
 Route::post('asociados/obtener_anios', [AsociadosController::class, "obtener_anios"]);
 Route::post('asociados/obtener_capacitacion_miembro', [AsociadosController::class, "obtener_capacitacion_miembro"]);
 Route::get('asociados/imprimir_ficha_asociado/{idmiembro}', [AsociadosController::class, "imprimir_ficha_asociado"]);
+Route::get('asociados/imprimir_ficha_bautizo/{idmiembro}', [AsociadosController::class, "imprimir_ficha_bautizo"]);
 
 
 // TRASLADOS

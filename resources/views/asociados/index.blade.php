@@ -66,7 +66,7 @@
                             <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
 
                       
-                            <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="4"></textarea>
+                            <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="4"></textarea>
 
                         </div>
                  
@@ -137,7 +137,7 @@
                             <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
 
                       
-                            <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="4"></textarea>
+                            <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="4"></textarea>
 
                         </div>
                  

@@ -223,52 +223,91 @@
                                                     <input style="display: none;" type="file" class="form-control input-sm entrada" name="foto" id="foto">
                                                 </center>
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="control-label">División</label>
+                                            <div class="col-md-12 jerarquia-iglesias">
+                                                <label class="control-label">{{ traducir("traductor.division") }}</label>
 
                                                 <select  class="entrada selectizejs" name="iddivision" id="iddivision">
 
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="control-label">País</label>
+                                            <div class="col-md-12 jerarquia-iglesias">
+                                                <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
                                                 <select  class="entrada selectizejs" name="pais_id" id="pais_id">
 
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-12 union">
-                                                <label class="control-label">Unión</label>
+                                            <div class="col-md-12 jerarquia-iglesias union">
+                                                <label class="control-label">{{ traducir("traductor.union") }}</label>
 
                                                 <select  class="entrada selectizejs" name="idunion" id="idunion">
 
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="control-label">Asociación/Misión</label>
+                                            <div class="col-md-12 jerarquia-iglesias">
+                                                <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
 
                                                 <select  class="entrada selectizejs" name="idmision" id="idmision">
 
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="control-label">Distrito Misionero</label>
+                                            <div class="col-md-12 jerarquia-iglesias">
+                                                <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
 
                                                 <select  class="entrada selectizejs" name="iddistritomisionero" id="iddistritomisionero">
 
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="control-label">Iglesia</label>
+                                            <div class="col-md-12 jerarquia-iglesias">
+                                                <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
 
                                                 <select  class="entrada selectizejs" name="idiglesia" id="idiglesia">
 
                                                 </select>
+
+                                            </div>
+
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion">
+                                                <label class="control-label">{{ traducir("traductor.division") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="division" placeholder="" />
+                                               
+
+                                            </div>
+
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion">
+                                                <label class="control-label">{{ traducir("traductor.pais") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="pais" placeholder="" />
+                                               
+
+                                            </div>
+
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion union">
+                                                <label class="control-label">{{ traducir("traductor.union") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="union" placeholder="" />
+                                               
+
+                                            </div>
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion">
+                                                <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="asociacion" placeholder="" />
+                                               
+
+                                            </div>
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion">
+                                                <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="distrito_misionero" placeholder="" />
+                                               
+
+                                            </div>
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion">
+                                                <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
+                                                <input type="text" readonly="readonly" class="form-control input-sm entrada" name="iglesia" placeholder="" />
+                                               
 
                                             </div>
                                             <div class="col-md-12" style="">
@@ -339,22 +378,32 @@
                                     
                                     </div>
                                 </div>
+                              
                                
                                 <div class="row">
                                                
                                     <div class="col-md-12">
                                         <label class="control-label">Observaciones</label>
-                                        <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="2"></textarea>
+                                        <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="2"></textarea>
                                         
                                     </div>
                                     
+                                </div>
+
+                                <div class="row" style="margin-top: 20px; text-align: right;">
+                                    <div class="col-md-2 col-md-offset-10">
+                                        <button type="button" class="btn btn-success btn-sm" id="imprimir-ficha-bautizo">Ficha Bautizo</button>
+                                    </div>
                                 </div>
                                
                             </div>
                             
                             <div class="tab-pane" id="registro-administrativo">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <input type="hidden" name="lugar" id="lugar" class="limpiar-cargos">
+                                    <input type="hidden" name="idlugar" id="idlugar" class="limpiar-cargos">
+                                    <input type="hidden" name="tabla" id="tabla" class="limpiar-cargos">
+                                    <div class="col-md-2" style="padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="idtipocargo" id="idtipocargo">
@@ -363,7 +412,7 @@
                                     
                                     </div>
 
-                                    <div class="col-md-2 nivel">
+                                    <div class="col-md-2 nivel" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.nivel') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="idnivel" id="idnivel">
@@ -372,7 +421,7 @@
                                     
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.cargo') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="idcargo" id="idcargo">
@@ -390,7 +439,7 @@
                                     
                                     </div> -->
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.periodo_ini') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="periodoini" id="periodoini">
@@ -398,24 +447,74 @@
                                         </select>
  
                                     </div>
-                                    <div class="col-md-2" >
+                                    <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                                         <label class="control-label">{{ traducir('traductor.periodo_fin') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="periodofin" id="periodofin">
 
                                         </select>
                                     </div>
-                                    <div class="col-md-2" style="margin-top: 27px;">
+                                    <div class="col-md-2" style="margin-top: 27px; text-align: right;">
                                         <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[Agregar]</button> 
 
                                     </div>
 
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 division-cargo jerarquia-cargos" style="display:none; padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.division") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="iddivisioncargo" id="iddivisioncargo">
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2 pais-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.pais") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="pais_idcargo" id="pais_idcargo">
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2 union-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.union") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="idunioncargo" id="idunioncargo">
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2 asociacion-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="idmisioncargo" id="idmisioncargo">
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2 distrito-misionero-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;"> 
+                                        <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="iddistritomisionerocargo" id="iddistritomisionerocargo">
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2 iglesia-cargo jerarquia-cargos" style="display:none; padding-left: 5px;">
+                                        <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
+
+                                        <select  class="entrada selectizejs limpiar-cargos" name="idiglesiacargo" id="idiglesiacargo">
+
+                                        </select>
+
+                                    </div>
                                 </div>
                                
                                 <div class="row">
                                                
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
-                                        <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_cargo" id="" cols="30" rows="2"></textarea>
+                                        <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_cargo"  cols="30" rows="2"></textarea>
                                         
                                     </div>
                                     
@@ -427,7 +526,9 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width: 200px;">{{ traducir('traductor.tipo_cargo') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.nivel') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.cargo') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.lugar') }}</th>
                                                     <!-- <th style="width: 200px;">{{ traducir('traductor.institucion_iglesia') }}</th> -->
                                                     <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.observaciones') }}</th>
@@ -526,7 +627,7 @@
                                                
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
-                                        <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_capacitacion" id="" cols="30" rows="2"></textarea>
+                                        <textarea class="form-control input-sm entrada limpiar-capacitacion" name="observaciones_capacitacion"  cols="30" rows="2"></textarea>
                                         
                                     </div>
                                     

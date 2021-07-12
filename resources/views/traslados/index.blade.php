@@ -9,8 +9,8 @@
 <form id="formulario-traslados_temp" class="form-horizontal" role="form">
     <div class="row combo-tipo-traslado">
         <div class="col-md-2 col-md-offset-5">
-            <label for="">Tipo de Traslado</label>
-            <select name="tipo_traslado" id="tipo_traslado" class="form-control input-sm">
+            <label for=""><h4><strong>Tipo de Traslado</strong></h4></label>
+            <select name="tipo_traslado" id="tipo_traslado" class="form-control">
                 <option value="1">De Iglesia a Iglesia</option>
                 <option value="2">Masivo</option>
                 <option value="3">Individual</option>

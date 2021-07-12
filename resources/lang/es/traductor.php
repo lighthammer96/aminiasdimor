@@ -109,6 +109,16 @@ return [
     'lugar' => "Lugar",
     'bautizado_por' => "Bautizado por",
     'comentarios' => "COMENTARIOS / OBSERVACIONES",
+    'certificado_bautizo' => "Certificado de Bautizo",
+    'por_presente' => "Por el presente certificamos que",
+    'fue_bautizado' => "fue bautizado(a) el día ",
+    'fue_aceptado' => "y aceptado(a) como miembro de iglesia de la Sociedad Misionera Internacional de los Adventistas del Séptimo Día, Movimiento de Reforma",
+    'iglesia_local' => "Iglesia Local",
+    'texto_bautismal' => "Texto Bautismal",
+    'firma' => "Firma",
+    'nombre_secretario' => "Nombre del Secretario",
+    'nombre_ministro' => "Nombre del Ministro/Anciano",
+    'asociacion' => "Asociación",
 
 
      // LABELS DATATABLES
@@ -128,7 +138,7 @@ return [
     'titulo_asociados' => 'Administración de Asociados',
     'titulo_divisiones' => 'Administración de Divisiones',
     'titulo_uniones' => 'Administración de Uniones',
-    'titulo_misiones' => 'Administración de Misiones',
+    'titulo_misiones' => 'Administración de Asociaciones',
     'titulo_distritos_misioneros' => 'Administración de Distritos Misioneros',
     'titulo_iglesias' => 'Administración de Iglesias',
     'titulo_paises' => 'Administración de Paises',

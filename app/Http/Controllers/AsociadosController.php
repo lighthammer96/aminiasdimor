@@ -209,7 +209,13 @@ class AsociadosController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable
+        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable,
+        (SELECT v.division FROM iglesias.vista_jerarquia AS v WHERE v.iddivision=m.iddivision LIMIT 1) AS division,
+        (SELECT v.pais FROM iglesias.vista_jerarquia AS v WHERE v.pais_id=m.pais_id LIMIT 1) AS pais,
+        (SELECT v.union FROM iglesias.vista_jerarquia AS v WHERE v.idunion=m.idunion LIMIT 1) AS union,
+        (SELECT v.mision FROM iglesias.vista_jerarquia AS v WHERE v.idmision=m.idmision LIMIT 1) AS asociacion,
+        (SELECT v.distritomisionero FROM iglesias.vista_jerarquia AS v WHERE v.iddistritomisionero=m.iddistritomisionero LIMIT 1) AS distrito_misionero,
+        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=m.idiglesia LIMIT 1) AS iglesia
         FROM iglesias.miembro AS m 
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
@@ -280,10 +286,11 @@ class AsociadosController extends Controller
 
 
     public function obtener_cargos_miembro(Request $request) {
-        $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo /*, i.descripcion AS institucion*/ FROM iglesias.cargo_miembro AS cm
+        $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo /*, i.descripcion AS institucion*/, n.descripcion AS nivel FROM iglesias.cargo_miembro AS cm
         INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
-        INNER JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)
+        INNER JOIN public.nivel AS n ON(n.idnivel=c.idnivel)
+        INNER JOIN public.tipocargo AS tc ON(n.idtipocargo=tc.idtipocargo)
         /*INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)*/
         WHERE cm.idmiembro=".$request->input("idmiembro")."
         ORDER BY cm.idcargomiembro DESC";
@@ -364,7 +371,7 @@ class AsociadosController extends Controller
         $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
         $motivos_baja = DB::select($sql_motivos_baja);
 
-        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, '' AS lugar FROM iglesias.miembro AS m
+        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, cm.lugar FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
         WHERE m.idmiembro=".$idmiembro;
@@ -381,6 +388,31 @@ class AsociadosController extends Controller
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("ficha_asociado.pdf"); // ver
+    }
+
+    public function imprimir_ficha_bautizo($idmiembro) {
+      
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)";
+        $miembro = DB::select($sql_miembro);
+        
+        $datos["miembro"] = $miembro;
+       
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("asociados.ficha_bautizo", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("ficha_bautizo.pdf"); // ver
+        
     }
    
 }

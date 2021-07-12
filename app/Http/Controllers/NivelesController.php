@@ -98,12 +98,13 @@ class NivelesController extends Controller
 		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
             $sql = "SELECT n.idnivel AS id, n.descripcion 
             FROM public.nivel AS n
-            WHERE n.idtipocargo=".$request->input("idtipocargo")." 
+            WHERE n.estado='1' AND n.idtipocargo=".$request->input("idtipocargo")." 
             ORDER BY n.idnivel ASC";
 		
         
         } else {
             $sql = "SELECT n.idnivel AS id, n.descripcion FROM public.nivel AS n
+            WHERE n.estado='1'
             ORDER BY n.idnivel ASC";
         }
 
