@@ -111,4 +111,20 @@ class DistritosmisionerosController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+    public function obtener_distritos_misioneros_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+		if(isset($_REQUEST["idmision"]) && !empty($_REQUEST["idmision"])) {
+	
+			$sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' AND idmision=".$request->input("idmision")." ".session("where_distrito_misionero");
+		} else {
+            $sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' ".session("where_distrito_misionero");
+		}
+
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
 }

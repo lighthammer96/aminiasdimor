@@ -143,4 +143,23 @@ class UnionesController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+    public function obtener_uniones_paises_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
+	
+			$sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
+            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
+            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id")." ".session("where_union");
+		} else {
+            $sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
+            WHERE estado='1' ".session("where_union");
+		}
+
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
 }

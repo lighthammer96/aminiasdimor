@@ -38,6 +38,19 @@ class ActividadmisioneraController extends Controller
        
     }
 
+    public function reporte() {
+        $view = "actividad_misionera.reporte";
+        $data["title"] = traducir("traductor.titulo_reporte_actividad_misionera");
+        $data["subtitle"] = "";
+        // $data["tabla"] = $this->perfiles_model->tabla()->HTML();
+
+        $data["scripts"] = $this->cargar_js(["reporte_actividad_misionera.js"]);
+        return parent::init($view, $data);
+
+      
+       
+    }
+
     // public function buscar_datos() {
     //     $json_data = $this->perfiles_model->tabla()->obtenerDatos();
     //     echo json_encode($json_data);
@@ -144,12 +157,36 @@ class ActividadmisioneraController extends Controller
         $idtrimestre = $request->input("idtrimestre");
         $idiglesia = $request->input("idiglesia");
 
-        $sql = "SELECT am.*, c.anio, c.trimestre, c.idiglesia, c.semana, c.valor, c.asistentes, c.interesados FROM iglesias.actividadmisionera AS am
-        LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera AND c.anio='{$anio}' AND c.trimestre={$idtrimestre} AND c.idiglesia={$idiglesia})";
+        $where = "";
+        if($idtrimestre != "0") {
+            $where .= ' AND c.trimestre='.$idtrimestre;
+        }
+
+        if($idiglesia != "0") {
+            $where .= ' AND c.idiglesia='.$idiglesia;
+        }
+
+        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistententes, SUM(c.interesados) AS interesados FROM iglesias.actividadmisionera AS am
+        LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera AND c.anio='{$anio}' ".$where.")
+        GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.idiglesia, c.semana
+        ORDER BY am.idactividadmisionera ASC";
         // die($sql);
         $result = DB::select($sql);
 
         echo json_encode($result);
     }
     
+
+    public function obtener_trimestres_todos() {
+        
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+
+    //  print_r($array);
+        $sql = "SELECT idtrimestre AS id, descripcion FROM public.trimestre
+        ORDER BY idtrimestre ASC";
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
 }

@@ -1,4 +1,4 @@
-var actividad_misionera = new BASE_JS('actividad_misionera', 'actividad_misionera');
+var reporte = new BASE_JS('reporte', 'actividad_misionera');
 var divisiones = new BASE_JS('divisiones', 'divisiones');
 var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
@@ -10,13 +10,15 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 document.addEventListener("DOMContentLoaded", function() {
     
 
-    actividad_misionera.select({
+    reporte.select({
         name: 'idtrimestre',
-        url: '/obtener_trimestres',
-        placeholder: seleccione
+        url: '/obtener_trimestres_todos',
+        selected: 0
+        // placeholder: seleccione,
+        // selected
     })
     
-    actividad_misionera.select({
+    reporte.select({
         name: 'anio',
         url: '/obtener_anios',
         placeholder: seleccione
@@ -25,8 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
    
     divisiones.select({
         name: 'iddivision',
-        url: '/obtener_divisiones',
-        placeholder: seleccione
+        url: '/obtener_divisiones_all',
+        // placeholder: seleccione,
+        selected: 0
     }).then(function() {
 
         $("#iddivision").trigger("change", ["", ""]);
@@ -47,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         paises.select({
             name: 'pais_id',
-            url: '/obtener_paises_asociados',
+            url: '/obtener_paises_asociados_all',
             placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
@@ -58,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && actividad_misionera.required("iddivision");
+                required = required && reporte.required("iddivision");
                 if(required) {
                     $("#pais_id")[0].selectize.focus();
                 }
@@ -80,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         uniones.select({
             name: 'idunion',
-            url: '/obtener_uniones_paises',
+            url: '/obtener_uniones_paises_all',
             placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
@@ -91,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && actividad_misionera.required("pais_id");
+                required = required && reporte.required("pais_id");
                 if(required) {
                     $("#idunion")[0].selectize.focus();
                 }
@@ -103,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             misiones.select({
                 name: 'idmision',
-                url: '/obtener_misiones',
+                url: '/obtener_misiones_all',
                 placeholder: seleccione,
                 datos: { pais_id: d_id }
             })
@@ -123,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         misiones.select({
             name: 'idmision',
-            url: '/obtener_misiones',
+            url: '/obtener_misiones_all',
             placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
@@ -134,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && actividad_misionera.required("idunion");
+                required = required && reporte.required("idunion");
                 if(required) {
                     $("#idmision")[0].selectize.focus();
                 }
@@ -151,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         distritos_misioneros.select({
             name: 'iddistritomisionero',
-            url: '/obtener_distritos_misioneros',
+            url: '/obtener_distritos_misioneros_all',
             placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
@@ -162,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && actividad_misionera.required("idmision");
+                required = required && reporte.required("idmision");
                 if(required) {
                     $("#iddistritomisionero")[0].selectize.focus();
                 }
@@ -179,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         iglesias.select({
             name: 'idiglesia',
-            url: '/obtener_iglesias',
+            url: '/obtener_iglesias_all',
             placeholder: seleccione,
             selected: selected,
             datos: { iddistritomisionero: d_id }
@@ -190,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && actividad_misionera.required("iddistritomisionero");
+                required = required && reporte.required("iddistritomisionero");
                 if(required) {
                     $("#idiglesia")[0].selectize.focus();
                 }
@@ -210,23 +213,23 @@ document.addEventListener("DOMContentLoaded", function() {
             case 'nuevo-perfil':
                 event.preventDefault();
             
-                actividad_misionera.abrirModal();
+                reporte.abrirModal();
             break;
 
             case 'modificar-perfil':
                 event.preventDefault();
             
-                modificar_perfil();
+                //modificar_perfil();
             break;
 
             case 'eliminar-perfil':
                 event.preventDefault();
-                eliminar_perfil();
+                //eliminar_perfil();
             break;
 
             case 'guardar-perfil':
                 event.preventDefault();
-                guardar_perfil();
+                //guardar_perfil();
             break;
 
         }
@@ -234,104 +237,15 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    function modificar_perfil() {
-        var datos = actividad_misionera.datatable.row('.selected').data();
-        if(typeof datos == "undefined") {
-            BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
-            });
-            
-            return false;
-        } 
-
-        var promise = actividad_misionera.get(datos.perfil_id);
-
-        promise.then(function(response) {
-            actividad_misionera.ajax({
-                url: '/obtener_traducciones',
-                datos: { perfil_id: response.perfil_id, _token: _token }
-            }).then(function(response) {
-                if(response.length > 0) {
-                    for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
-                    }
-                }
-                //console.log(response);
-            })
-        })
-    }
-
-    function guardar_perfil() {
-        var required = true;
-        // required = required && actividad_misionera.required("perfil_descripcion");
-
-        var detalle = document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
-        if(detalle.length <= 0) {
-            BASE_JS.sweet({
-                text: 'DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!'
-            });
-
-            return false;
-        }
-        if(required) {
-            var promise = actividad_misionera.guardar();
-            actividad_misionera.CerrarModal();
-            // actividad_misionera.datatable.destroy();
-            // actividad_misionera.TablaListado({
-            //     tablaID: '#tabla-actividad_misionera',
-            //     url: "/buscar_datos",
-            // });
-
-            promise.then(function(response) {
-                if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
-                    return false;
-                }
-                // $("select[name=perfil_id]").chosen("destroy");
-                actividad_misionera.select({
-                    name: 'perfil_id',
-                    url: '/obtener_actividad_misionera',
-                    placeholder: seleccione,
-                    selected: response.id
-                })
-            })
-
-        }
-    }
-
-    function eliminar_perfil() {
-        var datos = actividad_misionera.datatable.row('.selected').data();
-        if(typeof datos == "undefined") {
-            BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
-            });
-            return false;
-        } 
-        BASE_JS.sweet({
-            confirm: true,
-            text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
-            callbackConfirm: function() {
-                actividad_misionera.Operacion(datos.perfil_id, "E");
-                // actividad_misionera.datatable.destroy();
-                // actividad_misionera.TablaListado({
-                //     tablaID: '#tabla-actividad_misionera',
-                //     url: "/buscar_datos",
-                // });
-            }
-        });
-    }
-
-
-
     document.addEventListener("keydown", function(event) {
             // alert(modulo_controlador);
-        if(modulo_controlador == "actividad_misionera/index") {
+        if(modulo_controlador == "reporte/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
-            if(!$('#modal-actividad_misionera').is(':visible')) {
+            if(!$('#modal-reporte').is(':visible')) {
             
                 switch (event.code) {
                     case 'F1':
-                        actividad_misionera.abrirModal();
+                        reporte.abrirModal();
                         event.preventDefault();
                         event.stopPropagation();
                         break;
@@ -380,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if(event.code == "F9") {
                 
-                if($('#modal-actividad_misionera').is(':visible')) {
+                if($('#modal-reporte').is(':visible')) {
                     guardar_perfil();
                 }
                 event.preventDefault();
@@ -406,20 +320,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var required = true;
 
-        required = required && actividad_misionera.required("iddivision");
-        required = required && actividad_misionera.required("pais_id");
-        // required = required && actividad_misionera.required("iddivision");
+        required = required && reporte.required("iddivision");
+        required = required && reporte.required("pais_id");
+        // required = required && reporte.required("iddivision");
         if(array_pais[1] == "S") {
-            required = required && actividad_misionera.required("idunion");
+            required = required && reporte.required("idunion");
         }
-        required = required && actividad_misionera.required("idmision");
-        required = required && actividad_misionera.required("iddistritomisionero");
-        required = required && actividad_misionera.required("idiglesia");
-        required = required && actividad_misionera.required("anio");
-        required = required && actividad_misionera.required("idtrimestre");
+        required = required && reporte.required("idmision");
+        required = required && reporte.required("iddistritomisionero");
+        required = required && reporte.required("idiglesia");
+        required = required && reporte.required("anio");
 
+        required = required && reporte.required("idtrimestre");
         if(required) {
-            actividad_misionera.ajax({
+            reporte.ajax({
                 url: '/obtener_actividades',
                 datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre }
             }).then(function(response) {
@@ -437,35 +351,49 @@ document.addEventListener("DOMContentLoaded", function() {
                         var cantidad = parseInt(response[index].cantidad);
                         var asistentes = parseInt(response[index].asistentes);
                         var interesados = parseInt(response[index].interesados);
+                        if(isNaN(valor)) {
+                            valor = 0;
+                        }
+                        if(isNaN(cantidad)) {
+                            cantidad = 0;
+                        }
+                        if(isNaN(interesados)) {
+                            interesados = 0;
+                        }
+
+                        if(isNaN(asistentes)) {
+                            asistentes = 0;
+                        }
+
                         if(response[index].tipo == "semanal") {
                             semanal += '<tr class="fila">';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
-                            semanal += '    <td class="celda" style="width: 60px !important;"><input autofocus="autofocus" semana="'+cont+'" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            semanal += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
                             semanal += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva") {
                             actmasiva += '<tr class="fila">';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva += '    <td class="celda" style="width: 60px !important;"><input  semana="100" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            actmasiva += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
                             actmasiva += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva2") {
                             actmasiva2 += '<tr class="fila">';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="cantidad" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+cantidad+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+cantidad+'</td>';
                             cont++;
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="asistentes" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+asistentes+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+asistentes+'</td>';
                             cont++;
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;"><input  semana="101" accion="interesados" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+interesados+'"></td>';
+                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+interesados+'</td>';
                             actmasiva2 += '</tr>';
                         }
 
                         if(response[index].tipo == "materialestudiado") {
                             materialestudiado += '<tr class="fila">';
                             materialestudiado += '    <td>'+response[index].descripcion+'</td>';
-                            materialestudiado += '    <td class="celda" style="width: 60px !important;"><input  semana="102" accion="valor" idactividadmisionera="'+response[index].idactividadmisionera+'" cont="'+cont+'" style="width: 100%; margin: 0 !important;" class="form-control input-sm" name="valor[]" type="number" value="'+valor+'"></td>';
+                            materialestudiado += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
                             materialestudiado += '</tr>';
                         }
                         cont++;
@@ -504,31 +432,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    $(document).on("keydown", "input[name='valor[]']", function(e) {
-        // console.log(e);
-
-        var cont = parseInt($(this).attr("cont"));
-        if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
-            $("input[cont="+(cont+1)+"]").focus();
-        }
-    })
-
-    $(document).on("change", "input[name='valor[]']", function() {
-        var semana = $(this).attr("semana");
-        var idactividadmisionera = $(this).attr("idactividadmisionera");
-        var accion = $(this).attr("accion");
-        var anio = $("#anio").val();
-        var idtrimestre = $("#idtrimestre").val();
-        var idiglesia = $("#idiglesia").val();
-        var valor = $(this).val();
-        //console.log($(this).val());
-        actividad_misionera.ajax({
-            url: '/guardar_actividad',
-            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, idtrimestre: idtrimestre, valor: valor, idiglesia: idiglesia }
-        }).then(function(response) {
-        
-        })
-    })
+  
 
 
 })

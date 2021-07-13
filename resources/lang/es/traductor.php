@@ -153,6 +153,7 @@ return [
     'titulo_traslados_iglesia' => 'Traslado de Asociados',
     'titulo_control_traslados' => 'Control de Traslados',
     'titulo_actividad_misionera' => 'Administración de Actividades Misioneras',
+    'titulo_reporte_actividad_misionera' => 'Reporte de Actividades Misioneras',
 
 
 

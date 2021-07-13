@@ -127,6 +127,7 @@ Route::post('divisiones/eliminar_divisiones', [DivisionesController::class, "eli
 Route::post('divisiones/obtener_divisiones', [DivisionesController::class, "obtener_divisiones"]);
 Route::post('divisiones/obtener_traducciones', [DivisionesController::class, "obtener_traducciones"]);
 Route::post('divisiones/obtener_divisiones_todos', [DivisionesController::class, "obtener_divisiones_todos"]);
+Route::post('divisiones/obtener_divisiones_all', [DivisionesController::class, "obtener_divisiones_all"]);
 
 // PAISES
 Route::get('paises/index', [PaisesController::class, "index"]);
@@ -138,6 +139,7 @@ Route::post('paises/obtener_paises', [PaisesController::class, "obtener_paises"]
 Route::post('paises/obtener_paises_asociados', [PaisesController::class, "obtener_paises_asociados"]);
 Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_todos_paises"]);
 Route::post('paises/obtener_paises_asociados_todos', [PaisesController::class, "obtener_paises_asociados_todos"]);
+Route::post('paises/obtener_paises_asociados_all', [PaisesController::class, "obtener_paises_asociados_all"]);
 Route::post('paises/obtener_jerarquia', [PaisesController::class, "obtener_jerarquia"]);
 
 // UNIONES
@@ -149,6 +151,7 @@ Route::post('uniones/eliminar_uniones', [UnionesController::class, "eliminar_uni
 Route::post('uniones/obtener_uniones', [UnionesController::class, "obtener_uniones"]);
 Route::post('uniones/obtener_paises', [UnionesController::class, "obtener_paises"]);
 Route::post('uniones/obtener_uniones_paises', [UnionesController::class, "obtener_uniones_paises"]);
+Route::post('uniones/obtener_uniones_paises_all', [UnionesController::class, "obtener_uniones_paises_all"]);
 Route::post('uniones/obtener_uniones_paises_todos', [UnionesController::class, "obtener_uniones_paises_todos"]);
 
 
@@ -159,6 +162,7 @@ Route::post('misiones/guardar_misiones', [MisionesController::class, "guardar_mi
 Route::post('misiones/get', [MisionesController::class, "get"]);
 Route::post('misiones/eliminar_misiones', [MisionesController::class, "eliminar_misiones"]);
 Route::post('misiones/obtener_misiones', [MisionesController::class, "obtener_misiones"]);
+Route::post('misiones/obtener_misiones_all', [MisionesController::class, "obtener_misiones_all"]);
 Route::post('misiones/obtener_misiones_todos', [MisionesController::class, "obtener_misiones_todos"]);
 
 
@@ -170,6 +174,7 @@ Route::post('distritos_misioneros/get', [DistritosmisionerosController::class, "
 Route::post('distritos_misioneros/eliminar_distritos_misioneros', [DistritosmisionerosController::class, "eliminar_distritos_misioneros"]);
 Route::post('distritos_misioneros/obtener_distritos_misioneros', [DistritosmisionerosController::class, "obtener_distritos_misioneros"]);
 Route::post('distritos_misioneros/obtener_distritos_misioneros_todos', [DistritosmisionerosController::class, "obtener_distritos_misioneros_todos"]);
+Route::post('distritos_misioneros/obtener_distritos_misioneros_all', [DistritosmisionerosController::class, "obtener_distritos_misioneros_all"]);
 
 // IGLESIAS
 Route::get('iglesias/index', [IglesiasController::class, "index"]);
@@ -178,6 +183,7 @@ Route::post('iglesias/guardar_iglesias', [IglesiasController::class, "guardar_ig
 Route::post('iglesias/get', [IglesiasController::class, "get"]);
 Route::post('iglesias/eliminar_iglesias', [IglesiasController::class, "eliminar_iglesias"]);
 Route::post('iglesias/obtener_iglesias', [IglesiasController::class, "obtener_iglesias"]);
+Route::post('iglesias/obtener_iglesias_all', [IglesiasController::class, "obtener_iglesias_all"]);
 Route::get('iglesias/ver_activos/{idiglesia}', [IglesiasController::class, "ver_activos"]);
 Route::get('iglesias/ver_inactivos/{idiglesia}', [IglesiasController::class, "ver_inactivos"]);
 
@@ -298,3 +304,5 @@ Route::post('actividad_misionera/obtener_anios', [ActividadmisioneraController::
 Route::post('actividad_misionera/obtener_trimestres', [ActividadmisioneraController::class, "obtener_trimestres"]);
 Route::post('actividad_misionera/obtener_actividades', [ActividadmisioneraController::class, "obtener_actividades"]);
 Route::post('actividad_misionera/guardar_actividad', [ActividadmisioneraController::class, "guardar_actividad"]);
+Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, "reporte"]);
+Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);

@@ -145,4 +145,20 @@ class IglesiasController extends Controller
         return view("iglesias.inactivos", array("iglesias" => $iglesias));
        
     }
+
+    public function obtener_iglesias_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
+	
+			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero");
+		} else {
+            $sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1'";
+		}
+
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
 }
