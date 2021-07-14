@@ -86,9 +86,9 @@
                     
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div>
-                <div class="col-md-1">
+                <!-- <div class="col-md-1">
                     <button type="button" id="ver" class="btn btn-primary btn-sm">{{ traducir("traductor.ver") }}</button>
-                </div>   
+                </div>    -->
             </div>
             <div class="row" id="actividades">
                 
