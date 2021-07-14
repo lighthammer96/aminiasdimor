@@ -395,7 +395,10 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
-    document.getElementById("ver").addEventListener("click", function(event) {
+   // document.getElementById("ver").addEventListener("click", function(event) {
+
+    $(document).on("change", "#idtrimestre", function() {
+    // document.getElementById("ver").addEventListener("click", function(event) {
         event.preventDefault();
         var anio = $("#anio").val();
         var idtrimestre = $("#idtrimestre").val();
