@@ -41,10 +41,10 @@ class AsociadosModel extends Model
         if(session("array_tipos_acceso") != NULL && count(session("array_tipos_acceso")) > 0) {
             foreach (session("array_tipos_acceso") as $value) {
                 foreach ($value as $k => $v) {
-                    array_push($array_where, "m.".$k." = ".$v);
+                    array_push($array_where, " m.".$k." = ".$v);
                 }
             }
-            $where = implode('AND', $array_where);
+            $where = implode(' AND ', $array_where);
         }
         $this->tabla->setWhere($where);
       
