@@ -368,32 +368,32 @@ document.addEventListener("DOMContentLoaded", function() {
                         if(response[index].tipo == "semanal") {
                             semanal += '<tr class="fila">';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
-                            semanal += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            semanal += '    <td class="celda" align="center" style="width: 60px !important;">'+valor+'</td>';
                             semanal += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva") {
                             actmasiva += '<tr class="fila">';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            actmasiva += '    <td class="celda" align="center" style="width: 60px !important;">'+valor+'</td>';
                             actmasiva += '</tr>';
                         }
 
                         if(response[index].tipo == "actmasiva2") {
                             actmasiva2 += '<tr class="fila">';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+cantidad+'</td>';
+                            actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+cantidad+'</td>';
                             cont++;
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+asistentes+'</td>';
+                            actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+asistentes+'</td>';
                             cont++;
-                            actmasiva2 += '    <td class="celda" style="width: 60px !important;">'+interesados+'</td>';
+                            actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+interesados+'</td>';
                             actmasiva2 += '</tr>';
                         }
 
                         if(response[index].tipo == "materialestudiado") {
                             materialestudiado += '<tr class="fila">';
                             materialestudiado += '    <td>'+response[index].descripcion+'</td>';
-                            materialestudiado += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            materialestudiado += '    <td class="celda" align="center" style="width: 60px !important;">'+valor+'</td>';
                             materialestudiado += '</tr>';
                         }
                         cont++;

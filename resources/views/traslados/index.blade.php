@@ -7,7 +7,7 @@
 
 @section('content')
 <form id="formulario-traslados_temp" class="form-horizontal" role="form">
-    <div class="row combo-tipo-traslado">
+    <div class="row" id="combo-tipo-traslado">
         <div class="col-md-2 col-md-offset-5">
             <label for=""><h4><strong>Tipo de Traslado</strong></h4></label>
             <select name="tipo_traslado" id="tipo_traslado" class="form-control">
@@ -17,7 +17,7 @@
             </select>
         </div>
     </div>
-    <div class="row iglesia">
+    <div class="row" id="combos-origen-destino">
         <div class="col-md-3 col-md-offset-2">
             <fieldset>
                 <legend>Iglesia de Origen</legend>
@@ -131,7 +131,7 @@
         </div>
 
     </div>
-    <div class="row iglesia">
+    <div class="row">
         <div class="col-md-2 col-md-offset-5" style="margin-top: 10px;">
             <button type="button" class="btn btn-primary" id="ver-lista">[{{ traducir('traductor.ver_lista') }}]</button>
         </div>
@@ -141,19 +141,19 @@
 
 
 <div class="row" >
-    <div class="col-md-2 iglesia masivo_individual" style="display: none;">
+    <div class="col-md-2 volver"  style="display: none;">
         <button type="button" class="btn btn-success" id="volver">[{{ traducir('traductor.volver') }}]</button>
     </div>
-    <div class="col-md-2 col-md-offset-8 iglesia masivo_individual" style="text-align: right; display: none;" >
+    <div class="col-md-2 col-md-offset-8 trasladar" style="text-align: right; display: none;" >
         <button type="button" class="btn btn-primary" id="trasladar">[{{ traducir('traductor.trasladar_ahora') }}]</button>
     </div>
    
 
-    <div class="col-md-12 masivo_individual" style="margin-top: 20px; display: none;">
+    <div class="col-md-12" id="tabla-asociados" style="margin-top: 20px; display: none;">
         <?php echo $tabla_asociados_traslados; ?>
     </div>
 
-    <div class="col-md-12 iglesia masivo_individual" style="margin-top: 20px; display: none;">
+    <div class="col-md-12" id="tabla-temporal" style="margin-top: 20px; display: none;">
         <?php echo $tabla_traslados; ?>
     </div>
 
@@ -164,7 +164,10 @@
  
             <form id="formulario-traslados_mi" class="form-horizontal" role="form">
                 <div class="modal-body">
+
                     <input type="hidden" name="tipo_traslado_mi" id="tipo_traslado_mi">
+                    <input type="hidden" name="idmiembro" id="idmiembro">
+                    
                     <div class="row" >
                         <div class="col-md-12" id="destino-masivo-individual">
                             <fieldset>
@@ -227,8 +230,14 @@
    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[Cancelar]</button>
-                    <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[Guardar]</button>
+                    <div class="pull-left">
+                        <button type="button" class="btn btn-warning btn-sm" id="carta-traslado">[Carta Traslado]</button>
+                    </div>
+                    <div class="pull-rigth">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[Cancelar]</button>
+                        <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[Guardar]</button>
+                    </div>
+                   
                 </div>
             </form>
 

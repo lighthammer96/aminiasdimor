@@ -119,6 +119,15 @@ return [
     'nombre_secretario' => "Nombre del Secretario",
     'nombre_ministro' => "Nombre del Ministro/Anciano",
     'asociacion' => "Asociación",
+    'agregar' => "Agregar",
+    'carta_iglesia' => "Carta de Iglesia",
+    'imprimir' => "Imprimir",
+    'respuesta_carta_iglesia' => "Respuesta a Carta de Iglesia",
+    'iglesia_en' => "A la iglesia en ",
+    'saludo_carta' => "Queridos hermanos y hermanas en Cristo: ",
+    'agrado' => "Tenemos el agrado de comunicaros que el/la hermano/a ",
+    'nacido' => "nacido/a el ",
+    'bautizado' => ", bautizado/a el ",
 
 
      // LABELS DATATABLES

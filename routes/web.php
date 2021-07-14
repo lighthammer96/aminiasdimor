@@ -294,6 +294,8 @@ Route::post('traslados/agregar_traslado', [TrasladosController::class, "agregar_
 Route::get('traslados/control', [TrasladosController::class, "control"]);
 Route::post('traslados/buscar_datos_control', [TrasladosController::class, "buscar_datos_control"]);
 Route::post('traslados/guardar_control', [TrasladosController::class, "guardar_control"]);
+Route::get('traslados/imprimir_carta_iglesia/{idmiembro}', [TrasladosController::class, "imprimir_carta_iglesia"]);
+Route::get('traslados/imprimir_respuesta_carta_iglesia/{idmiembro}', [TrasladosController::class, "imprimir_respuesta_carta_iglesia"]);
 
 
 // ACTIVIDAD MISIONERA

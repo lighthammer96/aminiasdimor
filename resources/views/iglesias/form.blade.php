@@ -12,7 +12,7 @@
                     <div class="row">
                         
                         <div class="col-md-4">
-                            <label class="control-label">División</label>
+                            <label class="control-label">{{ traducir("traductor.division") }}</label>
 
                             <select  class="entrada selectizejs" name="iddivision" id="iddivision">
 
@@ -20,7 +20,7 @@
 
                         </div>
                         <div class="col-md-4">
-                            <label class="control-label">País</label>
+                            <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
                             <select  class="entrada selectizejs" name="pais_id" id="pais_id">
 
@@ -28,7 +28,7 @@
 
                         </div>
                         <div class="col-md-4 union">
-                            <label class="control-label">Unión</label>
+                            <label class="control-label">{{ traducir("traductor.union") }}</label>
 
                             <select  class="entrada selectizejs" name="idunion" id="idunion">
 
@@ -38,7 +38,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <label class="control-label">Asociación/Misión</label>
+                            <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
 
                             <select  class="entrada selectizejs" name="idmision" id="idmision">
 

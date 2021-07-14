@@ -7,7 +7,7 @@ use App\Models\TrasladosModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class TrasladosController extends Controller
 {
     //
@@ -246,16 +246,16 @@ class TrasladosController extends Controller
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.control_traslados", $array));
                 $_POST["status"] = "tp"; // traslado en proceso
                 $_POST["idcontrol"] = $result["id"];
-                if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
+                // if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
     
-                    $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_traslado_" . $value->idmiembro."_". $_POST["idcontrol"]);
-                    if ($response["response"] == "ERROR") {
-                        throw new Exception('Error al subir carta de traslado!');
-                    }
-                    $_POST["carta_traslado"] = $response["NombreFile"];
+                //     $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_traslado_" . $value->idmiembro."_". $_POST["idcontrol"]);
+                //     if ($response["response"] == "ERROR") {
+                //         throw new Exception('Error al subir carta de traslado!');
+                //     }
+                //     $_POST["carta_traslado"] = $response["NombreFile"];
                 
-                    $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $_POST));
-                }
+                //     $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $_POST));
+                // }
             }
             
         }
@@ -310,6 +310,59 @@ class TrasladosController extends Controller
         $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $update));
 
         echo json_encode($result);
+    }
+
+    public function imprimir_carta_iglesia($idmiembro) {
+      
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        WHERE m.idmiembro={$idmiembro}";
+        $miembro = DB::select($sql_miembro);
+        
+        $datos["miembro"] = $miembro;
+       
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("traslados.carta_iglesia", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("carta_iglesia.pdf"); // ver
+        
+    }
+
+    
+    public function imprimir_respuesta_carta_iglesia($idmiembro) {
+      
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        WHERE m.idmiembro={$idmiembro}";
+        $miembro = DB::select($sql_miembro);
+        
+        $datos["miembro"] = $miembro;
+       
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("traslados.respuesta_carta_iglesia", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("respuesta_carta_iglesia.pdf"); // ver
+        
     }
     
 }

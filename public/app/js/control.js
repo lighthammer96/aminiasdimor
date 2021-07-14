@@ -171,3 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 })
+
+
+function imprimir_respuesta_carta_iglesia(idmiembro) {
+    window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro);
+}

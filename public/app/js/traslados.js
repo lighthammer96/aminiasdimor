@@ -11,9 +11,12 @@ var traslados_temp = new BASE_JS('traslados_temp', 'traslados');
 var traslados_mi = new BASE_JS('traslados_mi', 'traslados');
 
 
+// var eventClick = new Event('click');
 
 document.addEventListener("DOMContentLoaded", function() {
     
+    var eventChange = new Event('change');
+
 
     divisiones.select({
         name: 'iddivision',
@@ -393,11 +396,11 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '       <select  class="entrada selectizejs" name="idiglesiadestino" id="idiglesiadestino">';
         html += '       </select>';
         html += '   </div>';
-        html += '   <div class="col-md-12 individual" style="display: none;" >';
-        html += '       <label class="control-label">Carta de Traslado</label>';
+        // html += '   <div class="col-md-12 individual" style="display: none;" >';
+        // html += '       <label class="control-label">Carta de Traslado</label>';
 
-        html += '       <input type="file" class="form-control input-sm entrada" name="carta" id="carta">';
-        html += '   </div>';
+        // html += '       <input type="file" class="form-control input-sm entrada" name="carta" id="carta">';
+        // html += '   </div>';
         html += '</fieldset>';
 
 
@@ -423,14 +426,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     html_destino("destino-iglesia");
-    
-
-
-    traslados.TablaListado({
-        tablaID: '#tabla-asociados-traslados',
-        url: "/buscar_datos_asociados_traslados"
-    });
-
     
 
 
@@ -488,21 +483,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(typeof response.status != "undefined" && response.status == "ee") {
                     return false;
                 }
-                $(".iglesia").hide();
-                $(".combo-tipo-traslado").hide();
-                
-                if(typeof traslados_temp.datatable.length != "undefined") {
-                    traslados_temp.datatable.destroy();
-                }
 
-                traslados_temp.TablaListado({
-                    tablaID: '#tabla-traslados',
-                    url: "/buscar_datos",
-                    tipo_traslado: response.tipo_traslado
-                });
 
-                //$("#listado-traslados").show();
-
+                document.getElementById("tipo_traslado").dispatchEvent(eventChange);
                
             })
         }
@@ -528,8 +511,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
     
                 // $("#listado-traslados").hide();
-                $(".iglesia").show();
-                $(".combo-tipo-traslado").show();
+                // $(".iglesia").show();
+                // $(".combo-tipo-traslado").show();
+
+                traslados_temp.datatable.clear();
+                traslados_temp.datatable.ajax.reload();
+                traslados_temp.datatable.draw();
             })  
         }
 
@@ -544,16 +531,16 @@ document.addEventListener("DOMContentLoaded", function() {
             traslados_mi.abrirModal();
         }
 
-        if(tipo_traslado == "3") {
-            if(traslados_temp.datatable.rows()[0].length > 1) {
-                BASE_JS.sweet({
-                    text: 'Solo Debe agregar un solo asociado!'
-                });
+        // if(tipo_traslado == "3") {
+        //     // if(traslados_temp.datatable.rows()[0].length > 1) {
+        //     //     BASE_JS.sweet({
+        //     //         text: 'Solo Debe agregar un solo asociado!'
+        //     //     });
 
-                return false;
-            }
-            traslados_mi.abrirModal();
-        }
+        //     //     return false;
+        //     // }
+        //     traslados_mi.abrirModal();
+        // }
             
         
     })
@@ -562,10 +549,24 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("volver").addEventListener("click", function(e) {
         e.preventDefault();
         // $("#listado-traslados").hide();
-        $(".iglesia").show();
-        $(".combo-tipo-traslado").show();
-        $(".masivo_individual").hide();
-        $(".individual").hide();
+        // $(".iglesia").show();
+        // $(".combo-tipo-traslado").show();
+        // $(".masivo_individual").hide();
+        // // $(".individual").hide();
+        // $("#tipo_traslado").val("1");
+        // html_destino("destino-iglesia");
+
+
+        $("#tabla-temporal").hide();
+        $("#tabla-asociados").hide();
+        $(".volver").hide();
+        $(".trasladar").hide();
+        $("#carta-traslado").hide();
+        $("#combo-tipo-traslado").show();
+        $("#combos-origen-destino").show();
+        $("#ver-lista").show();
+        
+
         $("#tipo_traslado").val("1");
         html_destino("destino-iglesia");
     })
@@ -573,49 +574,78 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("tipo_traslado").addEventListener("change", function(e) {
         // e.preventDefault();
+      
+
         var tipo_traslado = this.value;
+
+
         if(tipo_traslado == "1") {
-            $(".iglesia").show();
-            $(".masivo_individual").hide();
-            $(".individual").hide();
-            $(".combo-tipo-traslado").hide();
-            html_destino("destino-iglesia");
+            $("#combo-tipo-traslado").hide();
+            $("#combos-origen-destino").hide();
+            $("#ver-lista").hide();
+            $("#carta-traslado").hide();
+            $("#tabla-temporal").show();
+            $("#tabla-asociados").hide();
+            $(".volver").show();
+            $(".trasladar").show();
+            // html_destino("destino-iglesia");
             document.getElementById("trasladar").setAttribute("tipo_traslado", tipo_traslado);
         }
 
-        if(tipo_traslado == "2" || tipo_traslado == "3") {
-            $(".iglesia").hide();
-            $(".masivo_individual").show();
-            $(".combo-tipo-traslado").hide();
-            
+        if(tipo_traslado == "2") {
+            $("#combo-tipo-traslado").hide();
+            $("#combos-origen-destino").hide();
+            $("#carta-traslado").hide();
+            $("#ver-lista").hide();
+            $("#tabla-temporal").show();
+            $("#tabla-asociados").show();
+            $(".volver").show();
+            $(".trasladar").show();
             
             html_destino("destino-masivo-individual");
             document.getElementById("tipo_traslado_mi").value = tipo_traslado;
             document.getElementById("trasladar").setAttribute("tipo_traslado", tipo_traslado);
 
-            if(typeof traslados_temp.datatable.length != "undefined") {
-                traslados_temp.datatable.destroy();
-            }
-        }
-
-        if(tipo_traslado == "2") {
-            traslados_temp.TablaListado({
-                tablaID: '#tabla-traslados',
-                url: "/buscar_datos",
-                tipo_traslado: 2
-            });
-            $(".individual").hide();
+            
         }
 
         if(tipo_traslado == "3") {
-            traslados_temp.TablaListado({
-                tablaID: '#tabla-traslados',
-                url: "/buscar_datos",
-                tipo_traslado: 3
-            });
-            // alert("hola");
-            $(".individual").show();
+            $("#combo-tipo-traslado").hide();
+            $("#combos-origen-destino").hide();
+            $("#ver-lista").hide();
+            $(".trasladar").hide();
+           
+            $("#tabla-temporal").hide();
+            $("#tabla-asociados").show();
+            $(".volver").show();
+            $("#carta-traslado").show();
+            html_destino("destino-masivo-individual");
+            document.getElementById("tipo_traslado_mi").value = tipo_traslado;
         }
+
+
+        if(typeof traslados_temp.datatable.length != "undefined") {
+            traslados_temp.datatable.destroy();
+        }
+
+        traslados_temp.TablaListado({
+            tablaID: '#tabla-traslados',
+            url: "/buscar_datos",
+            tipo_traslado: tipo_traslado
+        });
+
+        if(typeof traslados.datatable.length != "undefined") {
+            traslados.datatable.destroy();
+        }
+
+        traslados.TablaListado({
+            tablaID: '#tabla-asociados-traslados',
+            url: "/buscar_datos_asociados_traslados",
+            tipo_traslado: tipo_traslado
+        });
+
+
+       
     })
 
     document.getElementById("guardar-traslados-mi").addEventListener("click", function(event) {
@@ -637,9 +667,9 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && traslados_mi.required("iddistritomisionerodestino");
         required = required && traslados_mi.required("idiglesiadestino");
         // alert(required);
-        if(tipo_traslado == "3") {
-            required = required && traslados_mi.required("carta");
-        }
+        // if(tipo_traslado == "3") {
+        //     required = required && traslados_mi.required("carta");
+        // }
         // alert(tipo_traslado);
         if(required) {
             var promise = traslados_mi.guardar();
@@ -665,7 +695,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 traslados.TablaListado({
                     tablaID: '#tabla-asociados-traslados',
-                    url: "/buscar_datos_asociados_traslados"
+                    url: "/buscar_datos_asociados_traslados",
+                    tipo_traslado: tipo_traslado
                 });
 
                 if(typeof traslados_temp.datatable.length != "undefined") {
@@ -686,6 +717,14 @@ document.addEventListener("DOMContentLoaded", function() {
         traslados_mi.CerrarModal();
     })
 
+
+    document.getElementById("carta-traslado").addEventListener("click", function(event) {
+        event.preventDefault();
+        // alert("hola carta");
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
+        window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro);
+    });
+
 })
 
 
@@ -696,13 +735,13 @@ function eliminar_temp_traslado(idtemptraslados) {
 function agregar_temp_traslado(idmiembro) {
     var tipo_traslado = document.getElementById("tipo_traslado").value;
 
-    if(tipo_traslado == "3" && traslados_temp.datatable.rows()[0].length >= 1) {
-        BASE_JS.sweet({
-            text: 'Solo Debe agregar un solo asociado!'
-        });
+    // if(tipo_traslado == "3" && traslados_temp.datatable.rows()[0].length >= 1) {
+    //     BASE_JS.sweet({
+    //         text: 'Solo Debe agregar un solo asociado!'
+    //     });
 
-        return false;
-    }
+    //     return false;
+    // }
 
     traslados.ajax({
         url: '/agregar_traslado',
@@ -724,6 +763,11 @@ function agregar_temp_traslado(idmiembro) {
         });
         
     })  
+}
 
-  
+function trasladar(idmiembro) {
+    document.getElementById("idmiembro").value = idmiembro;
+    agregar_temp_traslado(idmiembro);
+    traslados_mi.abrirModal();
+    
 }

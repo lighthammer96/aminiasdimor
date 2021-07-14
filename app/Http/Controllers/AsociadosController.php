@@ -356,7 +356,8 @@ class AsociadosController extends Controller
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
-        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)";
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
 
         $sql_estado_civil = "SELECT * FROM public.estadocivil";
@@ -401,7 +402,8 @@ class AsociadosController extends Controller
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
-        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)";
+        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
         
         $datos["miembro"] = $miembro;
