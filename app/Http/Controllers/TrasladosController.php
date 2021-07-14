@@ -326,8 +326,12 @@ class TrasladosController extends Controller
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
+
+        $sql_estado_civil = "SELECT * FROM public.estadocivil";
+        $estado_civil = DB::select($sql_estado_civil);
         
         $datos["miembro"] = $miembro;
+        $datos["estado_civil"] = $estado_civil;
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.carta_iglesia", $datos);
