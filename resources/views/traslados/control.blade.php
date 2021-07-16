@@ -24,17 +24,31 @@
              
                     <div class="row" >
                         <div class="col-md-12">
-                            <label class="control-label">{{ traducir("traductor.carta_aceptacion") }}</label>
+                            <!-- <label class="control-label">{{ traducir("traductor.carta_aceptacion") }}</label>
 
-                            <input type="file" class="form-control input-sm entrada" name="carta" id="carta">
-       
+                            <input type="file" class="form-control input-sm entrada" name="carta" id="carta"> -->
+                            <label for="" class="control-label">{{ traducir("traductor.estado") }}</label>
+                         
+                          
+                            <select name="estado" id="estado" class="form-control input-sm entrada">
+                                
+                                <option value="0">TRASLADADO</option>
+                                <option value="1">PENDIENTE</option>
+                                <option value="2">RECHAZADO</option>
+                            </select>
+                    
                         </div>
                     </div>
    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-control">[Cancelar]</button>
-                    <button type="button" id="guardar-control" class="btn btn-primary btn-sm">[Guardar]</button>
+                    <div class="pull-left">
+                    
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-control">[Cancelar]</button>
+                        <button type="button" id="guardar-control" class="btn btn-primary btn-sm">[Guardar]</button>
+                    </div>
                 </div>
             </form>
 

@@ -11,7 +11,7 @@ class UsuariosModel extends Model
 
     public function __construct() {
         parent::__construct();
-
+        
     }
 
     public function tabla() {
@@ -22,12 +22,17 @@ class UsuariosModel extends Model
         $tabla->agregarColumna("m.nombres", "responsable", "Responsable");
         $tabla->agregarColumna("u.usuario_user", "usuario_user", "Usuario");
        // $tabla->agregarColumna("u.usuario_referencia", "usuario_referencia", "Referencia");
-        $tabla->agregarColumna("p.perfil_descripcion", "perfil_descripcion", "Perfil");
+        $tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.perfil"));
         $tabla->agregarColumna("ta.descripcion", "tipoacceso", "Tipo de Acceso");
         $tabla->agregarColumna("u.estado", "estado", "Estado");
-        $tabla->setSelect("u.usuario_id, (m.apellidos || ', ' || m.nombres) AS responsable, u.usuario_user, p.perfil_descripcion, ta.descripcion AS tipoacceso, CASE WHEN u.estado = 'A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("u.usuario_id, (m.apellidos || ', ' || m.nombres) AS responsable, u.usuario_user, 
+        CASE WHEN pi.pi_descripcion IS NULL THEN 
+        (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=u.perfil_id AND idioma_id=".session("idioma_id_defecto").")
+        ELSE pi.pi_descripcion END AS pi_descripcion
+        , ta.descripcion AS tipoacceso, CASE WHEN u.estado = 'A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $tabla->setFrom("seguridad.usuarios as u
         \nINNER JOIN seguridad.perfiles AS p ON(p.perfil_id=u.perfil_id)
+        \nLEFT JOIN seguridad.perfiles_idiomas AS pi on(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
         \nLEFT JOIN iglesias.miembro AS m ON(m.idmiembro=u.idmiembro)
         \nLEFT JOIN seguridad.tipoacceso AS ta ON(ta.idtipoacceso=u.idtipoacceso)");
         //$tabla->setWhere("u.estado='A'");

@@ -11,32 +11,32 @@ class PerfilesModel extends Model
 {
     use HasFactory;
 
-    private $tabla;
+    
 
     public function __construct() {
         parent::__construct();
         
-        $this->tabla = new Tabla();
+        //$tabla = new Tabla();
 
 
     }
 
     public function tabla() {
-        $this->tabla = new Tabla();
-        $this->tabla->asignarID("tabla-perfiles");
-        $this->tabla->agregarColumna("p.perfil_id", "perfil_id", "Id");
-        $this->tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.descripcion"));
-        $this->tabla->agregarColumna("p.estado", "estado", traducir("traductor.estado"));
-        $this->tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN 
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-perfiles");
+        $tabla->agregarColumna("p.perfil_id", "perfil_id", "Id");
+        $tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.descripcion"));
+        $tabla->agregarColumna("p.estado", "estado", traducir("traductor.estado"));
+        $tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN 
         (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
         ELSE pi.pi_descripcion END AS pi_descripcion , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
-        $this->tabla->setFrom("seguridad.perfiles AS p
+        $tabla->setFrom("seguridad.perfiles AS p
         \nLEFT JOIN seguridad.perfiles_idiomas AS pi on(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")");
 
 
     
      
-        return $this->tabla;
+        return $tabla;
     }
 
 

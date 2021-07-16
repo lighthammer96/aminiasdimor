@@ -82,9 +82,142 @@
         </div>
         <div class="clear"></div>
         
-   
+        <div class="row">
+            <div class="col" style="width: 15%;">
+                <label for="">{{ traducir("traductor.iglesia_en") }}</label>
+            </div>
+            <div class="col" style="width: 85%;">
+                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col" style="width: 100%;">
+                <label for="">{{ traducir("traductor.saludo_carta") }}</label>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="row" >
+            <div class="col" style="width: 100%; line-height: 20px;">
+                <label for="">
+                    {{ traducir("traductor.agrado") }} <strong>{{ $miembro[0]->apellidos }}, {{ $miembro[0]->nombres }}</strong> {{ traducir("traductor.nacido") }} <strong>{{ $miembro[0]->fechanacimiento }}</strong> {{ traducir("traductor.bautizado") }} <strong>{{ $miembro[0]->fechabautizo }}</strong> {{ traducir("traductor.de_estado_civil") }}
+                    
+                </label>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="row" style="margin-bottom: 70px; ">
+            <div class="col" style="width: 100%; line-height: 20px; text-align: justify;">
+                <label for="">
+                    
+                <?php 
+                    
+                    foreach ($estado_civil as $kec => $vec) {
+                        if($vec->idestadocivil == $miembro[0]->idestadocivil) {
+                            echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
+                        } else {
+                            echo '<input  type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
+                        }
+                       
+                    }
+                
+                ?>
+                {{ traducir("traductor.recomendado") }} <strong>{{ $fecha_control }}</strong> {{ traducir("traductor.aceptado") }} <strong>{{ $fecha }}</strong>
+                </label>
+            </div>
+            
+        </div>
+       
+
+
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col" style="width: 30%;">
+
+            </div>
+            <div class="col" style="width: 20%;">
+                <label for="">{{ traducir("traductor.de_iglesia_en") }}</label>
+            </div>
+            <div class="col" style="width: 50%;">
+                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
+            </div>
+        </div> 
+        <div class="clear"></div>
+        <div class="row" style="margin-bottom: 50px !important;">
+            <div class="col" style="width: 30%;">
+
+            </div>
+            <div class="col" style="width: 20%;">
+                <label for="">{{ traducir("traductor.direccion") }}: </label>
+            </div>
+            <div class="col" style="width: 50%;">
+                <label for=""><strong>{{ $miembro[0]->direccion_iglesia }}</strong></label>
+            </div>
+        </div> 
+        <div class="clear"></div>
+        <div class="row" style="margin-bottom: 50px !important;">
+            <div class="col" style="width: 30%;">
+
+            </div>
+            <div class="col" style="width: 20%;">
+                <label for="">{{ traducir("traductor.anciano_director") }}: </label>
+            </div>
+            <div class="col" style="width: 30%;">
+                <label for=""><strong>{{ $miembro[0]->bautizador }}</strong></label><br>
+                <center>
+                    
+                    <label for="">{{ traducir("traductor.nombre") }}</label>
+                </center>
+               
+            </div>
+            <div class="col" style="width: 20%; " >
+                <center>
+                    <label for="" style="height: 15px; border-bottom: 1px dashed black; display:block; width: 100%;"></label>
+                    <label for="">{{ traducir("traductor.firma") }}</label>
+                </center>
+            </div>
+        </div> 
+        <div class="clear"></div>
+        <div class="row" style="margin-bottom: 15px !important;">
+            <div class="col" style="width: 30%;">
+
+            </div>
+            <div class="col" style="width: 20%;">
+                <label for="">{{ traducir("traductor.secretario") }}: </label>
+            </div>
+            <div class="col" style="width: 30%;" >
+                <label for="" ></label><br>
+                <center>
+                    <label for="">{{ traducir("traductor.nombre") }}</label>
+                </center>
+               
+            </div>
+            <div class="col" style="width: 20%; ">
+                <center>
+                    <label for="" style="height: 15px; border-bottom: 1px dashed black; display:block; width: 100%;"></label>
+                    <label for="">{{ traducir("traductor.firma") }}</label>
+                </center>
+            </div>
+        </div> 
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col" style="width: 30%;">
+
+            </div>
+            <div class="col" style="width: 20%;">
+                <label for="">{{ traducir("traductor.fecha") }}: </label>
+            </div>
+            <div class="col" style="width: 50%;">
+                <label for="" style=""><strong>{{ $fecha }}</strong></label>
+            </div>
+        </div> 
       
     </div>
+   
+      
+
     
     
 </body>

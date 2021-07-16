@@ -37,13 +37,36 @@ class AsociadosController extends Controller
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["asociados.js"]);
         return parent::init($view, $data);
-
-      
-       
     }
 
+
+    public function curriculum() {
+        $view = "asociados.curriculum";
+        $data["title"] = traducir('traductor.titulo_curriculum');
+        $data["subtitle"] = "";
+        $data["tabla"] = $this->asociados_model->tabla("1")->HTML();
+ 
+
+        $botones = array();
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="ingresar-datos">'.traducir("traductor.ingresar_datos").' [F1]</button>';
+        // $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-asociado">'.traducir("traductor.modificar").' [F2]</button>';
+        // $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
+        // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
+        $data["botones"] = $botones;
+        $data["scripts"] = $this->cargar_js(["curriculum.js"]);
+        return parent::init($view, $data);
+    }
+
+
+
     public function buscar_datos() {
-        $json_data = $this->asociados_model->tabla()->obtenerDatos();
+        // var_dump($_REQUEST["curriculum"]); 
+        // $_REQUEST["pdf"] = $_REQUEST["pdf"];
+        $curriculum = "";
+        if(isset($_REQUEST["curriculum"])) {
+            $curriculum = $_REQUEST["curriculum"];
+        }
+        $json_data = $this->asociados_model->tabla($curriculum)->obtenerDatos();
         echo json_encode($json_data);
     }
 
@@ -415,6 +438,138 @@ class AsociadosController extends Controller
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("ficha_bautizo.pdf"); // ver
         
+    }
+
+    public function guardar_curriculum(Request $request) {
+
+        if(isset($_REQUEST["idparentesco"]) && gettype($_REQUEST["idparentesco"]) == "array" && count($_REQUEST["idparentesco"]) > 0) {
+            DB::table("iglesias.parentesco_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+            // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.parentesco_miembro", $_POST, "D"), "D");
+           
+        }
+
+
+        if(isset($_REQUEST["nivelestudios"]) && gettype($_REQUEST["nivelestudios"]) == "array" && count($_REQUEST["nivelestudios"]) > 0) {
+            DB::table("iglesias.educacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+            // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.educacion_miembro", $_POST, "D"), "D");
+           
+        }
+
+
+        if(isset($_REQUEST["cargo"]) && gettype($_REQUEST["cargo"]) == "array" && count($_REQUEST["cargo"]) > 0) {
+            DB::table("iglesias.laboral_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+            // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.laboral_miembro", $_POST, "D"), "D");
+           
+        }
+
+        echo json_encode($result);
+    }
+
+    public function obtener_parentesco_miembro(Request $request) {
+        $sql = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais
+        FROM iglesias.parentesco_miembro AS pm
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=pm.idmiembro)
+        INNER JOIN public.parentesco AS p ON(p.idparentesco=pm.idparentesco)
+
+        INNER JOIN public.pais AS pp ON(pp.idpais=pm.idpais)
+        INNER JOIN public.tipodoc AS td ON(td.idtipodoc=pm.idtipodoc)
+
+        /*INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)*/
+        WHERE pm.idmiembro=".$request->input("idmiembro")."
+        ORDER BY pm.idparentescomiembro DESC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+       //print_r($_REQUEST);
+    }
+
+
+    public function obtener_educacion_miembro(Request $request) {
+        $sql = "SELECT em.*
+        FROM iglesias.educacion_miembro AS em
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=em.idmiembro)
+       
+
+        /*INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)*/
+        WHERE em.idmiembro=".$request->input("idmiembro")."
+        ORDER BY em.ideducacionmiembro DESC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+       //print_r($_REQUEST);
+    }
+
+
+    public function obtener_laboral_miembro(Request $request) {
+        $sql = "SELECT lm.*
+        FROM iglesias.laboral_miembro AS lm
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=lm.idmiembro)
+       
+
+        /*INNER JOIN iglesias.institucion AS i ON(i.idinstitucion=cm.idinstitucion)*/
+        WHERE lm.idmiembro=".$request->input("idmiembro")."
+        ORDER BY lm.idlaboralmiembro DESC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+       //print_r($_REQUEST);
+    }
+
+
+    public function imprimir_curriculum($idmiembro) {
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo 
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        WHERE m.idmiembro={$idmiembro}";
+        $miembro = DB::select($sql_miembro);
+
+       
+
+        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, cm.lugar FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        WHERE m.idmiembro=".$idmiembro;
+        $cargos = DB::select($sql_cargos);
+
+
+        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, to_char(pm.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento
+        FROM iglesias.parentesco_miembro AS pm
+        INNER JOIN public.parentesco AS p ON(p.idparentesco=pm.idparentesco)
+        INNER JOIN public.tipodoc AS td ON(td.idtipodoc=pm.idtipodoc)
+        INNER JOIN public.pais AS pp ON(pp.idpais=pm.idpais)
+        WHERE pm.idmiembro=".$idmiembro;
+        $parentesco = DB::select($sql_parentesco);
+
+
+        $sql_educacion = "SELECT em.* 
+        FROM iglesias.educacion_miembro AS em
+     
+        WHERE em.idmiembro=".$idmiembro;
+        $educacion = DB::select($sql_educacion);
+
+        $sql_laboral = "SELECT * FROM iglesias.laboral_miembro WHERE idmiembro=".$idmiembro;
+        $laboral = DB::select($sql_laboral);
+
+
+        
+        $datos["miembro"] = $miembro;
+        $datos["parentesco"] = $parentesco;
+        $datos["educacion"] = $educacion;
+        $datos["laboral"] = $laboral;
+    
+        $datos["cargos"] = $cargos; 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("asociados.imprimir_curriculum", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("curriculum.pdf"); // ver
     }
    
 }

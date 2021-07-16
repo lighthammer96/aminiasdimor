@@ -10,27 +10,41 @@ class IglesiasModel extends Model
 {
     use HasFactory;
 
-    private $tabla;
+    
 
     public function __construct() {
         parent::__construct();
-        $this->tabla = new Tabla();
+        //$tabla = new Tabla();
     }
 
     public function tabla() {
-        $this->tabla = new Tabla();
-        $this->tabla->asignarID("tabla-iglesias");
-        $this->tabla->agregarColumna("i.idiglesia", "idiglesia", "Id");
-        $this->tabla->agregarColumna("i.descripcion", "descripcion", traducir('traductor.descripcion'));
-        $this->tabla->agregarColumna("i.direccion", "direccion", traducir('traductor.direccion'));
-        $this->tabla->agregarColumna("i.telefono", "telefono", traducir('traductor.telefono'));
-        $this->tabla->agregarColumna("dm.descripcion", "distrito_misionero", traducir('traductor.distrito_misionero'));
-        $this->tabla->agregarColumna("i.estado", "estado", traducir('traductor.estado'));
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-iglesias");
+        $tabla->agregarColumna("i.idiglesia", "idiglesia", "Id");
+        $tabla->agregarColumna("i.descripcion", "descripcion", traducir('traductor.descripcion'));
+        $tabla->agregarColumna("i.direccion", "direccion", traducir('traductor.direccion'));
+        $tabla->agregarColumna("i.telefono", "telefono", traducir('traductor.telefono'));
+        $tabla->agregarColumna("dm.descripcion", "distrito_misionero", traducir('traductor.distrito_misionero'));
+        $tabla->agregarColumna("i.estado", "estado", traducir('traductor.estado'));
 
-        $this->tabla->setSelect("i.idiglesia, i.descripcion, i.direccion, i.telefono, dm.descripcion AS distrito_misionero, CASE WHEN i.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
-        $this->tabla->setFrom("iglesias.iglesia AS i
+        $tabla->setSelect("i.idiglesia, i.descripcion, i.direccion, i.telefono, dm.descripcion AS distrito_misionero, CASE WHEN i.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setFrom("iglesias.iglesia AS i
         \nLEFT JOIN iglesias.distritomisionero AS dm ON(dm.iddistritomisionero=i.iddistritomisionero)");
 
-        return $this->tabla;
+
+        $array_where = array();
+        $where = "";
+        // var_dump(session("array_tipos_acceso")); exit;
+        if(session("array_tipos_acceso") != NULL && count(session("array_tipos_acceso")) > 0) {
+            foreach (session("array_tipos_acceso") as $value) {
+                foreach ($value as $k => $v) {
+                    array_push($array_where, " i.".$k." = ".$v);
+                }
+            }
+            $where = implode(' AND ', $array_where);
+        }
+        $tabla->setWhere($where);
+
+        return $tabla;
     }
 }

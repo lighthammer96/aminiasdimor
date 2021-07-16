@@ -93,6 +93,11 @@ class DivisionesController extends Controller
     public function obtener_divisiones(Request $request) {
 
         $sql = "";
+        // $defecto = "";
+        // if(session("perfil_id") != 1) {
+        //     $defecto = ", 'S' AS defecto";
+        // }
+        $all = false;
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
 			$sql = "SELECT d.iddivision AS id, CASE WHEN di.di_descripcion IS NULL THEN
@@ -100,7 +105,7 @@ class DivisionesController extends Controller
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision")." ".session("where_division");
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
 		} else {
             $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
@@ -108,9 +113,15 @@ class DivisionesController extends Controller
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
             WHERE d.estado='1' ".session("where_division");
+            $all = true;
 		}
         // die($sql);
         $result = DB::select($sql);
+
+        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+            // print_r($result);
+            $result[0]->defecto = "S";
+        }
         echo json_encode($result);
     }
 

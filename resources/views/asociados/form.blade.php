@@ -172,7 +172,7 @@
 
                                                 <div class="col-md-4" style="padding-left: 5px;">
                                                     <label class="control-label">Ciudad</label>
-                                                    </select>
+                                                 
                                                     <input type="text" class="form-control input-sm entrada" name="ciudadnacextranjero" placeholder="" />
                                                 </div>
                                             </div>
@@ -286,7 +286,7 @@
 
                                             </div>
 
-                                            <div class="col-md-12 jerarquia-iglesias-descripcion union">
+                                            <div class="col-md-12 jerarquia-iglesias-descripcion union-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.union") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="union" placeholder="" />
                                                

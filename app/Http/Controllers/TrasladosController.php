@@ -283,17 +283,21 @@ class TrasladosController extends Controller
     public function guardar_control(Request $request) {
         $update_control = array();
         $update_control["idcontrol"] = $request->input("idcontrol");
-        if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
+        // if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
 
-            $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_aceptacion_" . $request->input("idmiembro")."_". $request->input("idcontrol"));
-            if ($response["response"] == "ERROR") {
-                throw new Exception('Error al subir carta de aceptacion!');
-            }
-            $update_control["carta_aceptacion"] = $response["NombreFile"];
-            $update_control["estado"] = "0";
+        //     $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_aceptacion_" . $request->input("idmiembro")."_". $request->input("idcontrol"));
+        //     if ($response["response"] == "ERROR") {
+        //         throw new Exception('Error al subir carta de aceptacion!');
+        //     }
+        //     $update_control["carta_aceptacion"] = $response["NombreFile"];
+        //     $update_control["estado"] = "0";
          
-            $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $update_control));
-        }
+        //     $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $update_control));
+        // }
+
+        $update_control["estado"] = "0";
+        $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $update_control));
+
         $_POST["fecha"] = date("Y-m-d");
         $_POST["idcontrol"] = $request->input("idcontrol");
         $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_traslados", $_POST));
@@ -312,12 +316,12 @@ class TrasladosController extends Controller
         echo json_encode($result);
     }
 
-    public function imprimir_carta_iglesia($idmiembro) {
+    public function imprimir_carta_iglesia($idmiembro, $idcontrol = "") {
       
 
         $datos = array();
         $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -332,6 +336,14 @@ class TrasladosController extends Controller
         
         $datos["miembro"] = $miembro;
         $datos["estado_civil"] = $estado_civil;
+        if($idcontrol == "") {
+
+            $datos["fecha"] = date("d/m/Y");
+        } else {
+            $sql_control = "SELECT to_char(fecha, 'DD/MMYYYY') AS fecha FROM iglesias.control_traslados WHERE idcontrol={$idcontrol}";
+            $control = DB::select($sql_control);
+            $datos["fecha"] = $control[0]->fecha;
+        }
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.carta_iglesia", $datos);
@@ -343,12 +355,12 @@ class TrasladosController extends Controller
     }
 
     
-    public function imprimir_respuesta_carta_iglesia($idmiembro) {
+    public function imprimir_respuesta_carta_iglesia($idmiembro, $idcontrol = "") {
       
 
         $datos = array();
         $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -358,7 +370,21 @@ class TrasladosController extends Controller
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
         
+        
+        $sql_estado_civil = "SELECT * FROM public.estadocivil";
+        $estado_civil = DB::select($sql_estado_civil);
+        
         $datos["miembro"] = $miembro;
+        $datos["estado_civil"] = $estado_civil;
+
+       
+
+        $datos["fecha"] = date("d/m/Y");
+
+        $sql_control = "SELECT to_char(fecha, 'DD/MMYYYY') AS fecha FROM iglesias.control_traslados WHERE idcontrol={$idcontrol}";
+        $control = DB::select($sql_control);
+        $datos["fecha_control"] = $control[0]->fecha;
+        
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.respuesta_carta_iglesia", $datos);

@@ -981,6 +981,11 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#datos-generales").addClass("active");
         $(".jerarquia-iglesias").show();
         $(".jerarquia-iglesias-descripcion").hide();
+
+        document.getElementById("imprimir-ficha-bautizo").removeAttribute("idcondicioneclesiastica");
+        document.getElementById("imprimir-ficha-bautizo").removeAttribute("fechabautizo");
+        document.getElementById("imprimir-ficha-bautizo").removeAttribute("responsable_bautizo");
+        document.getElementById("imprimir-ficha-bautizo").removeAttribute("idreligion");
         asociados.abrirModal();
 
         
@@ -1006,7 +1011,174 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = asociados.get(datos.idmiembro);
 
         promise.then(function(response) {   
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("responsable_bautizo", response.responsable);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("idreligion", response.idreligion);
+
+
+            var array_pais = response.pais_id.split("|");
+            jerarquia(array_pais[0]);
+            crear_botones_altas_bajas(response.estado);
+            if(response.foto != null) {
+                document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
+            } else {
+                document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
+            }
+
+            if(response.posee_union == "N") {
+                $(".union").hide();
+            } else {
+                $(".union").show();
+            }
+
+            if(response.posee_union == "N") {
+                $(".union-descripcion").hide();
+            } else {
+                $(".union-descripcion").show();
+            }
+
+            $(".miembro").text(response.apellidos + ", "+response.nombres);
+
+            asociados.asignarDatos({
+                encargado_bautizo: response.encargado_bautizo,
+                responsable_bautizo: response.responsable,
+                tabla_encargado_bautizo: response.tabla_encargado_bautizo
+                
+            });
+
+            document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].innerHTML = "";
+            asociados.ajax({
+                url: '/obtener_cargos_miembro',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+
+            document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = "";
+
+            asociados.ajax({
+                url: '/obtener_historial_altas_bajas',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        // document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
+                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+
+            document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = "";
+            asociados.ajax({
+                url: '/obtener_traslados',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        // document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = html_traslados(response[i]);
+
+                        document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].appendChild(html_traslados(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
             
+
+            document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].innerHTML = "";
+            asociados.ajax({
+                url: '/obtener_capacitacion_miembro',
+                datos: { idmiembro: response.idmiembro, _token: _token }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].appendChild(html_detalle_capacitaciones(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+
+            
+
+
+            // principal.select({
+            //     name: 'iddepartamentodomicilio',
+            //     url: '/obtener_departamentos',
+            //     placeholder: seleccione,
+            //     selected: response.iddepartamentodomicilio,
+            //     datos: { pais_id: array_pais[0] }
+            // }).then(function() {
+                
+            //     $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            //     $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            // }) 
+
+           
+
+            // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
+            // $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+            // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
+            $(".jerarquia-iglesias").hide();
+            $(".jerarquia-iglesias-descripcion").show();
+            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
+            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            
+        })
+        
+
+    })
+
+    function crear_botones_altas_bajas(estado) {
+        if(estado == "1") {
+            document.getElementById("estado_asociado").innerText = "Activo";
+            document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
+            document.getElementById("estado_asociado").style.color = "black";
+            button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">Dar de Baja</button>';
+            
+        } else {
+            document.getElementById("estado_asociado").innerText = "Inactivo";
+            document.getElementById("estado_asociado").style.backgroundColor = "#666666";
+            document.getElementById("estado_asociado").style.color = "white";
+            button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">Dar de Alta</button>';
+
+        }
+        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">Imprimir Ficha</button>';
+        document.getElementById("bajas_altas").innerHTML = button;
+    }
+
+    document.getElementById("ver-asociado").addEventListener("click", function(event) {
+        event.preventDefault();
+        var datos = asociados.datatable.row('.selected').data();
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: "DEBE SELECCIONAR UN REGISTRO!"
+            });
+            return false;
+        }
+
+        $(".modificar").show();
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
+        var promise = asociados.ver(datos.idmiembro);
+
+        promise.then(function(response) {
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("responsable_bautizo", response.responsable_bautizo);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("idreligion", response.idreligion);
+
+
+
             var array_pais = response.pais_id.split("|");
             jerarquia(array_pais[0]);
             crear_botones_altas_bajas(response.estado);
@@ -1106,127 +1278,12 @@ document.addEventListener("DOMContentLoaded", function() {
            
 
             // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            // $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
             // $("#idunion").trigger("change", [response.idunion, response.idmision]);
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
             $(".jerarquia-iglesias").hide();
             $(".jerarquia-iglesias-descripcion").show();
-            $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
-            $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
-            
-        })
-        
-
-    })
-
-    function crear_botones_altas_bajas(estado) {
-        if(estado == "1") {
-            document.getElementById("estado_asociado").innerText = "Activo";
-            document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
-            document.getElementById("estado_asociado").style.color = "black";
-            button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">Dar de Baja</button>';
-            
-        } else {
-            document.getElementById("estado_asociado").innerText = "Inactivo";
-            document.getElementById("estado_asociado").style.backgroundColor = "#666666";
-            document.getElementById("estado_asociado").style.color = "white";
-            button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">Dar de Alta</button>';
-
-        }
-        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">Imprimir Ficha</button>';
-        document.getElementById("bajas_altas").innerHTML = button;
-    }
-
-    document.getElementById("ver-asociado").addEventListener("click", function(event) {
-        event.preventDefault();
-        var datos = asociados.datatable.row('.selected').data();
-        if(typeof datos == "undefined") {
-            BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
-            });
-            return false;
-        }
-
-        $(".modificar").show();
-        $(".nav-tabs").find("li").removeClass("active");
-        $("a[href='#datos-generales']").parent("li").addClass("active");
-        $(".tab-pane").removeClass("active");
-        $("#datos-generales").addClass("active");
-        var promise = asociados.ver(datos.idmiembro);
-
-        promise.then(function(response) {
-            
-            var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]);
-            crear_botones_altas_bajas(response.estado);
-            if(response.foto != null) {
-                document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
-            } else {
-                document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
-            }
-
-            if(response.posee_union == "N") {
-                $(".union").hide();
-            } else {
-                $(".union").show();
-            }
-
-            $(".miembro").text(response.apellidos + ", "+response.nombres);
-
-            asociados.asignarDatos({
-                encargado_bautizo: response.encargado_bautizo,
-                responsable_bautizo: response.responsable,
-                tabla_encargado_bautizo: response.tabla_encargado_bautizo
-                
-            });
-
-
-            asociados.ajax({
-                url: '/obtener_cargos_miembro',
-                datos: { idmiembro: response.idmiembro, _token: _token }
-            }).then(function(response) {
-                if(response.length > 0) {
-                    for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].appendChild(html_detalle_cargos(response[i]));
-                    }
-                }
-                //console.log(response);
-            })
-
-            asociados.ajax({
-                url: '/obtener_historial_altas_bajas',
-                datos: { idmiembro: response.idmiembro, _token: _token }
-            }).then(function(response) {
-                if(response.length > 0) {
-                    for(let i = 0; i < response.length; i++){
-                        document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
-                    }
-                }
-                //console.log(response);
-            })
-
-
-            // principal.select({
-            //     name: 'iddepartamentodomicilio',
-            //     url: '/obtener_departamentos',
-            //     placeholder: seleccione,
-            //     selected: response.iddepartamentodomicilio,
-            //     datos: { pais_id: array_pais[0] }
-            // }).then(function() {
-                
-            //     $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
-            //     $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
-            // }) 
-
-           
-
-            $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
-            $("#idunion").trigger("change", [response.idunion, response.idmision]);
-            $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
-            $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
-
             $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
             $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
         })
@@ -1260,6 +1317,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-asociado").addEventListener("click", function(event) {
         event.preventDefault();
         var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
         // alert(idmiembro);
@@ -1269,9 +1327,9 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && asociados.required("sexo");
         required = required && asociados.required("idtipodoc");
         required = required && asociados.required("nrodoc");
-        required = required && asociados.required("celular");
-        required = required && asociados.required("telefono");
-        required = required && asociados.required("email");
+        // required = required && asociados.required("celular");
+        // required = required && asociados.required("telefono");
+        // required = required && asociados.required("email");
         required = required && asociados.validar_email("email");
         if(emailalternativo != "") {
             required = required && asociados.validar_email("emailalternativo");
@@ -1286,15 +1344,17 @@ document.addEventListener("DOMContentLoaded", function() {
         // required = required && asociados.required("pais_id_nacionalidad");
         required = required && asociados.required("fecharegistro");
         
-        required = required && asociados.required("iddivision");
-        required = required && asociados.required("pais_id");
-        // required = required && asociados.required("iddivision");
-        if(array_pais[1] == "S") {
-            required = required && asociados.required("idunion");
+        if(idmiembro == "") {
+            required = required && asociados.required("iddivision");
+            required = required && asociados.required("pais_id");
+            // required = required && asociados.required("iddivision");
+            if(array_pais[1] == "S") {
+                required = required && asociados.required("idunion");
+            }
+            required = required && asociados.required("idmision");
+            required = required && asociados.required("iddistritomisionero");
+            required = required && asociados.required("idiglesia");
         }
-        required = required && asociados.required("idmision");
-        required = required && asociados.required("iddistritomisionero");
-        required = required && asociados.required("idiglesia");
 
         if(required) {
             var promise = asociados.guardar();
@@ -1908,7 +1968,57 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).on("click", "#imprimir-ficha-bautizo", function(e) {
         e.preventDefault();
 
+        var idcondicioneclesiastica = this.getAttribute("idcondicioneclesiastica");
+        var fechabautizo = this.getAttribute("fechabautizo");
+        var responsable_bautizo = this.getAttribute("responsable_bautizo");
+        var idiglesia = this.getAttribute("idiglesia");
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
+
+        //alert(typeof idcondicioneclesiastica);
+        if(idmiembro == "") {
+            BASE_JS.notificacion({
+                msg: 'Aun no ha registrado el asociado!',
+                type: 'warning'
+            })
+            return false;
+        }
+        
+        if(idcondicioneclesiastica == "" && idcondicioneclesiastica != "1") {
+            BASE_JS.notificacion({
+                msg: 'Su Condición Eclesiástica debe ser Bautizado!',
+                type: 'warning'
+            })
+            return false;
+        }
+
+        
+        if(fechabautizo == "") {
+            BASE_JS.notificacion({
+                msg: 'Debe tener registrado una fecha de bautizo!',
+                type: 'warning'
+            })
+            return false;
+        }
+        
+        if(responsable_bautizo == "") {
+            BASE_JS.notificacion({
+                msg: 'Debe tener asignado un responsable de bautizo!',
+                type: 'warning'
+            })
+            return false;
+        }
+
+        if(idiglesia == "") {
+            BASE_JS.notificacion({
+                msg: 'Debe tener asignado una procedencia religiosa!',
+                type: 'warning'
+            })
+            return false;
+        }
+        
+
+        
+
         window.open(BaseUrl + "/asociados/imprimir_ficha_bautizo/"+idmiembro);
     })
 

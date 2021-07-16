@@ -64,8 +64,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function guardar_control() {
+        var estado = document.getElementsByName("estado")[0].value;
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
+        var idcontrol = document.getElementsByName("idcontrol")[0].value;
         var required = true;
-        required = required && control.required("carta");
+        required = required && control.required("estado");
 
         if(required) {
             var promise = control.guardar();
@@ -80,7 +83,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-               
+                
+                alert(estado);
+                if(estado == "0") {
+                    window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro+"/"+idcontrol);
+                }
+
             })
 
         }
@@ -173,6 +181,12 @@ document.addEventListener("DOMContentLoaded", function() {
 })
 
 
-function imprimir_respuesta_carta_iglesia(idmiembro) {
-    window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro);
+// function imprimir_respuesta_carta_iglesia(idmiembro) {
+    
+// }
+
+
+
+function imprimir_carta_iglesia(idmiembro, idcontrol) {
+    window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro+ "/"+idcontrol);
 }

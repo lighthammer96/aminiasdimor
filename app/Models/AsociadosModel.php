@@ -11,28 +11,38 @@ class AsociadosModel extends Model
     use HasFactory;
 
 
-    private $tabla;
+    
 
     public function __construct() {
         parent::__construct();
         
-        $this->tabla = new Tabla();
+        //$tabla = new Tabla();
 
 
     }
 
-    public function tabla() {
-        $this->tabla = new Tabla();
-        $this->tabla->asignarID("tabla-asociados");
-        $this->tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");
-        $this->tabla->agregarColumna("m.nombres", "nombres", "Nombres");
-        $this->tabla->agregarColumna("td.descripcion", "descripcion", "Documento");
-        $this->tabla->agregarColumna("m.nrodoc", "nrodoc", "Número");
-        $this->tabla->agregarColumna("m.email", "email", "Email");
-        $this->tabla->agregarColumna("m.telefono", "telefono", "Email");
-        $this->tabla->agregarColumna("m.celular", "celular", "Celular");
-        $this->tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono, m.celular");
-        $this->tabla->setFrom("iglesias.miembro AS m
+    public function tabla($curriculum = "") {
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-asociados");
+        $tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");
+        $tabla->agregarColumna("m.nombres", "nombres", traducir("traductor.nombres"));
+        $tabla->agregarColumna("td.descripcion", "descripcion", traducir("traductor.documento"));
+        $tabla->agregarColumna("m.nrodoc", "nrodoc", traducir("traductor.numero"));
+        $tabla->agregarColumna("m.email", "email", traducir("traductor.email"));
+        $tabla->agregarColumna("m.telefono", "telefono", traducir("traductor.telefono"));
+        // $tabla->agregarColumna("m.celular", "celular", traducir("traductor.celular"));
+        $tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=m.idiglesia)", "iglesia", traducir("traductor.iglesia"));
+
+        $boton = "";
+        // print_r($_REQUEST); 
+        // var_dump($curriculum);
+        if($curriculum == "1") {
+            $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
+            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_curriculum(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
+        }
+
+        $tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=m.idiglesia) AS iglesia".$boton);
+        $tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)");
 
         $array_where = array();
@@ -46,29 +56,29 @@ class AsociadosModel extends Model
             }
             $where = implode(' AND ', $array_where);
         }
-        $this->tabla->setWhere($where);
+        $tabla->setWhere($where);
       
-        return $this->tabla;
+        return $tabla;
     }
 
     public function tabla_responsables() {
-        $this->tabla = new Tabla();
-        $this->tabla->asignarID("tabla-responsables");
-        $this->tabla->agregarColumna("id", "id", "Id");
-        $this->tabla->agregarColumna("tipo_documento", "tipo_documento", traducir("traductor.tipo_documento"));
-        $this->tabla->agregarColumna("nrodoc", "nrodoc", traducir("traductor.numero_documento"));
-        $this->tabla->agregarColumna("nombres", "nombres", traducir("traductor.nombres"));
-        // $this->tabla->agregarColumna("cargo", "cargo", "Cargo");
-        // $this->tabla->agregarColumna("periodo", "periodo", "Periodo");
-        // $this->tabla->agregarColumna("vigente", "vigente", "Vigente");
-        // $this->tabla->agregarColumna("tabla", "tabla", "Tabla");
-        $this->tabla->setSelect("id, tipo_documento, nrodoc, nombres /*, cargo, periodo, vigente*/, tabla");
-        $this->tabla->setFrom("iglesias.vista_responsables");
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-responsables");
+        $tabla->agregarColumna("id", "id", "Id");
+        $tabla->agregarColumna("tipo_documento", "tipo_documento", traducir("traductor.tipo_documento"));
+        $tabla->agregarColumna("nrodoc", "nrodoc", traducir("traductor.numero_documento"));
+        $tabla->agregarColumna("nombres", "nombres", traducir("traductor.nombres"));
+        // $tabla->agregarColumna("cargo", "cargo", "Cargo");
+        // $tabla->agregarColumna("periodo", "periodo", "Periodo");
+        // $tabla->agregarColumna("vigente", "vigente", "Vigente");
+        // $tabla->agregarColumna("tabla", "tabla", "Tabla");
+        $tabla->setSelect("id, tipo_documento, nrodoc, nombres /*, cargo, periodo, vigente*/, tabla");
+        $tabla->setFrom("iglesias.vista_responsables");
 
         if(isset($_REQUEST["idmiembro"])) {
-            $this->tabla->setWhere("(id || tabla <> '" . $_REQUEST["idmiembro"]. "iglesias.miembro')");
+            $tabla->setWhere("(id || tabla <> '" . $_REQUEST["idmiembro"]. "iglesias.miembro')");
         }
 
-        return $this->tabla;
+        return $tabla;
     }
 }

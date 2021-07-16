@@ -36,38 +36,63 @@ class LoginController extends Controller
             session(['usuario_user' => $result[0]->usuario_user]);
             session(['perfil_id' => $result[0]->perfil_id]);
             session(['pais_id' => $result[0]->pais_id]);
-            session(['perfil_descripcion' => $result[0]->perfil_descripcion]);
+           
             session(['idtipoacceso' => $result[0]->idtipoacceso]);
             session(['foto' => $result[0]->foto]);
             session(['responsable' => $result[0]->apellidos.", ".$result[0]->nombres]);
             session(['tipo_acceso' => $result[0]->tipo_acceso]);
+            session(['iddivision' => $result[0]->iddivision]);
+            session(['pais_id' => $result[0]->pais_id]);
+            session(['idunion' => $result[0]->idunion]);
+            session(['idmision' => $result[0]->idmision]);
+            session(['iddistritomisionero' => $result[0]->iddistritomisionero]);
+            session(['idiglesia' => $result[0]->idiglesia]);
             
             $where_division = "";
             $where_pais = "";
             $where_union = "";
             $where_mision = "";
             $where_distrito_misionero = "";
+
+            $where_division_padre = "";
+            $where_pais_padre = "";
+            $where_union_padre = "";
+            $where_mision_padre = "";
+            $where_distrito_misionero_padre = "";
             $array_tipos_acceso = array();
             if($result[0]->perfil_id != 1) {
                 switch ($result[0]->idtipoacceso) {
                     case '1':
-                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
-                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                        $where_union = "AND u.idunion = ".$result[0]->idunion;
-                        $where_mision = "AND idmision = ".$result[0]->idmision;
-                        $where_distrito_misionero = "AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+                        $where_division = " AND d.iddivision = ".$result[0]->iddivision;
+                        $where_pais = " AND pais_id = ".$result[0]->pais_id;
+                        $where_union = " AND u.idunion = ".$result[0]->idunion;
+                        $where_mision = " AND idmision = ".$result[0]->idmision;
+                        $where_distrito_misionero = " AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+
+                        $where_division_padre = " AND iddivision = ".$result[0]->iddivision;
+                        $where_pais_padre = " AND u.pais_id = ".$result[0]->pais_id;
+                        $where_union_padre = " AND idunion = ".$result[0]->idunion;
+                        $where_mision_padre = " AND idmision = ".$result[0]->idmision;
+                        $where_distrito_misionero_padre = " AND iddistritomisionero = ".$result[0]->iddistritomisionero;
+
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
                         array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
                         array_push($array_tipos_acceso, array("idmision" => $result[0]->idmision));
-                        array_push($array_tipos_acceso, array("where_distrito_misionero" => $result[0]->where_distrito_misionero));
+                        array_push($array_tipos_acceso, array("iddistritomisionero" => $result[0]->iddistritomisionero));
                         break;
                     case '2':
-                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
-                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                        $where_union = "AND u.idunion = ".$result[0]->idunion;
-                        $where_mision = "AND idmision = ".$result[0]->idmision;
+                        $where_division = " AND d.iddivision = ".$result[0]->iddivision;
+                        $where_pais = " AND pais_id = ".$result[0]->pais_id;
+                        $where_union = " AND u.idunion = ".$result[0]->idunion;
+                        $where_mision = " AND idmision = ".$result[0]->idmision;
                         $where_distrito_misionero = "";
+
+                        $where_division_padre = " AND iddivision = ".$result[0]->iddivision;
+                        $where_pais_padre = " AND u.pais_id = ".$result[0]->pais_id;
+                        $where_union_padre = " AND idunion = ".$result[0]->idunion;
+                        $where_mision_padre = " AND idmision = ".$result[0]->idmision;
+                        $where_distrito_misionero_padre = "";
 
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
@@ -76,11 +101,17 @@ class LoginController extends Controller
                        
                         break;
                     case '3':
-                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
-                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
-                        $where_union = "AND u.idunion = ".$result[0]->idunion;
+                        $where_division = " AND d.iddivision = ".$result[0]->iddivision;
+                        $where_pais = " AND pais_id = ".$result[0]->pais_id;
+                        $where_union = " AND u.idunion = ".$result[0]->idunion;
                         $where_mision = "";
                         $where_distrito_misionero = "";
+
+                        $where_division_padre = " AND iddivision = ".$result[0]->iddivision;
+                        $where_pais_padre = " AND u.pais_id = ".$result[0]->pais_id;
+                        $where_union_padre = " AND idunion = ".$result[0]->idunion;
+                        $where_mision_padre = "";
+                        $where_distrito_misionero_padre = "";
 
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
@@ -88,22 +119,36 @@ class LoginController extends Controller
                         
                         break;
                     case '4':
-                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
-                        $where_pais = "AND pais_id = ".$result[0]->pais_id;
+                        $where_division = " AND d.iddivision = ".$result[0]->iddivision;
+                        $where_pais = " AND pais_id = ".$result[0]->pais_id;
                         $where_union = "";
                         $where_mision = "";
                         $where_distrito_misionero = "";
+
+
+                        $where_division_padre = " AND iddivision = ".$result[0]->iddivision;
+                        $where_pais_padre = " AND u.pais_id = ".$result[0]->pais_id;
+                        $where_union_padre = "";
+                        $where_mision_padre = "";
+                        $where_distrito_misionero_padre = "";
 
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
                        
                         break;
                     case '5':
-                        $where_division = "AND d.iddivision = ".$result[0]->iddivision;
+                        $where_division = " AND d.iddivision = ".$result[0]->iddivision;
                         $where_pais = "";
                         $where_union = "";
                         $where_mision = "";
                         $where_distrito_misionero = "";
+
+
+                        $where_division_padre = " AND iddivision = ".$result[0]->iddivision;
+                        $where_pais_padre = "";
+                        $where_union_padre = "";
+                        $where_mision_padre = "";
+                        $where_distrito_misionero_padre = "";
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         
                         break;
@@ -117,6 +162,13 @@ class LoginController extends Controller
             session(['where_union' => $where_union]);
             session(['where_mision' => $where_mision]);
             session(['where_distrito_misionero' => $where_distrito_misionero]);
+
+            session(['where_division_padre' => $where_division_padre]);
+            session(['where_pais_padre' => $where_pais_padre]);
+            session(['where_union_padre' => $where_union_padre]);
+            session(['where_mision_padre' => $where_mision_padre]);
+            session(['where_distrito_misionero_padre' => $where_distrito_misionero_padre]);
+
             session(['array_tipos_acceso' => $array_tipos_acceso]);
 
             $idioma = DB::select("SELECT p.*, i.idioma_codigo FROM iglesias.paises AS p 
@@ -132,6 +184,11 @@ class LoginController extends Controller
             session(['idioma_defecto' => $idioma_defecto[0]->idioma_codigo]);
             session(['idioma_id_defecto' => $idioma_defecto[0]->idioma_id]);
 
+            $sql_perfil = "SELECT * FROM seguridad.perfiles_idiomas WHERE perfil_id={$result[0]->perfil_id} AND (idioma_id={$idioma[0]->idioma_id} OR idioma_id={$idioma_defecto[0]->idioma_id})";
+            // die($sql_perfil);
+            $perfil = DB::select($sql_perfil);
+
+            session(['perfil_descripcion' => $perfil[0]->pi_descripcion]);
         }
 
         echo json_encode($data);    

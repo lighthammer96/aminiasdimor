@@ -136,7 +136,33 @@ return [
     'anciano_director' => "Anciano/Director ",
     'secretario' => "Secretario ",
     'nombre' => "Nombre ",
-   
+    'documento' => "Documento",
+    'numero' => "Número",
+    'recomendado' => ", quien fue recomendado/a por vosotros mediante Carta de Iglesia del ",
+    'aceptado' => "(fecha), fue aceptado/a como miembro de nuestra iglesia local el ",
+    'ingresar_datos' => "Ingresar Datos",
+    'datos_familiares' => "Datos de Familiares",
+    'informacion_educacion' => "Información de Educación",
+    'experiencia_laboral' => "Experiencia Laboral",
+    'parentesco' => "Parentesco",
+    'institucion' => "Institución",
+    'nivel_estudios' => "Nivel de Estudios",
+    'profesion' => "Profesión",
+    'sector' => "Sector",
+    'curriculum' => "Curriculum Vitae",
+    'datos_generales' => "Datos Generales",
+    'sexo' => "Sexo",
+    'religion' => "Religión",
+    'idiomas' => "Idiomas",
+    'observacion' => "Observación",
+    'datos_bautizo' => "Datos de Bautizo",
+    'experiencia_ministerial' => "Experiencia Ministerial",
+    'pastor_oficiante' => "Pastor Oficiante",
+    'doc_identidad' => "Doc. Identidad",
+    'fecha_nac' => "Fecha de Nac.",
+    'lugar_nac' => "Lugar de Nac.",
+    'fecha_inicio' => "Fecha Inicio",
+    'fecha_fin' => "Fecha Fin",
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',
@@ -171,6 +197,8 @@ return [
     'titulo_control_traslados' => 'Control de Traslados',
     'titulo_actividad_misionera' => 'Administración de Actividades Misioneras',
     'titulo_reporte_actividad_misionera' => 'Reporte de Actividades Misioneras',
+    'titulo_curriculum' => 'Curriculum',
+    'titulo_reporte_general_asociados ' => 'Reporte General de Asociados',
 
 
 

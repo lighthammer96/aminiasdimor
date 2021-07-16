@@ -167,6 +167,7 @@
 
                     <input type="hidden" name="tipo_traslado_mi" id="tipo_traslado_mi">
                     <input type="hidden" name="idmiembro" id="idmiembro">
+                    <input type="hidden" name="idiglesia_origen" id="idiglesia_origen">
                     
                     <div class="row" >
                         <div class="col-md-12" id="destino-masivo-individual">

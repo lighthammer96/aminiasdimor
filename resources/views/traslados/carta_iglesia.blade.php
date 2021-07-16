@@ -82,11 +82,11 @@
         </div>
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 15%;">
                 <label for="">{{ traducir("traductor.iglesia_en") }}</label>
             </div>
-            <div class="col" style="width: 70%;">
-                <label for=""></label>
+            <div class="col" style="width: 85%;">
+                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
             </div>
         </div>
         <div class="clear"></div>
@@ -141,92 +141,93 @@
 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 50px;">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 15%;">
                 <label for="">{{ traducir("traductor.comentarios_") }}</label>
             </div>
-            <div class="col" style="width: 70%;">
+            <div class="col" style="width: 85%; height:18px; border-bottom: 1px dashed black;">
                 <label for=""></label>
             </div>
         </div>
 
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 40%;">
+            <div class="col" style="width: 30%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.de_iglesia_en") }}</label>
             </div>
-            <div class="col" style="width: 40%;">
-                <label for="">___________________________________</label>
+            <div class="col" style="width: 50%;">
+                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
             </div>
         </div> 
         <div class="clear"></div>
-        <div class="row">
-            <div class="col" style="width: 40%;">
+        <div class="row" style="margin-bottom: 50px !important;">
+            <div class="col" style="width: 30%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.direccion") }}: </label>
             </div>
-            <div class="col" style="width: 40%;">
-                <label for="">___________________________________</label>
+            <div class="col" style="width: 50%;">
+                <label for=""><strong>{{ $miembro[0]->direccion_iglesia }}</strong></label>
             </div>
         </div> 
         <div class="clear"></div>
-        <div class="row">
-            <div class="col" style="width: 40%;">
+        <div class="row" style="margin-bottom: 50px !important;">
+            <div class="col" style="width: 30%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.anciano_director") }}: </label>
             </div>
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 30%;">
+                <label for=""><strong>{{ $miembro[0]->bautizador }}</strong></label><br>
                 <center>
-                    <label for="">______________</label><br>
+                    
                     <label for="">{{ traducir("traductor.nombre") }}</label>
                 </center>
                
             </div>
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 20%; " >
                 <center>
-                    <label for="">______________</label><br>
+                    <label for="" style="height: 15px; border-bottom: 1px dashed black; display:block; width: 100%;"></label>
                     <label for="">{{ traducir("traductor.firma") }}</label>
                 </center>
             </div>
         </div> 
         <div class="clear"></div>
-        <div class="row">
-            <div class="col" style="width: 40%;">
+        <div class="row" style="margin-bottom: 15px !important;">
+            <div class="col" style="width: 30%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.secretario") }}: </label>
             </div>
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 30%;" >
+                <label for="" ></label><br>
                 <center>
-                    <label for="">______________</label><br>
                     <label for="">{{ traducir("traductor.nombre") }}</label>
                 </center>
                
             </div>
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 20%; ">
                 <center>
-                    <label for="">______________</label><br>
+                    <label for="" style="height: 15px; border-bottom: 1px dashed black; display:block; width: 100%;"></label>
                     <label for="">{{ traducir("traductor.firma") }}</label>
                 </center>
             </div>
         </div> 
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 40%;">
+            <div class="col" style="width: 30%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.fecha") }}: </label>
             </div>
-            <div class="col" style="width: 40%;">
-                <label for="">___________________________________</label>
+            <div class="col" style="width: 50%;">
+                <label for="" style=""><strong>{{ $fecha }}</strong></label>
             </div>
         </div> 
       

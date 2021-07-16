@@ -9,25 +9,25 @@ class MisionesModel extends Model
 {
     use HasFactory;
 
-    private $tabla;
+    
 
     public function __construct() {
         parent::__construct();
-        $this->tabla = new Tabla();
+        //$tabla = new Tabla();
     }
 
     public function tabla() {
-        $this->tabla = new Tabla();
-        $this->tabla->asignarID("tabla-misiones");
-        $this->tabla->agregarColumna("m.idmision", "idmision", "Id");
-        $this->tabla->agregarColumna("m.descripcion", "descripcion", traducir('traductor.descripcion'));
-        $this->tabla->agregarColumna("u.descripcion", "union", traducir('traductor.union'));
-        $this->tabla->agregarColumna("m.estado", "estado", traducir('traductor.estado'));
-        $this->tabla->setSelect("m.idmision, m.descripcion, u.descripcion AS union, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
-        $this->tabla->setFrom("iglesias.mision AS m 
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-misiones");
+        $tabla->agregarColumna("m.idmision", "idmision", "Id");
+        $tabla->agregarColumna("m.descripcion", "descripcion", traducir('traductor.descripcion'));
+        $tabla->agregarColumna("u.descripcion", "union", traducir('traductor.union'));
+        $tabla->agregarColumna("m.estado", "estado", traducir('traductor.estado'));
+        $tabla->setSelect("m.idmision, m.descripcion, u.descripcion AS union, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setFrom("iglesias.mision AS m 
         \nLEFT JOIN iglesias.union AS u ON(m.idunion=u.idunion)");
 
-        return $this->tabla;
+        return $tabla;
     }
 
 }

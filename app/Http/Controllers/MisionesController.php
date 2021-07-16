@@ -84,7 +84,7 @@ class MisionesController extends Controller
     public function obtener_misiones(Request $request) {
 
         $sql = "";
-        
+        $all = false;
         if(isset($_REQUEST["pais_id"])) {
             $sql = "SELECT * FROM iglesias.union AS u 
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
@@ -97,10 +97,17 @@ class MisionesController extends Controller
 	
 			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision");		
         } else {
-            $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision");
+            $sql = "SELECT idmision AS id, descripcion
+            FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre");
+            $all = true;
 		}
 
         $result = DB::select($sql);
+        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+            
+            // print_r($result);
+            $result[0]->defecto = "S";
+        }
         echo json_encode($result);
     }
 
@@ -108,7 +115,7 @@ class MisionesController extends Controller
     public function obtener_misiones_todos(Request $request) {
 
         $sql = "";
-        
+       
         if(isset($_REQUEST["pais_id"])) {
             $sql = "SELECT * FROM iglesias.union AS u 
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
@@ -121,7 +128,8 @@ class MisionesController extends Controller
 	
 			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"];		
         } else {
-            $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ";
+            $sql = "SELECT idmision AS id, descripcion
+            FROM iglesias.mision WHERE estado='1' ";
 		}
 
         $result = DB::select($sql);

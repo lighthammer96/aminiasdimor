@@ -650,6 +650,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("guardar-traslados-mi").addEventListener("click", function(event) {
         event.preventDefault();
+
+        var  idiglesia_origen = document.getElementById("idiglesia_origen").value;
+        var  idiglesiadestino = document.getElementById("idiglesiadestino").value;
+
         var tipo_traslado = document.getElementsByName("tipo_traslado")[0].value;
 
         var pais_iddestino = document.getElementsByName("pais_iddestino")[0].value;
@@ -671,6 +675,13 @@ document.addEventListener("DOMContentLoaded", function() {
         //     required = required && traslados_mi.required("carta");
         // }
         // alert(tipo_traslado);
+        if(idiglesia_origen == idiglesiadestino) {
+            BASE_JS.sweet({
+                text: 'No puede trasladar a la misma iglesia de origen!'
+            });
+            return false;
+        }
+
         if(required) {
             var promise = traslados_mi.guardar();
             traslados_mi.CerrarModal();
@@ -765,8 +776,10 @@ function agregar_temp_traslado(idmiembro) {
     })  
 }
 
-function trasladar(idmiembro) {
+function trasladar(idmiembro, idiglesia) {
+   
     document.getElementById("idmiembro").value = idmiembro;
+    document.getElementById("idiglesia_origen").value = idiglesia;
     agregar_temp_traslado(idmiembro);
     traslados_mi.abrirModal();
     

@@ -20,6 +20,7 @@ use App\Http\Controllers\MisionesController;
 use App\Http\Controllers\NivelesController;
 use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\ProvinciasController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
@@ -67,6 +68,7 @@ Route::post('principal/obtener_religiones', [PrincipalController::class, "obtene
 Route::post('principal/obtener_tipos_cargo', [PrincipalController::class, "obtener_tipos_cargo"]);
 Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_cargos"]);
 Route::post('principal/obtener_instituciones', [PrincipalController::class, "obtener_instituciones"]);
+Route::post('principal/obtener_parentesco', [PrincipalController::class, "obtener_parentesco"]);
 
 
 /*************
@@ -275,7 +277,12 @@ Route::post('asociados/obtener_anios', [AsociadosController::class, "obtener_ani
 Route::post('asociados/obtener_capacitacion_miembro', [AsociadosController::class, "obtener_capacitacion_miembro"]);
 Route::get('asociados/imprimir_ficha_asociado/{idmiembro}', [AsociadosController::class, "imprimir_ficha_asociado"]);
 Route::get('asociados/imprimir_ficha_bautizo/{idmiembro}', [AsociadosController::class, "imprimir_ficha_bautizo"]);
-
+Route::get('asociados/curriculum', [AsociadosController::class, "curriculum"]);
+Route::post('asociados/obtener_parentesco_miembro', [AsociadosController::class, "obtener_parentesco_miembro"]);
+Route::post('asociados/obtener_educacion_miembro', [AsociadosController::class, "obtener_educacion_miembro"]);
+Route::post('asociados/obtener_laboral_miembro', [AsociadosController::class, "obtener_laboral_miembro"]);
+Route::post('asociados/guardar_curriculum', [AsociadosController::class, "guardar_curriculum"]);
+Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::class, "imprimir_curriculum"]);
 
 // TRASLADOS
 Route::get('traslados/index', [TrasladosController::class, "index"]);
@@ -294,8 +301,8 @@ Route::post('traslados/agregar_traslado', [TrasladosController::class, "agregar_
 Route::get('traslados/control', [TrasladosController::class, "control"]);
 Route::post('traslados/buscar_datos_control', [TrasladosController::class, "buscar_datos_control"]);
 Route::post('traslados/guardar_control', [TrasladosController::class, "guardar_control"]);
-Route::get('traslados/imprimir_carta_iglesia/{idmiembro}', [TrasladosController::class, "imprimir_carta_iglesia"]);
-Route::get('traslados/imprimir_respuesta_carta_iglesia/{idmiembro}', [TrasladosController::class, "imprimir_respuesta_carta_iglesia"]);
+Route::get('traslados/imprimir_carta_iglesia/{idmiembro}/{idcontrol}', [TrasladosController::class, "imprimir_carta_iglesia"]);
+Route::get('traslados/imprimir_respuesta_carta_iglesia/{idmiembro}/{idcontrol}', [TrasladosController::class, "imprimir_respuesta_carta_iglesia"]);
 
 
 // ACTIVIDAD MISIONERA
@@ -308,3 +315,9 @@ Route::post('actividad_misionera/obtener_actividades', [ActividadmisioneraContro
 Route::post('actividad_misionera/guardar_actividad', [ActividadmisioneraController::class, "guardar_actividad"]);
 Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, "reporte"]);
 Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);
+
+
+
+// REPORTES
+
+Route::get('reportes/general_asociados', [ReportesController::class, "general_asociados"]);

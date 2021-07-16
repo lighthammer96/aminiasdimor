@@ -182,4 +182,12 @@ class PrincipalController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+    public function obtener_parentesco() {
+        $sql = "SELECT idparentesco as id, descripcion FROM public.parentesco 
+        WHERE estado='1'
+        ORDER BY idparentesco ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
 }
