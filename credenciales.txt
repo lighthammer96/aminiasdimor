@@ -25,3 +25,9 @@ usuario: Superadmin
 clave: tarapoto888
 
 
+
+--- nuevo 14/07/2021
+
+
+| UserName: smi
+| PassWord: tarapoto888

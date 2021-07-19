@@ -46,7 +46,7 @@ class CargosController extends Controller
 
     public function guardar_cargos(Request $request) {
         
-        $_POST = $this->toUpper($_POST);
+        $_POST = $this->toUpper($_POST, ["descripcion"]);
        
         // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
         // $_POST["idtipocargo"] = $array_tipo_cargo[0];

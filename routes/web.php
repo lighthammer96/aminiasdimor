@@ -321,3 +321,11 @@ Route::post('actividad_misionera/obtener_trimestres_todos  ', [Actividadmisioner
 // REPORTES
 
 Route::get('reportes/general_asociados', [ReportesController::class, "general_asociados"]);
+Route::get('reportes/grafico_feligresia', [ReportesController::class, "grafico_feligresia"]);
+Route::get('reportes/imprimir_general_asociados', [ReportesController::class, "imprimir_general_asociados"]);
+Route::get('reportes/imprimir_miembros_iglesia', [ReportesController::class, "imprimir_miembros_iglesia"]);
+Route::get('reportes/miembros_iglesia', [ReportesController::class, "miembros_iglesia"]);
+Route::get('reportes/imprimir_fichas_asociados', [ReportesController::class, "imprimir_fichas_asociados"]);
+Route::get('reportes/exportar_excel_general_asociados', [ReportesController::class, "exportar_excel_general_asociados"]);
+Route::post('reportes/obtener_iglesias', [ReportesController::class, "obtener_iglesias"]);
+Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_feligresia"]);

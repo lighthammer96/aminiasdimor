@@ -11,6 +11,7 @@ class LoginController extends Controller
 {
     //
     public function loguearse(Request $request) {
+        $nivel_organizativo = "";
         $data = array();
         $data["response"] = "nopass";
         $user = strtolower($request->input('user'));
@@ -80,6 +81,10 @@ class LoginController extends Controller
                         array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
                         array_push($array_tipos_acceso, array("idmision" => $result[0]->idmision));
                         array_push($array_tipos_acceso, array("iddistritomisionero" => $result[0]->iddistritomisionero));
+
+                        $sql = "SELECT * FROM iglesias.distritomisionero WHERE iddistritomisionero=".$result[0]->iddistritomisionero;
+                        $nivel = DB::select($sql);
+                        $nivel_organizativo = $nivel[0]->descripcion;
                         break;
                     case '2':
                         $where_division = " AND d.iddivision = ".$result[0]->iddivision;
@@ -98,7 +103,10 @@ class LoginController extends Controller
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
                         array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
                         array_push($array_tipos_acceso, array("idmision" => $result[0]->idmision));
-                       
+                        
+                        $sql = "SELECT * FROM iglesias.mision WHERE idmision=".$result[0]->idmision;
+                        $nivel = DB::select($sql);
+                        $nivel_organizativo = $nivel[0]->descripcion;
                         break;
                     case '3':
                         $where_division = " AND d.iddivision = ".$result[0]->iddivision;
@@ -117,6 +125,10 @@ class LoginController extends Controller
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
                         array_push($array_tipos_acceso, array("idunion" => $result[0]->idunion));
                         
+                        $sql = "SELECT * FROM iglesias.union WHERE idunion=".$result[0]->idunion;
+                        $nivel = DB::select($sql);
+                        $nivel_organizativo = $nivel[0]->descripcion;
+
                         break;
                     case '4':
                         $where_division = " AND d.iddivision = ".$result[0]->iddivision;
@@ -134,7 +146,10 @@ class LoginController extends Controller
 
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
                         array_push($array_tipos_acceso, array("pais_id" => $result[0]->pais_id));
-                       
+                        
+                        $sql = "SELECT * FROM iglesias.paises WHERE pais_id=".$result[0]->pais_id;
+                        $nivel = DB::select($sql);
+                        $nivel_organizativo = $nivel[0]->pais_descripcion;
                         break;
                     case '5':
                         $where_division = " AND d.iddivision = ".$result[0]->iddivision;
@@ -150,7 +165,9 @@ class LoginController extends Controller
                         $where_mision_padre = "";
                         $where_distrito_misionero_padre = "";
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
-                        
+                        $sql = "SELECT * FROM iglesias.division WHERE idivision=".$result[0]->idivision;
+                        $nivel = DB::select($sql);
+                        $nivel_organizativo = $nivel[0]->descripcion;
                         break;
                 }
             }
@@ -189,6 +206,7 @@ class LoginController extends Controller
             $perfil = DB::select($sql_perfil);
 
             session(['perfil_descripcion' => $perfil[0]->pi_descripcion]);
+            session(['nivel_organizativo' => $nivel_organizativo]);
         }
 
         echo json_encode($data);    

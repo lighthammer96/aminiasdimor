@@ -6,6 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta de Iglesia</title>
     <style>
+         /* referencia: https://ourcodeworld.co/articulos/leer/687/como-configurar-un-encabezado-y-pie-de-pagina-en-dompdf */
+         @page {
+            margin: 0cm 0cm;
+        }
+
+        /** Defina ahora los márgenes reales de cada página en el PDF **/
+        body {
+            margin-top: 3.3cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
+            margin-bottom: 2cm;
+        }
+            
+        header {
+            position: fixed;
+            top: 0.9cm;
+            left: 2cm;
+            right: 2cm;
+            height: 2.5cm;
+            text-align: center;
+            line-height: 0.8cm;
+            font-family: 'Times New Roman' !important;
+        }
 
         * {
             font-family: 'Roboto', sans-serif;
@@ -15,12 +38,12 @@
         }
 		
 
-        #contenido {
+        /* #contenido {
             
-            width: 696px;
+            width: 696px; */
             /* border: 1px solid gray */
 					
-        }
+        /* } */
 
         /* #logo img {
 		
@@ -73,8 +96,10 @@
    
 </head>
 <body>
-    <div id="contenido">
-        <img style="width: 794px; margin-left: -45px; " src="{{ URL::asset('images/cabecera_reportes.png') }}" alt="">
+ 
+    @include('layouts.cabecera')
+    <main>
+        <!-- <div class="clear"></div> -->
         <div class="row" style="margin-top: 30px; margin-bottom: 50px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
                 <h3><?php echo strtoupper(traducir("traductor.carta_iglesia")); ?></h3>
@@ -86,7 +111,7 @@
                 <label for="">{{ traducir("traductor.iglesia_en") }}</label>
             </div>
             <div class="col" style="width: 85%;">
-                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
+                <label for=""><strong>{{ $control[0]->iglesia_destino }}</strong></label>
             </div>
         </div>
         <div class="clear"></div>
@@ -151,38 +176,38 @@
 
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 20%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.de_iglesia_en") }}</label>
             </div>
-            <div class="col" style="width: 50%;">
-                <label for=""><strong>{{ $miembro[0]->iglesia }}</strong></label>
+            <div class="col" style="width: 60%;">
+                <label for=""><strong>{{ $control[0]->iglesia_origen }}</strong></label>
             </div>
         </div> 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 50px !important;">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 20%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.direccion") }}: </label>
             </div>
-            <div class="col" style="width: 50%;">
-                <label for=""><strong>{{ $miembro[0]->direccion_iglesia }}</strong></label>
+            <div class="col" style="width: 60%;">
+                <label for=""><strong>{{ $control[0]->direccion_origen }}</strong></label>
             </div>
         </div> 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 50px !important;">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 20%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.anciano_director") }}: </label>
             </div>
-            <div class="col" style="width: 30%;">
-                <label for=""><strong>{{ $miembro[0]->bautizador }}</strong></label><br>
+            <div class="col" style="width: 40%;">
+                <label for=""><strong>{{ $nombre_director }}</strong></label><br>
                 <center>
                     
                     <label for="">{{ traducir("traductor.nombre") }}</label>
@@ -198,14 +223,14 @@
         </div> 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 15px !important;">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 20%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.secretario") }}: </label>
             </div>
-            <div class="col" style="width: 30%;" >
-                <label for="" ></label><br>
+            <div class="col" style="width: 40%;" >
+                <label for="" ><strong>{{ $nombre_secretario }}</strong></label><br>
                 <center>
                     <label for="">{{ traducir("traductor.nombre") }}</label>
                 </center>
@@ -220,18 +245,19 @@
         </div> 
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 30%;">
+            <div class="col" style="width: 20%;">
 
             </div>
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.fecha") }}: </label>
             </div>
-            <div class="col" style="width: 50%;">
-                <label for="" style=""><strong>{{ $fecha }}</strong></label>
+            <div class="col" style="width: 60%;">
+                <label for="" style=""><strong>{{ $control[0]->fecha }}</strong></label>
             </div>
         </div> 
+    </main>
       
-    </div>
+ 
     
     
 </body>

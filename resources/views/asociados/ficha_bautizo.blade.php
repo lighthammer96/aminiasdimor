@@ -7,6 +7,29 @@
     <title>Certificado de Bautizo</title>
     <style>
 
+        /* referencia: https://ourcodeworld.co/articulos/leer/687/como-configurar-un-encabezado-y-pie-de-pagina-en-dompdf */
+        @page {
+            margin: 0cm 0cm;
+        }
+
+        /** Defina ahora los márgenes reales de cada página en el PDF **/
+        body {
+            margin-top: 3.3cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
+            margin-bottom: 2cm;
+        }
+            
+        header {
+            position: fixed;
+            top: 0.9cm;
+            left: 2cm;
+            right: 2cm;
+            height: 2.5cm;
+            text-align: center;
+            line-height: 0.8cm;
+            font-family: 'Times New Roman' !important;
+        }
         * {
             font-family: 'Roboto', sans-serif;
             box-sizing: border-box;
@@ -15,12 +38,12 @@
         }
 		
 
-        #contenido {
+        /* #contenido {
             
-            width: 696px;
+            width: 696px; */
             /* border: 1px solid gray */
 					
-        }
+        /* } */
 
         /* #logo img {
 		
@@ -73,8 +96,10 @@
    
 </head>
 <body>
-    <div id="contenido">
-        <img style="width: 794px; margin-left: -45px; " src="{{ URL::asset('images/cabecera_reportes.png') }}" alt="">
+    @include("layouts.cabecera")
+    <main>
+        
+        
         <div class="row" style="margin-top: 30px; margin-bottom: 50px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
                 <h3><?php echo strtoupper(traducir("traductor.certificado_bautizo")); ?></h3>
@@ -108,7 +133,7 @@
                 <label for="">{{ traducir("traductor.iglesia_local") }}</label>
             </div>
             <div class="col" style="width: 50%;">
-                <label for=""></label><br>
+                <label for=""><strong>{{ $miembro[0]->texto_bautismal }}</strong></label><br>
                 <label for="">{{ traducir("traductor.texto_bautismal") }}</label>
             </div>
             <!-- <div class="col" style="width: 25%;">
@@ -121,27 +146,33 @@
         </div>
 
         <div class="row" style="margin-top: 150px;">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 37%;">
                 <label for=""><strong>{{ $miembro[0]->bautizador }}</strong></label><br>
                 <label for="">{{ traducir("traductor.nombre_ministro") }}</label>
             </div>
-            <div class="col" style="width: 15%;">
-                <label for=""></label><br>
-                <label for="">{{ traducir("traductor.firma") }}</label>
+            <div class="col" style="width: 13%;">
+                <center>
+                    <label for=""></label><br>
+                    <label for="">{{ traducir("traductor.firma") }}</label>
+                </center>
             </div>
-            <div class="col" style="width: 35%;">
-                <label for=""></label><br>
+            <div class="col" style="width: 37%;">
+                <label for=""><strong>{{ $nombre_secretario }}</strong></label><br>
                 <label for="">{{ traducir("traductor.nombre_secretario") }}</label>
             </div>
-            <div class="col" style="width: 15%;">
-                <label for=""></label><br>
-                <label for="">{{ traducir("traductor.firma") }}</label>
+            <div class="col" style="width: 13%;">
+                <center>
+                    <label for=""></label><br>
+                    <label for="">{{ traducir("traductor.firma") }}</label>
+                </center>
             </div>
          
         </div>
    
       
-    </div>
+    
+
+    </main>
     
     
 </body>

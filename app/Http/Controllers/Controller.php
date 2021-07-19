@@ -277,4 +277,35 @@ class Controller extends BaseController
     }
 
 
+    public function obtener_nivel_organizativo($jerarquia) {
+        $sql = "";
+        if(isset($jerarquia["iddivision"]) && $jerarquia["iddivision"] != '') {
+            $sql = "SELECT descripcion FROM iglesias.division WHERE iddivision={$jerarquia["iddivision"]}";
+        }
+
+        if(isset($jerarquia["pais_id"]) && $jerarquia["pais_id"] != '') {
+            $sql = "SELECT paise_descripcion AS descripcion FROM iglesias.paises WHERE pais_id={$jerarquia["pais_id"]}";
+        }
+
+        if(isset($jerarquia["idunion"]) && $jerarquia["idunion"] != '') {
+            $sql = "SELECT descripcion FROM iglesias.union WHERE idunion={$jerarquia["idunion"]}";
+        }
+
+        if(isset($jerarquia["idmision"]) && $jerarquia["idmision"] != '') {
+            $sql = "SELECT descripcion FROM iglesias.mision WHERE idmision={$jerarquia["idmision"]}";
+        }
+
+        if(isset($jerarquia["iddistritomisionero"]) && $jerarquia["iddistritomisionero"] != '') {
+            $sql = "SELECT descripcion FROM iglesias.distritomisionero WHERE iddistritomisionero={$jerarquia["iddistritomisionero"]}";
+        }
+
+        if(isset($jerarquia["idiglesia"]) && $jerarquia["idiglesia"] != '') {
+            $sql = "SELECT descripcion FROM iglesias.iglesia WHERE idiglesia={$jerarquia["idiglesia"]}";
+        }
+
+        $nivel = DB::select($sql);
+        return $nivel[0]->descripcion; 
+    }
+
+
 }

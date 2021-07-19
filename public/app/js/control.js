@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
                 
-                alert(estado);
+                // alert(estado);
                 if(estado == "0") {
                     window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro+"/"+idcontrol);
                 }

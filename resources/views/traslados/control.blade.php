@@ -32,8 +32,8 @@
                           
                             <select name="estado" id="estado" class="form-control input-sm entrada">
                                 
-                                <option value="0">TRASLADADO</option>
-                                <option value="1">PENDIENTE</option>
+                                <option value="0">ACEPTADO</option>
+                                <!-- <option value="1">PENDIENTE</option> -->
                                 <option value="2">RECHAZADO</option>
                             </select>
                     

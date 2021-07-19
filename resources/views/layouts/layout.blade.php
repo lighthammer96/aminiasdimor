@@ -183,6 +183,8 @@
         jerarquia_traductor['municipio'] = "<?php echo traducir('traductor.municipio'); ?>";
         jerarquia_traductor['parroquias'] = "<?php echo traducir('traductor.parroquias'); ?>";
         var seleccione = "<?php echo traducir('traductor.seleccione'); ?>";
+        var titulo_grafico_feligresia = "<?php echo traducir('traductor.titulo_grafico_feligresia'); ?>";
+        var porcentaje = "<?php echo traducir('traductor.porcentaje'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -223,7 +225,7 @@
     <!-- bootstrap datepicker -->
     <script src="{{ URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 
-
+    <script src="{{ URL::asset('dist/js/highcharts.js') }}"></script>
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
     <script src="{{ URL::asset('app/js/BASE_JS.js') }}"></script>
     

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curriculun Vitae</title>
     <style>
+        
         /* referencia: https://ourcodeworld.co/articulos/leer/687/como-configurar-un-encabezado-y-pie-de-pagina-en-dompdf */
         @page {
             margin: 0cm 0cm;
@@ -13,7 +14,7 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 4.5cm;
+            margin-top: 3.3cm;
             margin-left: 2cm;
             margin-right: 2cm;
             margin-bottom: 2cm;
@@ -21,11 +22,15 @@
             
         header {
             position: fixed;
-            top: 0.5cm;
-            left: 0cm;
-            right: 0cm;
-            height: 4cm;
+            top: 0.9cm;
+            left: 2cm;
+            right: 2cm;
+            height: 2.5cm;
+            text-align: center;
+            line-height: 0.8cm;
+            font-family: 'Times New Roman' !important;
         }
+
 
 
         * {
@@ -76,9 +81,7 @@
 </head>
 <body>
 
-    <header>
-        <img width="100%" height="100%"src="{{ URL::asset('images/cabecera_reportes.png') }}" alt="">
-    </header>
+    @include("layouts.cabecera")
     <main>
         <div class="row" style="margin-top: 0px; margin-bottom: 10px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
@@ -158,7 +161,7 @@
                 <label for="">{{ traducir("traductor.idiomas") }}</label>
             </div>
             <div class="col" style="width: 70%;">
-                <label for=""></label>
+                <label for="">{{ $miembro[0]->idiomas }}</label>
             </div>
         </div>
         <div class="clear"></div>
@@ -220,11 +223,11 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 30%; font-weight: bold;">
+            <div class="col" style="width: 15%; font-weight: bold;">
                 <label for="">{{ traducir("traductor.observacion") }}</label>
             </div>
-            <div class="col" style="width: 70%;">
-                <label for="">{{ $miembro[0]->observaciones }}</label>
+            <div class="col" style="width: 85%;">
+                <label for="">{{ $miembro[0]->observaciones_bautizo }}</label>
             </div>
         </div>
     

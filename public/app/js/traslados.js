@@ -733,7 +733,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         // alert("hola carta");
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
-        window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro);
+        window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro+"/0");
     });
 
 })

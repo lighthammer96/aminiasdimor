@@ -15,7 +15,7 @@ var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("pais_id_change").value = session_pais_id;
-    document.getElementsByName("fecharegistro")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
+    document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
     var eventClick = new Event('click');
 
     asociados.enter("nombres","apellidos");
@@ -986,6 +986,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("imprimir-ficha-bautizo").removeAttribute("fechabautizo");
         document.getElementById("imprimir-ficha-bautizo").removeAttribute("responsable_bautizo");
         document.getElementById("imprimir-ficha-bautizo").removeAttribute("idreligion");
+        document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
         asociados.abrirModal();
 
         
@@ -1152,6 +1153,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">Imprimir Ficha</button>';
         document.getElementById("bajas_altas").innerHTML = button;
+        $("#bajas_altas").show();
+        $("#estado_asociado").show();
     }
 
     document.getElementById("ver-asociado").addEventListener("click", function(event) {
@@ -1897,11 +1900,19 @@ document.addEventListener("DOMContentLoaded", function() {
     function html_traslados(objeto) {
 
         var html = '';
+
+        var buttons = '';
+
+        if(objeto.idcontrol != '' && objeto.idcontrol != null) {
+            buttons = '<center><button title="Carta de Iglesia" type="button" onclick="imprimir_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button>&nbsp;<button title="Respuesta de Carta de Iglesia" type="button" onclick="imprimir_respuesta_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button></center>';
+        }
+
         var tr = document.createElement("tr");
         html += '  <td>'+objeto.iglesia_anterior+'</td>';
         html += '  <td>'+objeto.iglesia_traslado+'</td>';
 
         html += '  <td>'+objeto.fecha+'</td>';
+        html += '  <td>'+buttons+'</td>';
         tr.innerHTML = html;
         return tr;
     }
@@ -1919,6 +1930,7 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+objeto.fecha+'</td>';
         html += '  <td>'+objeto.observaciones+'</td>';
         html += '  <td>'+objeto.rebautizo+'</td>';
+       
     
 
         tr.innerHTML = html;
@@ -1971,7 +1983,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var idcondicioneclesiastica = this.getAttribute("idcondicioneclesiastica");
         var fechabautizo = this.getAttribute("fechabautizo");
         var responsable_bautizo = this.getAttribute("responsable_bautizo");
-        var idiglesia = this.getAttribute("idiglesia");
+        var idreligion = this.getAttribute("idreligion");
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
 
         //alert(typeof idcondicioneclesiastica);
@@ -1983,7 +1995,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         
-        if(idcondicioneclesiastica == "" && idcondicioneclesiastica != "1") {
+        if(idcondicioneclesiastica == "" || idcondicioneclesiastica != "1" || idcondicioneclesiastica == "null") {
             BASE_JS.notificacion({
                 msg: 'Su Condición Eclesiástica debe ser Bautizado!',
                 type: 'warning'
@@ -1992,7 +2004,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         
-        if(fechabautizo == "") {
+        if(fechabautizo == "" || fechabautizo == "null") {
             BASE_JS.notificacion({
                 msg: 'Debe tener registrado una fecha de bautizo!',
                 type: 'warning'
@@ -2000,7 +2012,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         
-        if(responsable_bautizo == "") {
+        if(responsable_bautizo == "" || responsable_bautizo == "null") {
             BASE_JS.notificacion({
                 msg: 'Debe tener asignado un responsable de bautizo!',
                 type: 'warning'
@@ -2008,7 +2020,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
 
-        if(idiglesia == "") {
+        if(idreligion == "" || idreligion == "0") {
             BASE_JS.notificacion({
                 msg: 'Debe tener asignado una procedencia religiosa!',
                 type: 'warning'
@@ -2025,3 +2037,13 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
 })
+
+function imprimir_carta_iglesia(idmiembro, idcontrol) {
+    window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro+"/"+idcontrol);
+}
+
+
+
+function imprimir_respuesta_carta_iglesia(idmiembro, idcontrol) {
+    window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro+"/"+idcontrol);
+}

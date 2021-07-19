@@ -316,7 +316,7 @@ class TrasladosController extends Controller
         echo json_encode($result);
     }
 
-    public function imprimir_carta_iglesia($idmiembro, $idcontrol = "") {
+    public function imprimir_carta_iglesia($idmiembro, $idcontrol) {
       
 
         $datos = array();
@@ -336,14 +336,40 @@ class TrasladosController extends Controller
         
         $datos["miembro"] = $miembro;
         $datos["estado_civil"] = $estado_civil;
-        if($idcontrol == "") {
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
+        // print_r(session("nivel_organizativo")); exit;
+        
+        $sql_control = "SELECT
+        ct.idiglesiaanterior,
+        ct.idiglesiaactual,
+        to_char(ct.fecha, 'DD/MMYYYY') AS fecha,
+        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,
+        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,
+        (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaanterior) AS direccion_origen
+        FROM iglesias.control_traslados AS ct
+        WHERE ct.idcontrol={$idcontrol}";
+        $control = DB::select($sql_control);
 
-            $datos["fecha"] = date("d/m/Y");
-        } else {
-            $sql_control = "SELECT to_char(fecha, 'DD/MMYYYY') AS fecha FROM iglesias.control_traslados WHERE idcontrol={$idcontrol}";
-            $control = DB::select($sql_control);
-            $datos["fecha"] = $control[0]->fecha;
-        }
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaanterior;
+        $secretario = DB::select($sql_secretario);
+
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaanterior;
+
+        $director = DB::select($sql_director);
+        // $datos["fecha"] = $control[0]->fecha;
+
+        // $datos["iglesia_origen"] = $control[0]->iglesia_origen;
+        // $datos["iglesia_destino"] = $control[0]->iglesia_destino;
+        
+        $datos["control"] = $control;
+        $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
+        $datos["nombre_director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.carta_iglesia", $datos);
@@ -355,7 +381,7 @@ class TrasladosController extends Controller
     }
 
     
-    public function imprimir_respuesta_carta_iglesia($idmiembro, $idcontrol = "") {
+    public function imprimir_respuesta_carta_iglesia($idmiembro, $idcontrol) {
       
 
         $datos = array();
@@ -377,13 +403,46 @@ class TrasladosController extends Controller
         $datos["miembro"] = $miembro;
         $datos["estado_civil"] = $estado_civil;
 
-       
-
-        $datos["fecha"] = date("d/m/Y");
-
-        $sql_control = "SELECT to_char(fecha, 'DD/MMYYYY') AS fecha FROM iglesias.control_traslados WHERE idcontrol={$idcontrol}";
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
+        // print_r(session("nivel_organizativo")); exit;
+        
+        $sql_control = "SELECT
+        ct.idiglesiaanterior,
+        ct.idiglesiaactual,
+        to_char(ct.fecha, 'DD/MMYYYY') AS fecha,
+        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,
+        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,
+        (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaactual) AS direccion_destino,
+        to_char(ht.fecha, 'DD/MMYYYY') AS fecha_traslado
+        FROM iglesias.control_traslados AS ct
+        LEFT JOIN iglesias.historial_traslados AS ht ON(ht.idcontrol=ct.idcontrol)
+        WHERE ct.idcontrol={$idcontrol}";
         $control = DB::select($sql_control);
-        $datos["fecha_control"] = $control[0]->fecha;
+
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaactual;
+        $secretario = DB::select($sql_secretario);
+
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaactual;
+
+        $director = DB::select($sql_director);
+        // $datos["fecha"] = $control[0]->fecha;
+
+        // $datos["iglesia_origen"] = $control[0]->iglesia_origen;
+        // $datos["iglesia_destino"] = $control[0]->iglesia_destino;
+        
+        $datos["control"] = $control;
+        $datos["fecha"] = (empty($control[0]->fecha_traslado)) ? date("d/m/Y") : $control[0]->fecha_traslado;
+        $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
+        $datos["nombre_director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
+
+
+
         
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/

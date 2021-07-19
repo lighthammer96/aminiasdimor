@@ -80,6 +80,8 @@ class AsociadosController extends Controller
         // $r = $this->preparar_datos("iglesias.cargo_miembro", $_POST, "D");
         // print_r($r);
         //  exit;
+
+        $_POST["fecharegistro"] = date("Y-m-d H:i:s");
         $response = array();
 
         try {
@@ -107,11 +109,11 @@ class AsociadosController extends Controller
             // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
             // $_POST["idtipocargo"] = $array_tipo_cargo[0];
 
-            $_POST["fecharegistro"]            = $this->FormatoFecha($_REQUEST["fecharegistro"], "server");
+            $_POST["fechaingresoiglesia"]            = $this->FormatoFecha($_REQUEST["fechaingresoiglesia"], "server");
             $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s");
             $_POST["fechabautizo"] = $this->FormatoFecha($_REQUEST["fechabautizo"], "server");
 
-            $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo"]);
+            $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo", "texto_bautismal"]);
             if ($request->input("idmiembro") == '') {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
             }else{ 
@@ -345,10 +347,13 @@ class AsociadosController extends Controller
 
     public function obtener_traslados(Request $request) {
         $sql = "SELECT 
+        ct.*,
         (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaanterior) AS iglesia_anterior,
         (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,
         to_char(ht.fecha, 'DD/MM/YYYY') AS fecha
+        
         FROM iglesias.historial_traslados AS ht
+        LEFT JOIN iglesias.control_traslados AS ct ON(ct.idcontrol=ht.idcontrol)
         WHERE ht.idmiembro = ".$request->input("idmiembro");
 
         $result = DB::select($sql);
@@ -401,11 +406,21 @@ class AsociadosController extends Controller
         WHERE m.idmiembro=".$idmiembro;
         $cargos = DB::select($sql_cargos);
         
+
+        $sql_control = "SELECT to_char(ct.fecha, 'DD/MM/YYYY') AS fecha_aceptacion, to_char(ht.fecha, 'DD/MM/YYYY') AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
+        INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
+        WHERE estado='0' AND ht.idmiembro=".$idmiembro." 
+        ORDER BY ct.idcontrol DESC";
+        $control = DB::select($sql_control);
+        $datos["fecha_aceptacion"] = (isset($control[0]->fecha_aceptacion)) ? $control[0]->fecha_aceptacion : "";
+        $datos["fecha_aceptacion_local"] = (isset($control[0]->fecha_aceptacion_local)) ? $control[0]->fecha_aceptacion_local : "";
+
         $datos["miembro"] = $miembro;
         $datos["estado_civil"] = $estado_civil;
         $datos["baja"] = $baja;
         $datos["motivos_baja"] = $motivos_baja; 
         $datos["cargos"] = $cargos; 
+        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("asociados.ficha", $datos);
 
@@ -430,6 +445,15 @@ class AsociadosController extends Controller
         $miembro = DB::select($sql_miembro);
         
         $datos["miembro"] = $miembro;
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
+
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$miembro[0]->idiglesia;
+        $secretario = DB::select($sql_secretario);
+
+        $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("asociados.ficha_bautizo", $datos);
@@ -520,12 +544,13 @@ class AsociadosController extends Controller
 
         $datos = array();
         $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo 
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo, mi.descripcion AS nivel_organizativo
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.mision AS mi  ON(m.idmision=mi.idmision)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
 
@@ -562,6 +587,7 @@ class AsociadosController extends Controller
         $datos["parentesco"] = $parentesco;
         $datos["educacion"] = $educacion;
         $datos["laboral"] = $laboral;
+        $datos["nivel_organizativo"] = $miembro[0]->nivel_organizativo;
     
         $datos["cargos"] = $cargos; 
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/

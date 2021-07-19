@@ -210,6 +210,22 @@
                                                     </select>
                                                 </div> -->
                                             </div>
+
+                                            <div class="row">
+                                               
+                                                <div class="col-md-6" style="padding-right: 5px;">
+                                                    <label class="control-label">{{ traducir('traductor.idiomas') }}</label>
+                                                    <textarea class="form-control input-sm entrada" name="idiomas"  cols="30" rows="2"></textarea>
+                                                    
+                                                </div>
+
+                                                <div class="col-md-6" style="padding-left: 5px;">
+                                                    <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
+                                                    <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="2"></textarea>
+                                                    
+                                                </div>
+                                                
+                                            </div>
                                             
 
                                        
@@ -311,11 +327,11 @@
 
                                             </div>
                                             <div class="col-md-12" style="">
-                                                <label class="control-label">Fecha Registro</label>
+                                                <label class="control-label">{{ traducir("traductor.fecha_ingreso") }}</label>
                                                 
 
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control input-sm entrada" name="fecharegistro" readonly="readonly" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
+                                                    <input type="text" class="form-control input-sm entrada" name="fechaingresoiglesia" readonly="readonly" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
@@ -378,13 +394,24 @@
                                     
                                     </div>
                                 </div>
-                              
+                                <div class="row">
+                                                
+                                    <div class="col-md-6">
+                                    
+                                        <label class="control-label">{{ traducir("traductor.texto_bautismal") }}</label>
+                                        
+                                        <input type="text" class="form-control input-sm entrada" name="texto_bautismal" placeholder="" />
+                                    
+                                        
+                                    </div>
+                                    
+                                </div>
                                
                                 <div class="row">
                                                
                                     <div class="col-md-12">
-                                        <label class="control-label">Observaciones</label>
-                                        <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="2"></textarea>
+                                        <label class="control-label">{{ traducir("traductor.observaciones") }}</label>
+                                        <textarea class="form-control input-sm entrada" name="observaciones_bautizo"  cols="30" rows="2"></textarea>
                                         
                                     </div>
                                     
@@ -580,6 +607,7 @@
                                                     <th style="width: 500px;">{{ traducir('traductor.iglesia_anterior') }}</th>
                                                     <th style="width: 500px;">{{ traducir('traductor.iglesia_traslado') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.fecha') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.imprimir') }}</th>
                                                     
                                                 
                                                 </tr>
