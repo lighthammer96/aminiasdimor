@@ -193,15 +193,15 @@ document.addEventListener("DOMContentLoaded", function() {
         var array_pais = pais_id.split("|");
 
         var required = true;
-        required = required && asociados.required("iddivision");
-        required = required && asociados.required("pais_id");
-        // required = required && asociados.required("iddivision");
+        required = required && miembros_iglesia.required("iddivision");
+        required = required && miembros_iglesia.required("pais_id");
+        // required = required && miembros_iglesia.required("iddivision");
         if(array_pais[1] == "S") {
-            required = required && asociados.required("idunion");
+            required = required && miembros_iglesia.required("idunion");
         }
-        required = required && asociados.required("idmision");
-        required = required && asociados.required("iddistritomisionero");
-        required = required && asociados.required("idiglesia");
+        required = required && miembros_iglesia.required("idmision");
+        required = required && miembros_iglesia.required("iddistritomisionero");
+        required = required && miembros_iglesia.required("idiglesia");
 
         if(required) {
             $("#formulario-miembros_iglesia").attr("action", BaseUrl + "/reportes/imprimir_miembros_iglesia");
