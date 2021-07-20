@@ -437,7 +437,7 @@ class ReportesController extends Controller
             array_push($array_where, 'm.iddistritomisionero='.$request->input("iddistritomisionero"));
         }
 
-        if($request->input("idiglesia") != '') {
+        if($request->input("idiglesia") != '0') {
             array_push($array_where, 'm.idiglesia='.$request->input("idiglesia"));
         }
 
@@ -450,7 +450,7 @@ class ReportesController extends Controller
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
         ".$where;
-
+        // die($sql);
         $total = DB::select($sql);
         $total = count($total);
 
@@ -460,7 +460,7 @@ class ReportesController extends Controller
         INNER JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
         ".$where."
         GROUP BY ce.descripcion ";
-        // die($sql);
+        //die($sql);
         $data = DB::select($sql);
         echo json_encode($data);
 
