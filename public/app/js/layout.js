@@ -106,7 +106,12 @@ $(document).on("change", "#idioma_sistema", function(e) {
 		// console.log(json);
 		if(json.response == 'ok') {
 			// alert();
-			window.location = BaseUrl+"/"+modulo_controlador;
+			if(typeof modulo_controlador != "undefined") {
+
+				window.location = BaseUrl+"/"+modulo_controlador;
+			} else {
+				window.location = BaseUrl+"/principal/index";
+			}
 		} else {
 			
 		}
