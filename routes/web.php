@@ -16,6 +16,7 @@ use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
 use App\Http\Controllers\IglesiasController;
+use App\Http\Controllers\ImportarController;
 use App\Http\Controllers\MisionesController;
 use App\Http\Controllers\NivelesController;
 use App\Http\Controllers\PastoresController;
@@ -329,3 +330,8 @@ Route::get('reportes/imprimir_fichas_asociados', [ReportesController::class, "im
 Route::get('reportes/exportar_excel_general_asociados', [ReportesController::class, "exportar_excel_general_asociados"]);
 Route::post('reportes/obtener_iglesias', [ReportesController::class, "obtener_iglesias"]);
 Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_feligresia"]);
+
+
+// IMPORTAR
+
+Route::get('importar/importar', [ImportarController::class, "importar"]);

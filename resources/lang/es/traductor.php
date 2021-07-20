@@ -215,6 +215,8 @@ return [
     'modulo' => "Modulo",
     'controlador' => "Controlador",
     'modulo_padre' => "Modulo Padre",
+    'region' => "Región",
+    'comuna' => "Comuna",
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',

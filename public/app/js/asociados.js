@@ -954,8 +954,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);
+                        
                         $(jerarquia[index]).show();
-                        $(jerarquia[index]).find("label").text(jerarquia_traductor[response[index].descripcion]);
+                       
+                        if(typeof jerarquia_traductor[response[index].descripcion] == "undefined") {
+                            $(jerarquia[index]).find("label").text("-.-");
+                        } else {
+
+                            $(jerarquia[index]).find("label").text(jerarquia_traductor[response[index].descripcion]);
+                        }
                     }
                 
                     

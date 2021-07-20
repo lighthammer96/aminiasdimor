@@ -182,6 +182,8 @@
         jerarquia_traductor['estado'] = "<?php echo traducir('traductor.estado'); ?>";
         jerarquia_traductor['municipio'] = "<?php echo traducir('traductor.municipio'); ?>";
         jerarquia_traductor['parroquias'] = "<?php echo traducir('traductor.parroquias'); ?>";
+        jerarquia_traductor['region'] = "<?php echo traducir('traductor.region'); ?>";
+        jerarquia_traductor['comuna'] = "<?php echo traducir('traductor.comuna'); ?>";
         var seleccione = "<?php echo traducir('traductor.seleccione'); ?>";
         var titulo_grafico_feligresia = "<?php echo traducir('traductor.titulo_grafico_feligresia'); ?>";
         var porcentaje = "<?php echo traducir('traductor.porcentaje'); ?>";
