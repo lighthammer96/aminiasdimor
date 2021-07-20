@@ -66,21 +66,21 @@ class ProvinciasController extends Controller
             $miembros = DB::select($sql_miembros);
 
             if(count($miembros) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA PROVINCIA YA ESTA ASIGNADO A UN ASOCIADO");
+                throw new Exception(traducir("traductor.eliminar_provincia_asociado"));
             }
 
             $sql_iglesias = "SELECT * FROM iglesias.iglesia WHERE idprovincia=".$_REQUEST["id"];
             $iglesias = DB::select($sql_iglesias);
 
             if(count($iglesias) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA PROVINCIA YA ESTA ASIGNADO A UNA IGLESIA");
+                throw new Exception(traducir("traductor.eliminar_provincia_iglesia"));
             }
 
             $sql_distritos = "SELECT * FROM public.distrito WHERE idprovincia=".$_REQUEST["id"];
             $distritos = DB::select($sql_distritos);
 
             if(count($distritos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA PROVINCIA YA ESTA ASIGNADO A UN DISTRITO");
+                throw new Exception(traducir("traductor.eliminar_provincia_distrito"));
             }
 
 

@@ -7,12 +7,12 @@
                 <div class="modal-body">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#datos-generales" data-toggle="tab">Datos Generales</a></li>
-                            <li><a href="#informacion-eclesiastica" data-toggle="tab">Información Eclesiástica</a></li>
+                            <li class="active"><a href="#datos-generales" data-toggle="tab">{{ traducir("traductor.datos_generales") }}</a></li>
+                            <li><a href="#informacion-eclesiastica" data-toggle="tab">{{ traducir("traductor.informacion_eclesiastica") }}</a></li>
                             <li><a class="modificar" href="#registro-administrativo" data-toggle="tab">{{ traducir("traductor.cargos") }}</a></li>
-                            <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">Historial de Altas y Bajas</a></li>
-                            <li><a class="modificar" href="#historial-traslados" data-toggle="tab">Historial de Traslados</a></li>
-                            <li><a class="modificar" href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>
+                            <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">{{ traducir("traductor.historial_altas_bajas") }}</a></li>
+                            <li><a class="modificar" href="#historial-traslados" data-toggle="tab">{{ traducir("traductor.historial_traslados") }}</a></li>
+                            <li><a class="modificar" href="#capacitaciones" data-toggle="tab">{{ traducir("traductor.capacitaciones") }}</a></li>
                             
                           
                            
@@ -22,20 +22,20 @@
                                 <div class="row">
                                     <div class="col-md-9" style="padding-right: 5px;">
                                         <fieldset>
-                                            <legend>Datos Personales</legend>
+                                            <legend>{{ traducir("traductor.datos_personales") }}</legend>
                                             <div class="row">
                                                 <input type="hidden" name="idmiembro" class="input-sm entrada">
 
                                                 <div class="col-md-4" style="padding-right: 5px;">
-                                                    <label class="control-label">Nombres</label>
+                                                    <label class="control-label">{{ traducir("traductor.nombres") }}</label>
                                                     <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="nombres" placeholder="" />
                                                 </div>
                                                 <div class="col-md-4" style="padding-right: 5px;padding-left: 5px;">
-                                                    <label class="control-label">Apellidos</label>
+                                                    <label class="control-label">{{ traducir("traductor.apellidos") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="apellidos" placeholder="" />
                                                 </div>
                                                 <div class="col-md-4" style="padding-left: 5px;">
-                                                    <label class="control-label">Apellido Soltera</label>
+                                                    <label class="control-label">{{ traducir("traductor.apellido_soltera") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="apellido_soltera" placeholder="" />
                                                 </div>
                                                 
@@ -43,53 +43,53 @@
 
                                             <div class="row">
                                                 <div class="col-md-4" style="padding-right: 5px;">
-                                                    <label class="control-label">Sexo</label><br>
-                                                    <input type="radio" name="sexo" value="M" class="minimal entrada" >&nbsp;Masculino&nbsp;&nbsp;&nbsp;
-                                                    <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;Femenino
+                                                    <label class="control-label">{{ traducir("traductor.sexo") }}</label><br>
+                                                    <input type="radio" name="sexo" value="M" class="minimal entrada" >&nbsp;{{ traducir("traductor.masculino") }}&nbsp;&nbsp;&nbsp;
+                                                    <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;{{ traducir("traductor.femenino") }}
                                                 </div>
                                                 <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
-                                                    <label class="control-label">Tipo de Documento</label>
+                                                    <label class="control-label">{{ traducir("traductor.tipo_documento") }}</label>
                                                     <select class="entrada selectizejs" name="idtipodoc" id="idtipodoc">
 
                                                     </select>
                                                    
                                                 </div>
                                                 <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
-                                                    <label class="control-label">Nro. Doc.</label>
+                                                    <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
                                                 </div>
                                                 <div class="col-md-2" style="padding-left: 5px;">
-                                                    <label class="control-label">Celular</label>
+                                                    <label class="control-label">{{ traducir("traductor.celular") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="celular" placeholder="" />
                                                 </div>
                                               
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2" style="padding-right: 5px;">
-                                                    <label class="control-label">Teléfono</label>
+                                                    <label class="control-label">{{ traducir("traductor.telefono") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" />
                                                 </div>
                                                 <div class="col-md-5" style="padding-left: 5px; padding-right: 5px;">
-                                                    <label class="control-label">Email</label>
+                                                    <label class="control-label">{{ traducir("traductor.email") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="email" placeholder="" />
                                                 </div>
                                                 <div class="col-md-5" style="padding-left: 5px;">
-                                                    <label class="control-label">Email Alternativo</label>
+                                                    <label class="control-label">{{ traducir("traductor.email_alternativo") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="emailalternativo" placeholder="" />
                                                 </div>
                                             </div>
                                         </fieldset>
                                         <fieldset>
-                                            <legend>Domicilio</legend>
+                                            <legend>{{ traducir("traductor.domicilio") }}</legend>
                                             <div class="row">
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px;">
-                                                    <label class="control-label">Departamento</label>
+                                                    <label class="control-label">{{ traducir("traductor.departamento") }}</label>
                                                     <select class="entrada selectizejs" name="iddepartamentodomicilio" id="iddepartamentodomicilio">
 
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px; padding-left: 5px;">
-                                                    <label class="control-label">Provincia</label>
+                                                    <label class="control-label">{{ traducir("traductor.provincia") }}</label>
 
                                                     <select class="entrada selectizejs" name="idprovinciadomicilio" id="idprovinciadomicilio">
 
@@ -99,7 +99,7 @@
 
                                                 </div>
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-left: 5px;">
-                                                    <label class="control-label">Distrito</label>
+                                                    <label class="control-label">{{ traducir("traductor.distrito") }}</label>
 
                                                     <select class="entrada selectizejs" name="iddistritodomicilio" id="iddistritodomicilio">
 
@@ -111,21 +111,21 @@
                                             <div class="row">
                                                
                                                 <div class="col-md-6" style="padding-right: 5px;">
-                                                    <label class="control-label">Dirección</label>
+                                                    <label class="control-label">{{ traducir("traductor.direccion") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="direccion" placeholder="" />
                                                 </div>
                                                 <div class="col-md-6" style="padding-left: 5px;">
-                                                    <label class="control-label">Referencia</label>
+                                                    <label class="control-label">{{ traducir("traductor.referencia") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="referenciadireccion" placeholder="" />
                                                 </div>
                                                 
                                             </div>
                                         </fieldset>
                                         <fieldset>
-                                            <legend>Nacimiento</legend>
+                                            <legend>{{ traducir("traductor.nacimiento") }}</legend>
                                             <div class="row">
                                                 <div class="col-md-4" style="padding-right: 5px;">
-                                                    <label class="control-label">Fecha Nacimiento</label>
+                                                    <label class="control-label">{{ traducir("traductor.fecha_nacimiento") }}</label>
                                                     
 
                                                     <div class="input-group">
@@ -163,7 +163,7 @@
 
                                                 </div> -->
                                                 <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
-                                                    <label class="control-label">País</label>
+                                                    <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
                                                     <select class="entrada selectizejs" name="pais_id_nacimiento" id="pais_id_nacimiento">
 
@@ -171,7 +171,7 @@
                                                 </div>
 
                                                 <div class="col-md-4" style="padding-left: 5px;">
-                                                    <label class="control-label">Ciudad</label>
+                                                    <label class="control-label">{{ traducir("traductor.ciudad") }}</label>
                                                  
                                                     <input type="text" class="form-control input-sm entrada" name="ciudadnacextranjero" placeholder="" />
                                                 </div>
@@ -189,14 +189,14 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
-                                                    <label class="control-label">Nivel Educativo</label>
+                                                    <label class="control-label">{{ traducir("traductor.nivel_educativo") }}</label>
 
                                                     <select class="entrada selectizejs" name="idgradoinstruccion" id="idgradoinstruccion">
 
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4" style="padding-left: 5px;">
-                                                    <label class="control-label">Profesión</label>
+                                                    <label class="control-label">{{ traducir("traductor.profesion") }}</label>
 
                                                     <select class="entrada selectizejs" name="idocupacion" id="idocupacion">
 
@@ -645,7 +645,7 @@
 
                                     
                                     <div class="col-md-2" style="margin-top: 27px;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-capacitacion">[Agregar]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-capacitacion">[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 
@@ -694,8 +694,8 @@
                         
                     </div>
                     <div class="pull-rigth">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado">[Esc] [Cancelar]</button>
-                        <button type="button" id="guardar-asociado" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado">[Esc] [{{ traducir("traductor.cancelar") }}]</button>
+                        <button type="button" id="guardar-asociado" class="btn btn-primary btn-sm">[F9] [{{ traducir("traductor.guardar") }}]</button>
                     </div>
                 </div>
             </form>

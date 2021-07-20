@@ -130,7 +130,7 @@ class TrasladosController extends Controller
                 }
         
             } else {
-                throw new Exception("No hay asociados en la iglesia origen!");
+                throw new Exception(traducir("traductor.asociados_iglesia_origen"));
             }
             
             

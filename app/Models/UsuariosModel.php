@@ -19,12 +19,12 @@ class UsuariosModel extends Model
         $tabla->asignarID("tabla-usuarios");
         $tabla->agregarColumna("u.usuario_id", "usuario_id", "Id");
         //$tabla->agregarColumna("u.usuario_nombres", "usuario_nombres", "Nombres");
-        $tabla->agregarColumna("m.nombres", "responsable", "Responsable");
-        $tabla->agregarColumna("u.usuario_user", "usuario_user", "Usuario");
+        $tabla->agregarColumna("m.nombres", "responsable", traducir('traductor.responsable'));
+        $tabla->agregarColumna("u.usuario_user", "usuario_user", traducir('traductor.usuario'));
        // $tabla->agregarColumna("u.usuario_referencia", "usuario_referencia", "Referencia");
         $tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.perfil"));
-        $tabla->agregarColumna("ta.descripcion", "tipoacceso", "Tipo de Acceso");
-        $tabla->agregarColumna("u.estado", "estado", "Estado");
+        $tabla->agregarColumna("ta.descripcion", "tipoacceso", traducir('traductor.tipo_acceso'));
+        $tabla->agregarColumna("u.estado", "estado", traducir('traductor.estado'));
         $tabla->setSelect("u.usuario_id, (m.apellidos || ', ' || m.nombres) AS responsable, u.usuario_user, 
         CASE WHEN pi.pi_descripcion IS NULL THEN 
         (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=u.perfil_id AND idioma_id=".session("idioma_id_defecto").")

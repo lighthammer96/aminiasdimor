@@ -81,7 +81,7 @@ class CargosController extends Controller
             $cargos_miembro = DB::select($sql_cargos_miembro);
 
             if(count($cargos_miembro) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE CARGO YA ESTA ASIGNADO A UN MIEMBRO");
+                throw new Exception(traducir("traductor.eliminar_cargo_asociado"));
             }
 
 
@@ -89,7 +89,7 @@ class CargosController extends Controller
             $pastores = DB::select($sql_pastores);
 
             if(count($pastores) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE CARGO YA ESTA ASIGNADO A UN PASTOR");
+                throw new Exception(traducir("traductor.eliminar_cargo_pastor"));
             }
 
            

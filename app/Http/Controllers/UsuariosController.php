@@ -88,7 +88,7 @@ class UsuariosController extends Controller
             $asociados = DB::select($sql_asociados);
 
             if(count($asociados) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE USUARIO YA TIENE ASIGNADO UN ASOCIADO");
+                throw new Exception(traducir("traductor.eliminar_usuario_asociado"));
             }
 
             $result = $this->base_model->eliminar(["seguridad.usuarios", "usuario_id"]);

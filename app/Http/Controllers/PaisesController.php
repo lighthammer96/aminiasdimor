@@ -72,7 +72,7 @@ class PaisesController extends Controller
             $uniones = DB::select($sql_uniones);
 
             if(count($uniones) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PAÍS YA ESTA ASIGNADO A UNA UNIÓN");
+                throw new Exception(traducir("traductor.eliminar_pais_union"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.paises","pais_id"]);

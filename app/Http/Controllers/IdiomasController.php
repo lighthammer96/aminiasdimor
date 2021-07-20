@@ -65,28 +65,28 @@ class IdiomasController extends Controller
             $divisiones = DB::select($sql_divisiones);
 
             if(count($divisiones) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE DIVISIONES");
+                throw new Exception(traducir("traductor.eliminar_idioma_division"));
             }
 
             $sql_paises = "SELECT * FROM iglesias.paises_idiomas WHERE idioma_id=".$_REQUEST["id"];
             $paises = DB::select($sql_paises);
 
             if(count($paises) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE PAISES");
+                throw new Exception(traducir("traductor.eliminar_idioma_pais"));
             }
 
             $sql_modulos = "SELECT * FROM seguridad.modulos_idiomas WHERE idioma_id=".$_REQUEST["id"];
             $modulos = DB::select($sql_modulos);
 
             if(count($modulos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE MODULOS");
+                throw new Exception(traducir("traductor.eliminar_idioma_modulo"));
             }
 
             $sql_perfiles = "SELECT * FROM seguridad.perfiles_idiomas WHERE idioma_id=".$_REQUEST["id"];
             $perfiles = DB::select($sql_perfiles);
 
             if(count($perfiles) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, YA EXISTE UN REGISTRO EN DETALLE DE PERFILES");
+                throw new Exception(traducir("traductor.eliminar_idioma_perfil"));
             }
 
 

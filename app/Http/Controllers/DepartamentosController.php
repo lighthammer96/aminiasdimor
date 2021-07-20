@@ -63,14 +63,14 @@ class DepartamentosController extends Controller
             $miembros = DB::select($sql_miembros);
 
             if(count($miembros) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE DEPARTAMENTO YA ESTA ASIGNADO A UN ASOCIADO");
+                throw new Exception(traducir("traductor.eliminar_departamento_asociado"));
             }
 
             $sql_iglesias = "SELECT * FROM iglesias.iglesia WHERE iddepartamento=".$_REQUEST["id"];
             $iglesias = DB::select($sql_iglesias);
 
             if(count($iglesias) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE DEPARTAMENTO YA ESTA ASIGNADO A UNA IGLESIA");
+                throw new Exception(traducir("traductor.eliminar_departamento_iglesia"));
             }
 
 
@@ -78,7 +78,7 @@ class DepartamentosController extends Controller
             $provincias = DB::select($sql_provincias);
 
             if(count($provincias) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE DEPARTAMENTO YA ESTA ASIGNADO A UNA PROVINCIA");
+                throw new Exception(traducir("traductor.eliminar_departamento_provincia"));
             }
 
             $result = $this->base_model->eliminar(["public.departamento","iddepartamento"]);

@@ -18,11 +18,11 @@ class ModulosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarId("tabla-modulos");
         $tabla->agregarColumna("h.modulo_id", "modulo_id", "ID");
-        $tabla->agregarColumna("mi.mi_descripcion", "mi_descripcion", "Modulo");
-        $tabla->agregarColumna("h.modulo_icono", "modulo_icono", "Icono");
-        $tabla->agregarColumna("h.modulo_controlador", "modulo_controlador", "Controlador");
-        $tabla->agregarColumna("p.modulo_nombre", "padre", "Modulo Padre");
-        $tabla->agregarColumna("h.estado", "estado", "Estado");
+        $tabla->agregarColumna("mi.mi_descripcion", "mi_descripcion", traducir('traductor.modulo'));
+        $tabla->agregarColumna("h.modulo_icono", "modulo_icono", traducir('traductor.icono'));
+        $tabla->agregarColumna("h.modulo_controlador", "modulo_controlador", traducir('traductor.controlador'));
+        $tabla->agregarColumna("p.modulo_nombre", "padre", traducir('traductor.modulo_padre'));
+        $tabla->agregarColumna("h.estado", "estado", traducir('traductor.estado'));
         $tabla->setSelect("h.modulo_id as modulo_id, CASE WHEN mi.mi_descripcion IS NULL THEN 
         (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=h.modulo_id AND idioma_id=".session("idioma_id_defecto").")
         ELSE mi.mi_descripcion END AS mi_descripcion , p.modulo_id as idpadre, 

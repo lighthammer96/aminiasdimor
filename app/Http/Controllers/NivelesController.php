@@ -72,7 +72,7 @@ class NivelesController extends Controller
             $cargos = DB::select($sql_cargos);
 
             if(count($cargos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA ESTA ASIGNADO A UN USUARIO");
+                throw new Exception(traducir("traductor.eliminar_nivel_cargo"));
             }
 
      

@@ -21,7 +21,7 @@
         <div class="col-md-2">
             <div class="row">
                 <div class="col-md-12">
-                    <label class="control-label">División</label>
+                    <label class="control-label">{{ traducir("traductor.division") }}</label>
 
                     <select  class="entrada selectizejs" name="iddivision" id="iddivision">
 
@@ -29,7 +29,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">País</label>
+                    <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
                     <select  class="entrada selectizejs" name="pais_id" id="pais_id">
 
@@ -37,7 +37,7 @@
 
                 </div>
                 <div class="col-md-12 union">
-                    <label class="control-label">Unión</label>
+                    <label class="control-label">{{ traducir("traductor.union") }}</label>
 
                     <select  class="entrada selectizejs" name="idunion" id="idunion">
 
@@ -45,7 +45,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Asociación/Misión</label>
+                    <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
 
                     <select  class="entrada selectizejs" name="idmision" id="idmision">
 
@@ -53,7 +53,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Distrito Misionero</label>
+                    <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
 
                     <select  class="entrada selectizejs" name="iddistritomisionero" id="iddistritomisionero">
 
@@ -61,7 +61,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Iglesia</label>
+                    <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
 
                     <select  class="entrada selectizejs" name="idiglesia" id="idiglesia">
 

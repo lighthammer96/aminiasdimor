@@ -72,14 +72,14 @@ class PerfilesController extends Controller
             $usuarios = DB::select($sql_usuarios);
 
             if(count($usuarios) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA ESTA ASIGNADO A UN USUARIO");
+                throw new Exception(traducir("traductor.eliminar_perfil_usuario"));
             }
 
             $sql_permisos = "SELECT * FROM seguridad.permisos WHERE perfil_id=".$_REQUEST["id"];
             $permisos = DB::select($sql_permisos);
 
             if(count($permisos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PERFIL YA TIENE ASIGNADO PERMISOS");
+                throw new Exception(traducir("traductor.eliminar_perfil_permisos"));
             }
 
             $result = $this->base_model->eliminar(["seguridad.perfiles","perfil_id"]);

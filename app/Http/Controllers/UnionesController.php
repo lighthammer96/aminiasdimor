@@ -72,7 +72,7 @@ class UnionesController extends Controller
             $misiones = DB::select($sql_misiones);
 
             if(count($misiones) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA UNIÓN YA ESTA ASIGNADO A UNA MISIÓN");
+                throw new Exception(traducir("traductor.eliminar_union_mision"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.union","idunion"]);

@@ -71,7 +71,7 @@ class DivisionesController extends Controller
             $paises = DB::select($sql_paises);
 
             if(count($paises) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA DIVISIÓN YA ESTA ASIGNADA A UN PAÍS");
+                throw new Exception(traducir("traductor.eliminar_division_pais"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.division","iddivision"]);

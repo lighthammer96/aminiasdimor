@@ -25,7 +25,7 @@
                         </div> -->
 
                         <div class="col-md-12">
-                            <label class="control-label">Tipo de Cargo</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_cargo')}}</label>
 
                             <div class="input-group">
                                 <select  name="idtipocargo" id="idtipocargo" class="selectizejs entrada"></select>
@@ -39,7 +39,7 @@
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">Estado</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="1">
                                 <option value="1">ACTIVO</option>
                                 <option value="0">INACTIVO</option>
@@ -86,8 +86,8 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-nivel">[Esc] [Cancelar]</button>
-                    <button type="button" id="guardar-nivel" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-nivel">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-nivel" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 

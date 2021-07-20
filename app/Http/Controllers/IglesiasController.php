@@ -78,7 +78,7 @@ class IglesiasController extends Controller
             $asociados = DB::select($sql_asociados);
 
             if(count($asociados) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA IGLESIA YA ESTA ASIGNADO A UN ASOCIADO");
+                throw new Exception(traducir("traductor.eliminar_iglesia_asociado"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.iglesia","idiglesia"]);

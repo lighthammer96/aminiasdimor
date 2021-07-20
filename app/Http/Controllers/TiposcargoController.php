@@ -72,7 +72,7 @@ class TiposcargoController extends Controller
             $cargos = DB::select($sql_cargos);
 
             if(count($cargos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE TIPO DE CARGO YA ESTA ASIGNADO A UN CARGO");
+                throw new Exception(traducir("traductor.eliminar_tipo_cargo_cargo"));
             }
 
             // $sql_permisos = "SELECT * FROM public.permisos WHERE idtipocargo=".$_REQUEST["id"];

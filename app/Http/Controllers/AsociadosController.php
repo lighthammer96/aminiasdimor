@@ -93,7 +93,7 @@ class AsociadosController extends Controller
 
             if($request->input("idmiembro") == '' && count($validacion) > 0) {
                 $response["validacion"] = "ED"; //EXISTE DOCUMENTO
-                throw new Exception("Ya existe un asociado con el mismo número de documento!");
+                throw new Exception(traducir("traductor.existe_asociado"));
             }
 
             $array_pais = explode("|", $_POST["pais_id"]);
@@ -127,7 +127,7 @@ class AsociadosController extends Controller
 
                 $response = $this->SubirArchivo($_FILES["foto"], base_path("public/fotos_asociados/"), "miembro_" . $_POST["idmiembro"]);
                 if ($response["response"] == "ERROR") {
-                    throw new Exception('Error al subir foto del Usuario!');
+                    throw new Exception(traducir("traductor.error_foto"));
                 }
                 $_POST["foto"] = $response["NombreFile"];
             

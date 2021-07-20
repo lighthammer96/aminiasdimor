@@ -17,7 +17,7 @@
 
                         </div> -->
                         <div class="col-md-6">
-                            <label class="control-label">Estado</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
                                 <option value="I">INACTIVO</option>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="control-label">Idioma</label>
+                            <label class="control-label">{{ traducir('traductor.idioma')}}</label>
 
                             <div class="input-group">
                                 <select data-placeholder="Seleccione Idioma " name="idioma" id="idioma" class="selectizejs entrada"></select>
@@ -40,7 +40,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">Descripcion</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
                             <input type="text" class="form-control input-sm entrada limpiar" name="descripcion" />
                         </div>
 
@@ -50,9 +50,9 @@
                             <table class="table table-striped table-bordered display compact" id="detalle-traducciones" style="font-size: 13px;">
                                 <thead>
                                     <tr>
-                                        <th style="width: 100px;">Idioma</th>
-                                        <th style="width: 200px;">Descripcion</th>
-                                        <th style="width: 30px;"></th>
+                                        <th style="width: 100px;">{{ traducir('traductor.idioma')}}</th>
+                                        <th style="width: 200px;">{{ traducir('traductor.descripcion')}}</th>
+                                        <th style="width: 30px;">{{ traducir('traductor.eliminar')}}</th>
                                     </tr>
 
                                 </thead>
@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-perfil">[Esc] [Cancelar]</button>
-                    <button type="button" id="guardar-perfil" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-perfil">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-perfil" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 

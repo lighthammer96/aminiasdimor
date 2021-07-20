@@ -46,8 +46,8 @@
                     
                     </div>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-control">[Cancelar]</button>
-                        <button type="button" id="guardar-control" class="btn btn-primary btn-sm">[Guardar]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-control">[{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-control" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
                     </div>
                 </div>
             </form>

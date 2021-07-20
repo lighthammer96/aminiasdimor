@@ -94,7 +94,7 @@ class ModulosController extends Controller
             $permisos = DB::select($sql_permisos);
 
             if(count($permisos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE MODULO YA TIENE ASIGNADO PERMISOS");
+                throw new Exception(traducir("traductor.eliminar_modulo_permisos"));
             }
 
             $result = $this->base_model->eliminar(["seguridad.modulos", "modulo_id"]);

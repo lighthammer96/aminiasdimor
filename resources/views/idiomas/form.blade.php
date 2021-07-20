@@ -14,7 +14,7 @@
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.codigo')}}</label>
 
-                            <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="idioma_codigo"  placeholder=""/>
+                            <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="idioma_codigo"  placeholder="" maxlength="2"/>
 
                         </div>
                         <div class="col-md-12">
@@ -25,7 +25,7 @@
                         </div>
                 
                         <div class="col-md-12">
-                            <label class="control-label">Por Defecto</label>
+                            <label class="control-label">{{ traducir('traductor.por_defecto')}}</label>
                             <select name="por_defecto" id="por_defecto" class="form-control input-sm entrada" default-value="N">
                                 <option value="N">NO</option>
                                 <option value="S">SI</option>
@@ -42,8 +42,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-idioma">[Esc] [Cancelar]</button>
-                    <button type="button" id="guardar-idioma" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-idioma">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-idioma" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 

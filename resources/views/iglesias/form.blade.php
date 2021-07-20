@@ -143,13 +143,13 @@
                     </div> -->
                     <div class="row">
                         <div class="col-md-4 jerarquia" style="padding-right: 5px;">
-                            <label class="control-label">Departamento</label>
+                            <label class="control-label">{{ traducir('traductor.departamento')}}</label>
                             <select class="entrada selectizejs" name="iddepartamento" id="iddepartamento">
 
                             </select>
                         </div>
                         <div class="col-md-4 jerarquia" style="padding-right: 5px; padding-left: 5px;">
-                            <label class="control-label">Provincia</label>
+                            <label class="control-label">{{ traducir('traductor.provincia')}}</label>
 
                             <select class="entrada selectizejs" name="idprovincia" id="idprovincia">
 
@@ -159,7 +159,7 @@
 
                         </div>
                         <div class="col-md-4 jerarquia" style="padding-left: 5px;">
-                            <label class="control-label">Distrito</label>
+                            <label class="control-label">{{ traducir('traductor.distrito')}}</label>
 
                             <select class="entrada selectizejs" name="iddistrito" id="iddistrito">
 
@@ -181,7 +181,7 @@
                     <div class="row">
                                                
                         <div class="col-md-12">
-                            <label class="control-label">Observaciones</label>
+                            <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
                             <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="2"></textarea>
                             
                         </div>

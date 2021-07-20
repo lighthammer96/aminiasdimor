@@ -24,7 +24,7 @@
         </div>
 
         <div class="col-md-2" style="">
-            <button type="button" class="btn btn-success btn-sm" id="guardar-permisos">Guardar</button>
+            <button type="button" class="btn btn-success btn-sm" id="guardar-permisos">{{ traducir('traductor.guardar')}}</button>
         </div>
 
      <!--    <label class="control-label">Modulo Padre</label>

@@ -62,7 +62,7 @@ class MisionesController extends Controller
             $distritos = DB::select($sql_distritos);
 
             if(count($distritos) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTA MISIÓN YA ESTA ASIGNADO A UN DISTRITO MISIONERO");
+                throw new Exception(traducir("traductor.eliminar_mision_distrito_misionero"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.mision","idmision"]);

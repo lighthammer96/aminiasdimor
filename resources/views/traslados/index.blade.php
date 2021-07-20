@@ -9,20 +9,20 @@
 <form id="formulario-traslados_temp" class="form-horizontal" role="form">
     <div class="row" id="combo-tipo-traslado">
         <div class="col-md-2 col-md-offset-5">
-            <label for=""><h4><strong>Tipo de Traslado</strong></h4></label>
+            <label for=""><h4><strong>{{ traducir('traductor.tipo_traslado')}}</strong></h4></label>
             <select name="tipo_traslado" id="tipo_traslado" class="form-control">
-                <option value="1">De Iglesia a Iglesia</option>
-                <option value="2">Masivo</option>
-                <option value="3">Individual</option>
+                <option value="1">{{ traducir('traductor.iglesia_iglesia')}}</option>
+                <option value="2">{{ traducir('traductor.masivo')}}</option>
+                <option value="3">{{ traducir('traductor.individual')}}</option>
             </select>
         </div>
     </div>
     <div class="row" id="combos-origen-destino">
         <div class="col-md-3 col-md-offset-2">
             <fieldset>
-                <legend>Iglesia de Origen</legend>
+                <legend>{{ traducir('traductor.iglesia_origen')}}</legend>
                 <div class="col-md-12">
-                    <label class="control-label">División</label>
+                    <label class="control-label">{{ traducir('traductor.division')}}</label>
 
                     <select  class="entrada selectizejs" name="iddivision" id="iddivision">
 
@@ -30,7 +30,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">País</label>
+                    <label class="control-label">{{ traducir('traductor.pais')}}</label>
 
                     <select  class="entrada selectizejs" name="pais_id" id="pais_id">
 
@@ -38,7 +38,7 @@
 
                 </div>
                 <div class="col-md-12 union">
-                    <label class="control-label">Unión</label>
+                    <label class="control-label">{{ traducir('traductor.union')}}</label>
 
                     <select  class="entrada selectizejs" name="idunion" id="idunion">
 
@@ -46,7 +46,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Asociación/Misión</label>
+                    <label class="control-label">{{ traducir('traductor.asociacion')}}</label>
 
                     <select  class="entrada selectizejs" name="idmision" id="idmision">
 
@@ -54,7 +54,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Distrito Misionero</label>
+                    <label class="control-label">{{ traducir('traductor.distrito_misionero')}}</label>
 
                     <select  class="entrada selectizejs" name="iddistritomisionero" id="iddistritomisionero">
 
@@ -62,7 +62,7 @@
 
                 </div>
                 <div class="col-md-12">
-                    <label class="control-label">Iglesia</label>
+                    <label class="control-label">{{ traducir('traductor.iglesia')}}</label>
 
                     <select  class="entrada selectizejs" name="idiglesia" id="idiglesia">
 
@@ -172,9 +172,9 @@
                     <div class="row" >
                         <div class="col-md-12" id="destino-masivo-individual">
                             <fieldset>
-                                <legend>Iglesia de Destino</legend>
+                                <legend>{{ traducir('traductor.iglesia_destino')}}</legend>
                                 <div class="col-md-12">
-                                    <label class="control-label">División</label>
+                                    <label class="control-label">{{ traducir('traductor.division')}}</label>
 
                                     <select  class="entrada selectizejs" name="iddivisiondestino" id="iddivisiondestino">
 
@@ -182,7 +182,7 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="control-label">País</label>
+                                    <label class="control-label">{{ traducir('traductor.pais')}}</label>
 
                                     <select  class="entrada selectizejs" name="pais_iddestino" id="pais_iddestino">
 
@@ -190,7 +190,7 @@
 
                                 </div>
                                 <div class="col-md-12 union-destino">
-                                    <label class="control-label">Unión</label>
+                                    <label class="control-label">{{ traducir('traductor.union')}}</label>
 
                                     <select  class="entrada selectizejs" name="iduniondestino" id="iduniondestino">
 
@@ -198,7 +198,7 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="control-label">Asociación/Misión</label>
+                                    <label class="control-label">{{ traducir('traductor.asociacion')}}</label>
 
                                     <select  class="entrada selectizejs" name="idmisiondestino" id="idmisiondestino">
 
@@ -206,7 +206,7 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="control-label">Distrito Misionero</label>
+                                    <label class="control-label">{{ traducir('traductor.distrito_misionero')}}</label>
 
                                     <select  class="entrada selectizejs" name="iddistritomisionerodestino" id="iddistritomisionerodestino">
 
@@ -214,7 +214,7 @@
 
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="control-label">Iglesia</label>
+                                    <label class="control-label">{{ traducir('traductor.iglesia')}}</label>
 
                                     <select  class="entrada selectizejs" name="idiglesiadestino" id="idiglesiadestino">
 
@@ -232,11 +232,11 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-left">
-                        <button type="button" class="btn btn-warning btn-sm" id="carta-traslado">[Carta Traslado]</button>
+                        <button type="button" class="btn btn-warning btn-sm" id="carta-traslado">[{{ traducir('traductor.carta_traslado')}}]</button>
                     </div>
                     <div class="pull-rigth">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[Cancelar]</button>
-                        <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[Guardar]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
                     </div>
                    
                 </div>

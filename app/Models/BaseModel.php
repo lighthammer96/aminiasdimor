@@ -33,7 +33,7 @@ class BaseModel extends Model
         try {
       
             if(!isset($parametros["datos"])) {
-                throw new Exception('No Existe variable datos, por ello no se puede insertar algo que no existe!');
+                throw new Exception(traducir("traductor.no_existe_datos"));
             }
 
             foreach ($parametros["datos"] as $key => $value) {
@@ -77,7 +77,7 @@ class BaseModel extends Model
 
             $parametros["status"] = "i";
             $parametros["type"] = "success";
-            $parametros["msg"] = "SE GUARDÓ CORRECTAMENTE";
+            $parametros["msg"] = traducir("traductor.guardo");
             return $parametros;
 
 
@@ -122,7 +122,7 @@ class BaseModel extends Model
             if ($estado) {
                 $parametros["status"] = "m";
                 $parametros["id"] = $valorid;
-                $parametros["msg"] = "SE MODIFICÓ CORRECTAMENTE";
+                $parametros["msg"] = traducir("traductor.modifico");
                 $parametros["type"] = "success";
 
                 $this->log_sistema($valorid, "modificar", $parametros["tabla"]);
@@ -137,7 +137,7 @@ class BaseModel extends Model
             } else {
                 $parametros["status"] = "em";
                 $parametros["id"] = $valorid;
-                $parametros["msg"] = "ERROR AL MODIFICAR";
+                $parametros["msg"] = traducir("traductor.error_modificar");
                 $parametros["type"] = "error";
                 return $parametros;
                 // return array(
@@ -189,14 +189,14 @@ class BaseModel extends Model
                     "status" => "e",
                     "id" => $_REQUEST["id"],
                     "type" => "success",
-                    "msg" => "SE ELIMINÓ CORRECTAMENTE"
+                    "msg" => traducir("traductor.eliminar")
                 );
             } else {
                 return array(
                     "status" => "ee",
                     "id" => $_REQUEST["id"],
                     "type" => "error",
-                    "msg" => 'ERROR AL ELIMINAR'
+                    "msg" => traducir("traductor.error_eliminar")
                 );
             }
             // $this->db->trans_commit();
@@ -249,14 +249,14 @@ class BaseModel extends Model
                     "status" => "a",
                     "id" => $_REQUEST["id"],
                     "type" => "success",
-                    "msg" => "SE ANULÓ CORRECTAMENTE"
+                    "msg" => traducir("traductor.anulo")
                 );
             } else {
                 return array(
                     "status" => "ea",
                     "id" => $_REQUEST["id"],
                     "type" => "error",
-                    "msg" => "ERROR AL ANULAR"
+                    "msg" => traducir("traductor.error_anular")
                 );
             }
 
@@ -307,14 +307,14 @@ class BaseModel extends Model
                     "status" => "ac",
                     "id" => $_REQUEST["id"],
                     "type" => "success",
-                    "msg" => "SE ACTIVÓ CORRECTAMENTE"
+                    "msg" => traducir("traductor.activo")
                 );
             } else {
                 return array(
                     "status" => "eac",
                     "id" => $_REQUEST["id"],
                     "type" => "error",
-                    "msg" => "ERROR AL ACTIVAR"
+                    "msg" => traducir("traductor.error_activar")
                 );
             }
 

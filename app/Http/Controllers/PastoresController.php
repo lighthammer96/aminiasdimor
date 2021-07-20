@@ -67,14 +67,14 @@ class PastoresController extends Controller
             $bautizo = DB::select($sql_bautizo);
 
             if(count($bautizo) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PASTOR YA ESTA ASIGNADO AUN BAUTIZO");
+                throw new Exception(traducir("traductor.eliminar_pastor_bautizo"));
             }
 
             $sql_historial = "SELECT * FROM iglesias.historial_altasybajas WHERE tabla='iglesias.otrospastores' AND responsable=".$_REQUEST["id"];
             $historial = DB::select($sql_historial);
 
             if(count($historial) > 0) {
-                throw new Exception("NO SE PUEDE ELIMINAR, ESTE PASTOR HA SIDO ASIGNADO EN EL HISTORIAL DE ALTAS Y BAJAS");
+                throw new Exception(traducir("traductor.eliminar_pastor_altasybajas"));
             }
 
             $result = $this->base_model->eliminar(["iglesias.otrospastores","idotrospastores"]);

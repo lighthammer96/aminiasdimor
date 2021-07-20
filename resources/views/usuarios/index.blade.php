@@ -33,7 +33,7 @@
                         <div class="col-md-12">
                             <input type="hidden" name="idmiembro" class="input-sm entrada datos-asociado" >
 
-                            <label for="" class="control-label">Responsable</label>
+                            <label for="" class="control-label">{{ traducir('traductor.responsable')}}</label>
                             
                             <div class="input-group">
                                 <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado" name="asociado" placeholder="Buscar Responsable...">
@@ -45,13 +45,13 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">Usuario</label>
+                            <label class="control-label">{{ traducir('traductor.usuario')}}</label>
                             <input type="text" class="form-control input-sm entrada" name="usuario_user" />
                             <!-- <div class="msg"></div> -->
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">Clave</label>
+                            <label class="control-label">{{ traducir('traductor.clave')}}</label>
                             <input type="password" class="form-control input-sm entrada" name="pass1" />
 
                         </div>
@@ -61,7 +61,7 @@
 
                         </div> -->
                         <div class="col-md-12">
-                            <label class="control-label">Perfil</label>
+                            <label class="control-label">{{ traducir('traductor.perfil')}}</label>
                             <select name="perfil_id" id="perfil_id" class="selectizejs entrada">
 
                             </select>
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label class="control-label">Tipo de Acceso</label>
+                            <label class="control-label">{{ traducir('traductor.tipo_acceso')}}</label>
                             <select name="idtipoacceso" id="idtipoacceso" class="selectizejs entrada">
 
                             </select>
@@ -81,7 +81,7 @@
 
                         </div> -->
                         <div class="col-md-12">
-                            <label class="control-label">Estado</label>
+                            <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
                                 <option value="I">INACTIVO</option>
@@ -92,8 +92,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-usuario">[Esc] [Cancelar]</button>
-                    <button type="button" id="guardar-usuario" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-usuario">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-usuario" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
         </div>

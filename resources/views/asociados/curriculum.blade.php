@@ -91,7 +91,7 @@
 
                                    
                                     <div class="col-md-3" style="margin-top: 27px; text-align: left;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-parentesco">[Agregar]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-parentesco">[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 
@@ -151,7 +151,7 @@
 
                                     
                                     <div class="col-md-2" style="margin-top: 27px; text-align: left;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-educacion">[Agregar]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-educacion">[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 
@@ -227,7 +227,7 @@
 
                                     
                                     <div class="col-md-2" style="margin-top: 27px; text-align: left;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-laboral">[Agregar]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-laboral">[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 
@@ -269,8 +269,8 @@
                         
                     </div>
                     <div class="pull-rigth">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-curriculum">[Esc] [Cancelar]</button>
-                        <button type="button" id="guardar-curriculum" class="btn btn-primary btn-sm">[F9] [Guardar]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-curriculum">[Esc] [{{ traducir("traductor.cancelar") }}]</button>
+                        <button type="button" id="guardar-curriculum" class="btn btn-primary btn-sm">[F9] [{{ traducir("traductor.guardar") }}]</button>
                     </div>
                 </div>
             </form>
