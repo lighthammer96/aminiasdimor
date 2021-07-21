@@ -303,8 +303,14 @@ class Controller extends BaseController
             $sql = "SELECT descripcion FROM iglesias.iglesia WHERE idiglesia={$jerarquia["idiglesia"]}";
         }
 
-        $nivel = DB::select($sql);
-        return $nivel[0]->descripcion; 
+
+        $nivel = "";
+        if($sql != "") {
+            $nivel = DB::select($sql);
+            $nivel = $nivel[0]->descripcion; 
+        }
+      
+        return $nivel;
     }
 
 

@@ -134,7 +134,7 @@ class ReportesController extends Controller
         echo json_encode($result);
     }
 
-    public function obtener_miembros($request) {
+    public function obtener_miembros($request, $fichas = "") {
         $array_where = array();
         $where = '';
         if($request->input("idcondicioneclesiastica") != '') {
@@ -179,7 +179,13 @@ class ReportesController extends Controller
             array_push($array_where, 'm.iddistritomisionero='.$request->input("iddistritomisionero"));
         }
 
-
+        if($fichas == "") {
+            $select = implode(", ", $request->input("campos"));
+        } else {
+            $select = " m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
+            gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador ";
+        }
+        
        
 
         $where = implode(" AND ", $array_where);
@@ -202,8 +208,7 @@ class ReportesController extends Controller
         }
         // die($select);
 
-        $sql_miembros = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador
+        $sql_miembros = "SELECT ".$select."
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -312,19 +317,19 @@ class ReportesController extends Controller
         // WHERE ".$where;
         // // die($sql_miembros);
         // $miembros = DB::select($sql_miembros);
-        $miembros = $this->obtener_miembros($request);
+        $miembros = $this->obtener_miembros($request, "");
         if(count($miembros) <= 0) {
             echo '<script>alert("No hay Datos!"); window.close();</script>';
             exit;
         }
 
        
-
         $datos["miembros"] = $miembros;
         // print_r($miembros[0]); exit;
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["formato"] = $request->input("formato");
-        
+        // echo "<pre>";
+        // print_r($miembros); exit;
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         
         // $pdf = PDF::loadView("reportes.imprimir_general_asociados", $datos)->setPaper('A4', $request->input("formato"));
@@ -343,7 +348,7 @@ class ReportesController extends Controller
         // print_r($request->input("iddivision"));
 
        
-        $miembros = $this->obtener_miembros($request);
+        $miembros = $this->obtener_miembros($request, "fichas");
 
         if(count($miembros) <= 0) {
             echo '<script>alert("No hay Datos!"); window.close();</script>';
@@ -404,7 +409,7 @@ class ReportesController extends Controller
     }
 
     public function exportar_excel_general_asociados(Request $request) {
-        $miembros = $this->obtener_miembros($request);
+        $miembros = $this->obtener_miembros($request, "");
 
         if(count($miembros) <= 0) {
             echo '<script>alert("No hay Datos!"); window.close();</script>';

@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
 
-        if(cont > 7) {
+        if(cont > 15) {
             BASE_JS.sweet({
                 text: 'Excede el numero de campos para un formato vertical, seleccione el formato horizontal!'
             });
