@@ -556,10 +556,11 @@ class AsociadosController extends Controller
 
        
 
-        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, cm.lugar FROM iglesias.miembro AS m
+        $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, cm.lugar, cm.vigente, cm.lugar FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
-        WHERE m.idmiembro=".$idmiembro;
+        WHERE m.idmiembro=".$idmiembro."
+        ORDER BY cm.idcargomiembro DESC";
         $cargos = DB::select($sql_cargos);
 
 
@@ -581,13 +582,20 @@ class AsociadosController extends Controller
         $sql_laboral = "SELECT * FROM iglesias.laboral_miembro WHERE idmiembro=".$idmiembro;
         $laboral = DB::select($sql_laboral);
 
-
+        $nivel_organizativo = $miembro[0]->nivel_organizativo;
+        foreach ($cargos as $key => $value) {
+            if($value->vigente == "1") {
+                $nivel_organizativo = $value->lugar;
+                break;
+            }
+        }
         
         $datos["miembro"] = $miembro;
         $datos["parentesco"] = $parentesco;
         $datos["educacion"] = $educacion;
         $datos["laboral"] = $laboral;
-        $datos["nivel_organizativo"] = $miembro[0]->nivel_organizativo;
+        $datos["nivel_organizativo"] = $nivel_organizativo
+        ;
     
         $datos["cargos"] = $cargos; 
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
