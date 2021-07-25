@@ -986,10 +986,12 @@ class BASE_JS {
         }).then(function(response) {
             var options = "";
             var prioridadSelected = false;
+            if (placeholder != "") {
+                options += '<option value="">' + placeholder + '</option>';
+                
+            }
             if (response.length > 0) {
-                if (placeholder != "") {
-                    options += '<option value="">' + placeholder + '</option>';
-                }
+               
                 for (let i = 0; i < response.length; i++) {
                     var atributo1 = "";
                     if (typeof response[i].atributo1 != "undefined") {

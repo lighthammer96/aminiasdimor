@@ -22,6 +22,7 @@ return [
     'descripcion' => 'Description',
     'idioma' => 'Language',
     'estado' => 'State',
+    // 'iglesia_en' => "",
 
     // LABELS DATATABLES
     'datatable_next' => 'Next',

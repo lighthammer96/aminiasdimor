@@ -112,7 +112,7 @@ class TrasladosModel extends Model
         (m.apellidos || ', ' || m.nombres) AS asociado,
         (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_anterior,
         (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_traslado,
-        to_char(ct.fecha, 'DD/MM/YYYY') AS fecha,
+        ".formato_fecha_idioma("ct.fecha")." AS fecha,
         CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado, '<center><button type=\"button\" onclick=\"imprimir_carta_iglesia(''' || ct.idmiembro || ''', ''' || ct.idcontrol || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton");
         $tabla->setFrom("iglesias.control_traslados AS ct 
         \nINNER JOIN iglesias.miembro AS m ON(ct.idmiembro=m.idmiembro)");

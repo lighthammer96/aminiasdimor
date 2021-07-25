@@ -99,9 +99,10 @@ class DistritosController extends Controller
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia");
 			$result = DB::select($sql);
 		} else {
-	
+            
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito";
             $result = DB::select($sql);
+            // $result = array();
 		}
 
         echo json_encode($result);

@@ -122,39 +122,40 @@
             
         </div>
         <div class="clear"></div>
-        <div class="row" >
-            <div class="col" style="width: 100%; line-height: 20px;">
+        <div class="row" style="margin-bottom: 70px;" >
+            <div class="col" style="width: 100%; line-height: 20px; text-align: justify;">
                 <label for="">
-                    {{ traducir("traductor.agrado") }} <strong>{{ $miembro[0]->apellidos }}, {{ $miembro[0]->nombres }}</strong> {{ traducir("traductor.nacido") }} <strong>{{ $miembro[0]->fechanacimiento }}</strong> {{ traducir("traductor.bautizado") }} <strong>{{ $miembro[0]->fechabautizo }}</strong> {{ traducir("traductor.de_estado_civil") }}
-                    
+                    {{ traducir("traductor.agrado") }} <strong>{{ $miembro[0]->apellidos }}, {{ $miembro[0]->nombres }}</strong> {{ traducir("traductor.nacido") }} <strong>{{ $miembro[0]->fechanacimiento }}</strong>{{ traducir("traductor.bautizado") }} <strong>{{ $miembro[0]->fechabautizo }}</strong>{{ traducir("traductor.de_estado_civil") }}
+                    <strong>{{ $miembro[0]->estado_civil }}</strong>, {{ traducir("traductor.parrafo1_carta") }}
                 </label>
             </div>
             
         </div>
-        <div class="clear"></div>
+        <!-- <div class="clear"></div>
         <div class="row" style="margin-bottom: 40px;">
             <div class="col" style="width: 100%; line-height: 20px; text-align: justify;">
-                <label for="">
+                <label for=""> -->
                     
                 <?php 
                     
-                    foreach ($estado_civil as $kec => $vec) {
-                        if($vec->idestadocivil == $miembro[0]->idestadocivil) {
-                            echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
-                        } else {
-                            echo '<input  type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
-                        }
+                    // foreach ($estado_civil as $kec => $vec) {
+                    //     if($vec->idestadocivil == $miembro[0]->idestadocivil) {
+                    //         echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
+                    //     } else {
+                    //         echo '<input  type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;";
+                    //     }
                        
-                    }
+                    // }
                 
                 ?>
-                {{ traducir("traductor.parrafo1_carta") }}
-                </label>
+               
+                
+                <!-- </label>
             </div>
             
-        </div>
+        </div> -->
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 40px;">
+        <div class="row" style="margin-bottom: 70px;">
             <div class="col" style="width: 100%; line-height: 20px; text-align: justify;">
                 <label for="">
                     

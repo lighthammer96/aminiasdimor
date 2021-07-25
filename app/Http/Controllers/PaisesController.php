@@ -109,17 +109,20 @@ class PaisesController extends Controller
        
         $sql = "";
         $all = false;
+        $result = array();
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
 			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais");
-		} else {
+		} elseif(session("perfil_id") != 1) {
             $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion
             FROM iglesias.paises 
             WHERE estado='A' ".session("where_pais").session("where_division_padre");
             $all = true;
 		}
         // die($sql);
-        $result = DB::select($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
         if(count($result) == 1 && session("perfil_id") != 1 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";

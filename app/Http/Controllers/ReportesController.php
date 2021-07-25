@@ -182,8 +182,8 @@ class ReportesController extends Controller
         if($fichas == "") {
             $select = implode(", ", $request->input("campos"));
         } else {
-            $select = " m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-            gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador ";
+            $select = " m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+            gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo ";
         }
         
        
@@ -356,12 +356,13 @@ class ReportesController extends Controller
         }
         $sql_estado_civil = "SELECT * FROM public.estadocivil";
         $estado_civil = DB::select($sql_estado_civil);
-        $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
-        $motivos_baja = DB::select($sql_motivos_baja);
+        // $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
+        // $motivos_baja = DB::select($sql_motivos_baja);
 
         foreach ($miembros as $km => $vm) {
-            $sql_baja = "SELECT h.*, to_char( h.fecha, 'DD/MM/YYYY') AS fecha 
+            $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja
             FROM iglesias.historial_altasybajas AS h
+            INNER JOIN iglesias.motivobaja AS mb ON(mb.idmotivobaja=h.idmotivobaja)
             WHERE h.idmiembro=".$vm->idmiembro."
             ORDER BY h.fecha DESC";
             $miembros[$km]->bajas = DB::select($sql_baja);
@@ -376,7 +377,7 @@ class ReportesController extends Controller
             $miembros[$km]->cargos = DB::select($sql_cargos);  
 
 
-            $sql_control = "SELECT to_char(ct.fecha, 'DD/MM/YYYY') AS fecha_aceptacion, to_char(ht.fecha, 'DD/MM/YYYY') AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
+            $sql_control = "SELECT ".formato_fecha_idioma("ct.fecha")." AS fecha_aceptacion, ".formato_fecha_idioma("ht.fecha")." AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
             INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
             WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro." 
             ORDER BY ct.idcontrol DESC";
@@ -391,7 +392,7 @@ class ReportesController extends Controller
 
         $datos["estado_civil"] = $estado_civil;
         // $datos["baja"] = $baja;
-        $datos["motivos_baja"] = $motivos_baja; 
+        // $datos["motivos_baja"] = $motivos_baja; 
 
         // $datos["cargos"] = $cargos;
         $datos["miembros"] = $miembros;
@@ -447,14 +448,14 @@ class ReportesController extends Controller
         }
 
         if(count($array_where) > 0 ) {
-            $where .= "WHERE ".implode(" AND ", $array_where);
+            $where .= " AND ".implode(" AND ", $array_where);
         } 
         
 
         $sql = "SELECT *
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
-        ".$where;
+        WHERE m.estado='1' ".$where;
         // die($sql);
         $total = DB::select($sql);
         $total = count($total);
@@ -463,7 +464,7 @@ class ReportesController extends Controller
         $sql = "SELECT (COUNT(m.idmiembro)* 100 / ".$total.") AS y, (COUNT(m.idmiembro) || '-' || (CASE WHEN ce.descripcion <> 'Bautizado' THEN  'Escuela Sabática' ELSE ce.descripcion  END)) AS name 
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
-        ".$where."
+        WHERE m.estado='1' ".$where." 
         GROUP BY ce.descripcion ";
         //die($sql);
         $data = DB::select($sql);
@@ -506,8 +507,8 @@ class ReportesController extends Controller
         
 
         $datos = array();
-        $sql_miembros = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        $sql_miembros = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, CASE WHEN m.idcondicioneclesiastica=1 THEN 'Bautismo' ELSE 'Recibimiento' END AS condicion
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -525,13 +526,14 @@ class ReportesController extends Controller
 
         
         foreach ($miembros as $km => $vm) {
-            $sql_baja = "SELECT h.*, to_char( h.fecha, 'DD/MM/YYYY') AS fecha 
+            $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja
             FROM iglesias.historial_altasybajas AS h
+            INNER JOIN iglesias.motivobaja AS mb ON(mb.idmotivobaja=h.idmotivobaja)
             WHERE h.idmiembro=".$vm->idmiembro."
             ORDER BY h.fecha DESC";
             $miembros[$km]->bajas = DB::select($sql_baja);
 
-            $sql_control = "SELECT to_char(ct.fecha, 'DD/MM/YYYY') AS fecha_aceptacion, to_char(ht.fecha, 'DD/MM/YYYY') AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
+            $sql_control = "SELECT ".formato_fecha_idioma("ct.fecha")." AS fecha_aceptacion, ".formato_fecha_idioma("ht.fecha")." AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
             INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
             WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro." 
             ORDER BY ct.idcontrol DESC";

@@ -112,18 +112,21 @@ class IglesiasController extends Controller
 
         $sql = "";
         $all = false;
+        $result = array();
 		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
 	
 			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia 
             WHERE iddistritomisionero IS NOT NULL AND estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero");
-		} else {
+		} elseif(session("perfil_id") != 1) {
             $sql = "SELECT idiglesia AS id, descripcion
             FROM iglesias.iglesia 
             WHERE iddistritomisionero IS NOT NULL AND estado='1'".session("where_distrito_misionero_padre");
             $all = true;
 		}
         // die($sql);
-        $result = DB::select($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
         if(count($result) == 1 && session("perfil_id") != 1 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";

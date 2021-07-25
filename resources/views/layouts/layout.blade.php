@@ -187,6 +187,11 @@
         var seleccione = "<?php echo traducir('traductor.seleccione'); ?>";
         var titulo_grafico_feligresia = "<?php echo traducir('traductor.titulo_grafico_feligresia'); ?>";
         var porcentaje = "<?php echo traducir('traductor.porcentaje'); ?>";
+        var seleccionar_registro = "<?php echo traducir('traductor.seleccionar_registro'); ?>";
+        var eliminar_registro = "<?php echo traducir('traductor.eliminar_registro'); ?>";
+        var elemento_detalle = "<?php echo traducir('traductor.elemento_detalle'); ?>";
+        var seleccionar_iglesia = "<?php echo traducir('traductor.seleccionar_iglesia'); ?>";
+        var idioma_codigo = "<?php echo trim(session("idioma_codigo")); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

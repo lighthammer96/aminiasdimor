@@ -114,19 +114,23 @@ class UnionesController extends Controller
 
         $sql = "";
         $all = false;
+        $result = array();
 		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
 	
 			$sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
             WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id")." ".session("where_union");
-		} else {
+		} elseif(session("perfil_id") != 1) {
             $sql = "SELECT u.idunion AS id, u.descripcion 
             FROM iglesias.union AS u
             WHERE u.estado='1' ".session("where_union").session("where_pais_padre");
             $all = true;
 		}
 
-        $result = DB::select($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        
         if(count($result) == 1 && session("perfil_id") != 1) {
             // print_r($result);
             $result[0]->defecto = "S";

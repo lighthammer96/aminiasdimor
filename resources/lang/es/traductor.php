@@ -130,7 +130,7 @@ return [
     'nacido' => "nacido/a el ",
     'bautizado' => ", bautizado/a el ",
     'de_estado_civil' => ", de estado civil: ",
-    'parrafo1_carta' => ", es miembro en buen estado de nuestra iglesia local. Recomendamos que lo/la aceptéis en vuestra comunión y adjuntamos a la presente una copia de su Registro de Miembro de Iglesia.",
+    'parrafo1_carta' => "es miembro en buen estado de nuestra iglesia local. Recomendamos que lo/la aceptéis en vuestra comunión y adjuntamos a la presente una copia de su Registro de Miembro de Iglesia.",
     'parrafo2_carta' => "Por favor, tan pronto haya ocurrido su aceptación en vuestra iglesia local, avisadnos tal hecho mediante el formulario de Respuesta a Carta de Iglesia que se acompaña al pie de la presente. Entonces cesará de ser miembro de nuestra congregación local. Esta carta es válida por tres meses a partir de la fecha abajo indicada.",
     'comentarios_' => "Comentarios: ",
     'de_iglesia_en' => "De la iglesia en  ",
@@ -217,6 +217,8 @@ return [
     'modulo_padre' => "Modulo Padre",
     'region' => "Región",
     'comuna' => "Comuna",
+   
+    'domicilio' => "Domicilio",
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',
@@ -298,6 +300,10 @@ return [
     'error_activar' => "ERROR AL ACTIVAR",
     'error_anular' => "ERROR AL ANULAR",
     'error_eliminar' => 'ERROR AL ELIMINAR',
-    'error_modificar' => "ERROR AL MODIFICAR"
+    'error_modificar' => "ERROR AL MODIFICAR",
+    'seleccionar_registro' => "DEBE iglesia_en UN REGISTRO!",
+    'eliminar_registro' => "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
+    'elemento_detalle' => 'DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!',
+    'seleccionar_iglesia' => "DEBE SELECCIONAR UNA IGLESIA!",
 
 ];

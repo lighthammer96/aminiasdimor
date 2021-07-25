@@ -149,21 +149,22 @@
             </div>
             <div class="col" style="width: 50%;">
                 <?php 
-                    $checkedm = "";
-                    $checkedf = "";
+                    // $checkedm = "";
+                    // $checkedf = "";
 
-                    if($miembro[0]->sexo == "M") {
-                        $checkedm = 'checked="checked"';
-                    }   
+                    // if($miembro[0]->sexo == "M") {
+                    //     $checkedm = 'checked="checked"';
+                    // }   
 
-                    if($miembro[0]->sexo == "F") {
-                        $checkedf = 'checked="checked"';
-                    }   
+                    // if($miembro[0]->sexo == "F") {
+                    //     $checkedf = 'checked="checked"';
+                    // }   
 
                 ?>
                 <label for="">
-                    <input {{ $checkedm }} type="radio" >&nbsp;&nbsp;{{ traducir("traductor.hombre") }} &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input {{ $checkedf }} type="radio" >&nbsp;&nbsp;{{ traducir("traductor.mujer") }}
+                    <!-- <input {{-- $checkedm --}} type="radio" >&nbsp;&nbsp;{{-- traducir("traductor.hombre") --}} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input {{-- $checkedf --}} type="radio" >&nbsp;&nbsp;{{-- traducir("traductor.mujer") --}} -->
+                    {{ $miembro[0]->sexo }}
                 </label>
              
             </div>
@@ -171,24 +172,25 @@
         </div>
         <div class="clear"></div>
         <div class="row">
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 25%;">
                 <label for="">{{ traducir("traductor.estado_civil") }}: </label>
                 
             </div>
-            <div class="col" style="width: 80%;">
+            <div class="col" style="width: 75%;">
                 <label>
                     <?php 
                     
-                        foreach ($estado_civil as $kec => $vec) {
-                            if($vec->idestadocivil == $miembro[0]->idestadocivil) {
-                                echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;&nbsp;";
-                            } else {
-                                echo '<input  type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;&nbsp;";
-                            }
+                        // foreach ($estado_civil as $kec => $vec) {
+                        //     if($vec->idestadocivil == $miembro[0]->idestadocivil) {
+                        //         echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;&nbsp;";
+                        //     } else {
+                        //         echo '<input  type="radio" >&nbsp;&nbsp;'.$vec->descripcion."&nbsp;&nbsp;&nbsp;";
+                        //     }
                            
-                        }
+                        // }
                     
                     ?>
+                    {{ $miembro[0]->estado_civil }}
                 </label>
             </div>
         </div>
@@ -267,29 +269,29 @@
                 <label for="">{{ traducir("traductor.por") }}: </label>
             </div>
             <div class="col" style="width: 45%;">
-                <label for=""></label>
+                <label for=""><?php echo (isset($baja[0]->motivo_baja)) ? $baja[0]->motivo_baja : ""; ?><label>
             </div>
             
         </div>
-        <div class="clear"></div>
+        <!-- <div class="clear"></div>
         <div class="row" style="margin-bottom: 15px;">
             <div class="col" style="width: 100%;">
-                <label>
+                <label> -->
                     <?php 
                     
-                        foreach ($motivos_baja as $kmb => $vmb) {
-                            if(isset($baja[0]->idmotivobaja) && $vmb->idmotivobaja == $baja[0]->idmotivobaja) {
-                                echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."&nbsp;&nbsp;&nbsp;&nbsp;";
-                            } else {
-                                echo '<input  type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."&nbsp;&nbsp;&nbsp;&nbsp;";
-                            }
+                        // foreach ($motivos_baja as $kmb => $vmb) {
+                        //     if(isset($baja[0]->idmotivobaja) && $vmb->idmotivobaja == $baja[0]->idmotivobaja) {
+                        //         echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."&nbsp;&nbsp;&nbsp;&nbsp;";
+                        //     } else {
+                        //         echo '<input  type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."&nbsp;&nbsp;&nbsp;&nbsp;";
+                        //     }
                            
-                        }
+                        // }
                     
                     ?>
-                </label>
+                <!-- </label>
             </div>
-        </div>
+        </div> -->
         <div class="clear"></div>
         <div class="row" >
             <div class="col" style="width: 35%;">

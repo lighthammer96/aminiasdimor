@@ -23,11 +23,23 @@ document.addEventListener("DOMContentLoaded", function() {
     // });
 
     // $('#todos').on('ifChecked', function () {   alert("hola "); })
-
+    
+    var format = "";
+    if(idioma_codigo == "es") {
+        format = "dd/mm/yyyy";
+      
+        $("input[name=fechaini], input[name=fechafin]").attr("data-inputmask", "'alias': '"+format+"'");
+    } else {
+        format = "yyyy-mm-dd";
+      
+        $("input[name=fechaini], input[name=fechafin]").attr("data-inputmask", "'alias': '"+format+"'");
+        
+    }
+    
     $("input[name=fechaini], input[name=fechafin]").inputmask();
 
     jQuery( "input[name=fechaini], input[name=fechafin]" ).datepicker({
-        format: "dd/mm/yyyy",
+        format: format,
         language: "es",
         todayHighlight: true,
         todayBtn: "linked",

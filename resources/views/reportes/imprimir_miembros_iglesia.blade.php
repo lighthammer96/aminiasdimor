@@ -122,7 +122,7 @@
             </div>
 
             <div class="col" style="width: 15%;">
-                <label for=""><strong>{{ date("d/m/Y") }}</strong></label>
+                <label for=""><strong>{{ fecha_actual_idioma() }}</strong></label>
             </div>
             
             
@@ -157,32 +157,37 @@
                                     $fecha_aceptacion = $value->control[0]->fecha_aceptacion;
                                 }
 
+                                $motivo_baja = "-.-";
+                                if(isset($value->bajas[0]->motivo_baja)) {
+                                    $motivo_baja = $value->bajas[0]->motivo_baja;
+                                }
 
-                                $checked_1 = ($value->idcondicioneclesiastica == 1) ? 'checked="checked"' : ''; 
-                                $checked_2 = ($value->idcondicioneclesiastica == 0) ? 'checked="checked"' : '';
-                                $checkbox = '<input '.$checked_1.' type="checkbox" /> Bautismo <br> <input '.$checked_2.' type="checkbox" /> Recibimiento';
+
+                                // $checked_1 = ($value->idcondicioneclesiastica == 1) ? 'checked="checked"' : ''; 
+                                // $checked_2 = ($value->idcondicioneclesiastica == 0) ? 'checked="checked"' : '';
+                                // $checkbox = '<input '.$checked_1.' type="checkbox" /> Bautismo <br> <input '.$checked_2.' type="checkbox" /> Recibimiento';
 
                                 echo '<tr>';
                                 echo '<td>'.$i.'</td>';
                                 echo '<td style="line-height: 15px;">'.$value->apellidos.', '.$value->nombres.'<br>'.  $value->direccion.'<br>'.$value->telefono.'</td>';
                                 echo '<td align="center">'.$value->fechanacimiento.'</td>';
                                 
-                                echo '<td align="center">'.$fecha_aceptacion.'<br>'.$checkbox.'</td>';
+                                echo '<td align="center">'.$fecha_aceptacion.'<br>'.$value->condicion.'</td>';
                                 echo '<td align="center">'.$fecha_baja.'</td>';
-                                echo '<td>';
+                                echo '<td align="center">'.$motivo_baja.'</td>';
 
-                                    foreach ($motivos_baja as $kmb => $vmb) {
-                                        if(isset($value->bajas[0]->idmotivobaja) && $vmb->idmotivobaja == $value->bajas[0]->idmotivobaja) {
-                                            echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."<br>";
-                                        } else {
-                                            echo '<input  type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."<br>";
-                                        }
+                                    // foreach ($motivos_baja as $kmb => $vmb) {
+                                    //     if(isset($value->bajas[0]->idmotivobaja) && $vmb->idmotivobaja == $value->bajas[0]->idmotivobaja) {
+                                    //         echo '<input checked="checked" type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."<br>";
+                                    //     } else {
+                                    //         echo '<input  type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."<br>";
+                                    //     }
                                     
-                                    }
+                                    // }
                             
                          
                                 
-                                echo '</td>';
+                                // echo '</td>';
                                 echo '</tr>';
                               
 

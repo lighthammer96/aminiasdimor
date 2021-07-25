@@ -320,14 +320,15 @@ class TrasladosController extends Controller
       
 
         $datos = array();
-        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia, ec.descripcion AS estado_civil
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
 
@@ -335,16 +336,20 @@ class TrasladosController extends Controller
         $estado_civil = DB::select($sql_estado_civil);
         
         $datos["miembro"] = $miembro;
-        $datos["estado_civil"] = $estado_civil;
+        // $datos["estado_civil"] = $estado_civil;
         $datos["nivel_organizativo"] = session("nivel_organizativo");
         // print_r(session("nivel_organizativo")); exit;
         
         $sql_control = "SELECT
         ct.idiglesiaanterior,
         ct.idiglesiaactual,
-        to_char(ct.fecha, 'DD/MMYYYY') AS fecha,
-        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,
-        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,
+        ".formato_fecha_idioma("ct.fecha")." AS fecha,
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS 
+        iglesia_origen,*/
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,
+
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,*/
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaanterior) AS direccion_origen
         FROM iglesias.control_traslados AS ct
         WHERE ct.idcontrol={$idcontrol}";
@@ -385,23 +390,24 @@ class TrasladosController extends Controller
       
 
         $datos = array();
-        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia, ec.descripcion AS estado_civil
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
         
         
-        $sql_estado_civil = "SELECT * FROM public.estadocivil";
-        $estado_civil = DB::select($sql_estado_civil);
+        // $sql_estado_civil = "SELECT * FROM public.estadocivil";
+        // $estado_civil = DB::select($sql_estado_civil);
         
         $datos["miembro"] = $miembro;
-        $datos["estado_civil"] = $estado_civil;
+        // $datos["estado_civil"] = $estado_civil;
 
         $datos["nivel_organizativo"] = session("nivel_organizativo");
         // print_r(session("nivel_organizativo")); exit;
@@ -409,11 +415,13 @@ class TrasladosController extends Controller
         $sql_control = "SELECT
         ct.idiglesiaanterior,
         ct.idiglesiaactual,
-        to_char(ct.fecha, 'DD/MMYYYY') AS fecha,
-        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,
-        (SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,
+        ".formato_fecha_idioma("ct.fecha")." AS fecha,
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,*/
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,*/
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaactual) AS direccion_destino,
-        to_char(ht.fecha, 'DD/MMYYYY') AS fecha_traslado
+        ".formato_fecha_idioma("ht.fecha")." AS fecha_traslado
         FROM iglesias.control_traslados AS ct
         LEFT JOIN iglesias.historial_traslados AS ht ON(ht.idcontrol=ct.idcontrol)
         WHERE ct.idcontrol={$idcontrol}";
@@ -435,9 +443,9 @@ class TrasladosController extends Controller
 
         // $datos["iglesia_origen"] = $control[0]->iglesia_origen;
         // $datos["iglesia_destino"] = $control[0]->iglesia_destino;
-        
+
         $datos["control"] = $control;
-        $datos["fecha"] = (empty($control[0]->fecha_traslado)) ? date("d/m/Y") : $control[0]->fecha_traslado;
+        $datos["fecha"] = (empty($control[0]->fecha_traslado)) ? fecha_actual_idioma() : $control[0]->fecha_traslado;
         $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
         $datos["nombre_director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
 

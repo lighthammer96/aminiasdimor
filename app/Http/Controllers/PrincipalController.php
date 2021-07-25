@@ -41,28 +41,35 @@ class PrincipalController extends Controller
 
     public function obtener_provincias(Request $request) {
         $sql = "";
+        $result = array();
 		if(isset($_REQUEST["iddepartamento"]) && !empty($_REQUEST["iddepartamento"])) {
 	
 			$sql = "SELECT idprovincia as id,  descripcion FROM public.provincia WHERE iddepartamento=".$request->input("iddepartamento");
 		} else {
-			$sql = "SELECT idprovincia as id, descripcion FROM public.provincia";
+			//$sql = "SELECT idprovincia as id, descripcion FROM public.provincia";
 		}
 
-        $result = DB::select($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
         echo json_encode($result);
     }
 
     public function obtener_distritos(Request $request) {
         $sql = "";
+        $result = array();
 		if(isset($_REQUEST["idprovincia"]) && !empty($_REQUEST["idprovincia"])) {
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia");
-			$result = DB::select($sql);
+			//$result = DB::select($sql);
 		} else {
 	
-            $sql = "SELECT iddistrito as id, descripcion FROM public.distrito";
-            $result = DB::select($sql);
+            // $sql = "SELECT iddistrito as id, descripcion FROM public.distrito";
+            // $result = DB::select($sql);
+            
 		}
-
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
         echo json_encode($result);
 	}
 

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //console.log(datos);
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
+                text: seleccionar_registro
             });
             
             return false;

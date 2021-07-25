@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var datos = perfiles.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
+                text: seleccionar_registro
             });
             
             return false;
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         if(detalle.length <= 0) {
             BASE_JS.sweet({
-                text: 'DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!'
+                text: elemento_detalle
             });
 
             return false;
@@ -159,13 +159,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var datos = perfiles.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
+                text: seleccionar_registro
             });
             return false;
         } 
         BASE_JS.sweet({
             confirm: true,
-            text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
+            text: eliminar_registro,
             callbackConfirm: function() {
                 perfiles.Operacion(datos.perfil_id, "E");
                 // perfiles.datatable.destroy();

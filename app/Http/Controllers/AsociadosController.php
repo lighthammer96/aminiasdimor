@@ -335,7 +335,7 @@ class AsociadosController extends Controller
     }
 
     public function obtener_historial_altas_bajas(Request $request) {
-        $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, mb.descripcion AS motivo_baja, to_char(h.fecha, 'DD/MM/YYYY') AS fecha
+        $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, mb.descripcion AS motivo_baja, ".formato_fecha_idioma("h.fecha")." AS fecha
         FROM iglesias.historial_altasybajas AS h
         INNER JOIN iglesias.motivobaja  AS mb ON(mb.idmotivobaja=h.idmotivobaja)
         LEFT JOIN iglesias.vista_responsables AS vr ON(vr.id=h.responsable AND vr.tabla=h.tabla)
@@ -348,9 +348,9 @@ class AsociadosController extends Controller
     public function obtener_traslados(Request $request) {
         $sql = "SELECT 
         ct.*,
-        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaanterior) AS iglesia_anterior,
-        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,
-        to_char(ht.fecha, 'DD/MM/YYYY') AS fecha
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.distritomisionero  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaanterior) AS iglesia_anterior,
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.distritomisionero  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,
+        ".formato_fecha_idioma("ht.fecha")." AS fecha
         
         FROM iglesias.historial_traslados AS ht
         LEFT JOIN iglesias.control_traslados AS ct ON(ct.idcontrol=ht.idcontrol)
@@ -378,12 +378,13 @@ class AsociadosController extends Controller
     public function imprimir_ficha_asociado($idmiembro) {
 
         $datos = array();
-        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
@@ -391,14 +392,15 @@ class AsociadosController extends Controller
         $sql_estado_civil = "SELECT * FROM public.estadocivil";
         $estado_civil = DB::select($sql_estado_civil);
 
-        $sql_baja = "SELECT h.*, to_char( h.fecha, 'DD/MM/YYYY') AS fecha 
+        $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja
         FROM iglesias.historial_altasybajas AS h
+        INNER JOIN iglesias.motivobaja AS mb ON(mb.idmotivobaja=h.idmotivobaja)
         WHERE h.idmiembro=".$idmiembro."
         ORDER BY h.fecha DESC";
         $baja = DB::select($sql_baja);
 
-        $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
-        $motivos_baja = DB::select($sql_motivos_baja);
+        // $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
+        // $motivos_baja = DB::select($sql_motivos_baja);
 
         $sql_cargos = "SELECT c.descripcion AS cargo, cm.periodoini, cm.periodofin, cm.lugar FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
@@ -407,7 +409,7 @@ class AsociadosController extends Controller
         $cargos = DB::select($sql_cargos);
         
 
-        $sql_control = "SELECT to_char(ct.fecha, 'DD/MM/YYYY') AS fecha_aceptacion, to_char(ht.fecha, 'DD/MM/YYYY') AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
+        $sql_control = "SELECT ".formato_fecha_idioma("ct.fecha")." AS fecha_aceptacion, ".formato_fecha_idioma("ht.fecha")." AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
         INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
         WHERE estado='0' AND ht.idmiembro=".$idmiembro." 
         ORDER BY ct.idcontrol DESC";
@@ -418,7 +420,7 @@ class AsociadosController extends Controller
         $datos["miembro"] = $miembro;
         $datos["estado_civil"] = $estado_civil;
         $datos["baja"] = $baja;
-        $datos["motivos_baja"] = $motivos_baja; 
+        // $datos["motivos_baja"] = $motivos_baja; 
         $datos["cargos"] = $cargos; 
         $datos["nivel_organizativo"] = session("nivel_organizativo"); 
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
@@ -433,8 +435,8 @@ class AsociadosController extends Controller
       
 
         $datos = array();
-        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -543,8 +545,8 @@ class AsociadosController extends Controller
     public function imprimir_curriculum($idmiembro) {
 
         $datos = array();
-        $sql_miembro = "SELECT m.*, to_char( m.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, to_char( m.fechabautizo, 'DD/MM/YYYY') AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo, mi.descripcion AS nivel_organizativo
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo, mi.descripcion AS nivel_organizativo
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
@@ -564,7 +566,7 @@ class AsociadosController extends Controller
         $cargos = DB::select($sql_cargos);
 
 
-        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, to_char(pm.fechanacimiento, 'DD/MM/YYYY') AS fechanacimiento
+        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, ".formato_fecha_idioma("pm.fechanacimiento")." AS fechanacimiento
         FROM iglesias.parentesco_miembro AS pm
         INNER JOIN public.parentesco AS p ON(p.idparentesco=pm.idparentesco)
         INNER JOIN public.tipodoc AS td ON(td.idtipodoc=pm.idtipodoc)

@@ -15,7 +15,17 @@ var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("pais_id_change").value = session_pais_id;
-    document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
+    var format = "";
+    if(idioma_codigo == "es") {
+        format = "dd/mm/yyyy";
+        document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
+        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").attr("data-inputmask", "'alias': '"+format+"'");
+    } else {
+        format = "yyyy-mm-dd";
+        document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("server"));
+        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").attr("data-inputmask", "'alias': '"+format+"'");
+        
+    }
     var eventClick = new Event('click');
 
     asociados.enter("nombres","apellidos");
@@ -41,8 +51,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").inputmask();
 
+ 
     jQuery( "input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]" ).datepicker({
-        format: "dd/mm/yyyy",
+        format: format,
         language: "es",
         todayHighlight: true,
         todayBtn: "linked",
@@ -1005,7 +1016,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var datos = asociados.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
+                text: seleccionar_registro
             });
             return false;
         } 
@@ -1169,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var datos = asociados.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
-                text: "DEBE SELECCIONAR UN REGISTRO!"
+                text: seleccionar_registro
             });
             return false;
         }
@@ -1305,14 +1316,14 @@ document.addEventListener("DOMContentLoaded", function() {
     //     var datos = asociados.datatable.row('.selected').data();
     //     if(typeof datos == "undefined") {
     //         BASE_JS.sweet({
-    //             text: "DEBE SELECCIONAR UN REGISTRO!"
+    //             text: seleccionar_registro
     //         });
     // 		return false;
     //     } 
         
     // 	BASE_JS.sweet({
     // 		confirm: true,
-    // 		text: "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
+    // 		text: eliminar_registro,
     // 		callbackConfirm: function() {
     // 			asociados.Operacion(datos.idmiembro, 'E');
     // 			asociados.datatable.destroy();
@@ -1352,7 +1363,7 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && asociados.required("idgradoinstruccion");
         required = required && asociados.required("idocupacion");
         // required = required && asociados.required("pais_id_nacionalidad");
-        required = required && asociados.required("fecharegistro");
+        required = required && asociados.required("fechaingresoiglesia");
         
         if(idmiembro == "") {
             required = required && asociados.required("iddivision");
@@ -1365,7 +1376,7 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && asociados.required("iddistritomisionero");
             required = required && asociados.required("idiglesia");
         }
-
+        // alert(required);
         if(required) {
             var promise = asociados.guardar();
             asociados.CerrarModal();
@@ -1742,7 +1753,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if(idiglesia.value == "") {
                 BASE_JS.sweet({
-                    text: "DEBE SELECCIONAR UNA IGLESIA!"
+                    text: seleccionar_iglesia
                 });
                 return false;
             }
