@@ -147,7 +147,10 @@
             <div class="col" style="width: 25%;">
                 <label for="">{{ $miembro[0]->fechanacimiento }}</label>
             </div>
-            <div class="col" style="width: 50%;">
+            <div class="col" style="width: 25%;">
+                <label for="">{{ traducir("traductor.sexo") }}:</label>
+            </div>
+            <div class="col" style="width: 25%;">
                 <?php 
                     // $checkedm = "";
                     // $checkedf = "";

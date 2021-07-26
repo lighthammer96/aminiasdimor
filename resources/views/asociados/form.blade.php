@@ -439,7 +439,7 @@
                                     
                                     </div>
 
-                                    <div class="col-md-2 nivel" style="padding-left: 5px; padding-right: 5px;">
+                                    <div class="col-md-3 nivel" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.nivel') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="idnivel" id="idnivel">
@@ -480,12 +480,13 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-md-2" style="margin-top: 27px; text-align: right;">
+                                    <div class="col-md-1" style="margin-top: 27px; text-align: right; padding-left: 5px;">
                                         <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[Agregar]</button> 
 
                                     </div>
 
                                 </div>
+                                
                                 <div class="row">
                                     <div class="col-md-2 division-cargo jerarquia-cargos" style="display:none; padding-right: 5px;">
                                         <label class="control-label">{{ traducir("traductor.division") }}</label>
@@ -536,7 +537,20 @@
 
                                     </div>
                                 </div>
-                               
+                                <div class="row">
+                                    <div class="col-md-4" style="">
+                                        <label class="control-label">{{ traducir("traductor.condicion") }}</label><br>
+                                        <input type="radio" name="condicion" value="R" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.remunerado") }} &nbsp;&nbsp;&nbsp;
+                                        <input type="radio" name="condicion" value="N" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.no_remunerado") }} &nbsp;&nbsp;&nbsp;
+                                       
+                                    </div>
+                                    <div class="col-md-4" style="">
+                                        <label class="control-label">{{ traducir("traductor.tiempo") }}</label><br>
+                                       
+                                        <input type="radio" name="tiempo" value="C" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.tiempo_completo") }} &nbsp;&nbsp;&nbsp;
+                                        <input type="radio" name="tiempo" value="P" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.tiempo_parcial") }} &nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
                                 <div class="row">
                                                
                                     <div class="col-md-12">
@@ -558,6 +572,8 @@
                                                     <th style="width: 200px;">{{ traducir('traductor.lugar') }}</th>
                                                     <!-- <th style="width: 200px;">{{ traducir('traductor.institucion_iglesia') }}</th> -->
                                                     <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.condicion') }}</th>
+                                                    <th style="width: 200px;">{{ traducir('traductor.tiempo') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.observaciones') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.vigente') }}</th>
                                                     <th style="width: 30px;">{{ traducir('traductor.eliminar') }}</th>

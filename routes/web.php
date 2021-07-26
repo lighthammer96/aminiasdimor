@@ -17,6 +17,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
 use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\ImportarController;
+use App\Http\Controllers\InstitucionesController;
 use App\Http\Controllers\MisionesController;
 use App\Http\Controllers\NivelesController;
 use App\Http\Controllers\PastoresController;
@@ -252,6 +253,13 @@ Route::post('cargos/get', [CargosController::class, "get"]);
 Route::post('cargos/eliminar_cargos', [CargosController::class, "eliminar_cargos"]);
 Route::post('cargos/obtener_cargos', [CargosController::class, "obtener_cargos"]);
 
+// INSTITUCIONES
+Route::get('instituciones/index', [InstitucionesController::class, "index"]);
+Route::post('instituciones/buscar_datos', [InstitucionesController::class, "buscar_datos"]);
+Route::post('instituciones/guardar_instituciones', [InstitucionesController::class, "guardar_instituciones"]);
+Route::post('instituciones/get', [InstitucionesController::class, "get"]);
+Route::post('instituciones/eliminar_instituciones', [InstitucionesController::class, "eliminar_instituciones"]);
+Route::post('instituciones/obtener_instituciones', [InstitucionesController::class, "obtener_instituciones"]);
 
 /*************
  * MODULO GESTION DE IGLESIAS *

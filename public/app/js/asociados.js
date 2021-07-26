@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
         d_id = (typeof iddepartamentodomicilio != "undefined" && iddepartamentodomicilio != null) ? iddepartamentodomicilio : d_id;
         var selected = (typeof idprovinciadomicilio != "undefined")  ? idprovinciadomicilio : "";
-    
+        
         principal.select({
             name: 'idprovinciadomicilio',
             url: '/obtener_provincias',
@@ -551,7 +551,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
+        var valor = "1|S"; 
+
+        if($(this).val() != "" && $(this).val() != null) {
+            valor = $(this).val();
+        } 
+
+        if(pais_id != "" && pais_id != null) {
+            valor = pais_id;
+        } 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
     
@@ -608,18 +616,20 @@ document.addEventListener("DOMContentLoaded", function() {
        
         if(pais_id_change != d_id) {
             document.getElementById("pais_id_change").value = d_id;
-
-            principal.select({
+            // alert(selected_iddepartamentodomicilio +" "+ d_id);
+            principal.select({ 
                 name: 'iddepartamentodomicilio',
                 url: '/obtener_departamentos',
                 placeholder: seleccione,
                 selected: selected_iddepartamentodomicilio,
                 datos: { pais_id: d_id }
             }).then(function() {
+
                 var condicion = typeof pais_id == "undefined" && pais_id != "";
                 condicion = condicion && typeof iddepartamentodomicilio == "undefined" && iddepartamentodomicilio != "";
     
                 if(condicion) {
+                   
                     $("#iddepartamentodomicilio").trigger("change", ["", ""]);
                     $("#idprovinciadomicilio").trigger("change", ["", ""]);  
                 }
@@ -1685,11 +1695,20 @@ document.addEventListener("DOMContentLoaded", function() {
         var array_pais = pais_id.split("|");
         required = true;
         required = required && asociados.required("idtipocargo");
-        required = required && asociados.required("idcargo");
         required = required && asociados.required("idnivel");
+        required = required && asociados.required("idcargo");
         required = required && asociados.required("periodoini");
         required = required && asociados.required("periodofin");
+        // required = required && asociados.required("condicion");
+        // required = required && asociados.required("tiempo");
 
+
+        // var tiempo = $("input[name='tiempo']").parent(".iradio_minimal-blue").hasClass("checked");
+
+        
+
+        // console.log(tiempo);
+        // alert(required);
         if(idnivel == 2 || idnivel == 9) {
             required = required && asociados.required("iddivisioncargo");
         }
@@ -1736,9 +1755,24 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && asociados.required("iddistritomisionerocargo");
             required = required && asociados.required("idiglesiacargo");
         }
-
+        // alert($("input[name='condicion']").val());
+       
         if(required) {
-
+            if(!$("input[name='condicion']").parent(".iradio_minimal-blue").hasClass("checked")) {
+                $("input[name='condicion']").parent(".iradio_minimal-blue").parent(".col-md-4").addClass("has-error");
+                return false;
+            } else {
+                $("input[name='condicion']").parent(".iradio_minimal-blue").parent(".col-md-4").removeClass("has-error");
+            }
+    
+            if(!$("input[name='tiempo']").parent(".iradio_minimal-blue").hasClass("checked")) {
+                $("input[name='tiempo']").parent(".iradio_minimal-blue").parent(".col-md-4").addClass("has-error");
+                return false;
+            } else {
+                $("input[name='tiempo']").parent(".iradio_minimal-blue").parent(".col-md-4").removeClass("has-error");
+            }
+     
+            
             var idtipocargo = document.getElementsByName("idtipocargo")[0];
             var idcargo = document.getElementsByName("idcargo")[0];
             var idnivel = document.getElementsByName("idnivel")[0];
@@ -1750,6 +1784,8 @@ document.addEventListener("DOMContentLoaded", function() {
             var periodofin = document.getElementsByName("periodofin")[0];
             var observaciones_cargo = document.getElementsByName("observaciones_cargo")[0];
             var idiglesia = document.getElementsByName("idiglesia")[0];
+            // var condicion = document.getElementsByName("condicion")[0];
+            // var tiempo = document.getElementsByName("tiempo")[0];
             
             if(idiglesia.value == "") {
                 BASE_JS.sweet({
@@ -1757,7 +1793,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
                 return false;
             }
-        
+            
+            var condicion = "";
+            $("input[name='condicion']").each(function(e) {
+                // console.log($(this).parent(".iradio_minimal-blue"));
+                if($(this).parent(".iradio_minimal-blue").hasClass("checked")) {
+                    condicion = $(this).val();
+                   
+                }
+            })
+            
+            var tiempo = "";
+            $("input[name='tiempo']").each(function(e) {
+                // console.log($(this).parent(".iradio_minimal-blue"));
+                if($(this).parent(".iradio_minimal-blue").hasClass("checked")) {
+                    tiempo = $(this).val();
+                   
+                }
+            })
         
             var objeto = {
                 idtipocargo: idtipocargo.value,
@@ -1775,6 +1828,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 periodofin: periodofin.value,
                 observaciones_cargo: observaciones_cargo.value,
                 idiglesia_cargo: idiglesia.value,
+                condicion: condicion,
+                tiempo: tiempo,
                 vigente: 0
             }
         
@@ -1828,14 +1883,37 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // console.log(objeto.idnivel);
-
+        var condicion_texto = "";
+        var tiempo_texto = "";
         var array_tipos_cargo = objeto.idtipocargo.toString().split("|");
+
+        switch (objeto.condicion) {
+            case "R":
+                condicion_texto = "Remunerado";
+                break;
+            case "N":
+                condicion_texto = "No Remunerado";
+                break;
+       
+        }
+
+        switch (objeto.tiempo) {
+        
+            case "C":
+                tiempo_texto = "Tiempo Completo";
+                break;
+            case "P":
+                tiempo_texto = "Tiempo Parcial";
+                break;
+        }
 
         html = '  <input type="hidden" name="idtipocargo[]" value="'+array_tipos_cargo[0]+'" >';
         html += '  <input type="hidden" name="idcargo[]" value="'+objeto.idcargo+'" >';
         html += '  <input type="hidden" name="idlugar[]" value="'+objeto.idlugar+'" >';
         html += '  <input type="hidden" name="lugar[]" value="'+objeto.lugar+'" >';
         html += '  <input type="hidden" name="tabla[]" value="'+objeto.tabla+'" >';
+        html += '  <input type="hidden" name="condicion[]" value="'+objeto.condicion+'" >';
+        html += '  <input type="hidden" name="tiempo[]" value="'+objeto.tiempo+'" >';
        // html += '  <input type="hidden" name="idinstitucion[]" value="'+objeto.idinstitucion+'" >';
         html += '  <input type="hidden" name="idnivel[]" value="'+objeto.idnivel+'" >';
         html += '  <input type="hidden" name="periodoini[]" value="'+objeto.periodoini+'" >';
@@ -1848,6 +1926,8 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+objeto.lugar+'</td>';
         //html += '  <td>'+objeto.institucion+'</td>';
         html += '  <td>'+objeto.periodoini+'-'+objeto.periodofin+'</td>';
+        html += '  <td>'+condicion_texto+'</td>';
+        html += '  <td>'+tiempo_texto+'</td>';
         html += '  <td>'+objeto.observaciones_cargo+'</td>';
         html += '  <td><center><input '+checked+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
         html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-cargo"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';

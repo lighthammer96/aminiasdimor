@@ -582,10 +582,23 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName(className);
         //console.log(elementos);
         for (let i = 0; i < elementos.length; i++) {
-            elementos[i].value = "";
+            if(elementos[i].type != "checkbox" && elementos[i].type != "radio") {
+                elementos[i].value = "";
+            }
+           
             //elementos[i].innerText = "";
             //console.log(elementos[i]);
            // console.log(elementos[i].classList);
+            
+            if (elementos[i].type == "checkbox" || elementos[i].type == "radio") {
+                elementos[i].checked = false;
+            
+                // esto es por el icheck js
+                $("input[name='"+elementos[i].name+"']").removeAttr("checked");
+                elementos[i].parentNode.classList.remove("checked");
+                
+            }
+
             if (elementos[i].tagName == "SELECT") {
                 if (elementos[i].classList.contains("selectized")) {
                     $("#" + elementos[i].id).selectize()[0].selectize.destroy();

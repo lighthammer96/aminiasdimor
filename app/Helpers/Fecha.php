@@ -2,7 +2,7 @@
     function formato_fecha_idioma($campo_fecha) {
         $formato = "";
         if(trim(session("idioma_codigo")) == "es") {
-            $formato = " to_char('DD/MM/YYYY', ".$campo_fecha.") ";
+            $formato = " to_char(".$campo_fecha.", 'DD/MM/YYYY') ";
         }
 
         if(trim(session("idioma_codigo")) == "en") {

@@ -217,8 +217,17 @@ return [
     'modulo_padre' => "Modulo Padre",
     'region' => "Región",
     'comuna' => "Comuna",
-   
     'domicilio' => "Domicilio",
+    'remunerado' => "Remunerado",
+    'no_remunerado' => "No Remunerado",
+    'tiempo_completo' => "Tiempo Completo",
+    'tiempo_parcial' => "Tiempo Parcial",
+    'condicion' => "Condición",
+    'tiempo' => "Tiempo",
+    'item' => "Item",
+    'corregimientos' => "Corregimientos",
+    'provincia_comarca' => "Provincia o Comarca",
+    'descripcion_division_politica' => "Descripción de la División Política",
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',
@@ -259,6 +268,8 @@ return [
     'titulo_cabecera_2' => 'Iglesia Adventista del Séptimo Día Movimiento de Reforma',
     'titulo_grafico_feligresia' => 'Reporte Gráfico de Feligresía',
     'titulo_miembros_iglesia' => 'Reporte de Miembros de Iglesia',
+    'titulo_instituciones' => 'Administración de Instituciones',
+    'titulo_otras_propiedades' => 'Administración de Otras Propiedades',
 
     // MENSAJES
     'existe_asociado' => 'Ya existe un asociado con el mismo número de documento!',

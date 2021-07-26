@@ -324,12 +324,13 @@ class TrasladosController extends Controller
         gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, i.descripcion AS iglesia, i.direccion AS direccion_iglesia, ec.descripcion AS estado_civil
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
-        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idofichacupacion)
         LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
         LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
         WHERE m.idmiembro={$idmiembro}";
+        // die($sql_miembro);
         $miembro = DB::select($sql_miembro);
 
         $sql_estado_civil = "SELECT * FROM public.estadocivil";
@@ -353,6 +354,7 @@ class TrasladosController extends Controller
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaanterior) AS direccion_origen
         FROM iglesias.control_traslados AS ct
         WHERE ct.idcontrol={$idcontrol}";
+       
         $control = DB::select($sql_control);
 
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 

@@ -98,7 +98,7 @@ class AsociadosController extends Controller
 
             $array_pais = explode("|", $_POST["pais_id"]);
             $_POST["pais_id"] = $array_pais[0];
-            if($array_pais[1] == "N" && empty($request->input("idunion"))) {
+            if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
                 $sql = "SELECT * FROM iglesias.union AS u 
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_POST["pais_id"]}";
@@ -143,7 +143,7 @@ class AsociadosController extends Controller
             // echo gettype($_REQUEST["idcargo"]); exit;
             if(isset($_REQUEST["idcargo"]) && gettype($_REQUEST["idcargo"]) == "array" && count($_REQUEST["idcargo"]) > 0) {
                 DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
-                // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
+                //print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
                
             }

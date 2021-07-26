@@ -88,7 +88,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">{{ traducir('traductor.descripcion')  }}</label>
+                            <label class="control-label">{{ traducir('traductor.descripcion_division_politica')  }}</label>
                             <input type="text" class="form-control input-sm entrada limpiar" name="descripcion" />
                         </div>
 
@@ -99,7 +99,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 100px;">{{ traducir('traductor.item') }}</th>
-                                        <th style="width: 200px;">{{ traducir('traductor.descripcion') }}</th>
+                                        <th style="width: 200px;">{{ traducir('traductor.descripcion_division_politica') }}</th>
                                         <th style="width: 30px;"></th>
                                     </tr>
 
