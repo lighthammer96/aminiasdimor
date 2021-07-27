@@ -44,45 +44,48 @@ class InstitucionesController extends Controller
     }
 
 
-    public function guardar_intituciones(Request $request) {
+    public function guardar_instituciones(Request $request) {
    
-        $_POST = $this->toUpper($_POST);
+        $_POST = $this->toUpper($_POST, ["tipo"]);
+        $array_pais = explode("|", $_POST["pais_id"]);
+        $_POST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_POST["pais_id"]}";
+            $res = DB::select($sql);
+            $_POST["idunion"] = $res[0]->idunion;
+        }
+
         if ($request->input("idinstitucion") == '') {
-            $result = $this->base_model->insertar($this->preparar_datos("seguridad.instituciones", $_POST));
+            $result = $this->base_model->insertar($this->preparar_datos("iglesias.institucion", $_POST));
         }else{
-            $result = $this->base_model->modificar($this->preparar_datos("seguridad.instituciones", $_POST));
+            $result = $this->base_model->modificar($this->preparar_datos("iglesias.institucion", $_POST));
         }
 
    
-        DB::table("seguridad.perfiles_idiomas")->where("idinstitucion", $result["id"])->delete();
-        if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
-            $_POST["idinstitucion"] = $result["id"];
-           
-            $this->base_model->insertar($this->preparar_datos("seguridad.perfiles_idiomas", $_POST, "D"), "D");
-        }
         echo json_encode($result);
     }
 
-    public function eliminar_intituciones() {
+    public function eliminar_instituciones() {
        
 
         try {
-            $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE idinstitucion=".$_REQUEST["id"];
-            $usuarios = DB::select($sql_usuarios);
+            // $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE idinstitucion=".$_REQUEST["id"];
+            // $usuarios = DB::select($sql_usuarios);
 
-            if(count($usuarios) > 0) {
-                throw new Exception(traducir("traductor.eliminar_perfil_usuario"));
-            }
+            // if(count($usuarios) > 0) {
+            //     throw new Exception(traducir("traductor.eliminar_perfil_usuario"));
+            // }
 
-            $sql_permisos = "SELECT * FROM seguridad.permisos WHERE idinstitucion=".$_REQUEST["id"];
-            $permisos = DB::select($sql_permisos);
+            // $sql_permisos = "SELECT * FROM seguridad.permisos WHERE idinstitucion=".$_REQUEST["id"];
+            // $permisos = DB::select($sql_permisos);
 
-            if(count($permisos) > 0) {
-                throw new Exception(traducir("traductor.eliminar_perfil_permisos"));
-            }
+            // if(count($permisos) > 0) {
+            //     throw new Exception(traducir("traductor.eliminar_perfil_permisos"));
+            // }
 
-            $result = $this->base_model->eliminar(["seguridad.instituciones","idinstitucion"]);
+            $result = $this->base_model->eliminar(["iglesias.institucion","idinstitucion"]);
             echo json_encode($result);
         } catch (Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
@@ -92,34 +95,13 @@ class InstitucionesController extends Controller
 
     public function get(Request $request) {
 
-        $sql = "SELECT * FROM seguridad.instituciones WHERE idinstitucion=".$request->input("id");
+        $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union
+        FROM iglesias.institucion AS i
+        LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
+        WHERE i.idinstitucion=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }
 
-    public function obtener_intituciones() {
-        $sql = "SELECT p.idinstitucion AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
-        (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE idinstitucion=p.idinstitucion AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM seguridad.instituciones AS p 
-        LEFT JOIN seguridad.perfiles_idiomas AS pi ON(pi.idinstitucion=p.idinstitucion AND pi.idioma_id=".session("idioma_id").")
-        WHERE p.estado='A'";
-        // die($sql);
-        $result = DB::select($sql);
-        echo json_encode($result);
-    }
 
-
-    
-    public function obtener_traducciones(Request $request) {
-        $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM seguridad.perfiles_idiomas AS pi
-        INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
-        WHERE pi.idinstitucion=".$request->input("idinstitucion")."
-        ORDER BY pi.idioma_id ASC";
-       $result = DB::select($sql);
-       echo json_encode($result);
-       //print_r($_REQUEST);
-    }
-    
 }

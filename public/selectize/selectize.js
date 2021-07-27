@@ -3887,6 +3887,35 @@
 		})();
 	});
 	
+	// para que el scroll funcione cuando el selectize este dentro de un modal
+	Selectize.define('fix_dropdown_click_outside_item', function(options) {
+        var self = this;
+        var _setup = self.setup;
+
+        self.setup = function() {
+            var $document = $(document);
+            _setup.apply(self, arguments);
+            // Fix problem with the ignored click events in the toolbar
+            $document.off('mousedown' + self.eventNS);
+            $document.on('mousedown' + self.eventNS, function(e) {
+                if (self.isFocused) {
+                    // prevent events on the dropdown scrollbar from causing the control to blur
+                    if (self.$dropdown.is(e.target) || self.$dropdown.has(e.target).length > 0) {
+                        self.ignoreFocus = true;
+                        window.setTimeout(function(){
+                            self.$control_input[0].focus();
+                        }, 0);
+                        return false;
+                    }
+                    // blur on click outside
+                    if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+                        self.ignoreFocus = false;
+                        self.blur();
+                    }
+                }
+            });
+        };
+    });
 
 	return Selectize;
 }));

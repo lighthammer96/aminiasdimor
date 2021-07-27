@@ -228,6 +228,15 @@ return [
     'corregimientos' => "Corregimientos",
     'provincia_comarca' => "Provincia o Comarca",
     'descripcion_division_politica' => "Descripción de la División Política",
+    'oficinas' => "Oficinas",
+    'casas' => "Casas",
+    'apartamentos' => "Apartamentos",
+    'escuelas' => "Escuelas",
+    'centros_salud' => "Centros de Salud",
+    'editoriales' => "Editoriales",
+    'cantidad' => "Cantidad",
+    'vehiculos' => "Vehículos",
+    'terrenos_sinconstruir' => "Terrenos sin construir",
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',

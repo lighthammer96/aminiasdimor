@@ -131,6 +131,8 @@ class PrincipalController extends Controller
         
         session(['idioma_codigo' => $request->input("idioma_codigo")]);
         session(['idioma_id' => $request->input("idioma_id")]);
+
+        // print_r(session("idioma_defecto")); exit;    
         $response = array();
         $response["response"] = "ok";
 

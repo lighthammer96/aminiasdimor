@@ -20,6 +20,7 @@ use App\Http\Controllers\ImportarController;
 use App\Http\Controllers\InstitucionesController;
 use App\Http\Controllers\MisionesController;
 use App\Http\Controllers\NivelesController;
+use App\Http\Controllers\OtraspropiedadesController;
 use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
@@ -260,6 +261,17 @@ Route::post('instituciones/guardar_instituciones', [InstitucionesController::cla
 Route::post('instituciones/get', [InstitucionesController::class, "get"]);
 Route::post('instituciones/eliminar_instituciones', [InstitucionesController::class, "eliminar_instituciones"]);
 Route::post('instituciones/obtener_instituciones', [InstitucionesController::class, "obtener_instituciones"]);
+
+
+
+// OTRAS PROPIEDADES
+Route::get('otras_propiedades/index', [OtraspropiedadesController::class, "index"]);
+Route::post('otras_propiedades/buscar_datos', [OtraspropiedadesController::class, "buscar_datos"]);
+Route::post('otras_propiedades/guardar_otras_propiedades', [OtraspropiedadesController::class, "guardar_otras_propiedades"]);
+Route::post('otras_propiedades/get', [OtraspropiedadesController::class, "get"]);
+Route::post('otras_propiedades/eliminar_otras_propiedades', [OtraspropiedadesController::class, "eliminar_otras_propiedades"]);
+Route::post('otras_propiedades/obtener_otras_propiedades', [OtraspropiedadesController::class, "obtener_otras_propiedades"]);
+
 
 /*************
  * MODULO GESTION DE IGLESIAS *

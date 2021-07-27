@@ -1,4 +1,4 @@
-var instituciones = new BASE_JS('instituciones', 'instituciones');
+var otras_propiedades = new BASE_JS('otras_propiedades', 'otras_propiedades');
 var divisiones = new BASE_JS('divisiones', 'divisiones');
 var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
@@ -9,8 +9,8 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 document.addEventListener("DOMContentLoaded", function() {
         
    
-    instituciones.TablaListado({
-        tablaID: '#tabla-instituciones',
+    otras_propiedades.TablaListado({
+        tablaID: '#tabla-otras-propiedades',
         url: "/buscar_datos",
     });
 
@@ -236,26 +236,26 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         //console.log(event.srcElement);
         switch (id) {
-            case 'nuevo-institucion':
+            case 'nueva-otras_propiedades':
                 event.preventDefault();
             
-                instituciones.abrirModal();
+                otras_propiedades.abrirModal();
             break;
 
-            case 'modificar-institucion':
+            case 'modificar-otras_propiedades':
                 event.preventDefault();
             
-                modificar_institucion();
+                modificar_otras_propiedades();
             break;
 
-            case 'eliminar-institucion':
+            case 'eliminar-otras_propiedades':
                 event.preventDefault();
-                eliminar_institucion();
+                eliminar_otras_propiedades();
             break;
 
-            case 'guardar-institucion':
+            case 'guardar-otras_propiedades':
                 event.preventDefault();
-                guardar_institucion();
+                guardar_otras_propiedades();
             break;
 
         }
@@ -263,8 +263,8 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    function modificar_institucion() {
-        var datos = instituciones.datatable.row('.selected').data();
+    function modificar_otras_propiedades() {
+        var datos = otras_propiedades.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
                 text: seleccionar_registro
@@ -273,12 +273,12 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        var promise = instituciones.get(datos.idinstitucion);
+        var promise = otras_propiedades.get(datos.idotrapropiedad);
 
         promise.then(function(response) {
-            // instituciones.ajax({
+            // otras_propiedades.ajax({
             //     url: '/obtener_traducciones',
-            //     datos: { idinstitucion: response.idinstitucion, _token: _token }
+            //     datos: { idotrapropiedad: response.idotrapropiedad, _token: _token }
             // }).then(function(response) {
             //     if(response.length > 0) {
             //         for(let i = 0; i < response.length; i++){
@@ -290,30 +290,30 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
-    function guardar_institucion() {
+    function guardar_otras_propiedades() {
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
         var required = true;
-        // required = required && instituciones.required("perfil_descripcion");
+        // required = required && otras_propiedades.required("perfil_descripcion");
 
-        required = required && instituciones.required("iddivision");
-        required = required && instituciones.required("pais_id");
-        // required = required && instituciones.required("iddivision");
+        required = required && otras_propiedades.required("iddivision");
+        required = required && otras_propiedades.required("pais_id");
+        // required = required && otras_propiedades.required("iddivision");
         if(array_pais[1] == "S") {
-            required = required && instituciones.required("idunion");
+            required = required && otras_propiedades.required("idunion");
         }
-        required = required && instituciones.required("idmision");
-        required = required && instituciones.required("iddistritomisionero");
-        required = required && instituciones.required("idiglesia");
-        required = required && instituciones.required("nombre");
-        required = required && instituciones.required("descripcion");
-        required = required && instituciones.required("tipo");
+        required = required && otras_propiedades.required("idmision");
+        required = required && otras_propiedades.required("iddistritomisionero");
+        required = required && otras_propiedades.required("idiglesia");
+        required = required && otras_propiedades.required("descripcion");
+        required = required && otras_propiedades.required("cantidad");
+        required = required && otras_propiedades.required("tipo");
         if(required) {
-            var promise = instituciones.guardar();
-            instituciones.CerrarModal();
-            // instituciones.datatable.destroy();
-            // instituciones.TablaListado({
-            //     tablaID: '#tabla-instituciones',
+            var promise = otras_propiedades.guardar();
+            otras_propiedades.CerrarModal();
+            // otras_propiedades.datatable.destroy();
+            // otras_propiedades.TablaListado({
+            //     tablaID: '#tabla-otras-propiedades',
             //     url: "/buscar_datos",
             // });
 
@@ -339,8 +339,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function eliminar_institucion() {
-        var datos = instituciones.datatable.row('.selected').data();
+    function eliminar_otras_propiedades() {
+        var datos = otras_propiedades.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
                 text: seleccionar_registro
@@ -351,10 +351,10 @@ document.addEventListener("DOMContentLoaded", function() {
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
-                instituciones.Operacion(datos.idinstitucion, "E");
-                // instituciones.datatable.destroy();
-                // instituciones.TablaListado({
-                //     tablaID: '#tabla-instituciones',
+                otras_propiedades.Operacion(datos.idotrapropiedad, "E");
+                // otras_propiedades.datatable.destroy();
+                // otras_propiedades.TablaListado({
+                //     tablaID: '#tabla-otras-propiedades',
                 //     url: "/buscar_datos",
                 // });
             }
@@ -365,18 +365,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.addEventListener("keydown", function(event) {
             // alert(modulo_controlador);
-        if(modulo_controlador == "instituciones/index") {
+        if(modulo_controlador == "otras_propiedades/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
-            if(!$('#modal-instituciones').is(':visible')) {
+            if(!$('#modal-otras-propiedades').is(':visible')) {
             
                 switch (event.code) {
                     case 'F1':
-                        instituciones.abrirModal();
+                        otras_propiedades.abrirModal();
                         event.preventDefault();
                         event.stopPropagation();
                         break;
                     case 'F2':
-                        modificar_institucion();
+                        modificar_otras_propiedades();
                         event.preventDefault();
                         event.stopPropagation();
                         break;
@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     
                     //     break;
                     case 'F7':
-                        eliminar_institucion();
+                        eliminar_otras_propiedades();
                         event.preventDefault();
                         event.stopPropagation();
                     
@@ -420,8 +420,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if(event.code == "F9") {
                 
-                if($('#modal-instituciones').is(':visible')) {
-                    guardar_institucion();
+                if($('#modal-otras-propiedades').is(':visible')) {
+                    guardar_otras_propiedades();
                 }
                 event.preventDefault();
                 event.stopPropagation();
@@ -435,9 +435,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
-    document.getElementById("cancelar-institucion").addEventListener("click", function(event) {
+    document.getElementById("cancelar-otras_propiedades").addEventListener("click", function(event) {
         event.preventDefault();
-        instituciones.CerrarModal();
+        otras_propiedades.CerrarModal();
     })
 
 

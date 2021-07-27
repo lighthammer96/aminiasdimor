@@ -218,7 +218,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamento) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|S"; 
+        
+        var valor = "1|S"; 
+
+        if($(this).val() != "" && $(this).val() != null) {
+            valor = $(this).val();
+        } 
+
+        if(pais_id != "" && pais_id != null) {
+            valor = pais_id;
+        } 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
     

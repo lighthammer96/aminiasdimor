@@ -298,6 +298,8 @@
   overflow-x: hidden;
   max-height: 200px;
   -webkit-overflow-scrolling: touch;
+  z-index: 999999999999999999999;
+
 }
 .selectize-control.single .selectize-input,
 .selectize-control.single .selectize-input input {
