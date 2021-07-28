@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 // use App\Models\ActividadmisioneraModel;
-use Exception;
+// use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class ActividadmisioneraController extends Controller
 {
     //
@@ -71,17 +71,22 @@ class ActividadmisioneraController extends Controller
         $valor = $request->input("valor");
         $semana = $request->input("semana");
         $anio = $request->input("anio");
-        $idtrimestre = $request->input("idtrimestre");
-        $_POST["trimestre"] = $idtrimestre;
+        $mes = $request->input("mes");
+
+        $_POST["fecha_inicial"] = $this->FormatoFecha($_REQUEST["fecha_inicial"], "server");
+        $_POST["fecha_final"] = $this->FormatoFecha($_REQUEST["fecha_final"], "server");
+        // $idtrimestre = $request->input("idtrimestre");
+        // $_POST["trimestre"] = $idtrimestre;
         $idiglesia = $request->input("idiglesia");
 
-        $sql_validacion = "SELECT * FROM iglesias.controlactmisionera WHERE idactividadmisionera={$idactividadmisionera} AND anio='{$anio}' AND trimestre={$idtrimestre} AND idiglesia={$idiglesia} AND semana={$semana}";
+        
+        $sql_validacion = "SELECT * FROM iglesias.controlactmisionera WHERE idactividadmisionera={$idactividadmisionera} AND anio='{$anio}' AND mes={$mes} AND idiglesia={$idiglesia} AND semana={$semana}";
 
         // die($sql_validacion);
         $validacion = DB::select($sql_validacion);
 
         if($accion == "valor") {
-            DB::table("iglesias.controlactmisionera")->where(array("idactividadmisionera" => $idactividadmisionera, "anio" => $anio, "trimestre" => $idtrimestre, "semana" => $semana, "idiglesia" => $idiglesia))->delete();
+            DB::table("iglesias.controlactmisionera")->where(array("idactividadmisionera" => $idactividadmisionera, "anio" => $anio, "mes" => $mes, "semana" => $semana, "idiglesia" => $idiglesia))->delete();
 
 
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
@@ -154,21 +159,56 @@ class ActividadmisioneraController extends Controller
 
     public function obtener_actividades(Request $request) {
         $anio = $request->input("anio");
-        $idtrimestre = $request->input("idtrimestre");
+        // $idtrimestre = $request->input("idtrimestre");
+        $mes = $request->input("mes");
+        $semana = $request->input("semana");
         $idiglesia = $request->input("idiglesia");
 
         $where = "";
-        if($idtrimestre != "0") {
-            $where .= ' AND c.trimestre='.$idtrimestre;
+        // if($idtrimestre != "0") {
+        //     $where .= ' AND c.trimestre='.$idtrimestre;
+        // }
+
+        if($anio != "0") {
+            $where .= " AND c.anio='".$anio."'";
         }
+
+        if(!isset($_REQUEST["idtrimestre"])) {
+            if($mes != "0") {
+                $where .= ' AND c.mes='.$mes;
+            }
+    
+    
+            if($semana != "0") {
+                $where .= ' AND c.semana='.$semana;
+            }
+        } else {
+            switch ($_REQUEST["idtrimestre"]) {
+                case 1:
+                    $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-03-31'";
+                    break;
+                case 2:
+                    $where .=  " AND c.fecha_final BETWEEN '".$anio."-04-01' AND '".$anio."-06-30'";
+                    break;
+                case 3:
+                    $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-09-30'";
+                    break;
+                case 4:
+                    $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
+                    break;
+            }
+        }
+       
 
         if($idiglesia != "0") {
             $where .= ' AND c.idiglesia='.$idiglesia;
         }
 
-        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistententes, SUM(c.interesados) AS interesados FROM iglesias.actividadmisionera AS am
-        LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera AND c.anio='{$anio}' ".$where.")
-        GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.idiglesia, c.semana
+        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistententes, SUM(c.interesados) AS interesados,
+        array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
+        FROM iglesias.actividadmisionera AS am
+        LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera ".$where.")
+        GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana
         ORDER BY am.idactividadmisionera ASC";
         // die($sql);
         $result = DB::select($sql);
@@ -188,5 +228,118 @@ class ActividadmisioneraController extends Controller
         $result = DB::select($sql);
         array_push($result, $array);
         echo json_encode($result);
+    }
+
+
+    public function imprimir_actividades_misioneras(Request $request) {
+        // print_r($_GET);
+        $datos = array();
+        $anio = $request->input("anio");
+        // $idtrimestre = $request->input("idtrimestre");
+        // $mes = $request->input("mes");
+        // $semana = $request->input("semana");
+        $idiglesia = $request->input("idiglesia");
+
+        $where = "";
+        $where .= " AND c.anio='".$anio."'";
+
+        switch ($_REQUEST["idtrimestre"]) {
+            case 1:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-03-31'";
+                break;
+            case 2:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-04-01' AND '".$anio."-06-30'";
+                break;
+            case 3:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-09-30'";
+                break;
+            case 4:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
+                break;
+        }
+
+        $where .= ' AND c.idiglesia='.$idiglesia;
+
+
+        $sql = "SELECT
+        ".formato_fecha_idioma("c.fecha_final")." AS fecha_final,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=1 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS estudios_biblicos,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=2 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS visitas_misioneras,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=19 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS conferencias_publicas,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=20 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS seminarios,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=22 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS congresos,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=28 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS libros,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=29 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS revistas,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=30 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS volantes,
+        
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=31 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS lecciones,
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=32 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS guard,
+        
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=33 AND 
+        anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS ancla_juvenil
+        
+        
+        FROM iglesias.controlactmisionera AS c  
+        WHERE 1=1 ".$where." 
+            
+        GROUP BY c.fecha_final, c.anio, c.idiglesia, c.semana 
+        ORDER BY c.fecha_final ASC";
+        // die($sql);
+        $actividades = DB::select($sql);
+
+        $sql_textos = " SELECT ".formato_fecha_idioma("c.fecha_final")." AS fecha_final, array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
+        FROM iglesias.controlactmisionera AS c  
+        WHERE 1=1 ".$where." 
+            
+        GROUP BY c.fecha_final
+        ORDER BY c.fecha_final ASC
+        ";
+        // die($sql_textos);
+        $textos = DB::select($sql_textos); 
+
+
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$idiglesia;
+
+        $director = DB::select($sql_director);
+
+
+        $sql_director_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        WHERE cm.idcargo=20 AND cm.vigente='1' AND  m.idiglesia=".$idiglesia;
+
+        $director_obra = DB::select($sql_director_obra);
+
+
+        $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
+        $datos["anio"] = $_REQUEST["anio"];
+        $datos["actividades"] = $actividades;
+        $datos["director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
+        $datos["director_obra"] = (isset($director_obra[0]->nombres))  ? $director_obra[0]->nombres : "";
+        $datos["planes"] = (isset($textos[0]->planes)) ? $textos[0]->planes : "";
+        $datos["informe_espiritual"] = (isset($textos[0]->informe_espiritual)) ? $textos[0]->informe_espiritual : "";
+        
+        $datos["trimestre"] = traducir("traductor.trimestre_".$_REQUEST["idtrimestre"]);
+
+        $pdf = PDF::loadView("actividad_misionera.imprimir", $datos)->setPaper('A4', "portrait");
+
+
+        
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("actividades_misioneras.pdf"); // ver
     }
 }

@@ -86,9 +86,9 @@
                     
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div>
-                <!-- <div class="col-md-1">
-                    <button type="button" id="ver" class="btn btn-primary btn-sm">{{ traducir("traductor.ver") }}</button>
-                </div>    -->
+                <div class="col-md-1" id="boton-reporte" style="display: none;">
+                    <button type="button" id="ver-reporte" class="btn btn-primary btn-sm">{{ traducir("traductor.ver_reporte") }}</button>
+                </div>   
             </div>
             <div class="row" id="actividades">
                 

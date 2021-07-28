@@ -194,6 +194,20 @@
         var elemento_detalle = "<?php echo traducir('traductor.elemento_detalle'); ?>";
         var seleccionar_iglesia = "<?php echo traducir('traductor.seleccionar_iglesia'); ?>";
         var idioma_codigo = "<?php echo trim(session("idioma_codigo")); ?>";
+        var valor_t = "<?php echo traducir('traductor.valor'); ?>";
+        var cantidad_t = "<?php echo traducir('traductor.cantidad'); ?>";
+        var descripcion_t = "<?php echo traducir('traductor.descripcion'); ?>";
+        var asistentes_t = "<?php echo traducir('traductor.asistentes'); ?>";
+        var interesados_t = "<?php echo traducir('traductor.interesados'); ?>";
+        var actividadmisionera = "<?php echo traducir('traductor.actividad_misionera'); ?>";
+        var distribucion_externa = "<?php echo traducir('traductor.distribucion_externa'); ?>";
+        var distribucion_interna = "<?php echo traducir('traductor.distribucion_interna'); ?>";
+        var actividades_masivas = "<?php echo traducir('traductor.actividades_masivas'); ?>";
+        var eventos_masivos = "<?php echo traducir('traductor.eventos_masivos'); ?>";
+        var material_estudiado = "<?php echo traducir('traductor.material_estudiado'); ?>";
+        var actividades_juveniles = "<?php echo traducir('traductor.actividades_juveniles'); ?>";
+        var planes = "<?php echo traducir('traductor.planes'); ?>";
+        var informe_espiritual = "<?php echo traducir('traductor.informe_espiritual'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

@@ -336,6 +336,7 @@ Route::post('actividad_misionera/obtener_actividades', [ActividadmisioneraContro
 Route::post('actividad_misionera/guardar_actividad', [ActividadmisioneraController::class, "guardar_actividad"]);
 Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, "reporte"]);
 Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);
+Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [ActividadmisioneraController::class, "imprimir_actividades_misioneras"]);
 
 
 

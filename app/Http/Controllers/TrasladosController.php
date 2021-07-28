@@ -333,8 +333,8 @@ class TrasladosController extends Controller
         // die($sql_miembro);
         $miembro = DB::select($sql_miembro);
 
-        $sql_estado_civil = "SELECT * FROM public.estadocivil";
-        $estado_civil = DB::select($sql_estado_civil);
+        // $sql_estado_civil = "SELECT * FROM public.estadocivil";
+        // $estado_civil = DB::select($sql_estado_civil);
         
         $datos["miembro"] = $miembro;
         // $datos["estado_civil"] = $estado_civil;

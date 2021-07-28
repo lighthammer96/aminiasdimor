@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     reporte.select({
         name: 'idtrimestre',
-        url: '/obtener_trimestres_todos',
-        selected: 0
+        url: '/obtener_trimestres',
+        // selected: 0
         // placeholder: seleccione,
         // selected
     })
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
    
     divisiones.select({
         name: 'iddivision',
-        url: '/obtener_divisiones_all',
+        url: '/obtener_divisiones',
         // placeholder: seleccione,
         selected: 0
     }).then(function() {
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#idunion").trigger("change", ["", ""]);
         $("#idmision").trigger("change", ["", ""]);
         $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
+        // $("#idiglesia").trigger("change", ["", ""]);
         
         
     }) 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         paises.select({
             name: 'pais_id',
-            url: '/obtener_paises_asociados_all',
+            url: '/obtener_paises_asociados',
             placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         uniones.select({
             name: 'idunion',
-            url: '/obtener_uniones_paises_all',
+            url: '/obtener_uniones_paises',
             placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             misiones.select({
                 name: 'idmision',
-                url: '/obtener_misiones_all',
+                url: '/obtener_misiones',
                 placeholder: seleccione,
                 datos: { pais_id: d_id }
             })
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         misiones.select({
             name: 'idmision',
-            url: '/obtener_misiones_all',
+            url: '/obtener_misiones',
             placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         distritos_misioneros.select({
             name: 'iddistritomisionero',
-            url: '/obtener_distritos_misioneros_all',
+            url: '/obtener_distritos_misioneros',
             placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         iglesias.select({
             name: 'idiglesia',
-            url: '/obtener_iglesias_all',
+            url: '/obtener_iglesias',
             placeholder: seleccione,
             selected: selected,
             datos: { iddistritomisionero: d_id }
@@ -309,9 +309,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
-    $(document).on("change", "#idtrimestre", function() {
+    $(document).on("change", "#idtrimestre, #anio, #idiglesia", function() {
         // document.getElementById("ver").addEventListener("click", function(event) {
-        event.preventDefault();
+        // event.preventDefault();
         var anio = $("#anio").val();
         var idtrimestre = $("#idtrimestre").val();
         var idiglesia = $("#idiglesia").val();
@@ -341,17 +341,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 // console.log(response);
 
                 var html = "";
-                var semanal = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
-                var actmasiva = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
-                var actmasiva2 = "<tr></tr><th>Descripcion</th><th>Cantidad</th><th>Asistentes</th><th>Interesados</th></tr>";
-                var materialestudiado = "<tr></tr><th>Descripcion</th><th>Valor</th></tr>";
-                var cont = 1;
+                var semanal = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                var actmasiva = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                var actmasiva2 = "<tr></tr><th>"+descripcion_t+"</th><th>"+cantidad_t+"</th><th>"+asistentes_t+"</th><th>"+interesados_t+"</th></tr>";
+                var materialestudiado = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                var dexterna = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                var dinterna = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                var actjuveniles = "<tr></tr><th>"+descripcion_t+"</th><th>"+valor_t+"</th></tr>";
+                // var cont = 1;
+                var texto_planes = '';
+                var texto_informe_espiritual = '';
                 if(response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         var valor = parseInt(response[index].valor);
                         var cantidad = parseInt(response[index].cantidad);
                         var asistentes = parseInt(response[index].asistentes);
                         var interesados = parseInt(response[index].interesados);
+
+                        texto_planes += response[index].planes+"\n";
+                        texto_informe_espiritual += response[index].informe_espiritual+"\n";
                         if(isNaN(valor)) {
                             valor = 0;
                         }
@@ -373,6 +381,28 @@ document.addEventListener("DOMContentLoaded", function() {
                             semanal += '</tr>';
                         }
 
+                        if(response[index].tipo == "dexterna") {
+                            dexterna += '<tr class="fila">';
+                            dexterna += '    <td>'+response[index].descripcion+'</td>';
+                            dexterna += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            dexterna += '</tr>';
+                        }
+
+                        if(response[index].tipo == "actjuveniles") {
+                            actjuveniles += '<tr class="fila">';
+                            actjuveniles += '    <td>'+response[index].descripcion+'</td>';
+                            actjuveniles += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            actjuveniles += '</tr>';
+                        }
+
+
+                        if(response[index].tipo == "dinterna") {
+                            dinterna += '<tr class="fila">';
+                            dinterna += '    <td>'+response[index].descripcion+'</td>';
+                            dinterna += '    <td class="celda" style="width: 60px !important;">'+valor+'</td>';
+                            dinterna += '</tr>';
+                        }
+
                         if(response[index].tipo == "actmasiva") {
                             actmasiva += '<tr class="fila">';
                             actmasiva += '    <td>'+response[index].descripcion+'</td>';
@@ -384,9 +414,9 @@ document.addEventListener("DOMContentLoaded", function() {
                             actmasiva2 += '<tr class="fila">';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+cantidad+'</td>';
-                            cont++;
+                            // cont++;  
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+asistentes+'</td>';
-                            cont++;
+                            // cont++;  
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+interesados+'</td>';
                             actmasiva2 += '</tr>';
                         }
@@ -397,32 +427,56 @@ document.addEventListener("DOMContentLoaded", function() {
                             materialestudiado += '    <td class="celda" align="center" style="width: 60px !important;">'+valor+'</td>';
                             materialestudiado += '</tr>';
                         }
-                        cont++;
+                        // cont++;
                     }
 
                     html += '<div class="col-md-5">';
                     html += '   <fieldset>';
-                    html += '       <legend><strong>Actividad Misionera</strong></legend>';
+                    html += '       <legend><strong>'+actividadmisionera+'</strong></legend>';
                     html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
+                    html += '   </fieldset>';
+
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>'+distribucion_externa+'</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dexterna+'</tbody></table>';
+                    html += '   </fieldset>';
+
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>'+distribucion_interna+'</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dinterna+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '</div>';
 
                     html += '<div class="col-md-7">';
                     html += '   <fieldset>';
-                    html += '       <legend><strong>Actividades Masivas</strong></legend>';
+                    html += '       <legend><strong>'+actividades_masivas+'</strong></legend>';
                     html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
-                    html += '       <legend><strong>Eventos Masivos</strong></legend>';
+                    html += '       <legend><strong>'+eventos_masivos+'</strong></legend>';
                     html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
-                    html += '       <legend><strong>Material Estudiado</strong></legend>';
+                    html += '       <legend><strong>'+material_estudiado+'</strong></legend>';
                     html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
                     html += '   </fieldset>';
+
+                    html += '   <fieldset>';
+                    html += '       <legend><strong>'+actividades_juveniles+'</strong></legend>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actjuveniles+'</tbody></table>';
+                    html += '   </fieldset>';
+                    html += '</div>';
+                    html += '<div class="col-md-12">';
+                    html += '    <label class="control-label">'+informe_espiritual+'</label>'
+                    html += '   <textarea readonly="readonly" class="form-control input-sm" id="informe_espiritual" name="informe_espiritual"  cols="30" rows="5">'+texto_informe_espiritual+'</textarea>';
+                    html += '</div>';
+                    html += '<div class="col-md-12" >';
+                    html += '    <label class="control-label">'+planes+'</label>'
+                    html += '   <textarea readonly="readonly" class="form-control input-sm" id="planes" name="planes"  cols="30" rows="5">'+texto_planes+'</textarea>';
                     html += '</div>';
 
                     document.getElementById("actividades").innerHTML = html;
+                    $("#boton-reporte").show();
 
                   
                 }
@@ -432,7 +486,37 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
 
+    document.getElementById("ver-reporte").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+ 
+        var pais_id = document.getElementsByName("pais_id")[0].value;
+        var array_pais = pais_id.split("|");
 
+        var required = true;
+
+        required = required && reporte.required("iddivision");
+        required = required && reporte.required("pais_id");
+        // required = required && reporte.required("iddivision");
+        if(array_pais[1] == "S") {
+            required = required && reporte.required("idunion");
+        }
+        required = required && reporte.required("idmision");
+        required = required && reporte.required("iddistritomisionero");
+        required = required && reporte.required("idiglesia");
+        required = required && reporte.required("anio");
+        required = required && reporte.required("idtrimestre");
+        if(required) {
+
+            $("#formulario-reporte").attr("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
+            $("#formulario-reporte").attr("method", "GET");
+            $("#formulario-reporte").attr("target", "imprimir_actividades_misioneras");
+    
+            
+            window.open('', 'imprimir_actividades_misioneras');
+            document.getElementById('formulario-reporte').submit();
+        }
+    })
   
 
 
