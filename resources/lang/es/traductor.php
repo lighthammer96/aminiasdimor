@@ -289,6 +289,7 @@ return [
     "director_obra_misionera" => 'Nombre del Director de Obra Misionera',
     "eleccion_oficiales_iglesia" => 'Elección de Oficiales de Iglesia',
     "fax" => 'Fax',
+    "otros_oficiales_iglesia" => 'Otros Oficiales de Iglesia',
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',

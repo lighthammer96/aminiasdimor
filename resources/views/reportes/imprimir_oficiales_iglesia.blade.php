@@ -719,7 +719,7 @@
             </div>
         </div>
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 100px;">
+        <div class="row" style="">
             <div class="col" style="width: 10%;">
                 <label for="">{{ traducir("traductor.telefono") }}</label>
             </div>
@@ -760,6 +760,94 @@
 
         <div class="clear"></div>
         <div class="row" style="">
+            <div class="col" style="width: 100%; font-size: 13px !important; font-weight: bold;">
+                <label for="">
+                    <strong>
+                        @isset($comite[0])
+                            {{ strtoupper($comite[0]->cargo) }}
+                        @endisset
+                    </strong>
+                </label>
+               
+            </div>
+            
+        </div>
+
+        <div class="clear"></div>
+        <div class="row" style="">
+            <div class="col" style="width: 50%;">
+                <?php 
+                    $cant = count($comite);
+                    $mitad = round($cant / 2);
+                  
+                    for ($i=0; $i < $mitad; $i++) { 
+                        if(isset($comite[$i]->nombres)) {
+                            echo '<label for="">'.($i+1).". ".$comite[$i]->nombres.'</label>';
+                        }
+                        
+                    }
+                    
+                    
+                ?>
+                
+               
+            </div>
+
+            <div class="col" style="width: 50%;">
+                <?php 
+                   
+                    for ($j=$mitad; $j < $cant; $j++) { 
+                        echo '<label for="">'.($j+1).". ".$comite[$i]->nombres.'</label>';
+                    }
+                ?>
+                
+               
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="row" style="">
+            <div class="col" style="width: 100%; font-size: 13px !important; font-weight: bold;">
+                <label for="">
+                    <strong>{{ strtoupper(traducir("traductor.otros_oficiales_iglesia")) }}</strong>
+                </label>
+               
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="row" style="">
+            <div class="col" style="width: 35%;">
+                <label for="" style="border-bottom: 1px solid black;">{{ traducir("traductor.cargo") }}</label>
+                
+               
+            </div>
+
+            <div class="col" style="width: 65%;">
+                <label for="" style="border-bottom: 1px solid black;">{{ traducir("traductor.nombre") }}</label>
+               
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <?php
+            foreach ($otros as $key => $value) {
+                echo '  <div class="row" style="">
+                            <div class="col" style="width: 35%;">
+                                <label for="" style="">'.$value->cargo.'</label>
+
+                            </div>
+                            <div class="col" style="width: 65%;">
+                                <label for="" style="">'.$value->nombres.'</label>
+                            </div>
+                        </div>';
+            }
+        
+        ?>
+
+
+        <div class="clear"></div>
+        <div class="row" style="margin-top: 100px;">
             <div class="col" style="width: 45%; border-top: 1px solid dashed; text-align: center;">
                 <label for="">{{ traducir("traductor.firma_anciano_director_iglesia") }}</label>
                

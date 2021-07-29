@@ -557,6 +557,7 @@ class ReportesController extends Controller
     public function imprimir_oficiales_iglesia(Request $request) {
         $datos = array();
 
+        // echo round(9 / 2); exit;
         $anio = $request->input("anio");
 
         $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
@@ -615,6 +616,14 @@ class ReportesController extends Controller
         WHERE c.idcargo=67 ";
         $comite = DB::select($sql_comite);
 
+        $sql_otros = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    INNER JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    INNER JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo NOT IN(5, 6, 7, 20, 64, 65, 66, 67) ";
+        // die($sql_otros);
+        $otros = DB::select($sql_otros);
+
 
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["anio"] = $anio;
@@ -622,6 +631,7 @@ class ReportesController extends Controller
         $datos["secretario"] = $secretario;
         $datos["tesorero"] = $tesorero;
         $datos["diacono"] = $diacono;
+        $datos["otros"] = $otros;
         $datos["director_escuela_sabatica"] = $director_escuela_sabatica;
         $datos["director_jovenes"] = $director_jovenes;
         $datos["comite"] = $comite;

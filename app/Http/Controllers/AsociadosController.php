@@ -96,15 +96,24 @@ class AsociadosController extends Controller
                 throw new Exception(traducir("traductor.existe_asociado"));
             }
 
-            $array_pais = explode("|", $_POST["pais_id"]);
-            $_POST["pais_id"] = $array_pais[0];
-            if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
-                $sql = "SELECT * FROM iglesias.union AS u 
-                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
-                WHERE up.pais_id={$_POST["pais_id"]}";
-                $res = DB::select($sql);
-                $_POST["idunion"] = $res[0]->idunion;
+            if(isset($_POST["pais_id"])) {
+
+                $array_pais = explode("|", $_POST["pais_id"]);
+                $_POST["pais_id"] = $array_pais[0];
+                if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
+                    $sql = "SELECT * FROM iglesias.union AS u 
+                    INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                    WHERE up.pais_id={$_POST["pais_id"]}";
+                    $res = DB::select($sql);
+                    $_POST["idunion"] = $res[0]->idunion;
+                }
             }
+
+         
+
+           
+            
+           
 
             // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
             // $_POST["idtipocargo"] = $array_tipo_cargo[0];
