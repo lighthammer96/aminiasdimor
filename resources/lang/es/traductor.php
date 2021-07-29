@@ -183,7 +183,8 @@ return [
     'fecha_baja_iglesia' => "Fecha dado/a de Baja en la Iglesia Local",
     'motivo_baja_iglesia' => "Motivo de Baja en la Iglesia Local",
     'feligresia_total' => "Feligresia total",
-    'nombre_secretario_igleseia' => "Nombre del Secretario de Iglesia",
+    'nombre_secretario_iglesia' => "Nombre del Secretario de Iglesia",
+    'firma_secretario_iglesia' => "Firma del Secretario de Iglesia",
     'informacion_eclesiastica' => "Información Eclesiástica",
     'historial_altas_bajas' => "Historial de Altas y Bajas",
     'historial_traslados' => "Historial de Traslados",
@@ -284,7 +285,10 @@ return [
     'ancla_juvenil' => "Ancla Juvenil",
     'total_trimestre' => "Total del Trimestre",
     "anciano_director_iglesia" => 'Nombre del Anciano/Director de Iglesia',
+    "firma_anciano_director_iglesia" => 'Firma del Anciano/Director de Iglesia',
     "director_obra_misionera" => 'Nombre del Director de Obra Misionera',
+    "eleccion_oficiales_iglesia" => 'Elección de Oficiales de Iglesia',
+    "fax" => 'Fax',
 
      // LABELS DATATABLES
     'datatable_next' => 'Seguiente',

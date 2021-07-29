@@ -79,34 +79,25 @@ class ReportesController extends Controller
         return parent::init($view, $data);
     }
 
+    public function oficiales_iglesia() {
+        $view = "reportes.oficiales_iglesia";
+        // echo traducir("traductor.titulo_general_asociados");
+        // exit;
+        $data["title"] = traducir("traductor.titulo_oficiales_iglesia");
+        $data["subtitle"] = "";
+      
+
+  
+        $data["scripts"] = $this->cargar_js(["oficiales_iglesia.js"]);
+        return parent::init($view, $data);
+    }
+
 
 
     public function buscar_datos() {
         $json_data = $this->ReportesController_model->tabla()->obtenerDatos();
         echo json_encode($json_data);
     }
-
-
-    public function guardar_ReportesController(Request $request) {
-   
-        $_POST = $this->toUpper($_POST);
-        if ($request->input("perfil_id") == '') {
-            $result = $this->base_model->insertar($this->preparar_datos("seguridad.ReportesController", $_POST));
-        }else{
-            $result = $this->base_model->modificar($this->preparar_datos("seguridad.ReportesController", $_POST));
-        }
-
-   
-        DB::table("seguridad.ReportesController_idiomas")->where("perfil_id", $result["id"])->delete();
-        if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
-            $_POST["perfil_id"] = $result["id"];
-           
-            $this->base_model->insertar($this->preparar_datos("seguridad.ReportesController_idiomas", $_POST, "D"), "D");
-        }
-        echo json_encode($result);
-    }
-
    
 
 
@@ -521,7 +512,7 @@ class ReportesController extends Controller
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
-        WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$request->input("idiglesia");
+        WHERE cm.idcargo=6 ";
         $secretario = DB::select($sql_secretario);
 
         
@@ -561,6 +552,82 @@ class ReportesController extends Controller
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("miembros_iglesia.pdf"); // ver
     
+    }
+
+    public function imprimir_oficiales_iglesia(Request $request) {
+        $datos = array();
+
+        $anio = $request->input("anio");
+
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=5 ";
+        // die($sql_director);
+        $director = DB::select($sql_director);
+
+
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=6 ";
+        $secretario = DB::select($sql_secretario);
+
+
+        $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=7 ";
+        // die($sql_tesorero);
+        $tesorero = DB::select($sql_tesorero);
+
+        $sql_diacono = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=64 ";
+        $diacono = DB::select($sql_diacono);
+
+
+        $sql_director_escuela_sabatica = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=65 ";
+        $director_escuela_sabatica = DB::select($sql_director_escuela_sabatica);
+
+        $sql_director_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=66 ";
+        $director_jovenes = DB::select($sql_director_jovenes);
+
+
+        $sql_comite = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  m.idiglesia=".$request->input("idiglesia").")
+        WHERE c.idcargo=67 ";
+        $comite = DB::select($sql_comite);
+
+
+        $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
+        $datos["anio"] = $anio;
+        $datos["director"] = $director;
+        $datos["secretario"] = $secretario;
+        $datos["tesorero"] = $tesorero;
+        $datos["diacono"] = $diacono;
+        $datos["director_escuela_sabatica"] = $director_escuela_sabatica;
+        $datos["director_jovenes"] = $director_jovenes;
+        $datos["comite"] = $comite;
+
+        $pdf = PDF::loadView("reportes.imprimir_oficiales_iglesia", $datos)->setPaper('A4', "portrait");
+        return $pdf->stream("oficiales_iglesia.pdf"); // ver
     }
 
 }

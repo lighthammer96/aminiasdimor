@@ -215,7 +215,7 @@
             </div>
 
             <div class="col" style="width: 27%;">
-                <label for="">{{ traducir("traductor.nombre_secretario_igleseia") }}</label>
+                <label for="">{{ traducir("traductor.nombre_secretario_iglesia") }}</label>
             </div>
 
             <div class="col" style="width: 35%;">
