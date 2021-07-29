@@ -72,6 +72,7 @@ Route::post('principal/obtener_tipos_cargo', [PrincipalController::class, "obten
 Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_cargos"]);
 Route::post('principal/obtener_instituciones', [PrincipalController::class, "obtener_instituciones"]);
 Route::post('principal/obtener_parentesco', [PrincipalController::class, "obtener_parentesco"]);
+Route::post('principal/consultar_modulo', [PrincipalController::class, "consultar_modulo"]);
 
 
 /*************

@@ -122,3 +122,53 @@ $(document).on("change", "#idioma_sistema", function(e) {
 	});
 })
 
+
+
+$(document).on("keydown", "#buscador", function(e) {
+	
+	// console.log(e);
+	if(e.keyCode == 13) {
+		e.preventDefault();    
+	}
+
+	
+
+})
+
+
+$(document).on("click", "#search-btn", function(e) {
+	
+	// console.log(e);
+	
+
+	e.preventDefault();    
+	var buscador = $("#buscador").val();
+	if(buscador != "") {
+		$.ajax({
+			url: BaseUrl+'/principal/consultar_modulo',
+			type: 'POST',
+			dataType: 'json',
+			data: "buscador="+buscador+"&_token="+_token
+		}).done(function(json) {
+			// console.log(json);
+			if(json.length > 0) {
+				// alert();
+				window.location = BaseUrl+"/"+json[0].modulo_controlador;
+			} else {
+				alert("No hay modulo con la descripcion ingresada: "+buscador);
+			}
+			// return false;
+		}).fail(function() {
+			console.log("ERROR 1");
+			// return false;
+		}).always(function() {
+			console.log("ERROR 2");
+			// return false;
+		});
+		
+	}
+
+})
+
+
+

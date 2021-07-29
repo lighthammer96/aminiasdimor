@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 
@@ -146,8 +146,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

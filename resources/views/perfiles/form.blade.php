@@ -27,8 +27,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.idioma')}}</label>
-
-                            <div class="input-group">
+                            <select name="idioma" id="idioma" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group">
                                 <select data-placeholder="Seleccione Idioma " name="idioma" id="idioma" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -36,7 +36,7 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="col-md-6">

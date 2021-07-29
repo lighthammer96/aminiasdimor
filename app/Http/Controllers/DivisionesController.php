@@ -105,14 +105,16 @@ class DivisionesController extends Controller
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision").
+            " ORDER BY di.di_descripcion ASC";
 		} else {
             $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' ".session("where_division");
+            WHERE d.estado='1' ".session("where_division").
+            " ORDER BY di.di_descripcion ASC";
             $all = true;
 		}
         // die($sql);
@@ -147,14 +149,16 @@ class DivisionesController extends Controller
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision");
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision").
+            " ORDER BY di.di_descripcion ASC";
 		} else {
             $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' ";
+            WHERE d.estado='1'
+            ORDER BY di.di_descripcion ASC";
 		}
         // die($sql);
         $result = DB::select($sql);
@@ -175,14 +179,16 @@ class DivisionesController extends Controller
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision")." ".session("where_division");
+            WHERE d.estado='1' AND d.iddivision=".$request->input("iddivision")." ".session("where_division").
+            " ORDER BY di.di_descripcion ASC";
 		} else {
             $sql = "SELECT d.iddivision AS id,  CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
             ELSE di.di_descripcion END AS descripcion
             FROM iglesias.division AS d
             LEFT JOIN iglesias.division_idiomas AS di ON(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
-            WHERE d.estado='1' ".session("where_division");
+            WHERE d.estado='1' ".session("where_division").
+            " ORDER BY di.di_descripcion ASC";
 		}
         // die($sql);
       

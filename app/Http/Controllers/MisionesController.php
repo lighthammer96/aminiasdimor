@@ -96,10 +96,12 @@ class MisionesController extends Controller
 
 		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
 	
-			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision");		
+			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
+            " ORDER BY descripcion ASC";		
         } elseif(session("perfil_id") != 1) {
             $sql = "SELECT idmision AS id, descripcion
-            FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre");
+            FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre").
+            " ORDER BY descripcion ASC";
             $all = true;
 		}
 
@@ -129,10 +131,12 @@ class MisionesController extends Controller
 
 		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
 	
-			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"];		
+			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"].
+            " ORDER BY descripcion ASC";	
         } else {
             $sql = "SELECT idmision AS id, descripcion
-            FROM iglesias.mision WHERE estado='1' ";
+            FROM iglesias.mision WHERE estado='1' ".
+            " ORDER BY descripcion ASC";
 		}
 
         $result = DB::select($sql);
@@ -154,9 +158,11 @@ class MisionesController extends Controller
 
 		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
 	
-			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision");		
+			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
+            " ORDER BY descripcion ASC";		
         } else {
-            $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision");
+            $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision").
+            " ORDER BY descripcion ASC";
 		}
 
         $result = DB::select($sql);

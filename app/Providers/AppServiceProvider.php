@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         //
         require_once(__DIR__ . "/../Helpers/Saludo.php");
         require_once(__DIR__ . "/../Helpers/Traductor.php");
-        require_once(__DIR__ . "/../Helpers/Fecha.php");
+        require_once(__DIR__ . "/../Helpers/Funciones.php");
     }
 
     /**

@@ -95,9 +95,11 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision");
+			$sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
+            " ORDER BY pais_descripcion ASC";;
 		} else {
-            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'";
+            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'
+            ORDER BY pais_descripcion ASC";
 		}
 
         $result = DB::select($sql);
@@ -112,11 +114,13 @@ class PaisesController extends Controller
         $result = array();
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais");
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
+            " ORDER BY pais_descripcion ASC";
 		} elseif(session("perfil_id") != 1) {
             $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion
             FROM iglesias.paises 
-            WHERE estado='A' ".session("where_pais").session("where_division_padre");
+            WHERE estado='A' ".session("where_pais").session("where_division_padre").
+            " ORDER BY pais_descripcion ASC";
             $all = true;
 		}
         // die($sql);
@@ -133,7 +137,8 @@ class PaisesController extends Controller
     public function obtener_todos_paises(Request $request) {
 
       
-        $sql = "SELECT idpais AS id, descripcion FROM public.pais";
+        $sql = "SELECT idpais AS id, descripcion FROM public.pais
+        ORDER BY descripcion ASC";
 		
 
         $result = DB::select($sql);
@@ -145,9 +150,11 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision");
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
+            " ORDER BY pais_descripcion ASC";
 		} else {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ";
+            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'
+            ORDER BY pais_descripcion ASC";
 		}
         // die($sql);
         $result = DB::select($sql);
@@ -180,9 +187,11 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais");
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
+            " ORDER BY pais_descripcion ASC";;
 		} else {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais");
+            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais").
+            " ORDER BY pais_descripcion ASC";;
 		}
         // die($sql);
         $result = DB::select($sql);

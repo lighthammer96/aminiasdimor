@@ -19,11 +19,11 @@
             </div>
         </div>
         <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
+        <form class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="{{ traducir('traductor.buscar') }}...">
+                <input type="text" name="buscador" id="buscador" class="form-control" placeholder="{{ traducir('traductor.buscar') }}...">
                 <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                    <button type="button" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
                 </span>
             </div>

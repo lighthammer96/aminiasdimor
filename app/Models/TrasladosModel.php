@@ -94,14 +94,17 @@ class TrasladosModel extends Model
 
 
     public function tabla_control() {
-        
+        $funcion_1 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        $funcion_2 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+
         $tabla = new Tabla();
         $tabla->asignarID("tabla-control-traslados");
         $tabla->agregarColumna("ct.idcontrol", "idcontrol", "Id");
         $tabla->agregarColumna("(m.apellidos || ', ' || m.nombres),", "asociado", traducir("traductor.asociado"));
-        $tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior)", "iglesia_anterior", traducir("traductor.iglesia_anterior"));
+        $tabla->agregarColumna($funcion_1, "iglesia_anterior", traducir("traductor.iglesia_anterior"));
      
-        $tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) ", "iglesia_traslado", traducir("traductor.iglesia_traslado"));
+        $tabla->agregarColumna($funcion_2, "iglesia_traslado", traducir("traductor.iglesia_traslado"));
         $tabla->agregarColumna("ct.fecha", "fecha", traducir("traductor.fecha"));
         $tabla->agregarColumna("ct.estado", "estado", traducir("traductor.estado"));
         $tabla->agregarColumna("ct.idcontol", "boton", traducir("traductor.imprimir"));
@@ -110,8 +113,8 @@ class TrasladosModel extends Model
         $tabla->setSelect(" 
         ct.idcontrol,
         (m.apellidos || ', ' || m.nombres) AS asociado,
-        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_anterior,
-        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_traslado,
+        ".$funcion_1." AS iglesia_anterior,
+        ".$funcion_2." AS iglesia_traslado,
         ".formato_fecha_idioma("ct.fecha")." AS fecha,
         CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado, '<center><button type=\"button\" onclick=\"imprimir_carta_iglesia(''' || ct.idmiembro || ''', ''' || ct.idcontrol || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton");
         $tabla->setFrom("iglesias.control_traslados AS ct 

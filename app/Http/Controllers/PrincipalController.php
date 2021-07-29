@@ -29,10 +29,14 @@ class PrincipalController extends Controller
     public function obtener_departamentos(Request $request) {
         $sql = "";
         if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
-            $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento WHERE pais_id=".$request->input("pais_id");
+            $sql = "SELECT iddepartamento as id, descripcion 
+            FROM public.departamento 
+            WHERE pais_id=".$request->input("pais_id").
+            " ORDER BY descripcion ASC";
         } else {
             $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento
-            WHERE pais_id = ".session("pais_id");
+            WHERE pais_id = ".session("pais_id").
+            " ORDER BY descripcion ASC";
         }
         $result = DB::select($sql);
         echo json_encode($result);
@@ -44,7 +48,8 @@ class PrincipalController extends Controller
         $result = array();
 		if(isset($_REQUEST["iddepartamento"]) && !empty($_REQUEST["iddepartamento"])) {
 	
-			$sql = "SELECT idprovincia as id,  descripcion FROM public.provincia WHERE iddepartamento=".$request->input("iddepartamento");
+			$sql = "SELECT idprovincia as id,  descripcion FROM public.provincia WHERE iddepartamento=".$request->input("iddepartamento").
+            " ORDER BY descripcion ASC";
 		} else {
 			//$sql = "SELECT idprovincia as id, descripcion FROM public.provincia";
 		}
@@ -59,7 +64,8 @@ class PrincipalController extends Controller
         $sql = "";
         $result = array();
 		if(isset($_REQUEST["idprovincia"]) && !empty($_REQUEST["idprovincia"])) {
-            $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia");
+            $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia").
+            " ORDER BY descripcion ASC";
 			//$result = DB::select($sql);
 		} else {
 	
@@ -142,21 +148,21 @@ class PrincipalController extends Controller
     
     public function obtener_motivos_baja() {
         $sql = "SELECT idmotivobaja as id, descripcion FROM iglesias.motivobaja 
-        ORDER BY idmotivobaja ASC";
+        ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
     public function obtener_condicion_eclesiastica() {
         $sql = "SELECT idcondicioneclesiastica as id, descripcion FROM iglesias.condicioneclesiastica 
-        ORDER BY idcondicioneclesiastica ASC";
+        ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
     public function obtener_religiones() {
         $sql = "SELECT idreligion as id, descripcion FROM iglesias.religion 
-        ORDER BY idreligion ASC";
+        ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -187,7 +193,7 @@ class PrincipalController extends Controller
     public function obtener_instituciones() {
 
         $sql = "SELECT idinstitucion as id, descripcion FROM iglesias.institucion 
-        ORDER BY idinstitucion ASC";
+        ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -195,7 +201,16 @@ class PrincipalController extends Controller
     public function obtener_parentesco() {
         $sql = "SELECT idparentesco as id, descripcion FROM public.parentesco 
         WHERE estado='1'
-        ORDER BY idparentesco ASC";
+        ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function consultar_modulo(Request $request) {
+        $sql = "SELECT * FROM seguridad.modulos AS m
+        INNER JOIN seguridad.modulos_idiomas AS mi ON(m.modulo_id=mi.modulo_id)
+        WHERE mi.idioma_id=".session("idioma_id")." AND mi.mi_descripcion ILIKE '%".$request->input("buscador")."%'";
+    // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
     }

@@ -22,6 +22,10 @@ class InstitucionesModel extends Model
     }
 
     public function tabla() {
+
+        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || i.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+
         $tabla = new Tabla();
         $tabla->asignarID("tabla-instituciones");
         $tabla->agregarColumna("i.idinstitucion", "idinstitucion", "Id");
@@ -29,8 +33,8 @@ class InstitucionesModel extends Model
         $tabla->agregarColumna("i.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("i.tipo", "tipo", traducir("traductor.tipo"));
 
-        $tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=i.idiglesia)", "iglesia", traducir("traductor.iglesia"));
-        $tabla->setSelect("i.idinstitucion, i.nombre, i.descripcion, i.tipo, (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=i.idiglesia) AS iglesia");
+        $tabla->agregarColumna($funcion, "iglesia", traducir("traductor.iglesia"));
+        $tabla->setSelect("i.idinstitucion, i.nombre, i.descripcion, i.tipo, ".$funcion." AS iglesia");
         $tabla->setFrom("iglesias.institucion AS i");
 
 

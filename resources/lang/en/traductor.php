@@ -36,7 +36,7 @@ return [
     'datatable_no_match' => 'No matching records found',
     'datatable_a' => 'to',
     'datatable_from' => 'from',
-
+    'datatable_seleccionado' => 'selected',
     // TITULOS MODULOS
     'titulo_asociados' => 'Administración de Asociados',
 

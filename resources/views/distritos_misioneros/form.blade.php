@@ -18,8 +18,8 @@
                         </div>
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.mision')}}</label>
-
-                            <div class="input-group m-bot15 col-md-12 sin-padding">
+                            <select name="idmision" id="idmision" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="idmision" id="idmision" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -27,7 +27,7 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
 
@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-distrito-misionero">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-distrito-misionero" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-distrito-misionero">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-distrito-misionero" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

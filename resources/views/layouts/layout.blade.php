@@ -57,6 +57,12 @@
 
         @endforeach
     @endisset
+
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -208,6 +214,7 @@
         var actividades_juveniles = "<?php echo traducir('traductor.actividades_juveniles'); ?>";
         var planes = "<?php echo traducir('traductor.planes'); ?>";
         var informe_espiritual = "<?php echo traducir('traductor.informe_espiritual'); ?>";
+        var datatable_seleccionado = "<?php echo traducir('traductor.datatable_seleccionado'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

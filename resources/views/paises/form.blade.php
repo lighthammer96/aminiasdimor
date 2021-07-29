@@ -44,8 +44,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.idioma')}}</label>
-
-                            <div class="input-group m-bot15 col-md-12 sin-padding">
+                            <select name="idioma_id" id="idioma_id" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="idioma_id" id="idioma_id" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -53,13 +53,14 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.division')}}</label>
+                            <select name="iddivision" id="iddivision" class="selectizejs entrada"></select>
 
-                            <div class="input-group m-bot15 col-md-12 sin-padding">
+                            <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="iddivision" id="iddivision" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -67,7 +68,7 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
@@ -112,8 +113,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-pais">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-pais" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-pais">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-pais" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

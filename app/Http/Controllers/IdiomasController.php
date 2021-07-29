@@ -23,7 +23,7 @@ class IdiomasController extends Controller
 
     public function index() {
         $view = "idiomas.index";
-        $data["title"] = "Administración de Idiomas";
+        $data["title"] = traducir("traductor.titulo_idiomas");
         $data["subtitle"] = "";
         $data["tabla"] = $this->idiomas_model->tabla()->HTML();
 

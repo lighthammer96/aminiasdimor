@@ -36,8 +36,8 @@
                         </div>
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.union')}}</label>
-
-                            <div class="input-group m-bot15 col-md-12 sin-padding">
+                            <select name="idunion" id="idunion" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
                                 <select name="idunion" id="idunion" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -45,7 +45,7 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                        
@@ -59,8 +59,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-mision">[Esc] [{{ traducir('cancelar') }}]</button>
-                    <button type="button" id="guardar-mision" class="btn btn-primary btn-sm">[F9] [{{ traducir('guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-mision">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-mision" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

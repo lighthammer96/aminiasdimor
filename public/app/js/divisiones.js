@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     divisiones.enter("descripcion", "idioma", function() {
         var required = true;
-        required = modulos.required("idioma");
+        required = divisiones.required("idioma");
 
         if(!required) {
             return false;

@@ -22,6 +22,9 @@ class OtraspropiedadesModel extends Model
     }
 
     public function tabla() {
+        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ot.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+
         $tabla = new Tabla();
         $tabla->asignarID("tabla-otras-propiedades");
         $tabla->agregarColumna("ot.idotrapropiedad", "idotrapropiedad", "Id");
@@ -30,8 +33,8 @@ class OtraspropiedadesModel extends Model
         $tabla->agregarColumna("ot.cantidad", "cantidad", traducir("traductor.cantidad"));
         $tabla->agregarColumna("ot.tipo", "tipo", traducir("traductor.tipo"));
 
-        $tabla->agregarColumna("(SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ot.idiglesia)", "iglesia", traducir("traductor.iglesia"));
-        $tabla->setSelect("ot.idotrapropiedad, ot.descripcion, ot.cantidad, ot.tipo, (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ot.idiglesia) AS iglesia");
+        $tabla->agregarColumna($funcion, "iglesia", traducir("traductor.iglesia"));
+        $tabla->setSelect("ot.idotrapropiedad, ot.descripcion, ot.cantidad, ot.tipo, ".$funcion." AS iglesia");
         $tabla->setFrom("iglesias.otras_propiedades AS ot");
 
 

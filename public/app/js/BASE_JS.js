@@ -1017,7 +1017,11 @@ class BASE_JS {
                     } else {
                         if (typeof response[i].defecto != "undefined" && response[i].defecto == "S" && !prioridadSelected) {
                             options += '<option atributo1="' + atributo1 + '" selected="selected" value="' + response[i].id + '">' + response[i].descripcion + '</option>';
-                            document.getElementsByName(parametros.name)[0].setAttribute("default-value", response[i].id)
+                            // console.log( document.getElementsByName(parametros.name)[0].tagName);
+                            if(document.getElementsByName(parametros.name)[0].tagName == "SELECT") {
+
+                                document.getElementsByName(parametros.name)[0].setAttribute("default-value", response[i].id)
+                            }
                         } else {
                             options += '<option atributo1="' + atributo1 + '" value="' + response[i].id + '">' + response[i].descripcion + '</option>';
                         }
@@ -1122,7 +1126,7 @@ class BASE_JS {
         $.Notification.autoHideNotify(parametros.type, parametros.position, parametros.title, parametros.msg);
     }
     static sweet(parametros) {
-        parametros.title = (typeof parametros.title == "undefined") ? "ALERTA!" : parametros.title;
+        parametros.title = (typeof parametros.title == "undefined") ? "¡ALERTA!" : parametros.title;
         parametros.type = (typeof parametros.type == "undefined") ? "warning" : parametros.type;
         if (typeof parametros.confirm == "undefined") {
             parametros.showCancelButton = false;

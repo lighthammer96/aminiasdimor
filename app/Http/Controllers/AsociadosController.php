@@ -23,6 +23,8 @@ class AsociadosController extends Controller
     }
 
     public function index() {
+        
+       
         $view = "asociados.index";
         $data["title"] = traducir('traductor.titulo_asociados');
         $data["subtitle"] = "";
@@ -277,19 +279,19 @@ class AsociadosController extends Controller
     }
 
     public function obtener_estado_civil() {
-        $sql = "SELECT idestadocivil as id, descripcion FROM public.estadocivil";
+        $sql = "SELECT idestadocivil as id, descripcion FROM public.estadocivil ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
     public function obtener_nivel_educativo() {
-        $sql = "SELECT idgradoinstruccion as id, descripcion FROM public.gradoinstruccion";
+        $sql = "SELECT idgradoinstruccion as id, descripcion FROM public.gradoinstruccion ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
     public function obtener_profesiones() {
-        $sql = "SELECT idocupacion as id, descripcion FROM public.ocupacion";
+        $sql = "SELECT idocupacion as id, descripcion FROM public.ocupacion ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }
@@ -355,10 +357,17 @@ class AsociadosController extends Controller
     }
 
     public function obtener_traslados(Request $request) {
+
+        $funcion_1 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_anterior";
+
+
+        $funcion_2 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_traslado";
+
         $sql = "SELECT 
-        ct.*,
+        ct.* /*,
         (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.distritomisionero  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaanterior) AS iglesia_anterior,
-        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.distritomisionero  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,
+        (SELECT v.division || ' / ' || v.pais  || ' / ' ||  v.union || ' / ' || v.mision  || ' / ' || v.distritomisionero  || ' / ' || v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ht.idiglesiaactual) AS iglesia_traslado,*/
+        ".$funcion_1.$funcion_2.",
         ".formato_fecha_idioma("ht.fecha")." AS fecha
         
         FROM iglesias.historial_traslados AS ht
