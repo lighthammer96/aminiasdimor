@@ -163,6 +163,11 @@ class ActividadmisioneraController extends Controller
         $mes = $request->input("mes");
         $semana = $request->input("semana");
         $idiglesia = $request->input("idiglesia");
+        $iddivision = $request->input("iddivision");
+        $pais_id = $request->input("pais_id");
+        $idunion = $request->input("idunion");
+        $idmision = $request->input("idmision");
+        $iddistritomisionero = $request->input("iddistritomisionero");
 
         $where = "";
         // if($idtrimestre != "0") {
@@ -198,13 +203,32 @@ class ActividadmisioneraController extends Controller
                     break;
             }
         }
-       
+        
+        if($iddivision != "0" && $iddivision != "") {
+            $where .= ' AND c.iddivision='.$iddivision;
+        }
 
-        if($idiglesia != "0") {
+        if($pais_id != "0" && $pais_id != "") {
+            $where .= ' AND c.pais_id='.$pais_id;
+        }
+
+        if($idunion != "0" && $idunion != "") {
+            $where .= ' AND c.idunion='.$idunion;
+        }
+
+        if($idmision != "0" && $idmision != "") {
+            $where .= ' AND c.idmision='.$idmision;
+        }
+
+        if($iddistritomisionero != "0" && $iddistritomisionero != "") {
+            $where .= ' AND c.iddistritomisionero='.$iddistritomisionero;
+        }
+
+        if($idiglesia != "0" && $idiglesia != "") {
             $where .= ' AND c.idiglesia='.$idiglesia;
         }
 
-        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistententes, SUM(c.interesados) AS interesados,
+        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistentes, SUM(c.interesados) AS interesados, SUM(c.valor) AS cantidad,
         array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
         FROM iglesias.actividadmisionera AS am
         LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera ".$where.")
@@ -232,7 +256,7 @@ class ActividadmisioneraController extends Controller
 
 
     public function imprimir_actividades_misioneras(Request $request) {
-        // print_r($_GET);
+        // print_r($_GET); exit;
         $datos = array();
         $anio = $request->input("anio");
         // $idtrimestre = $request->input("idtrimestre");
@@ -299,7 +323,7 @@ class ActividadmisioneraController extends Controller
 
         $sql_textos = " SELECT ".formato_fecha_idioma("c.fecha_final")." AS fecha_final, array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
         FROM iglesias.controlactmisionera AS c  
-        WHERE 1=1 ".$where." 
+        WHERE c.idactividadmisionera=39 ".$where." 
             
         GROUP BY c.fecha_final
         ORDER BY c.fecha_final ASC

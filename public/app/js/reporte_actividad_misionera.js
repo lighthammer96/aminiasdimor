@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     divisiones.select({
         name: 'iddivision',
         url: '/obtener_divisiones',
-        // placeholder: seleccione,
+        placeholder: seleccione,
         selected: 0
     }).then(function() {
 
@@ -315,6 +315,10 @@ document.addEventListener("DOMContentLoaded", function() {
         var anio = $("#anio").val();
         var idtrimestre = $("#idtrimestre").val();
         var idiglesia = $("#idiglesia").val();
+        var iddivision = $("#iddivision").val();
+        var idmision = $("#idmision").val();
+        var idunion = $("#idunion").val();
+        var iddistritomisionero = $("#iddistritomisionero").val();
 
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
@@ -336,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             reporte.ajax({
                 url: '/obtener_actividades',
-                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre }
+                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre, iddivision: iddivision, pais_id: array_pais[0], idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero }
             }).then(function(response) {
                 // console.log(response);
 
@@ -357,9 +361,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         var cantidad = parseInt(response[index].cantidad);
                         var asistentes = parseInt(response[index].asistentes);
                         var interesados = parseInt(response[index].interesados);
-
-                        texto_planes += response[index].planes+"\n";
-                        texto_informe_espiritual += response[index].informe_espiritual+"\n";
+                        if(response[index].idactividadmisionera == 39) {
+                            // alert(texto_planes);
+                            texto_planes += response[index].planes+"\n";
+                            texto_informe_espiritual += response[index].informe_espiritual+"\n";
+                        }
                         if(isNaN(valor)) {
                             valor = 0;
                         }
@@ -508,13 +514,89 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && reporte.required("idtrimestre");
         if(required) {
 
-            $("#formulario-reporte").attr("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
-            $("#formulario-reporte").attr("method", "GET");
-            $("#formulario-reporte").attr("target", "imprimir_actividades_misioneras");
+            var formulario = document.createElement("form");
+            formulario.setAttribute("method", "GET");
+            formulario.setAttribute("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
+            formulario.setAttribute("target", "imprimir_actividades_misioneras");
+
+            // document.getElementById("formulario-reporte").forEach(function(item) {
+            //     console.log(item);
+            // })
+
+
+            // parametros.datos.forEach(function(item) {
+            //     var campo = document.createElement("input");
+            //     campo.setAttribute("type", "hidden");
+            //     campo.setAttribute("name", Object.keys(item)[0]);
+            //     campo.setAttribute("value", item[Object.keys(item)[0]]);
+            //     formulario.appendChild(campo);
+            // });
+
+            // var pais = $("#pais_id").val().toString().split("|");
+
+            var campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "iddivision");
+            campo.setAttribute("value", $("#iddivision").val());
+            formulario.appendChild(campo);
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "pais_id");
+            campo.setAttribute("value", array_pais[0]);
+            formulario.appendChild(campo);
+
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "idunion");
+            campo.setAttribute("value", $("#idunion").val());
+            formulario.appendChild(campo);
+
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "idmision");
+            campo.setAttribute("value", $("#idmision").val());
+            formulario.appendChild(campo);
+
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "iddistritomisionero");
+            campo.setAttribute("value", $("#iddistritomisionero").val());
+            formulario.appendChild(campo);
+
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "idiglesia");
+            campo.setAttribute("value", $("#idiglesia").val());
+            formulario.appendChild(campo);
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "anio");
+            campo.setAttribute("value", $("#anio").val());
+            formulario.appendChild(campo);
+
+            campo = document.createElement("input");
+            campo.setAttribute("type", "hidden");
+            campo.setAttribute("name", "idtrimestre");
+            campo.setAttribute("value", $("#idtrimestre").val());
+            formulario.appendChild(campo);
+
+            document.body.appendChild(formulario);
+            window.open('', "imprimir_actividades_misioneras");
+            formulario.submit();
+
+            // $("#formulario-reporte").attr("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
+            // $("#formulario-reporte").attr("method", "GET");
+            // $("#formulario-reporte").attr("target", "imprimir_actividades_misioneras");
     
             
-            window.open('', 'imprimir_actividades_misioneras');
-            document.getElementById('formulario-reporte').submit();
+            // window.open('', 'imprimir_actividades_misioneras');
+            // document.getElementById('formulario-reporte').submit();
         }
     })
   

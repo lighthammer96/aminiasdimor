@@ -560,8 +560,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         var cantidad = parseInt(response[index].cantidad);
                         var asistentes = parseInt(response[index].asistentes);
                         var interesados = parseInt(response[index].interesados);
-                        texto_planes += response[index].planes+"\n";
-                        texto_informe_espiritual += response[index].informe_espiritual+"\n";
+            
+                        if(response[index].idactividadmisionera == 39) {
+
+                            texto_planes += response[index].planes+"\n";
+                            texto_informe_espiritual += response[index].informe_espiritual+"\n";
+                        }
+
                         if(response[index].tipo == "semanal") {
                             semanal += '<tr class="fila">';
                             semanal += '    <td>'+response[index].descripcion+'</td>';
@@ -729,10 +734,17 @@ document.addEventListener("DOMContentLoaded", function() {
         var fecha_final = $("#fecha_final").val();
         var planes = $("#planes").val();
         var informe_espiritual = $("#informe_espiritual").val();
+
+        var pais = $("#pais_id").val().toString().split("|");
+        var idunion = $("#idunion").val();
+        var idmision = $("#idmision").val();
+        var iddivision = $("#iddivision").val();
+        var iddistritomisionero = $("#iddistritomisionero").val();
+        var pais_id = pais[0];
         //console.log($(this).val());
         actividad_misionera.ajax({
             url: '/guardar_actividad',
-            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, valor: valor, idiglesia: idiglesia, mes: mes, fecha_inicial: fecha_inicial, fecha_final: fecha_final, planes: planes, informe_espiritual: informe_espiritual}
+            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, valor: valor, idiglesia: idiglesia, mes: mes, fecha_inicial: fecha_inicial, fecha_final: fecha_final, planes: planes, informe_espiritual: informe_espiritual, iddivision: iddivision, pais_id: pais_id, idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero}
         }).then(function(response) {
         
         })
