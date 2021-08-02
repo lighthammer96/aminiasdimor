@@ -15,6 +15,7 @@ use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
+use App\Http\Controllers\EleccionController;
 use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\ImportarController;
 use App\Http\Controllers\InstitucionesController;
@@ -339,9 +340,18 @@ Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, 
 Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);
 Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [ActividadmisioneraController::class, "imprimir_actividades_misioneras"]);
 
+// ELECCION
+Route::get('eleccion/index', [EleccionController::class, "index"]);
+Route::post('eleccion/buscar_datos', [EleccionController::class, "buscar_datos"]);
+Route::post('eleccion/guardar_eleccion', [EleccionController::class, "guardar_eleccion"]);
+Route::post('eleccion/get', [EleccionController::class, "get"]);
+Route::post('eleccion/eliminar_eleccion', [EleccionController::class, "eliminar_eleccion"]);
+Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_eleccion"]);
 
+/*************
+ * MODULO REPORTES*
+ *************/
 
-// REPORTES
 
 Route::get('reportes/general_asociados', [ReportesController::class, "general_asociados"]);
 Route::get('reportes/grafico_feligresia', [ReportesController::class, "grafico_feligresia"]);
@@ -349,8 +359,12 @@ Route::get('reportes/imprimir_general_asociados', [ReportesController::class, "i
 Route::get('reportes/imprimir_miembros_iglesia', [ReportesController::class, "imprimir_miembros_iglesia"]);
 Route::get('reportes/miembros_iglesia', [ReportesController::class, "miembros_iglesia"]);
 Route::get('reportes/oficiales_iglesia', [ReportesController::class, "oficiales_iglesia"]);
+Route::get('reportes/oficiales_union_asociacion', [ReportesController::class, "oficiales_union_asociacion"]);
+Route::get('reportes/informe_semestral', [ReportesController::class, "informe_semestral"]);
 Route::get('reportes/imprimir_fichas_asociados', [ReportesController::class, "imprimir_fichas_asociados"]);
 Route::get('reportes/imprimir_oficiales_iglesia', [ReportesController::class, "imprimir_oficiales_iglesia"]);
+Route::get('reportes/imprimir_informe_semestral', [ReportesController::class, "imprimir_informe_semestral"]);
+Route::get('reportes/imprimir_oficiales_union_asociacion', [ReportesController::class, "imprimir_oficiales_union_asociacion"]);
 Route::get('reportes/exportar_excel_general_asociados', [ReportesController::class, "exportar_excel_general_asociados"]);
 Route::post('reportes/obtener_iglesias', [ReportesController::class, "obtener_iglesias"]);
 Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_feligresia"]);

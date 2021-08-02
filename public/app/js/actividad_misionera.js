@@ -693,7 +693,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var anio = $("#anio").val();
         var mes = $("#mes").val();
         // var idtrimestre = $("#idtrimestre").val();
+        var pais = $("#pais_id").val().toString().split("|");
         var idiglesia = $("#idiglesia").val();
+        var idunion = $("#idunion").val();
+        var idmision = $("#idmision").val();
+        var iddivision = $("#iddivision").val();
+        var iddistritomisionero = $("#iddistritomisionero").val();
+        var pais_id = pais[0];
         var valor = $(this).val();
         var fecha_inicial = $("#fecha_inicial").val();
         var fecha_final = $("#fecha_final").val();
@@ -702,7 +708,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //console.log($(this).val());
         actividad_misionera.ajax({
             url: '/guardar_actividad',
-            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, valor: valor, idiglesia: idiglesia, mes: mes, fecha_inicial: fecha_inicial, fecha_final: fecha_final, planes: planes, informe_espiritual: informe_espiritual}
+            datos: { semana: semana, idactividadmisionera: idactividadmisionera, accion: accion, anio: anio, valor: valor, idiglesia: idiglesia, mes: mes, fecha_inicial: fecha_inicial, fecha_final: fecha_final, planes: planes, informe_espiritual: informe_espiritual, iddivision: iddivision, pais_id: pais_id, idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero}
         }).then(function(response) {
         
         })

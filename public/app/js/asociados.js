@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if(idioma_codigo == "es") {
         format = "dd/mm/yyyy";
         document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("user"));
-        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo], input[name=fechaingresoiglesia]").attr("data-inputmask", "'alias': '"+format+"'");
     } else {
         format = "yyyy-mm-dd";
         document.getElementsByName("fechaingresoiglesia")[0].setAttribute("default-value", BASE_JS.ObtenerFechaActual("server"));
-        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo], input[name=fechaingresoiglesia]").attr("data-inputmask", "'alias': '"+format+"'");
         
     }
     var eventClick = new Event('click');
@@ -49,10 +49,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // asociados.enter("fecharegistro","observaciones");
 
-    $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]").inputmask();
+    $("input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo], input[name=fechaingresoiglesia]").inputmask();
 
  
-    jQuery( "input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo]" ).datepicker({
+    jQuery( "input[name=fechanacimiento], input[name=fecha], input[name=fechabautizo], input[name=fechaingresoiglesia]" ).datepicker({
         format: format,
         language: "es",
         todayHighlight: true,

@@ -22,6 +22,7 @@ class IdiomasController extends Controller
     }
 
     public function index() {
+       
         $view = "idiomas.index";
         $data["title"] = traducir("traductor.titulo_idiomas");
         $data["subtitle"] = "";
@@ -49,11 +50,22 @@ class IdiomasController extends Controller
    
         $_POST = $this->toUpper($_POST, ["idioma_codigo", "idioma_descripcion"]);
         if ($request->input("idioma_id") == '') {
+           
+
             $result = $this->base_model->insertar($this->preparar_datos("public.idiomas", $_POST));
         }else{
+            if($request->input("por_defecto") == "S") {
+               
+                session(['idioma_id_defecto' => $request->input("idioma_id")]);
+                session(['idioma_defecto' => trim($request->input("idioma_codigo"))]);
+               ;
+
+
+            }
+
             $result = $this->base_model->modificar($this->preparar_datos("public.idiomas", $_POST));
         }
-
+        
         echo json_encode($result);
     }
 

@@ -331,7 +331,7 @@
                                                 
 
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control input-sm entrada" name="fechaingresoiglesia" readonly="readonly" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
+                                                    <input type="text" class="form-control input-sm entrada" name="fechaingresoiglesia" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>

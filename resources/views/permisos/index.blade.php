@@ -11,7 +11,9 @@
     <div class="row">
        
         <div class="col-md-4 col-md-offset-3" >
-            <div class="input-group m-bot15">
+            <select name="perfil_id" id="perfil_id" class="selectizejs entrada">
+            </select>
+            <!-- <div class="input-group m-bot15">
                 <select placeholder="Seleccione Perfil..." name="perfil_id" id="perfil_id" class="selectizejs entrada">
 
                 </select>
@@ -19,7 +21,7 @@
                     <button style="margin-top: -5px;" type="button" id="nuevo-perfil" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
                 </span>
-            </div>
+            </div> -->
 
         </div>
 

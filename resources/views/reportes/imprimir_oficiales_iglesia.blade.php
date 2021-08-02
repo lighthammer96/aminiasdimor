@@ -14,7 +14,7 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 3.3cm;
+            margin-top: 4cm;
             margin-left: 1cm;
             margin-right: 1cm;
             margin-bottom: 2cm;
@@ -25,7 +25,7 @@
             top: 0.9cm;
             left: 2cm;
             right: 2cm;
-            height: 2.5cm;
+            height: 4cm;
             text-align: center;
             line-height: 0.8cm;
             font-family: 'Times New Roman' !important;
@@ -832,7 +832,7 @@
         <div class="clear"></div>
         <?php
             foreach ($otros as $key => $value) {
-                echo '  <div class="row" style="">
+                echo '  <div class="clear"></div><div class="row" style="">
                             <div class="col" style="width: 35%;">
                                 <label for="" style="">'.$value->cargo.'</label>
 
@@ -847,6 +847,7 @@
 
 
         <div class="clear"></div>
+        <br><br><br>
         <div class="row" style="margin-top: 100px;">
             <div class="col" style="width: 45%; border-top: 1px solid dashed; text-align: center;">
                 <label for="">{{ traducir("traductor.firma_anciano_director_iglesia") }}</label>

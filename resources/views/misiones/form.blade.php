@@ -35,6 +35,12 @@
 
                         </div>
                         <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.fax')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="fax"  placeholder=""/>
+
+                        </div>
+                        <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.union')}}</label>
                             <select name="idunion" id="idunion" class="selectizejs entrada"></select>
                             <!-- <div class="input-group m-bot15 col-md-12 sin-padding">

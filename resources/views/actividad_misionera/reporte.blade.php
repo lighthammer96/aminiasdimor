@@ -90,13 +90,18 @@
                     <button type="button" id="ver-reporte" class="btn btn-primary btn-sm">{{ traducir("traductor.ver_reporte") }}</button>
                 </div>   
             </div>
-            <div class="row" id="actividades">
-                
-            </div>
         </div>
     </div>
-
 </form>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-2" id="actividades">
+
+    </div>
+</div>
+    
+
+
 
    
 @endsection

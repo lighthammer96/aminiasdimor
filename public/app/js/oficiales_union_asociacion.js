@@ -1,20 +1,28 @@
-var oficiales_iglesia = new BASE_JS('oficiales_iglesia', 'reportes');
+var oficiales_union_asociacion = new BASE_JS('oficiales_union_asociacion', 'reportes');
 var divisiones = new BASE_JS('divisiones', 'divisiones');
 var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 var iglesias = new BASE_JS('iglesias', 'iglesias');
-var actividad_misionera = new BASE_JS('actividad_misionera', 'actividad_misionera');
-
+// var actividad_misionera = new BASE_JS('actividad_misionera', 'actividad_misionera');
+var asociados = new BASE_JS('asociados', 'asociados');
 
 document.addEventListener("DOMContentLoaded", function() {
-    
-    actividad_misionera.select({
-        name: 'anio',
-        url: '/obtener_anios',
-        placeholder: seleccione
-    })
+    asociados.select({
+        name: 'periodoini',
+        url: '/obtener_periodos_ini',
+    }).then(function() {
+        
+    }) 
+
+    asociados.select({
+        name: 'periodofin',
+        url: '/obtener_periodos_fin',
+    }).then(function() {
+        
+    }) 
+
    
     divisiones.select({
         name: 'iddivision',
@@ -26,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#pais_id").trigger("change", ["", ""]);
         $("#idunion").trigger("change", ["", ""]);
         $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
+        // $("#iddistritomisionero").trigger("change", ["", ""]);
+        // $("#idiglesia").trigger("change", ["", ""]);
         
         
     }) 
@@ -51,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && oficiales_iglesia.required("iddivision");
+                required = required && oficiales_union_asociacion.required("iddivision");
                 if(required) {
                     $("#pais_id")[0].selectize.focus();
                 }
@@ -84,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && oficiales_iglesia.required("pais_id");
+                required = required && oficiales_union_asociacion.required("pais_id");
                 if(required) {
                     $("#idunion")[0].selectize.focus();
                 }
@@ -113,7 +121,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
-    
+        
+        if(this.options.length > 0) {
+
+            document.getElementById("lugar").value = this.options[this.selectedIndex].text;
+           
+        }
+
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
@@ -127,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
             if(condicion) {
                 var required = true;
-                required = required && oficiales_iglesia.required("idunion");
+                required = required && oficiales_union_asociacion.required("idunion");
                 if(required) {
                     $("#idmision")[0].selectize.focus();
                 }
@@ -138,59 +152,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-        d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
-        var selected = (typeof iddistritomisionero != "undefined")  ? iddistritomisionero : "";
-    
-        distritos_misioneros.select({
-            name: 'iddistritomisionero',
-            url: '/obtener_distritos_misioneros',
-            placeholder: seleccione,
-            selected: selected,
-            datos: { idmision: d_id }
-        }).then(function() {
-        
-            var condicion = typeof idmision == "undefined";
-            condicion = condicion && typeof iddistritomisionero == "undefined";
-        
-            if(condicion) {
-                var required = true;
-                required = required && oficiales_iglesia.required("idmision");
-                if(required) {
-                    $("#iddistritomisionero")[0].selectize.focus();
-                }
-            } 
-        
-        })
+        if(this.options.length > 0) {
+
+            document.getElementById("lugar").value = this.options[this.selectedIndex].text;
+           
+        }
     });
 
-    $(document).on('change', '#iddistritomisionero', function(event, iddistritomisionero, idiglesia) {
+    // $(document).on('change', '#iddistritomisionero', function(event, iddistritomisionero, idiglesia) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
-        d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
-        var selected = (typeof idiglesia != "undefined")  ? idiglesia : "";
+    //     var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+    //     d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
+    //     var selected = (typeof idiglesia != "undefined")  ? idiglesia : "";
     
-        iglesias.select({
-            name: 'idiglesia',
-            url: '/obtener_iglesias',
-            placeholder: seleccione,
-            selected: selected,
-            datos: { iddistritomisionero: d_id }
-        }).then(function() {
+    //     iglesias.select({
+    //         name: 'idiglesia',
+    //         url: '/obtener_iglesias',
+    //         placeholder: seleccione,
+    //         selected: selected,
+    //         datos: { iddistritomisionero: d_id }
+    //     }).then(function() {
         
-            var condicion = typeof iddistritomisionero == "undefined";
-            condicion = condicion && typeof idiglesia == "undefined";
+    //         var condicion = typeof iddistritomisionero == "undefined";
+    //         condicion = condicion && typeof idiglesia == "undefined";
         
-            if(condicion) {
-                var required = true;
-                required = required && oficiales_iglesia.required("iddistritomisionero");
-                if(required) {
-                    $("#idiglesia")[0].selectize.focus();
-                }
-            } 
+    //         if(condicion) {
+    //             var required = true;
+    //             required = required && oficiales_union_asociacion.required("iddistritomisionero");
+    //             if(required) {
+    //                 $("#idiglesia")[0].selectize.focus();
+    //             }
+    //         } 
         
-        })
-    });
+    //     })
+    // });
 
 
     document.getElementById("ver-reporte").addEventListener("click", function(e) {
@@ -199,25 +194,26 @@ document.addEventListener("DOMContentLoaded", function() {
         var array_pais = pais_id.split("|");
 
         var required = true;
-        required = required && oficiales_iglesia.required("iddivision");
-        required = required && oficiales_iglesia.required("pais_id");
-        // required = required && oficiales_iglesia.required("iddivision");
+        required = required && oficiales_union_asociacion.required("iddivision");
+        required = required && oficiales_union_asociacion.required("pais_id");
+        // required = required && oficiales_union_asociacion.required("iddivision");
         if(array_pais[1] == "S") {
-            required = required && oficiales_iglesia.required("idunion");
+            required = required && oficiales_union_asociacion.required("idunion");
         }
-        required = required && oficiales_iglesia.required("idmision");
-        required = required && oficiales_iglesia.required("iddistritomisionero");
-        // required = required && oficiales_iglesia.required("idiglesia");
-        required = required && oficiales_iglesia.required("anio");
+        // required = required && oficiales_union_asociacion.required("idmision");
+        // required = required && oficiales_union_asociacion.required("iddistritomisionero");
+        // required = required && oficiales_union_asociacion.required("idiglesia");
+        required = required && oficiales_union_asociacion.required("periodoini");
+        required = required && oficiales_union_asociacion.required("periodofin");
 
         if(required) {
-            $("#formulario-oficiales_iglesia").attr("action", BaseUrl + "/reportes/imprimir_oficiales_iglesia");
-            $("#formulario-oficiales_iglesia").attr("method", "GET");
-            $("#formulario-oficiales_iglesia").attr("target", "oficiales_iglesia");
+            $("#formulario-oficiales_union_asociacion").attr("action", BaseUrl + "/reportes/imprimir_oficiales_union_asociacion");
+            $("#formulario-oficiales_union_asociacion").attr("method", "GET");
+            $("#formulario-oficiales_union_asociacion").attr("target", "oficiales_union_asociacion");
     
             
-            window.open('', 'oficiales_iglesia');
-            document.getElementById('formulario-oficiales_iglesia').submit();
+            window.open('', 'oficiales_union_asociacion');
+            document.getElementById('formulario-oficiales_union_asociacion').submit();
         }
     })
 

@@ -30,6 +30,33 @@
                             </div> -->
 
                         </div>
+
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.direccion')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="direccion"  placeholder=""/>
+
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.telefono')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="telefono"  placeholder=""/>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.email')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="email"  placeholder=""/>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.fax')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="fax"  placeholder=""/>
+
+                        </div>
                        
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.estado')}}</label>

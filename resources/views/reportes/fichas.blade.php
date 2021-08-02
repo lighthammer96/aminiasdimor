@@ -33,7 +33,7 @@
 			font-family: 'Roboto', sans-serif;
 			box-sizing: border-box;
 			/* font-weight: bold; */
-			font-size: 14px;
+			font-size: 13px;
 		}
 		
 

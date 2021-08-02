@@ -19,14 +19,15 @@ class LoginController extends Controller
         // $clave = Hash::make('1235');
         // echo $clave; exit;
         // echo Hash::check("1235", $clave);
-
-        $result = DB::select("SELECT u.*, p.*, m.*, ta.descripcion AS tipo_acceso FROM seguridad.usuarios AS u 
+        $sql_login = "SELECT u.*, p.*, m.*, ta.descripcion AS tipo_acceso FROM seguridad.usuarios AS u 
         INNER JOIN seguridad.perfiles AS p ON(u.perfil_id=p.perfil_id)
         LEFT JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
         LEFT JOIN seguridad.tipoacceso AS ta ON(ta.idtipoacceso=u.idtipoacceso)
         
-        WHERE u.usuario_user='{$user}'");
-        // var_dump($result[0]->idmiembro); exit;
+        WHERE u.usuario_user='{$user}'";
+        // die($sql_login);
+        $result = DB::select($sql_login);
+       
         if(!isset($result[0]->usuario_user)) {
             $data["response"] = "nouser";
         }
@@ -197,15 +198,15 @@ class LoginController extends Controller
 
             $sql_idioma = "SELECT * FROM public.idiomas WHERE por_defecto='S'";
             $idioma_defecto = DB::select($sql_idioma);
-
+            
             session(['idioma_defecto' => $idioma_defecto[0]->idioma_codigo]);
             session(['idioma_id_defecto' => $idioma_defecto[0]->idioma_id]);
 
             $sql_perfil = "SELECT * FROM seguridad.perfiles_idiomas WHERE perfil_id={$result[0]->perfil_id} AND (idioma_id={$idioma[0]->idioma_id} OR idioma_id={$idioma_defecto[0]->idioma_id})";
-            // die($sql_perfil);
+            //die($sql_perfil);
             $perfil = DB::select($sql_perfil);
-
-            session(['perfil_descripcion' => $perfil[0]->pi_descripcion]);
+            
+            session(['perfil_descripcion' => (isset($perfil[0]->pi_descripcion)) ? $perfil[0]->pi_descripcion : "" ]);
             session(['nivel_organizativo' => $nivel_organizativo]);
         }
 
