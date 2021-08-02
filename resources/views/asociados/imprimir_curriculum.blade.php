@@ -85,14 +85,14 @@
     <main>
         <div class="row" style="margin-top: 0px; margin-bottom: 10px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo strtoupper(traducir("traductor.curriculum")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.curriculum")); ?></h3>
             </div>
         </div>
     
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>I. <?php echo strtoupper(traducir("traductor.datos_personales")); ?></h4>
+                <h4>I. <?php echo mayusculas(traducir("traductor.datos_personales")); ?></h4>
             </div>
         
         </div>
@@ -200,7 +200,7 @@
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>II. <?php echo strtoupper(traducir("traductor.datos_bautizo")); ?></h4>
+                <h4>II. <?php echo mayusculas(traducir("traductor.datos_bautizo")); ?></h4>
             </div>
         
         </div>
@@ -235,7 +235,7 @@
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>III. <?php echo strtoupper(traducir("traductor.datos_familiares")); ?></h4>
+                <h4>III. <?php echo mayusculas(traducir("traductor.datos_familiares")); ?></h4>
             </div>
         
         </div>
@@ -292,7 +292,7 @@
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>IV. <?php echo strtoupper(traducir("traductor.informacion_educacion")); ?></h4>
+                <h4>IV. <?php echo mayusculas(traducir("traductor.informacion_educacion")); ?></h4>
             </div>
         
         </div>
@@ -345,7 +345,7 @@
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>V. <?php echo strtoupper(traducir("traductor.experiencia_ministerial")); ?></h4>
+                <h4>V. <?php echo mayusculas(traducir("traductor.experiencia_ministerial")); ?></h4>
             </div>
         
         </div>
@@ -392,7 +392,7 @@
         <div class="clear"></div>
         <div class="row" style="font-size: 16px !important;">
             <div class="col" style="width: 100%; border: 1px solid black; background-color: #bfbfbf;">
-                <h4>VI. <?php echo strtoupper(traducir("traductor.experiencia_laboral")); ?></h4>
+                <h4>VI. <?php echo mayusculas(traducir("traductor.experiencia_laboral")); ?></h4>
             </div>
         
         </div>

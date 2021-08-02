@@ -102,7 +102,7 @@
         
         <div class="row" style="margin-top: 30px; margin-bottom: 50px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo strtoupper(traducir("traductor.certificado_bautizo")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.certificado_bautizo")); ?></h3>
             </div>
         </div>
         <div class="clear"></div>

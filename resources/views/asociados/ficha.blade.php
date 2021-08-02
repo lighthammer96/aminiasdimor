@@ -106,7 +106,7 @@
         
         <div class="row" style="margin-top: 30px">
             <div class="col" style="width: 100%;">
-                <h4><?php echo strtoupper(traducir("traductor.datos_personales")); ?></h4>
+                <h4><?php echo mayusculas(traducir("traductor.datos_personales")); ?></h4>
             </div>
         </div>
         <div class="clear"></div>
@@ -215,7 +215,7 @@
 
         <div class="row" style="margin-top: 30px">
             <div class="col" style="width: 100%;">
-                <h4><?php echo strtoupper(traducir("traductor.afiliacion_cargos")); ?></h4>
+                <h4><?php echo mayusculas(traducir("traductor.afiliacion_cargos")); ?></h4>
             </div>
         </div>
         <div class="clear"></div>
@@ -334,7 +334,7 @@
 
         <div class="row" style="margin-top: 30px">
             <div class="col" style="width: 100%;">
-                <h4><?php echo strtoupper(traducir("traductor.comentarios")); ?></h4>
+                <h4><?php echo mayusculas(traducir("traductor.comentarios")); ?></h4>
             </div>
         </div>
         <div class="row" >

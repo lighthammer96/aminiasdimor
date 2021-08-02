@@ -103,7 +103,7 @@
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo strtoupper(traducir("traductor.eleccion_oficiales_union_asociacion")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.eleccion_oficiales_union_asociacion")); ?></h3>
             </div>
         </div>
 
@@ -125,7 +125,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.sede")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.sede")) }}</label>
             </div> 
         </div>
         <div class="clear"></div>
@@ -167,7 +167,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.datos_relativos_eleccion")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.datos_relativos_eleccion")) }}</label>
             </div> 
         </div>
         <div class="clear"></div>
@@ -261,7 +261,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.composicion_union")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.composicion_union")) }}</label>
             </div> 
         </div>
 
@@ -278,7 +278,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.oficiales_elegidos")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.oficiales_elegidos")) }}</label>
             </div> 
         </div>
 
@@ -287,7 +287,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($presidente[0])
-                            {{ strtoupper($presidente[0]->cargo) }} 
+                            {{ mayusculas($presidente[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -376,7 +376,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($vicepresidente[0])
-                            {{ strtoupper($vicepresidente[0]->cargo) }} 
+                            {{ mayusculas($vicepresidente[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -466,7 +466,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($secretario[0])
-                            {{ strtoupper($secretario[0]->cargo) }} 
+                            {{ mayusculas($secretario[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -555,7 +555,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($tesorero[0])
-                            {{ strtoupper($tesorero[0]->cargo) }} 
+                            {{ mayusculas($tesorero[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -649,7 +649,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($colportaje[0])
-                            {{ strtoupper($colportaje[0]->cargo) }} 
+                            {{ mayusculas($colportaje[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -744,7 +744,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($obra[0])
-                            {{ strtoupper($obra[0]->cargo) }} 
+                            {{ mayusculas($obra[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -839,7 +839,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($jovenes[0])
-                            {{ strtoupper($jovenes[0]->cargo) }} 
+                            {{ mayusculas($jovenes[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -935,7 +935,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_editorial[0])
-                            {{ strtoupper($director_editorial[0]->cargo) }} 
+                            {{ mayusculas($director_editorial[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1032,7 +1032,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($nombre_editorial[0])
-                            {{ strtoupper($nombre_editorial[0]->cargo) }} 
+                            {{ mayusculas($nombre_editorial[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1129,7 +1129,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($dorca[0])
-                            {{ strtoupper($dorca[0]->cargo) }} 
+                            {{ mayusculas($dorca[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1225,7 +1225,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($salud[0])
-                            {{ strtoupper($salud[0]->cargo) }} 
+                            {{ mayusculas($salud[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1321,7 +1321,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($educacion[0])
-                            {{ strtoupper($educacion[0]->cargo) }} 
+                            {{ mayusculas($educacion[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1415,7 +1415,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($auditor_1[0])
-                            {{ strtoupper($auditor_1[0]->cargo) }} 
+                            {{ mayusculas($auditor_1[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1513,7 +1513,7 @@
             <div class="col" style="width: 35%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($auditor_2[0])
-                            {{ strtoupper($auditor_2[0]->cargo) }} 
+                            {{ mayusculas($auditor_2[0]->cargo) }} 
                         @endisset
                 </label>
             </div>
@@ -1603,7 +1603,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.comites")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.comites")) }}</label>
             </div> 
         </div>
 
@@ -1615,7 +1615,7 @@
                 <label for="">
                     <strong>
                         @isset($comite_union_asociacion[0])
-                            {{ strtoupper($comite_union_asociacion[0]->cargo) }}
+                            {{ mayusculas($comite_union_asociacion[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1662,7 +1662,7 @@
                 <label for="">
                     <strong>
                         @isset($comite_ejecutivo[0])
-                            {{ strtoupper($comite_ejecutivo[0]->cargo) }}
+                            {{ mayusculas($comite_ejecutivo[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1709,7 +1709,7 @@
                 <label for="">
                     <strong>
                         @isset($comite_finanzas[0])
-                            {{ strtoupper($comite_finanzas[0]->cargo) }}
+                            {{ mayusculas($comite_finanzas[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1755,7 +1755,7 @@
                 <label for="">
                     <strong>
                         @isset($comite_literario[0])
-                            {{ strtoupper($comite_literario[0]->cargo) }}
+                            {{ mayusculas($comite_literario[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1803,7 +1803,7 @@
                 <label for="">
                     <strong>
                         @isset($comite_salud[0])
-                            {{ strtoupper($comite_salud[0]->cargo) }}
+                            {{ mayusculas($comite_salud[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1841,7 +1841,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.delegados")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.delegados")) }}</label>
             </div> 
         </div>
 
@@ -1859,7 +1859,7 @@
                 <label for="">
                     <strong>
                         @isset($delegado[0])
-                            {{ strtoupper($delegado[0]->cargo) }}
+                            {{ mayusculas($delegado[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1899,7 +1899,7 @@
                 <label for="">
                     <strong>
                         @isset($delegado_subs[0])
-                            {{ strtoupper($delegado_subs[0]->cargo) }}
+                            {{ mayusculas($delegado_subs[0]->cargo) }}
                         @endisset
                     </strong>
                 </label>
@@ -1938,7 +1938,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.comentarios_")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.comentarios_")) }}</label>
             </div> 
         </div>
 

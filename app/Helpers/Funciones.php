@@ -57,5 +57,9 @@ function formato_fecha_idioma($campo_fecha) {
         
     }
 
+    function mayusculas($cadena) {
+        return strtr(strtoupper($cadena), "àèìòùáéíóúçñäëïöü", "ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");
+    }
+
 
 ?>

@@ -116,7 +116,7 @@
         
         <div class="row" style="margin-top: 160px; margin-bottom: 10px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo strtoupper(traducir("traductor.titulo_reporte_general_asociados")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.titulo_reporte_general_asociados")); ?></h3>
             </div>
         </div>
         <div class="clear"></div>

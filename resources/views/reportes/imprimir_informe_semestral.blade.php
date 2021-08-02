@@ -103,7 +103,7 @@
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo strtoupper(traducir("traductor.titulo_informe_semestral")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.titulo_informe_semestral")); ?></h3>
             </div>
         </div>
 
@@ -139,7 +139,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">I. {{ strtoupper(traducir("traductor.feligresia")) }}</label>
+                <label for="">I. {{ mayusculas(traducir("traductor.feligresia")) }}</label>
             </div> 
         </div>
 
@@ -236,7 +236,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">II. {{ strtoupper(traducir("traductor.obreros")) }}</label>
+                <label for="">II. {{ mayusculas(traducir("traductor.obreros")) }}</label>
             </div> 
         </div>
 
@@ -336,7 +336,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">III. {{ strtoupper(traducir("traductor.actividades")) }}</label>
+                <label for="">III. {{ mayusculas(traducir("traductor.actividades")) }}</label>
             </div> 
         </div>
 
@@ -435,10 +435,10 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 50%; font-size: 12px !important; font-weight: bold;">
-                <label for="">IV. {{ strtoupper(traducir("traductor.estimado_almas_interesadas_feligresia_juvenil")) }}</label>
+                <label for="">IV. {{ mayusculas(traducir("traductor.estimado_almas_interesadas_feligresia_juvenil")) }}</label>
             </div> 
             <div class="col" style="width: 50%; font-size: 12px !important; font-weight: bold;">
-                <label for="">{{ strtoupper(traducir("traductor.actividades_juveniles")) }}</label>
+                <label for="">{{ mayusculas(traducir("traductor.actividades_juveniles")) }}</label>
             </div> 
         </div>
 
@@ -566,7 +566,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">V. {{ strtoupper(traducir("traductor.edificaciones")) }}</label>
+                <label for="">V. {{ mayusculas(traducir("traductor.edificaciones")) }}</label>
             </div> 
         </div>
         <div class="clear"></div>
@@ -642,7 +642,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">VI. {{ strtoupper(traducir("traductor.instituciones")) }}</label>
+                <label for="">VI. {{ mayusculas(traducir("traductor.instituciones")) }}</label>
             </div> 
         </div>
 
@@ -683,7 +683,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 12px !important; font-weight: bold;">
-                <label for="">VII. {{ strtoupper(traducir("traductor.otros")) }}</label>
+                <label for="">VII. {{ mayusculas(traducir("traductor.otros")) }}</label>
             </div> 
         </div>
 
