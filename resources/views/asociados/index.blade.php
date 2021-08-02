@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
-                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 
@@ -146,8 +146,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
-                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 
@@ -156,11 +156,11 @@
 </div>
 
 
-<div class="modal fade" id="modal-lista-responsables" data-backdrop="static" tabindex="-1" role="dialog">
+<div id="modal-lista-responsables" class="modal fade"  tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<button type="button" class="close" id="cerrar-lista-responsables">× Cerrar</button>
 				<h4 class="modal-title">{{ traducir("traductor.listado_responsables") }}</h4>
 
 			</div>

@@ -23,7 +23,7 @@ class EleccionModel extends Model
 
     public function tabla() {
 
-        // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'e.idiglesia=' || e.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'e.idiglesia=' || e.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
 
         $tabla = new Tabla();

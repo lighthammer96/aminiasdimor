@@ -1475,6 +1475,33 @@ document.addEventListener("DOMContentLoaded", function() {
                 event.preventDefault();
                 event.stopPropagation();
             }
+            console.log(event.code);
+
+            if(event.code == "Escape") {
+				//PARA CERRAR EL FORMULARIO DE VENTAS
+				if($('#modal-asociados').is(':visible') && !$("#modal-bajas").is(':visible') && !$("#modal-altas").is(':visible') && !$("#modal-lista-responsables").is(':visible')) {
+
+					asociados.CerrarModal();
+				}
+
+				if($('#modal-asociados').is(':visible') && $("#modal-bajas").is(':visible') && !$("#modal-altas").is(':visible') && !$("#modal-lista-responsables").is(':visible')) {
+					$("#modal-bajas").modal("hide");
+
+				}
+
+                if($('#modal-asociados').is(':visible') && !$("#modal-bajas").is(':visible') && $("#modal-altas").is(':visible') && !$("#modal-lista-responsables").is(':visible')) {
+					$("#modal-altas").modal("hide");
+
+				}
+
+                if($('#modal-asociados').is(':visible') && ($("#modal-bajas").is(':visible') || $("#modal-altas").is(':visible')) && $("#modal-lista-responsables").is(':visible')) {
+					$("#modal-lista-responsables").modal("hide");
+
+				}
+
+				event.preventDefault();
+				event.stopPropagation();
+			}
             
         
             
@@ -1489,6 +1516,11 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cancelar-asociado").addEventListener("click", function(event) {
         event.preventDefault();
         asociados.CerrarModal();
+    })
+
+    document.getElementById("cerrar-lista-responsables").addEventListener("click", function(event) {
+        event.preventDefault();
+        $("#modal-lista-responsables").modal("hide");
     })
 
 
@@ -1583,10 +1615,23 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     })
 
-
+    
 
     document.getElementById("buscar_responsable_baja").addEventListener("click", function(event) {
         event.preventDefault();
+        //  $("#modal-lista-responsables").modal("show");
+        
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
+        if(typeof responsables.datatable.length != "undefined") {
+            responsables.datatable.destroy();
+        }
+
+        responsables.TablaListado({
+            tablaID: '#tabla-responsables',
+            url: "/buscar_datos_responsables",
+            idmiembro: idmiembro
+        });
+
         $("#modal-lista-responsables").modal("show");
     })
 

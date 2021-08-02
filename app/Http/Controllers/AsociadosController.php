@@ -358,10 +358,10 @@ class AsociadosController extends Controller
 
     public function obtener_traslados(Request $request) {
 
-        $funcion_1 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_anterior";
+        $funcion_1 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_anterior";
 
 
-        $funcion_2 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_traslado";
+        $funcion_2 = ", iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || ht.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").") AS iglesia_traslado";
 
         $sql = "SELECT 
         ct.* /*,

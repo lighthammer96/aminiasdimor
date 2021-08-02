@@ -94,8 +94,8 @@ class TrasladosModel extends Model
 
 
     public function tabla_control() {
-        $funcion_1 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").")";
-        $funcion_2 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        $funcion_1 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        $funcion_2 = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || ct.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
 
         $tabla = new Tabla();

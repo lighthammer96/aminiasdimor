@@ -38,6 +38,6 @@ return [
     'datatable_from' => 'from',
     'datatable_seleccionado' => 'selected',
     // TITULOS MODULOS
-    'titulo_asociados' => 'Administración de Asociados',
+    'titulo_asociados' => 'Administración de asociado',
 
 ];

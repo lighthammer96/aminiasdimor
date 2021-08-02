@@ -23,8 +23,8 @@ class InstitucionesModel extends Model
 
     public function tabla() {
 
-        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision  || '' / '' || s.iglesia', 'i.idiglesia=' || i.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
-
+        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || i.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        
 
         $tabla = new Tabla();
         $tabla->asignarID("tabla-instituciones");

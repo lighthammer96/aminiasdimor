@@ -276,17 +276,17 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = otras_propiedades.get(datos.idotrapropiedad);
 
         promise.then(function(response) {
-            // otras_propiedades.ajax({
-            //     url: '/obtener_traducciones',
-            //     datos: { idotrapropiedad: response.idotrapropiedad, _token: _token }
-            // }).then(function(response) {
-            //     if(response.length > 0) {
-            //         for(let i = 0; i < response.length; i++){
-            //             document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
-            //         }
-            //     }
-            //     //console.log(response);
-            // })
+            if(response.posee_union == "N") {
+                $(".union").hide();
+            } else {
+                $(".union").show();
+            }
+
+            $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
+            $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+            $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia])
         })
     }
 
@@ -322,17 +322,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
            
-                if(response.posee_union == "N") {
-                    $(".union").hide();
-                } else {
-                    $(".union").show();
-                }
+                // if(response.posee_union == "N") {
+                //     $(".union").hide();
+                // } else {
+                //     $(".union").show();
+                // }
 
-                $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-                $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
-                $("#idunion").trigger("change", [response.idunion, response.idmision]);
-                $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
-                $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
+                // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+                // $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
+                // $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+                // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
     
             })
 

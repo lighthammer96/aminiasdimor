@@ -1,10 +1,10 @@
 <div id="modal-asociados" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content" >
 
             <form id="formulario-asociados" class="form-horizontal" role="form">
                 <input type="hidden" name="pais_id_change" id="pais_id_change">
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: 570px !important; overflow-y: scroll;">
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#datos-generales" data-toggle="tab">{{ traducir("traductor.datos_generales") }}</a></li>
