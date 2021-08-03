@@ -115,7 +115,7 @@
                     <label class="control-label" style="">{{ traducir("traductor.fecha_inicial") }}:</label>
                     <div class="input-group">
                         <input type="text" class="form-control input-sm entrada" id="fecha_inicial" name="fecha_inicial" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                        <div class="input-group-addon">
+                        <div class="input-group-addon" id="calendar-fecha_inicial" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                     <label class="control-label" style="">{{ traducir("traductor.fecha_final") }}:</label>
                     <div class="input-group">
                         <input type="text" class="form-control input-sm entrada" id="fecha_final" name="fecha_final" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                        <div class="input-group-addon">
+                        <div class="input-group-addon" id="calendar-fecha_final" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </div>
                     </div>

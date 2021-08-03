@@ -603,7 +603,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var cont = $(this).attr("cont");
         if(cont <= 0) {
             BASE_JS.sweet({
-                text: "NO HAY DATOS!"
+                text: no_hay_datos
             });
             return false;
         }
@@ -617,7 +617,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var cont = $(this).attr("cont");
         if(cont <= 0) {
             BASE_JS.sweet({
-                text: "NO HAY DATOS!"
+                text: no_hay_datos
             });
             return false;
         }

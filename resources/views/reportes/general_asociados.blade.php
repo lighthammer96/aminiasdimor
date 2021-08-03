@@ -40,7 +40,7 @@
                 <div class="col-md-6" style="padding-left: 0; padding-right: 5px;">
                     <div class="input-group">
                         <input type="text" class="form-control input-sm entrada" name="fechaini" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                        <div class="input-group-addon">
+                        <div class="input-group-addon" id="calendar-fechaini" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                 <div class="col-md-6" style="padding-left: 5px; padding-right: 0px;">
                     <div class="input-group">
                         <input type="text" class="form-control input-sm entrada" name="fechafin" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                        <div class="input-group-addon">
+                        <div class="input-group-addon" id="calendar-fechafin" style="cursor: pointer;">
                             <i class="fa fa-calendar"></i>
                         </div>
                     </div>

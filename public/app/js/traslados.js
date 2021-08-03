@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if(idiglesia == idiglesiadestino) {
                 BASE_JS.sweet({
-                    text: 'La Iglesia Origen es igual a la Iglesia Destino!'
+                    text: iglesia_origen_destino
                 })
     
                 return
@@ -505,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 //console.log(response);
                 if(typeof response.status != "undefined" && response.status == "m") {
                     BASE_JS.notificacion({
-                        msg: 'El traslado se realizo correctamente!',
+                        msg: traslado_correctamente,
                         type: 'success'
                     })
                 }
@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(tipo_traslado == "2") {
             if(traslados_temp.datatable.rows()[0].length <= 1) {
                 BASE_JS.sweet({
-                    text: 'Debe agregar mas de un solo asociado!'
+                    text: agregar_mas_un_asociado
                 });
 
                 return false;
@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // alert(tipo_traslado);
         if(idiglesia_origen == idiglesiadestino) {
             BASE_JS.sweet({
-                text: 'No puede trasladar a la misma iglesia de origen!'
+                text: no_trasladar_iglesia_origen
             });
             return false;
         }
@@ -689,14 +689,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 //console.log(response);
                 if(typeof response.status != "undefined" && response.status == "t") {
                     BASE_JS.notificacion({
-                        msg: 'El traslado se realizo correctamente!',
+                        msg: traslado_correctamente,
                         type: 'success'
                     })
                 }
 
                 if(typeof response.status != "undefined" && response.status == "tp") {
                     BASE_JS.notificacion({
-                        msg: 'El traslado esta en proceso!',
+                        msg: traslado_proceso,
                         type: 'success'
                     })
                 }

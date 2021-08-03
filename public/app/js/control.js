@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(datos.estado != "PENDIENTE") {
             BASE_JS.sweet({
-                text: "YA FINALIZO EL TRASLADO!"
+                text: finaliza_traslado
             });
             
             return false;

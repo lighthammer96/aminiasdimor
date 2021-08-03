@@ -14,7 +14,12 @@ for(let i = 0; i < elementos.length; i++) {
 		var modulo_controlador = elementos[i].getAttribute("modulo_controlador");
 		elementos[i].parentNode.classList.add("active");
 		elementos[i].parentNode.parentNode.parentNode.classList.add("active");
-		
+		// elementos[i].getElementsByTagName("i")[0].classList.remove("fa fa-circle-o");
+		// elementos[i].getElementsByTagName("i")[0].classList.add("fa fa-circle");
+
+		$(elementos[i]).find("i").removeClass("fa fa-circle-o");
+		$(elementos[i]).find("i").addClass("fa fa-circle");
+		// console.log();
 		
 	}
 
@@ -155,7 +160,7 @@ $(document).on("click", "#search-btn", function(e) {
 				// alert();
 				window.location = BaseUrl+"/"+json[0].modulo_controlador;
 			} else {
-				alert("No hay modulo con la descripcion ingresada: "+buscador);
+				alert(no_hay_modulo+": "+buscador);
 			}
 			// return false;
 		}).fail(function() {
@@ -172,3 +177,15 @@ $(document).on("click", "#search-btn", function(e) {
 
 
 
+
+$(document).on("mouseover", ".modulosUrl", function(e) {
+	// console.log($(this).text());
+
+	$(this).find("i").removeClass("fa fa-circle-o");
+	$(this).find("i").addClass("fa fa-circle");
+})
+
+$(document).on("mouseout", ".modulosUrl", function(e) {
+	$(this).find("i").removeClass("fa fa-circle");
+	$(this).find("i").addClass("fa fa-circle-o");
+})

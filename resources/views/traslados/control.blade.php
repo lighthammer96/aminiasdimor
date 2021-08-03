@@ -30,8 +30,9 @@
                             <label for="" class="control-label">{{ traducir("traductor.estado") }}</label>
                          
                           
-                            <select name="estado" id="estado" class="form-control input-sm entrada">
+                            <select name="estado" id="estado" class="form-control input-sm" placeholder="{{ traducir('traductor.seleccione') }}">
                                 
+                                <!-- <option value="">{{ traducir("traductor.seleccione") }}</option> -->
                                 <option value="0">ACEPTADO</option>
                                 <!-- <option value="1">PENDIENTE</option> -->
                                 <option value="2">RECHAZADO</option>

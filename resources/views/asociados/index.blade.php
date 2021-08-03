@@ -43,7 +43,7 @@
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                <div class="input-group-addon">
+                                <div class="input-group-addon" id="calendar-fecha" style="cursor: pointer;">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                <div class="input-group-addon">
+                                <div class="input-group-addon" id="calendar-fecha" style="cursor: pointer;">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>

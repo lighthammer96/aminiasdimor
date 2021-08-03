@@ -130,7 +130,7 @@
 
                                                     <div class="input-group">
                                                         <input type="text" class="form-control input-sm entrada" name="fechanacimiento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon"  id="calendar-fechanacimiento" style="cursor: pointer;">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
                                                     </div>
@@ -332,7 +332,7 @@
 
                                                 <div class="input-group">
                                                     <input type="text" class="form-control input-sm entrada" name="fechaingresoiglesia" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-addon"  id="calendar-fechaingresoiglesia" style="cursor: pointer;">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                 </div>
@@ -364,7 +364,7 @@
 
                                         <div class="input-group">
                                             <input type="text" class="form-control input-sm entrada" name="fechabautizo" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                            <div class="input-group-addon">
+                                            <div class="input-group-addon"  id="calendar-fechabautizo" style="cursor: pointer;">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>

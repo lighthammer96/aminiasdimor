@@ -92,7 +92,7 @@ class BASE_JS {
         } else {
             BASE_JS.sweet({
                 confirm: true,
-                text: "¿SEGURO QUE DESEA CANCELAR?",
+                text: seguro_cancelar,
                 callbackConfirm: function() {
                     $("#" + self.modalID).modal("hide");
                     console.log("MODAL CERRADO -> " + self.modalID);
@@ -1404,7 +1404,7 @@ class BASE_JS {
             } 
         }
 
-        BASE_JS.notificacion({title: 'ADVERTENCIA!', type: 'warning', msg: 'Email Inválido!'});
+        BASE_JS.notificacion({title: advertencia, type: 'warning', msg: email_invalido});
         this.buscarEnFormulario(name).parentNode.classList.add('has-error');
         return false;
 

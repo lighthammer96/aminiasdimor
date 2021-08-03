@@ -1693,7 +1693,23 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && bajas.required("idmotivobaja");
         required = required && bajas.required("observaciones");   
         if(required) {
-            bajas.guardar();
+            var promise = bajas.guardar();
+            promise.then(function(response) {
+                document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = "";
+
+                asociados.ajax({
+                    url: '/obtener_historial_altas_bajas',
+                    datos: { idmiembro: response.datos[0].idmiembro, _token: _token }
+                }).then(function(response) {
+                    if(response.length > 0) {
+                        for(let i = 0; i < response.length; i++){
+                            // document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
+                            document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
+                        }
+                    }
+                    //console.log(response);
+                })
+            })
             bajas.CerrarModal();
             crear_botones_altas_bajas("0");
         }
@@ -1708,7 +1724,23 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && altas.required("fecha");
         required = required && altas.required("observaciones");   
         if(required) {
-            altas.guardar();
+            var promise = altas.guardar();
+            promise.then(function(response) {
+                document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = "";
+
+                asociados.ajax({
+                    url: '/obtener_historial_altas_bajas',
+                    datos: { idmiembro: response.datos[0].idmiembro, _token: _token }
+                }).then(function(response) {
+                    if(response.length > 0) {
+                        for(let i = 0; i < response.length; i++){
+                            // document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].innerHTML = html_detalle_historial(response[i]);
+                            document.getElementById("detalle-historial").getElementsByTagName("tbody")[0].appendChild(html_detalle_historial(response[i]));
+                        }
+                    }
+                    //console.log(response);
+                })
+            })
             altas.CerrarModal();
             crear_botones_altas_bajas("1");
         }
@@ -1934,10 +1966,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         switch (objeto.condicion) {
             case "R":
-                condicion_texto = "Remunerado";
+                condicion_texto = remunerado;
                 break;
             case "N":
-                condicion_texto = "No Remunerado";
+                condicion_texto = no_remunerado;
                 break;
        
         }
@@ -1945,10 +1977,10 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (objeto.tiempo) {
         
             case "C":
-                tiempo_texto = "Tiempo Completo";
+                tiempo_texto = tiempo_completo;
                 break;
             case "P":
-                tiempo_texto = "Tiempo Parcial";
+                tiempo_texto = tiempo_parcial;
                 break;
         }
 
@@ -2132,7 +2164,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //alert(typeof idcondicioneclesiastica);
         if(idmiembro == "") {
             BASE_JS.notificacion({
-                msg: 'Aun no ha registrado el asociado!',
+                msg: no_registrado_asociado,
                 type: 'warning'
             })
             return false;
@@ -2140,7 +2172,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(idcondicioneclesiastica == "" || idcondicioneclesiastica != "1" || idcondicioneclesiastica == "null") {
             BASE_JS.notificacion({
-                msg: 'Su Condición Eclesiástica debe ser Bautizado!',
+                msg: condicion_eclesiastica_bautizado,
                 type: 'warning'
             })
             return false;
@@ -2149,7 +2181,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(fechabautizo == "" || fechabautizo == "null") {
             BASE_JS.notificacion({
-                msg: 'Debe tener registrado una fecha de bautizo!',
+                msg: registrado_fecha_bautizo,
                 type: 'warning'
             })
             return false;
@@ -2157,7 +2189,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(responsable_bautizo == "" || responsable_bautizo == "null") {
             BASE_JS.notificacion({
-                msg: 'Debe tener asignado un responsable de bautizo!',
+                msg: asignado_responsable_bautizo,
                 type: 'warning'
             })
             return false;
@@ -2165,7 +2197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(idreligion == "" || idreligion == "0") {
             BASE_JS.notificacion({
-                msg: 'Debe tener asignado una procedencia religiosa!',
+                msg: asignado_procedencia_religiosa,
                 type: 'warning'
             })
             return false;
@@ -2177,6 +2209,28 @@ document.addEventListener("DOMContentLoaded", function() {
         window.open(BaseUrl + "/asociados/imprimir_ficha_bautizo/"+idmiembro);
     })
 
+
+    document.getElementById("calendar-fechaingresoiglesia").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechaingresoiglesia]").focus();
+    });
+
+
+    document.getElementById("calendar-fechabautizo").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechabautizo]").focus();
+    });
+
+    document.getElementById("calendar-fechanacimiento").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechanacimiento]").focus();
+    });
+
+    document.getElementById("calendar-fecha").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fecha]").focus();
+    });
+    
     
 
 })

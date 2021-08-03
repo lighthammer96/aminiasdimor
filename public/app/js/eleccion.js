@@ -492,6 +492,15 @@ document.addEventListener("DOMContentLoaded", function() {
         eleccion.CerrarModal();
     })
 
+    document.getElementById("calendar-fecha").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fecha]").focus();
+    });
+
+    document.getElementById("calendar-fechaanterior").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechaanterior]").focus();
+    });
 
  
 

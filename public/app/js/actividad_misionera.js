@@ -814,4 +814,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
+
+    document.getElementById("calendar-fecha_inicial").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fecha_inicial]").focus();
+    });
+
+    document.getElementById("calendar-fecha_final").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fecha_final]").focus();
+    });
+
 })

@@ -314,14 +314,14 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(cont == 0) {
             BASE_JS.sweet({
-                text: 'Debe seleccionar la menos un campo para mostrar'
+                text: seleccionar_campo_mostrar
             });
             return false;
         }
 
         if(cont > 15) {
             BASE_JS.sweet({
-                text: 'Excede el numero de campos para un formato vertical, seleccione el formato horizontal!'
+                text: excede_campos
             });
             return false;
         }
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(cont == 0) {
             BASE_JS.sweet({
-                text: 'Debe seleccionar la menos un campo para mostrar'
+                text: seleccionar_campo_mostrar
             });
             return false;
         }
@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if(cont == 0) {
             BASE_JS.sweet({
-                text: 'Debe seleccionar la menos un campo para mostrar'
+                text: seleccionar_campo_mostrar
             });
             return false;
         }
@@ -412,6 +412,17 @@ document.addEventListener("DOMContentLoaded", function() {
         window.open('', 'exportar_excel');
         document.getElementById('formulario-general_asociados').submit();
     })
+
+    document.getElementById("calendar-fechaini").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechaini]").focus();
+    });
+
+
+    document.getElementById("calendar-fechafin").addEventListener("click", function(e) {
+        e.preventDefault();
+        $("input[name=fechafin]").focus();
+    });
 
    
 })

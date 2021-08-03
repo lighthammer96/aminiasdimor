@@ -215,6 +215,27 @@
         var planes = "<?php echo traducir('traductor.planes'); ?>";
         var informe_espiritual = "<?php echo traducir('traductor.informe_espiritual'); ?>";
         var datatable_seleccionado = "<?php echo traducir('traductor.datatable_seleccionado'); ?>";
+        var no_registrado_asociado = "<?php echo traducir('traductor.no_registrado_asociado'); ?>";
+        var condicion_eclesiastica_bautizado = "<?php echo traducir('traductor.condicion_eclesiastica_bautizado'); ?>";
+        var registrado_fecha_bautizo = "<?php echo traducir('traductor.registrado_fecha_bautizo'); ?>";
+        var asignado_responsable_bautizo = "<?php echo traducir('traductor.asignado_responsable_bautizo'); ?>";
+        var asignado_procedencia_religiosa = "<?php echo traducir('traductor.asignado_procedencia_religiosa'); ?>";
+        var remunerado = "<?php echo traducir('traductor.remunerado'); ?>";
+        var no_remunerado = "<?php echo traducir('traductor.no_remunerado'); ?>";
+        var tiempo_completo = "<?php echo traducir('traductor.tiempo_completo'); ?>";
+        var tiempo_parcial = "<?php echo traducir('traductor.tiempo_parcial'); ?>";
+        var advertencia = "<?php echo traducir('traductor.advertencia'); ?>";
+        var email_invalido = "<?php echo traducir('traductor.email_invalido'); ?>";
+        var seguro_cancelar = "<?php echo traducir('traductor.seguro_cancelar'); ?>";
+        var finaliza_traslado = "<?php echo traducir('traductor.finaliza_traslado'); ?>";
+        var no_hay_datos = "<?php echo traducir('traductor.no_hay_datos'); ?>";
+        var seleccionar_campo_mostrar = "<?php echo traducir('traductor.seleccionar_campo_mostrar'); ?>";
+        var excede_campos = "<?php echo traducir('traductor.excede_campos'); ?>";
+        var traslado_correctamente = "<?php echo traducir('traductor.traslado_correctamente'); ?>";
+        var agregar_mas_un_asociado = "<?php echo traducir('traductor.agregar_mas_un_asociado'); ?>";
+        var traslado_proceso = "<?php echo traducir('traductor.traslado_proceso'); ?>";
+        var no_trasladar_iglesia_origen = "<?php echo traducir('traductor.no_trasladar_iglesia_origen'); ?>";
+        var iglesia_origen_destino = "<?php echo traducir('traductor.iglesia_origen_destino'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

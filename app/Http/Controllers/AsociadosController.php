@@ -346,9 +346,9 @@ class AsociadosController extends Controller
     }
 
     public function obtener_historial_altas_bajas(Request $request) {
-        $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, mb.descripcion AS motivo_baja, ".formato_fecha_idioma("h.fecha")." AS fecha
+        $sql = "SELECT h.*, CASE WHEN h.alta = '1' THEN 'ALTA' ELSE 'BAJA' END tipo, vr.nombres AS responsable, CASE WHEN mb.descripcion IS NULL THEN '' ELSE mb.descripcion END AS motivo_baja, ".formato_fecha_idioma("h.fecha")." AS fecha
         FROM iglesias.historial_altasybajas AS h
-        INNER JOIN iglesias.motivobaja  AS mb ON(mb.idmotivobaja=h.idmotivobaja)
+        LEFT JOIN iglesias.motivobaja  AS mb ON(mb.idmotivobaja=h.idmotivobaja)
         LEFT JOIN iglesias.vista_responsables AS vr ON(vr.id=h.responsable AND vr.tabla=h.tabla)
         WHERE h.idmiembro=".$request->input("idmiembro");
         // die($sql);
