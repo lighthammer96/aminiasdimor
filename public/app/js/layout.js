@@ -180,12 +180,17 @@ $(document).on("click", "#search-btn", function(e) {
 
 $(document).on("mouseover", ".modulosUrl", function(e) {
 	// console.log($(this).text());
-
-	$(this).find("i").removeClass("fa fa-circle-o");
-	$(this).find("i").addClass("fa fa-circle");
+	if(!$(this).parent("li").hasClass("active")) {
+		$(this).find("i").removeClass("fa fa-circle-o");
+		$(this).find("i").addClass("fa fa-circle");
+	}
+	
 })
 
 $(document).on("mouseout", ".modulosUrl", function(e) {
-	$(this).find("i").removeClass("fa fa-circle");
-	$(this).find("i").addClass("fa fa-circle-o");
+	if(!$(this).parent("li").hasClass("active")) {
+		$(this).find("i").removeClass("fa fa-circle");
+		$(this).find("i").addClass("fa fa-circle-o");
+	}
+	
 })

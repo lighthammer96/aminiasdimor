@@ -12,7 +12,7 @@ class ActividadmisioneraController extends Controller
 {
     //
     private $base_model;
-    private $perfiles_model;
+    // private $perfiles_model;
     
     public function __construct() {
         parent:: __construct();

@@ -1353,6 +1353,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var array_pais = pais_id.split("|");
         // alert(idmiembro);
         var required = true;
+        var condicion = true;
         required = required && asociados.required("nombres");
         required = required && asociados.required("apellidos");
         required = required && asociados.required("sexo");
@@ -1386,8 +1387,30 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && asociados.required("iddistritomisionero");
             required = required && asociados.required("idiglesia");
         }
+
+        if(!required) {
+            $(".nav-tabs").find("li").removeClass("active");
+            $("a[href='#datos-generales']").parent("li").addClass("active");
+            $(".tab-pane").removeClass("active");
+            $("#datos-generales").addClass("active");
+        }
+
+        condicion = condicion && asociados.required("idcondicioneclesiastica");
+        condicion = condicion && asociados.required("fechabautizo");
+        condicion = condicion && asociados.required("responsable_bautizo");
+        condicion = condicion && asociados.required("idreligion");
+        condicion = condicion && asociados.required("texto_bautismal");
+        condicion = condicion && asociados.required("observaciones_bautizo");
+
+        if(!condicion) {
+            $(".nav-tabs").find("li").removeClass("active");
+            $("a[href='#informacion-eclesiastica']").parent("li").addClass("active");
+            $(".tab-pane").removeClass("active");
+            $("#informacion-eclesiastica").addClass("active");
+        }
+
         // alert(required);
-        if(required) {
+        if(required && condicion) {
             var promise = asociados.guardar();
             asociados.CerrarModal();
             promise.then(function(response) {

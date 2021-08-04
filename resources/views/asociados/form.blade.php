@@ -411,7 +411,7 @@
                                                
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir("traductor.observaciones") }}</label>
-                                        <textarea class="form-control input-sm entrada" name="observaciones_bautizo"  cols="30" rows="2"></textarea>
+                                        <textarea class="form-control input-sm entrada" name="observaciones_bautizo"  cols="30" rows="4"></textarea>
                                         
                                     </div>
                                     
