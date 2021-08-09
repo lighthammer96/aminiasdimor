@@ -26,8 +26,8 @@
 
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.tipo_cargo')}}</label>
-
-                            <div class="input-group">
+                            <select  name="idtipocargo" id="idtipocargo" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group">
                                 <select  name="idtipocargo" id="idtipocargo" class="selectizejs entrada"></select>
 
                                 <span class="input-group-btn">
@@ -35,7 +35,7 @@
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="col-md-12">

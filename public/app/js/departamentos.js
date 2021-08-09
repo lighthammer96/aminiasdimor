@@ -1,7 +1,7 @@
 var departamentos = new BASE_JS('departamentos', 'departamentos');
 
 document.addEventListener("DOMContentLoaded", function() {
-            
+    departamentos.buscarEnFormulario("descripcion").solo_letras();
    
     departamentos.TablaListado({
         tablaID: '#tabla-departamentos',

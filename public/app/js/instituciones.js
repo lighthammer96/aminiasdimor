@@ -8,7 +8,8 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 
 document.addEventListener("DOMContentLoaded", function() {
         
-   
+    instituciones.buscarEnFormulario("nombre").solo_letras();
+    instituciones.buscarEnFormulario("descripcion").solo_letras();
     instituciones.TablaListado({
         tablaID: '#tabla-instituciones',
         url: "/buscar_datos",

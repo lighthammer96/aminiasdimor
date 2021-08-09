@@ -66,7 +66,7 @@ class PermisosController extends Controller
         $Response = array(
             "status" => "i", 
            
-            "msg" => "SE GUARDÓ CORRECTAMENTE",
+            "msg" => traducir("traductor.guardo"),
             "type" => "success"
         );
 

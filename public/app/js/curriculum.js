@@ -5,6 +5,18 @@ var paises = new BASE_JS('paises', 'paises');
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    curriculum.buscarEnFormulario("nombre").solo_letras();
+    curriculum.buscarEnFormulario("lugarnac").solo_letras();
+    curriculum.buscarEnFormulario("numdoc").solo_numeros();
+    curriculum.buscarEnFormulario("inst").solo_letras();
+    curriculum.buscarEnFormulario("nivel").solo_letras();
+    curriculum.buscarEnFormulario("prof").solo_letras();
+    curriculum.buscarEnFormulario("est").solo_letras();
+    curriculum.buscarEnFormulario("car").solo_letras();
+    curriculum.buscarEnFormulario("sec").solo_letras();
+    curriculum.buscarEnFormulario("insti").solo_letras();
+
+
     $("input[name=fechanac]").inputmask();
 
     jQuery( "input[name=fechanac]" ).datepicker({

@@ -343,6 +343,18 @@
             </div>
         </div>
 
+        <div class="row" style="margin-top: 30px">
+            <div class="col" style="width: 8%;">
+                <label for=""><strong>{{ traducir("traductor.estado") }}: </strong></label>
+            </div>
+            <div class="col" style="width: 92%;">
+                <label for="">{{ $miembro[0]->estado }}</label>
+            </div>
+        </div>
+      
+
+
+
     </main>
     
     

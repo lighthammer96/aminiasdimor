@@ -2,7 +2,8 @@ var niveles = new BASE_JS('niveles', 'niveles');
 
 document.addEventListener("DOMContentLoaded", function() {
         
-   
+    niveles.buscarEnFormulario("descripcion").solo_letras();
+
     niveles.TablaListado({
         tablaID: '#tabla-niveles',
         url: "/buscar_datos",

@@ -397,7 +397,7 @@ class AsociadosController extends Controller
 
         $datos = array();
         $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
-        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo, CASE WHEN estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)

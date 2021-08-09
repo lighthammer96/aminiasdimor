@@ -1,6 +1,9 @@
 var uniones = new BASE_JS('uniones', 'uniones');
 
 document.addEventListener("DOMContentLoaded", function() {
+    uniones.buscarEnFormulario("descripcion").solo_letras();
+    uniones.buscarEnFormulario("telefono").solo_numeros();
+    uniones.buscarEnFormulario("fax").solo_numeros();
 
     uniones.TablaListado({
         tablaID: '#tabla-uniones',

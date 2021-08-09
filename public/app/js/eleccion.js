@@ -8,6 +8,11 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 var asociados = new BASE_JS('asociados', 'asociados');
 
 document.addEventListener("DOMContentLoaded", function() {
+    eleccion.buscarEnFormulario("feligresiaanterior").solo_numeros();
+    eleccion.buscarEnFormulario("delegados").solo_numeros();
+    eleccion.buscarEnFormulario("feligresiaactual").solo_numeros();
+
+
     $(function() {
         $('input[type="radio"], input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',

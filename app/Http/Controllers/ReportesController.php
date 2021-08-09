@@ -199,7 +199,7 @@ class ReportesController extends Controller
             $select = implode(", ", $request->input("campos"));
         } else {
             $select = " m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
-            gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo ";
+            gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado ";
         }
         
        

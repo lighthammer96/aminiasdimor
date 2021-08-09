@@ -1,6 +1,9 @@
 var misiones = new BASE_JS('misiones', 'misiones');
 
 document.addEventListener("DOMContentLoaded", function() {
+    misiones.buscarEnFormulario("descripcion").solo_letras();
+    misiones.buscarEnFormulario("telefono").solo_numeros();
+    misiones.buscarEnFormulario("fax").solo_numeros();
 
     misiones.TablaListado({
         tablaID: '#tabla-misiones',

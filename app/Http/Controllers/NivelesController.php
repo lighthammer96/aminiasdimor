@@ -95,22 +95,26 @@ class NivelesController extends Controller
     public function obtener_niveles(Request $request) {
 
         $sql = "";
+        $result = array();
 		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
             $sql = "SELECT n.idnivel AS id, n.descripcion 
             FROM public.nivel AS n
             WHERE n.estado='1' AND n.idtipocargo=".$request->input("idtipocargo")." 
-            ORDER BY n.idnivel ASC";
+            ORDER BY n.descripcion ASC";
 		
         
         } else {
-            $sql = "SELECT n.idnivel AS id, n.descripcion FROM public.nivel AS n
-            WHERE n.estado='1'
-            ORDER BY n.idnivel ASC";
+            // $sql = "SELECT n.idnivel AS id, n.descripcion FROM public.nivel AS n
+            // WHERE n.estado='1'
+            // ORDER BY n.descripcion ASC";
         }
 
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
 
     
-        $result = DB::select($sql);
+        // $result = DB::select($sql);
         echo json_encode($result);
     }
 

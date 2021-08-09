@@ -2,7 +2,8 @@ var distritos = new BASE_JS('distritos', 'distritos');
 
 document.addEventListener("DOMContentLoaded", function() {
             
-    
+    distritos.buscarEnFormulario("descripcion").solo_letras();
+
     distritos.TablaListado({
         tablaID: '#tabla-distritos',
         url: "/buscar_datos",

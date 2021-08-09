@@ -3,7 +3,8 @@ var niveles = new BASE_JS('niveles', 'niveles');
 var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
-        
+    
+    cargos.buscarEnFormulario("descripcion").solo_letras();
    
     cargos.TablaListado({
         tablaID: '#tabla-cargos',

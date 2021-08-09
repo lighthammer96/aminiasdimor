@@ -74,7 +74,7 @@
   padding-right: 24px !important;
 }
 .selectize-control.plugin-remove_button [data-value] .remove {
-  z-index: 999999999999999999999;
+  z-index: 900001;
   /* fixes ie bug (see #392) */
   position: absolute;
   top: 0;
@@ -141,7 +141,7 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  z-index: 999999999999999999999;
+  z-index: 900001;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -234,7 +234,7 @@
 }
 .selectize-dropdown {
   position: absolute;
-  z-index: 999999999999999999999;
+  z-index: 900010;
   border: 1px solid #ccc;
   /* background: #fff; */
   background: #ffffcc;
@@ -298,7 +298,7 @@
   overflow-x: hidden;
   max-height: 200px;
   -webkit-overflow-scrolling: touch;
-  z-index: 999999999999999999999;
+  z-index: 999999;
 
 }
 .selectize-control.single .selectize-input,
@@ -340,7 +340,7 @@
 }
 .selectize-dropdown {
   margin: 2px 0 0 0;
-  z-index: 999999999999999999999;
+  z-index: 901000;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);

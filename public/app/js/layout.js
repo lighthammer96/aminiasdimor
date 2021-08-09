@@ -194,3 +194,56 @@ $(document).on("mouseout", ".modulosUrl", function(e) {
 	}
 	
 })
+
+function validarkeys(e, type) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = type;
+    //46 -> es el punto
+    especiales = [8, 37, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+    //alert(tecla);
+    // alert(letras.indexOf(tecla));
+    // alert(tecla_especial);
+    if(letras.indexOf(tecla) == -1 && !tecla_especial) {
+       // alert("entro");
+        e.preventDefault();
+        //return false; // no funciona con esto
+    }
+
+}
+
+HTMLElement.prototype.solo_letras = function () {
+    var solo_letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
+	// console.log(this);
+	$(this).keypress(function(event) {
+        validarkeys(event, solo_letras);
+    });
+
+};
+
+HTMLElement.prototype.solo_numeros = function () {
+    var solo_numeros = "0123456789";
+	// console.log(this);
+	$(this).keypress(function(event) {
+        validarkeys(event, solo_numeros);
+    });
+
+};
+
+
+HTMLElement.prototype.decimales = function () {
+    var decimales = "/.0123456789";
+	// console.log(this);
+	$(this).keypress(function(event) {
+        validarkeys(event, decimales);
+    });
+
+};

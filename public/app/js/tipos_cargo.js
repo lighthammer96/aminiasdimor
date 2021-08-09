@@ -1,7 +1,7 @@
 var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
-        
+    tipos_cargo.buscarEnFormulario("descripcion").solo_letras();
    
     tipos_cargo.TablaListado({
         tablaID: '#tabla-tipos-cargo',

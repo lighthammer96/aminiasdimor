@@ -1,6 +1,7 @@
 var provincias = new BASE_JS('provincias', 'provincias');
 
 document.addEventListener("DOMContentLoaded", function() {
+    provincias.buscarEnFormulario("descripcion").solo_letras();
 
     provincias.TablaListado({
         tablaID: '#tabla-provincias',

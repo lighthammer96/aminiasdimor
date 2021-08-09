@@ -8,7 +8,9 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 
 document.addEventListener("DOMContentLoaded", function() {
         
-   
+    otras_propiedades.buscarEnFormulario("descripcion").solo_letras();
+    otras_propiedades.buscarEnFormulario("cantidad").solo_numeros();
+
     otras_propiedades.TablaListado({
         tablaID: '#tabla-otras-propiedades',
         url: "/buscar_datos",

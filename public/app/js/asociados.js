@@ -14,6 +14,14 @@ var cargos = new BASE_JS('cargos', 'cargos');
 var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
+    asociados.buscarEnFormulario("nombres").solo_letras();
+    asociados.buscarEnFormulario("apellidos").solo_letras();
+    asociados.buscarEnFormulario("apellido_soltera").solo_letras();
+    asociados.buscarEnFormulario("nrodoc").solo_numeros();
+    asociados.buscarEnFormulario("celular").solo_numeros();
+    asociados.buscarEnFormulario("telefono").solo_numeros();
+    asociados.buscarEnFormulario("idiomas").solo_letras();
+
     document.getElementById("pais_id_change").value = session_pais_id;
     var format = "";
     if(idioma_codigo == "es") {
@@ -1394,13 +1402,15 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".tab-pane").removeClass("active");
             $("#datos-generales").addClass("active");
         }
-
-        condicion = condicion && asociados.required("idcondicioneclesiastica");
-        condicion = condicion && asociados.required("fechabautizo");
-        condicion = condicion && asociados.required("responsable_bautizo");
-        condicion = condicion && asociados.required("idreligion");
-        condicion = condicion && asociados.required("texto_bautismal");
-        condicion = condicion && asociados.required("observaciones_bautizo");
+        if(idmiembro == "") {
+            condicion = condicion && asociados.required("idcondicioneclesiastica");
+            condicion = condicion && asociados.required("fechabautizo");
+            condicion = condicion && asociados.required("responsable_bautizo");
+            condicion = condicion && asociados.required("idreligion");
+            condicion = condicion && asociados.required("texto_bautismal");
+            // condicion = condicion && asociados.required("observaciones_bautizo");
+        }
+       
 
         if(!condicion) {
             $(".nav-tabs").find("li").removeClass("active");
@@ -1498,7 +1508,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 event.preventDefault();
                 event.stopPropagation();
             }
-            console.log(event.code);
+            // console.log(event.code);
 
             if(event.code == "Escape") {
 				//PARA CERRAR EL FORMULARIO DE VENTAS
@@ -1887,12 +1897,12 @@ document.addEventListener("DOMContentLoaded", function() {
             // var condicion = document.getElementsByName("condicion")[0];
             // var tiempo = document.getElementsByName("tiempo")[0];
             
-            if(idiglesia.value == "") {
-                BASE_JS.sweet({
-                    text: seleccionar_iglesia
-                });
-                return false;
-            }
+            // if(idiglesia.value == "") {
+            //     BASE_JS.sweet({
+            //         text: seleccionar_iglesia
+            //     });
+            //     return false;
+            // }
             
             var condicion = "";
             $("input[name='condicion']").each(function(e) {
@@ -1971,9 +1981,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function html_detalle_cargos(objeto, disabled) {
+        // alert(disabled)
         var attr = '';
         var html = '';
-        if(typeof disabled != "undefined") {
+        if(document.getElementsByName("nombres")[0].disabled) {
             attr = 'disabled="disabled"';
         }
         var tr = document.createElement("tr");
@@ -2071,7 +2082,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function html_detalle_capacitaciones(objeto, disabled) {
         var attr = '';
         var html = '';
-        if(typeof disabled != "undefined") {
+        if(document.getElementsByName("nombres")[0].disabled) {
             attr = 'disabled="disabled"';
         }
         var tr = document.createElement("tr");
@@ -2098,11 +2109,16 @@ document.addEventListener("DOMContentLoaded", function() {
     function html_traslados(objeto) {
 
         var html = '';
+        var attr = '';
+
+        if(document.getElementsByName("nombres")[0].disabled) {
+            attr = 'disabled="disabled"';
+        }
 
         var buttons = '';
 
         if(objeto.idcontrol != '' && objeto.idcontrol != null) {
-            buttons = '<center><button title="Carta de Iglesia" type="button" onclick="imprimir_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button>&nbsp;<button title="Respuesta de Carta de Iglesia" type="button" onclick="imprimir_respuesta_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button></center>';
+            buttons = '<center><button '+attr+' title="Carta de Iglesia" type="button" onclick="imprimir_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button>&nbsp;<button '+attr+' title="Respuesta de Carta de Iglesia" type="button" onclick="imprimir_respuesta_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button></center>';
         }
 
         var tr = document.createElement("tr");
@@ -2235,23 +2251,79 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("calendar-fechaingresoiglesia").addEventListener("click", function(e) {
         e.preventDefault();
-        $("input[name=fechaingresoiglesia]").focus();
+        if($("input[name=fechaingresoiglesia]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fechaingresoiglesia]").blur();
+            $("input[name=fechaingresoiglesia]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fechaingresoiglesia]").focus();
+            $("input[name=fechaingresoiglesia]").addClass("focus-datepicker");
+        }
     });
 
 
     document.getElementById("calendar-fechabautizo").addEventListener("click", function(e) {
         e.preventDefault();
-        $("input[name=fechabautizo]").focus();
+        
+        if($("input[name=fechabautizo]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fechabautizo]").blur();
+            $("input[name=fechabautizo]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fechabautizo]").focus();
+            $("input[name=fechabautizo]").addClass("focus-datepicker");
+        }
+       
     });
 
     document.getElementById("calendar-fechanacimiento").addEventListener("click", function(e) {
         e.preventDefault();
-        $("input[name=fechanacimiento]").focus();
+
+  
+        if($("input[name=fechanacimiento]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fechanacimiento]").blur();
+            $("input[name=fechanacimiento]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fechanacimiento]").focus();
+            $("input[name=fechanacimiento]").addClass("focus-datepicker");
+        }
+       
     });
 
-    document.getElementById("calendar-fecha").addEventListener("click", function(e) {
+
+
+
+
+    document.getElementById("calendar-fecha-alta").addEventListener("click", function(e) {
         e.preventDefault();
-        $("input[name=fecha]").focus();
+        
+        if($("#formulario-altas").find("input[name=fecha]").hasClass("focus-datepicker")) {
+   
+            $("#formulario-altas").find("input[name=fecha]").blur();
+            $("#formulario-altas").find("input[name=fecha]").removeClass("focus-datepicker");
+        } else {
+            
+            $("#formulario-altas").find("input[name=fecha]").focus();
+            $("#formulario-altas").find("input[name=fecha]").addClass("focus-datepicker");
+        }
+    });
+
+    document.getElementById("calendar-fecha-baja").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("#formulario-bajas").find("input[name=fecha]").hasClass("focus-datepicker")) {
+   
+            $("#formulario-bajas").find("input[name=fecha]").blur();
+            $("#formulario-bajas").find("input[name=fecha]").removeClass("focus-datepicker");
+        } else {
+            
+            $("#formulario-bajas").find("input[name=fecha]").focus();
+            $("#formulario-bajas").find("input[name=fecha]").addClass("focus-datepicker");
+        }
     });
     
     

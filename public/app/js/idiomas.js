@@ -4,7 +4,8 @@ var combo_idioma = ""; // declaracion global
 var combo_idiomas = ""; // declaracion global
 
 document.addEventListener("DOMContentLoaded", function() {
-        
+    idiomas.buscarEnFormulario("idioma_descripcion").solo_letras();
+    idiomas.buscarEnFormulario("idioma_codigo").solo_letras();
     
 
     idiomas.TablaListado({

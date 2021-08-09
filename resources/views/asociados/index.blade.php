@@ -43,7 +43,7 @@
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                <div class="input-group-addon" id="calendar-fecha" style="cursor: pointer;">
+                                <div class="input-group-addon" id="calendar-fecha-baja" style="cursor: pointer;">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                <div class="input-group-addon" id="calendar-fecha" style="cursor: pointer;">
+                                <div class="input-group-addon" id="calendar-fecha-alta" style="cursor: pointer;">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" id="cerrar-lista-responsables">× Cerrar</button>
+				<button style="float: right;" type="button" class="btn btn-primary btn-sm" id="cerrar-lista-responsables"><i class="fa fa-close"></i></button>
 				<h4 class="modal-title">{{ traducir("traductor.listado_responsables") }}</h4>
 
 			</div>

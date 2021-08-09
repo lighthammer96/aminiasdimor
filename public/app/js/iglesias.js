@@ -7,7 +7,10 @@ var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    iglesias.buscarEnFormulario("descripcion").solo_letras();
+    iglesias.buscarEnFormulario("tipoestructura").solo_letras();
+    iglesias.buscarEnFormulario("telefono").solo_numeros();
+    
     iglesias.TablaListado({
         tablaID: '#tabla-iglesias',
         url: "/buscar_datos",

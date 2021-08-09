@@ -2,7 +2,9 @@ var pastores = new BASE_JS('pastores', 'pastores');
 var principal = new BASE_JS('principal', 'principal');
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    pastores.buscarEnFormulario("nombrecompleto").solo_letras();
+    pastores.buscarEnFormulario("nrodoc").solo_numeros();
+    
     pastores.TablaListado({
         tablaID: '#tabla-pastores',
         url: "/buscar_datos",

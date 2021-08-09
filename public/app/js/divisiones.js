@@ -2,7 +2,8 @@
 var divisiones = new BASE_JS('divisiones', 'divisiones');
 
 document.addEventListener("DOMContentLoaded", function() {
-            
+    divisiones.buscarEnFormulario("descripcion").solo_letras();
+
     divisiones.TablaListado({
         tablaID: '#tabla-divisiones',
         url: "/buscar_datos",

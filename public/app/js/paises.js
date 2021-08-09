@@ -1,7 +1,9 @@
 var paises = new BASE_JS('paises', 'paises');
 
 document.addEventListener("DOMContentLoaded", function() {
-            
+    paises.buscarEnFormulario("pais_descripcion").solo_letras();
+    paises.buscarEnFormulario("telefono").solo_numeros();
+
     paises.TablaListado({
         tablaID: '#tabla-paises',
         url: "/buscar_datos",
