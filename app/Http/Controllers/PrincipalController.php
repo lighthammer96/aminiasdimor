@@ -86,7 +86,7 @@ class PrincipalController extends Controller
     }
 
     public function obtener_tipos_documento() {
-        $sql = "SELECT idtipodoc as id, descripcion FROM public.tipodoc ORDER BY idtipodoc ASC";
+        $sql = "SELECT idtipodoc as id, descripcion FROM public.tipodoc ORDER BY descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
     }

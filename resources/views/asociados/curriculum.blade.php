@@ -7,7 +7,7 @@
 
 @section('content')
 
-<div id="modal-curriculum" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static" data-keyboard="false">
+<div id="modal-curriculum" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -66,7 +66,7 @@
 
                                         <div class="input-group">
                                             <input type="text" class="form-control input-sm entrada limpiar-parentesco" name="fechanac" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
-                                            <div class="input-group-addon">
+                                            <div class="input-group-addon" id="calendar-fechanac" style="cursor: pointer;">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>

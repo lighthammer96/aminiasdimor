@@ -200,7 +200,7 @@ function validarkeys(e, type) {
     tecla = String.fromCharCode(key).toLowerCase();
     letras = type;
     //46 -> es el punto
-    especiales = [8, 37, 39];
+    especiales = [8, 37, 39, 32];
 
     tecla_especial = false
     for(var i in especiales) {
@@ -224,6 +224,7 @@ HTMLElement.prototype.solo_letras = function () {
     var solo_letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
 	// console.log(this);
 	$(this).keypress(function(event) {
+		// console.log(event);
         validarkeys(event, solo_letras);
     });
 

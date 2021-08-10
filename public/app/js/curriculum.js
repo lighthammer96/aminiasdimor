@@ -184,18 +184,18 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
         // required = required && curriculum.required("perfil_descripcion");
 
-        var detalle_parentesco = document.getElementById("detalle-parentesco").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        // var detalle_parentesco = document.getElementById("detalle-parentesco").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-        var detalle_educacion = document.getElementById("detalle-educacion").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-        var detalle_laboral = document.getElementById("detalle-laboral").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        // var detalle_educacion = document.getElementById("detalle-educacion").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        // var detalle_laboral = document.getElementById("detalle-laboral").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
     
-        if(detalle_parentesco.length <= 0 || detalle_educacion.length <= 0 || detalle_laboral.length <= 0 ) {
-            BASE_JS.sweet({
-                text: elemento_detalle
-            });
+        // if(detalle_parentesco.length <= 0 || detalle_educacion.length <= 0 || detalle_laboral.length <= 0 ) {
+        //     BASE_JS.sweet({
+        //         text: elemento_detalle
+        //     });
 
-            return false;
-        }
+        //     return false;
+        // }
         if(required) {
             var promise = curriculum.guardar();
             curriculum.CerrarModal();
@@ -576,6 +576,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     })
+
+    document.getElementById("calendar-fechanac").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("#formulario-curriculum").find("input[name=fechanac]").hasClass("focus-datepicker")) {
+   
+            $("#formulario-curriculum").find("input[name=fechanac]").blur();
+            $("#formulario-curriculum").find("input[name=fechanac]").removeClass("focus-datepicker");
+        } else {
+            
+            $("#formulario-curriculum").find("input[name=fechanac]").focus();
+            $("#formulario-curriculum").find("input[name=fechanac]").addClass("focus-datepicker");
+        }
+    });
 })
 
 
