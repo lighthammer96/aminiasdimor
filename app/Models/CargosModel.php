@@ -25,6 +25,7 @@ class CargosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-cargos");
         $tabla->agregarColumna("c.idcargo", "idcargo", "Id");
+        $tabla->agregarColumna("c.idcargo", "idcargo", "idcargo");
         $tabla->agregarColumna("tc.descripcion", "tipo_cargo", traducir("traductor.tipo_cargo"));
         $tabla->agregarColumna("n.descripcion", "nivel", traducir("traductor.nivel"));
         $tabla->agregarColumna("c.descripcion", "descripcion", traducir("traductor.descripcion"));
