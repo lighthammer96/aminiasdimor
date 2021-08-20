@@ -221,7 +221,7 @@ class Controller extends BaseController
         ini_set('memory_limit', '2024M');
         ini_set('upload_max_filesize', '2024M');
         $dir_subida = $ruta;
-
+        
         if ($newname != "") {
             $exts = explode(".", $archivo['name']);
 
@@ -257,6 +257,7 @@ class Controller extends BaseController
     }
 
     public function FormatoFecha($fecha, $formato) {
+        // echo $fecha."\n";
         if ($fecha != null) {
             if ($formato == "user") {
                 $date = explode("-", $fecha);

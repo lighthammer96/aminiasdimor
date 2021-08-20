@@ -48,3 +48,13 @@ INNER JOIN iglesias.union AS u ON(up.idunion=u.idunion)
 INNER JOIN iglesias.mision AS mi ON(u.idunion=mi.idunion)
 INNER JOIN iglesias.distritomisionero AS dm ON(mi.idmision=dm.idmision)
 INNER JOIN iglesias.iglesia AS i ON(dm.iddistritomisionero=i.iddistritomisionero)
+
+
+
+-- vista_division_politica
+
+SELECT d.descripcion AS departamento, p.descripcion AS provincia, dd.descripcion AS distrito,
+d.iddepartamento, p.idprovincia, dd.iddistrito
+FROM public.departamento AS d
+LEFT JOIN public.provincia AS p ON(d.iddepartamento=p.iddepartamento)
+LEFT JOIN public.distrito AS dd ON(dd.idprovincia=p.idprovincia)

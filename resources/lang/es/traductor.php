@@ -379,6 +379,9 @@ return [
     'traslado_proceso' => '¡El traslado esta en proceso!',
     'no_trasladar_iglesia_origen' => '¡No se puede trasladar a la misma iglesia de origen!',
     'iglesia_origen_destino' => '¡La Iglesia Origen es igual a la Iglesia Destino!',
+    'importar' => 'Importar',
+    'excel' => 'Excel',
+    'dato' => 'Dato',
    
 
      // LABELS DATATABLES
@@ -429,10 +432,12 @@ return [
     'titulo_reporte_oficiales_iglesia' => "Reporte de Oficiales de Iglesia",
     'titulo_reporte_oficiales_union_asociacion' => "Reporte de Oficiales de Unión/Asociación",
     'titulo_informe_semestral' => "Informe Semestral de Secretaría",
+    'titulo_importar_datos' => "Importar Datos",
 
     // MENSAJES
     'existe_asociado' => '¡Ya existe un asociado con el mismo número de documento!',
     'error_foto' => '¡Error al subir foto del Usuario!',
+    'error_archivo' => '¡Error al subir archivo!',
     'eliminar_cargo_asociado' => 'No se puede eliminar, este cargo ya esta asignado a un asociado',
     'eliminar_cargo_pastor' => 'No se puede eliminar, este cargo ya esta asignado a un pastor',
     'eliminar_departamento_asociado' => 'No se puede eliminar, este departamento ya esta asignado a un departamento',

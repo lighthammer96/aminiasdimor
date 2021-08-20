@@ -16,5 +16,5 @@ yarn-error.log
 
 /public/fotos_asociados/
 /public/carta_traslados/
-
+/public/excel/
 composer.lock

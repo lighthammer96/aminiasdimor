@@ -246,7 +246,9 @@ class AsociadosController extends Controller
     public function get(Request $request) {
 
         $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable,
-        (SELECT v.division FROM iglesias.vista_jerarquia AS v WHERE v.iddivision=m.iddivision LIMIT 1) AS division,
+        CASE WHEN di.di_descripcion IS NULL THEN
+        (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+        ELSE di.di_descripcion END AS division,
         (SELECT v.pais FROM iglesias.vista_jerarquia AS v WHERE v.pais_id=m.pais_id LIMIT 1) AS pais,
         (SELECT v.union FROM iglesias.vista_jerarquia AS v WHERE v.idunion=m.idunion LIMIT 1) AS union,
         (SELECT v.mision FROM iglesias.vista_jerarquia AS v WHERE v.idmision=m.idmision LIMIT 1) AS asociacion,
@@ -255,6 +257,8 @@ class AsociadosController extends Controller
         FROM iglesias.miembro AS m 
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.division AS d ON(d.iddivision=m.iddivision)
+        LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
         WHERE m.idmiembro=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);

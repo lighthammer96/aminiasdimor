@@ -373,3 +373,5 @@ Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_
 // IMPORTAR
 
 Route::get('importar/importar', [ImportarController::class, "importar"]);
+Route::get('importar/datos', [ImportarController::class, "datos"]);
+Route::post('importar/guardar_importar', [ImportarController::class, "guardar_importar"]);

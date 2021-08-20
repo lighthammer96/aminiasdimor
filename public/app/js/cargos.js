@@ -177,6 +177,8 @@ document.addEventListener("DOMContentLoaded", function() {
             //     }
             //     //console.log(response);
             // })
+            $("#idtipocargo").trigger("change", [response.idtipocargo, response.idnivel]);
+            // $("#idnivel").trigger("change", [response.idnivel, response.idcargo]);
         })
     }
 
