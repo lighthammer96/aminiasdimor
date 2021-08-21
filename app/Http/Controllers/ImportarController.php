@@ -252,20 +252,65 @@ class ImportarController extends Controller
         // print_r($_REQUEST);
         ini_set('max_execution_time', 600);
         // $r = $this->SubirArchivo($_FILES["excel"], "./assets/excels/", "");
-        $campos =  array();
-        $celdas =  array();
+        $Procesos    = array();
+        $FechaActual = date("Y-m-d H:i:s");
         $result =  array();
         try {
             $nombre_archivo = $request->input("dato")."_".date("dmY")."_".date("His");
             $response = $this->SubirArchivo($_FILES["excel"], base_path("public/excel/"), $nombre_archivo);
             if ($response["response"] == "ERROR") {
                 throw new Exception(traducir("traductor.error_archivo"));
-            }
+            }  
 
-           
-    
             $inputFileType = 'Xlsx';
             $inputFileName = base_path("public/excel/". $response["NombreFile"]);
+            
+    
+            $reader = IOFactory::createReader($inputFileType);
+            $reader->setLoadSheetsOnly($request->input("dato"));
+            $spreadsheet = $reader->load($inputFileName);
+    
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            $elementos = count($sheetData);
+
+            $Procesos["proceso_fecha_comienzo"]              = $FechaActual;
+            $Procesos["proceso_fecha_actualizacion"]         = $FechaActual;
+            $Procesos["proceso_total_elementos_procesar"]    = $elementos - 1;
+            $Procesos["proceso_numero_elementos_procesados"] = "0";
+    
+            $Proceso                         = $this->base_model->insertar($this->preparar_datos("public.procesos", $Procesos));
+            $result["proceso_id"]      = $Proceso["id"];
+            $result["total_elementos"] = $elementos - 1;
+            $result["NombreFile"] = $response["NombreFile"];
+      
+            if (!file_exists(base_path("public/procesos/"))) {
+                mkdir(base_path("public/procesos/"), 0777);
+            }
+
+
+            $this->FileProceso("proceso_" . $Proceso["id"] . ".txt", ($elementos - 1), 0, 0, "0 segundos");
+            echo json_encode($result);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            $response["status"] = "ei"; 
+            $response["msg"] = $e->getMessage(); 
+            echo json_encode($response);
+        }
+    }
+    
+
+    public function importar_datos(Request $request) {
+        ini_set('max_execution_time', 600);
+        // $r = $this->SubirArchivo($_FILES["excel"], "./assets/excels/", "");
+        $campos =  array();
+        $celdas =  array();
+        $result =  array();
+        try {
+
+    
+            $inputFileType = 'Xlsx';
+            $inputFileName = base_path("public/excel/". $request["NombreFile"]);
             
     
             $reader = IOFactory::createReader($inputFileType);
@@ -300,14 +345,28 @@ class ImportarController extends Controller
                 }
 
                 if($request->input("dato") == "asociados") {
-                    $data["fecharegistro"] = date("Y-m-d H:i:s");
                     $idiglesia = (isset($sheetData[$i][$celdas["idiglesia"]])) ? $sheetData[$i][$celdas["idiglesia"]] : 0;
+                    $jerarquia = DB::select("SELECT * FROM iglesias.vista_jerarquia WHERE idiglesia={$idiglesia}");
+    
+
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc"]])) ? $sheetData[$i][$celdas["idtipodoc"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc"]])) ? $sheetData[$i][$celdas["nrodoc"]] : 0;
+                    $pais_id = (isset($jerarquia[0]->pais_id)) ? $jerarquia[0]->pais_id : 0;
+
+
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) > 0) {
+                        continue; // asociado ya existe
+                    }
+
+                    $data["fecharegistro"] = date("Y-m-d H:i:s");
+                  
                     // $iddistritodomicilio = (isset($sheetData[$i][$celdas["iddistritodomicilio"]])) ? $sheetData[$i][$celdas["iddistritodomicilio"]] : 0;
 
 
 
-                    $jerarquia = DB::select("SELECT * FROM iglesias.vista_jerarquia WHERE idiglesia={$idiglesia}");
-    
+                   
                     // $division_politica = DB::select("SELECT * FROM public.vista_division_politica WHERE iddistrito={$iddistritodomicilio}");
                     
                     $data["iddivision"] = (isset($jerarquia[0]->iddivision)) ? $jerarquia[0]->iddivision : 0;
@@ -356,8 +415,148 @@ class ImportarController extends Controller
                 }
 
 
+                if($request->input("dato") == "cargos") {
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc"]])) ? $sheetData[$i][$celdas["idtipodoc"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc"]])) ? $sheetData[$i][$celdas["nrodoc"]] : 0;
+                    $pais_id = (isset($sheetData[$i][$celdas["pais_id"]])) ? $sheetData[$i][$celdas["pais_id"]] : 0;
+                    $idjerarquia = (isset($sheetData[$i][$celdas["idjerarquia"]])) ? $sheetData[$i][$celdas["idjerarquia"]] : 0;
+
+                    $tabla = "";
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) <= 0) {
+                        continue; // asociado no existe
+                    }
+                    switch ($idjerarquia) {
+                        case '1':
+                            $tabla = "iglesias.division";
+                            break;
+                        case '2':
+                            $tabla = "iglesias.paises";
+                            break;
+                        case '3':
+                            $tabla = "iglesias.union";
+                            break;
+                        case '4':
+                            $tabla = "iglesias.mision";
+                            break; 
+                        case '5':
+                            $tabla = "iglesias.distritomisionero";
+                            break;      
+                        case '6':
+                            $tabla = "iglesias.iglesia";
+                            break;                 
+                    }
+
+                    $data["idmiembro"] = $asociado[0]->idmiembro;
+                    $data["tabla"] = $tabla;
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $data));
+                }
+
+                if($request->input("dato") == "capacitaciones") {
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc"]])) ? $sheetData[$i][$celdas["idtipodoc"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc"]])) ? $sheetData[$i][$celdas["nrodoc"]] : 0;
+                    $pais_id = (isset($sheetData[$i][$celdas["pais_id"]])) ? $sheetData[$i][$celdas["pais_id"]] : 0;
+                    
+
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) <= 0) {
+                        continue; // asociado no existe
+                    }
+
+                    $data["idmiembro"] = $asociado[0]->idmiembro;
+                  
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $data));
+                }
 
 
+                if($request->input("dato") == "familiares") {
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc_asociado"]])) ? $sheetData[$i][$celdas["idtipodoc_asociado"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc_asociado"]])) ? $sheetData[$i][$celdas["nrodoc_asociado"]] : 0;
+                    $pais_id = (isset($sheetData[$i][$celdas["pais_id"]])) ? $sheetData[$i][$celdas["pais_id"]] : 0;
+                    
+
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) <= 0) {
+                        continue; // asociado no existe
+                    }
+
+                    $data["idmiembro"] = $asociado[0]->idmiembro;
+                  
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.parentesco_miembro", $data));
+                }
+
+                if($request->input("dato") == "estudios") {
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc"]])) ? $sheetData[$i][$celdas["idtipodoc"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc"]])) ? $sheetData[$i][$celdas["nrodoc"]] : 0;
+                    $pais_id = (isset($sheetData[$i][$celdas["pais_id"]])) ? $sheetData[$i][$celdas["pais_id"]] : 0;
+                    
+
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) <= 0) {
+                        continue; // asociado no existe
+                    }
+
+                    $data["idmiembro"] = $asociado[0]->idmiembro;
+                  
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.educacion_miembro", $data));
+                }
+
+
+                if($request->input("dato") == "experiencia_laboral") {
+                    $idtipodoc = (isset($sheetData[$i][$celdas["idtipodoc"]])) ? $sheetData[$i][$celdas["idtipodoc"]] : 0;
+                    $nrodoc = (isset($sheetData[$i][$celdas["nrodoc"]])) ? $sheetData[$i][$celdas["nrodoc"]] : 0;
+                    $pais_id = (isset($sheetData[$i][$celdas["pais_id"]])) ? $sheetData[$i][$celdas["pais_id"]] : 0;
+                    
+
+                    $asociado = DB::select("SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id={$pais_id}");
+                    
+                    if(count($asociado) <= 0) {
+                        continue; // asociado no existe
+                    }
+
+                    $data["idmiembro"] = $asociado[0]->idmiembro;
+                  
+                    $result = $this->base_model->insertar($this->preparar_datos("iglesias.laboral_miembro", $data));
+                }
+
+                DB::update('UPDATE public.procesos SET proceso_numero_elementos_procesados = proceso_numero_elementos_procesados + 1 WHERE proceso_id = ' . $_REQUEST["proceso_id"]);
+        
+
+                $row_process = DB::select('SELECT * FROM public.procesos WHERE proceso_id =' . $_REQUEST["proceso_id"]);
+
+                $percentage = round(((int) $row_process[0]->proceso_numero_elementos_procesados * 100) / (int) $row_process[0]->proceso_total_elementos_procesar, 2);
+
+                $date_add = new \DateTime($row_process[0]->proceso_fecha_comienzo);
+                $date_upd = new \DateTime($row_process[0]->proceso_fecha_actualizacion);
+                $diff     = $date_add->diff($date_upd);
+
+                $execute_time = '';
+
+                if ($diff->days > 0) {
+                    $execute_time .= $diff->days . ' dias';
+                }
+                if ($diff->h > 0) {
+                    $execute_time .= ' ' . $diff->h . ' horas';
+                }
+                if ($diff->i > 0) {
+                    $execute_time .= ' ' . $diff->i . ' minutos';
+                }
+
+                if ($diff->s > 1) {
+                    $execute_time .= ' ' . $diff->s . ' segundos';
+                } else {
+                    $execute_time .= ' 1 segundo';
+                }
+
+    
+                DB::update("UPDATE public.procesos SET proceso_porcentaje_actual_progreso = " . $percentage . ", proceso_tiempo_transcurrido = '" . (string) $execute_time . "', proceso_fecha_actualizacion='" . date("Y-m-d H:i:s") . "' WHERE proceso_id = " . $_REQUEST["proceso_id"]);
+
+                $Response = DB::select('SELECT * FROM public.procesos WHERE proceso_id =' . $_REQUEST["proceso_id"]);
+                $this->FileProceso("proceso_" . $_REQUEST["proceso_id"] . ".txt", $_REQUEST["total_elementos"], $Response[0]->proceso_numero_elementos_procesados, $percentage, $execute_time);
                
                 // print_r($sheetData[$i][$celdas["idiglesia"]]."<br>");
                 // $this->db->insert($_REQUEST["tabla"], $data);
@@ -374,5 +573,8 @@ class ImportarController extends Controller
             echo json_encode($response);
         }
     }
-    
+
+    public function procesos(Request $request) {
+        echo file_get_contents(base_path("public/procesos/proceso_".$request["proceso_id"].".txt"));
+    }
 }

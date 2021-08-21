@@ -41,6 +41,7 @@
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="{{ URL::asset('plugins/timepicker/bootstrap-timepicker.min.css') }}">
 
+    <link rel="stylesheet" href="{{ URL::asset('bower_components/modal-effect/css/component.css') }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -162,6 +163,43 @@
         <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
+
+
+        <div class="md-modal md-effect-13" id="ModalProgreso">
+            <div class="md-content">
+                <h3 id="TituloProgreso" style="padding-bottom: 0 !important; font-weight: bold;">Procesando ...</h3>
+                <div style="width: 500px;" id="ContenidoProgreso">
+                    <div id="CargandoProceso">
+                        <center>
+                            <img src="{{ URL::asset('images/loading.gif') }}">
+                        </center>
+                    </div>
+                    <div class="progress progress-md" id="BarraProgreso" style="display: none;">
+                        <div class="progress-bar progress-bar-primary progress-bar-striped progress-animated wow animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <!-- <span class="sr-only">48% Complete</span> -->
+                            <span id="PorcentajeProgreso">0%</span>
+                        </div>
+                        <br>
+                    </div>
+
+                    <div id="MensajeProgreso" style="display: none;">
+                        <h3  style="padding-bottom: 0 !important;"><strong></strong></h3>
+                        <br>
+                    </div>
+
+                    <center>
+
+                        <strong id="TiempoTranscurrido" style="display: none;">
+
+                        </strong>
+                        <br>
+                        <button type="button" style="display: none; margin-top: 15px;" class="ok btn-sm btn-primary waves-effect waves-light"><i class="md md-check"></i>&nbsp;[OK]</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="md-overlay"></div>
+
     </div>
     <!-- ./wrapper -->
     <script>
@@ -275,6 +313,8 @@
     <script src="{{ URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- bootstrap datepicker -->
     <script src="{{ URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ URL::asset('bower_components/modal-effect/js/classie.js') }}"></script>
+    <script src="{{ URL::asset('bower_components/modal-effect/js/modalEffects.js') }}"></script>
 
     <script src="{{ URL::asset('dist/js/highcharts.js') }}"></script>
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>

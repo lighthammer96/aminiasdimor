@@ -214,4 +214,10 @@ class PrincipalController extends Controller
         $result = DB::select($sql);
         echo json_encode($result);
     }
+
+
+    public function EliminarProceso() {
+    	unlink(base_path("public/procesos/proceso_".$_REQUEST["proceso_id"].".txt"));
+    	echo "OK";
+    }
 }

@@ -382,6 +382,10 @@ return [
     'importar' => 'Importar',
     'excel' => 'Excel',
     'dato' => 'Dato',
+    'asociados' => 'Asociados',
+    'familiares' => 'Familiares',
+    'estudios' => 'Estudios',
+    'descargar_formato' => 'Descargar Formato de Carga',
    
 
      // LABELS DATATABLES

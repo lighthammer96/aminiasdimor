@@ -24,6 +24,7 @@ class PaisesModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-paises");
         $tabla->agregarColumna("p.pais_id", "pais_id", "Id");
+        $tabla->agregarColumna("p.pais_id", "pais_id", "pais_id");
         $tabla->agregarColumna("p.pais_descripcion", "pais_descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("p.direccion", "direccion", traducir('traductor.direccion'));
         $tabla->agregarColumna("p.telefono", "telefono", traducir('traductor.telefono'));

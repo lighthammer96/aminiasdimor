@@ -1312,6 +1312,7 @@ class BASE_JS {
 
         function removeModalHandler() {
             removeModal(classie.has(el, 'md-setperspective'));
+            $(".modal-backdrop").remove();
         }
         el.addEventListener('click', function(ev) {
             classie.add(modal, 'md-show');
@@ -1327,11 +1328,15 @@ class BASE_JS {
             ev.stopPropagation();
             removeModalHandler();
         });
+
+      
     }
     static Procesando(proceso_id) {
-        var promise = fetch(BaseUrl + "procesos/proceso_" + proceso_id + ".txt", {
-            method: 'GET',
-            cache: "force-cache"
+        var data_proceso = new URLSearchParams(BASE_JS.serialize({proceso_id: proceso_id, _token: _token}));
+        var promise = fetch(BaseUrl + "/importar/procesos", {
+            method: 'POST',
+            cache: "force-cache",
+            body: data_proceso,
         }).then(function(response) {
             return response.text();
         }).catch(function(error) {
@@ -1361,8 +1366,8 @@ class BASE_JS {
                     BASE_JS.Procesando(proceso_id);
                 }, 500)
             } else {
-                var datos = new URLSearchParams(BASE_JS.serialize({proceso_id: proceso_id}));
-                fetch(BaseUrl + "PrincipalController/EliminarProceso", {
+                var datos = new URLSearchParams(BASE_JS.serialize({proceso_id: proceso_id, _token: _token}));
+                fetch(BaseUrl + "/principal/EliminarProceso", {
                     method: 'POST',
                     body: datos,
                     cache: "force-cache",

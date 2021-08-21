@@ -314,6 +314,16 @@ class Controller extends BaseController
         return $nivel;
     }
 
+    public function FileProceso($File, $TotalElementos, $ElementosProcesados = 0, $PorcentajeProgreso = 0, $TiempoTranscurrido = "0 segundos") {
+
+        $texto = "";
+      
+        $texto = $TotalElementos . "|" . $ElementosProcesados . "|" . $PorcentajeProgreso . "|" . $TiempoTranscurrido;
+        // file_put_contents("./procesos/" . $File, $texto);
+        file_put_contents(base_path("public/procesos/") . $File, $texto);
+
+    }
+
     
 
 

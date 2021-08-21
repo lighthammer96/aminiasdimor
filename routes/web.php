@@ -74,6 +74,7 @@ Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_ca
 Route::post('principal/obtener_instituciones', [PrincipalController::class, "obtener_instituciones"]);
 Route::post('principal/obtener_parentesco', [PrincipalController::class, "obtener_parentesco"]);
 Route::post('principal/consultar_modulo', [PrincipalController::class, "consultar_modulo"]);
+Route::post('principal/EliminarProceso', [PrincipalController::class, "EliminarProceso"]);
 
 
 /*************
@@ -375,3 +376,5 @@ Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_
 Route::get('importar/importar', [ImportarController::class, "importar"]);
 Route::get('importar/datos', [ImportarController::class, "datos"]);
 Route::post('importar/guardar_importar', [ImportarController::class, "guardar_importar"]);
+Route::post('importar/importar_datos', [ImportarController::class, "importar_datos"]);
+Route::post('importar/procesos', [ImportarController::class, "procesos"]);
