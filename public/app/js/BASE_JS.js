@@ -1297,10 +1297,10 @@ class BASE_JS {
         return hoy;
     }
     static HaBilitarModalEffects(id) {
-        document.getElementById(id).setAttribute("data-modal", "ModalProgreso");
+        // document.getElementById(id).setAttribute("data-modal", "ModalProgreso");
         var overlay = document.querySelector('.md-overlay');
         var el = document.getElementById(id);
-        var modal = document.querySelector('#' + el.getAttribute('data-modal')),
+        var modal = document.querySelector('#ModalProgreso'),
             close = modal.querySelector('.ok');
 
         function removeModal(hasPerspective) {
@@ -1315,7 +1315,7 @@ class BASE_JS {
             $(".modal-backdrop").remove();
         }
         el.addEventListener('click', function(ev) {
-            classie.add(modal, 'md-show');
+            // classie.add(modal, 'md-show');
             overlay.removeEventListener('click', removeModalHandler);
             overlay.addEventListener('click', removeModalHandler);
             if (classie.has(el, 'md-setperspective')) {
