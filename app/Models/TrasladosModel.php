@@ -35,9 +35,10 @@ class TrasladosModel extends Model
         $tabla->agregarColumna("tt.mision", "mision", traducir("traductor.mision"));
         $tabla->agregarColumna("tt.distritomisionero", "distritomisionero", traducir("traductor.distrito_misionero"));
         $tabla->agregarColumna("tt.iglesia", "iglesia", traducir("traductor.iglesia"));
-        $tabla->agregarColumna("tt.idtemptraslados", "boton", traducir("traductor.eliminar"));
+        $tabla->agregarColumna("tt.idtemptraslados", "boton", traducir("traductor.quitar"));
 
-        $tabla->setSelect("tt.idtemptraslados, tt.asociado, tt.tipo_documento, tt.nrodoc, tt.division, tt.pais, tt.union, tt.mision, tt.distritomisionero, tt.iglesia, '<center><button type=\"button\" onclick=\"eliminar_temp_traslado(''' || tt.idtemptraslados || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-trash\"></i></button></center>' AS boton");
+        $tabla->setSelect("tt.idtemptraslados, tt.asociado, tt.tipo_documento, tt.nrodoc, tt.division, tt.pais, tt.union, tt.mision, tt.distritomisionero, tt.iglesia, '<center><button type=\"button\"
+        quitar=\"' || tt.idmiembro || '\"  onclick=\"eliminar_temp_traslado(' || tt.idtemptraslados || ',' || tt.idmiembro || ')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-minus-circle\"></i></button></center>' AS boton");
         $tabla->setFrom("iglesias.temp_traslados AS tt");
 
         if(isset($_REQUEST["tipo_traslado"])) {
@@ -66,11 +67,33 @@ class TrasladosModel extends Model
 
 
         if(isset($_REQUEST["tipo_traslado"]) && $_REQUEST["tipo_traslado"] != "3") {
-            $tabla->setSelect("vat.idmiembro, vat.asociado, vat.tipo_documento, vat.nrodoc, vat.division, vat.pais, vat.union, vat.mision, vat.distritomisionero, vat.iglesia, '<center><button type=\"button\" onclick=\"agregar_temp_traslado(''' || vat.idmiembro || ''')\" class=\"btn btn-success btn-xs\" ><i class=\"fa fa-plus\"></i></button></center>' AS boton");
-            $tabla->setFrom("iglesias.vista_asociados_traslados AS vat");
+            $tabla->setSelect("vat.idmiembro, vat.asociado, vat.tipo_documento, vat.nrodoc, 
+            CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS division,
+            vat.pais, vat.union, vat.mision, vat.distritomisionero, vat.iglesia, CASE WHEN temp.idmiembro IS NULL THEN '<center><button agregar=\"' || vat.idmiembro  || '\" type=\"button\" onclick=\"agregar_temp_traslado(' || vat.idmiembro || ')\" class=\"btn btn-primary btn-xs\" ><i class=\"fa fa-plus\"></i></button></center>' ELSE 
+            '<center><button agregar=\"' || vat.idmiembro  || '\" type=\"button\"  class=\"btn btn-success btn-xs\" ><i class=\"fa fa-check-circle\"></i></button></center>'
+            
+            END AS boton");
+            $tabla->setFrom("iglesias.vista_asociados_traslados AS vat
+            LEFT JOIN iglesias.temp_traslados AS temp ON(vat.idmiembro=temp.idmiembro AND temp.tipo_traslado=".$_REQUEST["tipo_traslado"].")
+            LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
+            LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")");
         } else {
-            $tabla->setSelect("vat.idmiembro, vat.asociado, vat.tipo_documento, vat.nrodoc, vat.division, vat.pais, vat.union, vat.mision, vat.distritomisionero, vat.iglesia, '<center><button type=\"button\" onclick=\"trasladar(''' || vat.idmiembro || ''', ''' || vat.idiglesia || ''')\" class=\"btn btn-primary btn-xs\" ><i class=\"fa fa-arrow-circle-o-right\"></i></button></center>' AS boton");
-            $tabla->setFrom("iglesias.vista_asociados_traslados AS vat");
+            $tabla->setSelect("vat.idmiembro, vat.asociado, vat.tipo_documento, vat.nrodoc, 
+            CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS division,
+            vat.pais, vat.union, vat.mision, vat.distritomisionero, vat.iglesia, 
+            CASE WHEN ct.idmiembro IS NULL THEN '<center><button type=\"button\" agregar=\"' || vat.idmiembro  || '\" onclick=\"trasladar(''' || vat.idmiembro || ''', ''' || vat.idiglesia || ''')\" class=\"btn btn-primary btn-xs\" ><i class=\"fa fa-arrow-circle-o-right\"></i></button></center>' 
+            ELSE 
+            '<center><button title=\"".traducir("traductor.traslado_proceso")."\" type=\"button\"  class=\"btn btn-success btn-xs\" ><i class=\"fa fa-hourglass-half\"></i></button></center>'
+            
+            END AS boton");
+            $tabla->setFrom("iglesias.vista_asociados_traslados AS vat
+            LEFT JOIN iglesias.control_traslados AS ct ON(vat.idmiembro=ct.idmiembro AND ct.estado='1')
+            LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
+            LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")");
         }
 
 

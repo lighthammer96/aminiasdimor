@@ -189,7 +189,7 @@ class BaseModel extends Model
                     "status" => "e",
                     "id" => $_REQUEST["id"],
                     "type" => "success",
-                    "msg" => traducir("traductor.eliminar")
+                    "msg" => traducir("traductor.elimino")
                 );
             } else {
                 return array(

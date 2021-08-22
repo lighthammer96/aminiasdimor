@@ -1047,7 +1047,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var promise = asociados.get(datos.idmiembro);
 
-        promise.then(function(response) {   
+        promise.then(function(response) {
+            $(".jerarquia-iglesias-descripcion").show();
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("responsable_bautizo", response.responsable);
@@ -1164,7 +1165,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
             $(".jerarquia-iglesias").hide();
-            $(".jerarquia-iglesias-descripcion").show();
+            
             $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
             $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
             
@@ -1211,11 +1212,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = asociados.ver(datos.idmiembro);
 
         promise.then(function(response) {
+            $(".jerarquia-iglesias-descripcion").show();
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
-            document.getElementById("imprimir-ficha-bautizo").setAttribute("responsable_bautizo", response.responsable_bautizo);
+            document.getElementById("imprimir-ficha-bautizo").setAttribute("responsable_bautizo", response.responsable);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idreligion", response.idreligion);
-
 
 
             var array_pais = response.pais_id.split("|");
@@ -1231,6 +1232,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 $(".union").hide();
             } else {
                 $(".union").show();
+            }
+
+            if(response.posee_union == "N") {
+                $(".union-descripcion").hide();
+            } else {
+                $(".union-descripcion").show();
             }
 
             $(".miembro").text(response.apellidos + ", "+response.nombres);
@@ -1322,9 +1329,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
             $(".jerarquia-iglesias").hide();
-            $(".jerarquia-iglesias-descripcion").show();
+            
             $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
             $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
+            
         })
     })
 

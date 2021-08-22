@@ -54,3 +54,9 @@
     background-color: #4A525F;
     border: 1px solid #4A525F;
 }
+
+.notifyjs-corner {
+    top: 540px !important; 
+    z-index: 999999999999 !important;
+    /* bottom: 0px !important; */
+}

@@ -386,6 +386,8 @@ return [
     'familiares' => 'Familiares',
     'estudios' => 'Estudios',
     'descargar_formato' => 'Descargar Formato de Carga',
+    'quitar' => 'Quitar',
+    'imprimir_carta_iglesia' => '¿Desea imprimir Carta de Iglesia?',
    
 
      // LABELS DATATABLES

@@ -9,32 +9,38 @@ $.notify.addStyle("metro", {
         "</div>",
     classes: {
         default: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "#ABB7B7",
             "border": "1px solid #ABB7B7"
         },
         error: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "rgba(239, 83, 80, 0.8)",
             "border": "1px solid #ef5350"
         },
         success: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "rgba(51, 184, 108, 0.8)",
             "border": "1px solid #33b86c"
         },
         info: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "rgba(41, 182, 246, 0.8)",
             "border": "1px solid #29b6f6"
         },
         warning: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "rgba(255, 215, 64, 0.8)",
             "border": "1px solid #ffd740"
         },
         black: {
-            "color": "#fafafa !important",
+//            "color": "#fafafa !important",
+            "color": "black !important",
             "background-color": "rgba(33, 33, 33, 0.8)",
             "border": "1px solid #212121"
         },

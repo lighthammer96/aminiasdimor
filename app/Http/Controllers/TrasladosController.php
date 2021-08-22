@@ -119,9 +119,16 @@ class TrasladosController extends Controller
             
             DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $_REQUEST["tipo_traslado"]))->delete();
 
-            $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado, ".$sql_destino."  FROM iglesias.vista_asociados_traslados AS vat
-            WHERE iddivision={$request->input('iddivision')} AND pais_id={$_POST["pais_id"]} AND idunion={$_POST["idunion"]} AND idmision={$request->input('idmision')} AND iddistritomisionero={$request->input('iddistritomisionero')} AND  idiglesia={$request->input('idiglesia')}";
+            $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado, ".$sql_destino.",
+            CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS division
             
+            FROM iglesias.vista_asociados_traslados AS vat
+            LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
+            LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE vat.iddivision={$request->input('iddivision')} AND vat.pais_id={$_POST["pais_id"]} AND vat.idunion={$_POST["idunion"]} AND vat.idmision={$request->input('idmision')} AND vat.iddistritomisionero={$request->input('iddistritomisionero')} AND vat.idiglesia={$request->input('idiglesia')}";
+            // die($sql);
             $asociados = DB::select($sql);
             if(count($asociados) > 0) {
                 foreach($asociados as $value) {
@@ -182,6 +189,7 @@ class TrasladosController extends Controller
             $update["pais_id"] = $value->pais_iddestino;
             $update["idunion"] = $value->iduniondestino;
             $update["idmision"] = $value->idmisiondestino;
+            $update["iddistritomisionero"] = $value->iddistritomisionerodestino;
             $update["idiglesia"] = $value->idiglesiadestino;
 
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $update));
@@ -246,6 +254,7 @@ class TrasladosController extends Controller
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.control_traslados", $array));
                 $_POST["status"] = "tp"; // traslado en proceso
                 $_POST["idcontrol"] = $result["id"];
+                $_POST["idmiembro"] = $value->idmiembro;
                 // if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
     
                 //     $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_traslado_" . $value->idmiembro."_". $_POST["idcontrol"]);
@@ -268,7 +277,14 @@ class TrasladosController extends Controller
     public function agregar_traslado(Request $request) {
         DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $_REQUEST["tipo_traslado"], "idmiembro" => $request->input('idmiembro')))->delete();
 
-        $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado FROM iglesias.vista_asociados_traslados AS vat
+        $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado,
+        CASE WHEN di.di_descripcion IS NULL THEN
+        (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+        ELSE di.di_descripcion END AS division
+        
+        FROM iglesias.vista_asociados_traslados AS vat
+        LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
+        LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
         WHERE idmiembro={$request->input('idmiembro')}";
         $miembro = DB::select($sql);
 

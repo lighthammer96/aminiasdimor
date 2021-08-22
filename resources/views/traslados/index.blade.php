@@ -8,13 +8,19 @@
 @section('content')
 <form id="formulario-traslados_temp" class="form-horizontal" role="form">
     <div class="row" id="combo-tipo-traslado">
-        <div class="col-md-2 col-md-offset-5">
-            <label for=""><h4><strong>{{ traducir('traductor.tipo_traslado')}}</strong></h4></label>
-            <select name="tipo_traslado" id="tipo_traslado" class="form-control">
-                <option value="1">{{ traducir('traductor.iglesia_iglesia')}}</option>
-                <option value="2">{{ traducir('traductor.masivo')}}</option>
-                <option value="3">{{ traducir('traductor.individual')}}</option>
-            </select>
+        <div class="col-md-6 col-md-offset-3">
+           <center>
+                <label for=""><h2><strong>{{ traducir('traductor.tipo_traslado')}}</strong></h2></label><br>
+                <!-- <select name="tipo_traslado" id="tipo_traslado" class="form-control">
+                    <option value="1">{{ traducir('traductor.iglesia_iglesia')}}</option>
+                    <option value="2">{{ traducir('traductor.masivo')}}</option>
+                    <option value="3">{{ traducir('traductor.individual')}}</option>
+                </select> -->
+
+                <input type="radio" checked="checked" name="tipo_traslado" value="1"> <span style="font-size: 20px; font-weight: bold;">{{ traducir('traductor.iglesia_iglesia')}}</span> &nbsp; &nbsp; &nbsp;
+                <input type="radio" name="tipo_traslado" value="2"> <span style="font-size: 20px; font-weight: bold;">{{ traducir('traductor.masivo')}} </span> &nbsp; &nbsp; &nbsp;
+                <input type="radio" name="tipo_traslado" value="3"> <span style="font-size: 20px; font-weight: bold;">{{ traducir('traductor.individual')}} </span>
+           </center>
         </div>
     </div>
     <div class="row" id="combos-origen-destino">
@@ -73,7 +79,7 @@
             </fieldset>
         </div>
         <div class="col-md-2" style="margin-top: 125px">
-            <img src="{{ URL::asset('images/flecha.gif') }}" >
+            <img src="{{ URL::asset('images/flecha_azul.gif') }}" >
         </div>    
         <div class="col-md-3" id="destino-iglesia">
             <!-- <fieldset>
@@ -231,9 +237,9 @@
    
                 </div>
                 <div class="modal-footer">
-                    <div class="pull-left">
+                    <!-- <div class="pull-left">
                         <button type="button" class="btn btn-warning btn-sm" id="carta-traslado">[{{ traducir('traductor.carta_traslado')}}]</button>
-                    </div>
+                    </div> -->
                     <div class="pull-rigth">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[{{ traducir('traductor.cancelar')}}]</button>
                         <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>

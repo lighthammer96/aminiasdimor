@@ -174,8 +174,19 @@ class BASE_JS {
             "initComplete": function(settings, json) {
                 // referencia: https://stackoverflow.com/questions/14619498/datatables-global-search-on-keypress-of-enter-key-instead-of-any-key-keypress
                 // esto ess para que solo busque cuando se presione enter
-                $('.dataTables_filter input').unbind();
-                $('.dataTables_filter input').bind('keyup', function(e){
+                // $('.dataTables_filter input').unbind();
+                // $('.dataTables_filter input').bind('keyup', function(e){
+                //     var code = e.keyCode || e.which;
+                //     if (code == 13) { 
+                //         table.search(this.value).draw();
+                //     }
+                //     if(this.value == "") {
+                //         table.search(this.value).draw();
+                //     }
+                // });
+
+                $(parametros.tablaID+'_filter input').unbind();
+                $(parametros.tablaID+'_filter input').bind('keyup', function(e){
                     var code = e.keyCode || e.which;
                     if (code == 13) { 
                         table.search(this.value).draw();

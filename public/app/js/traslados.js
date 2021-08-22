@@ -10,12 +10,13 @@ var traslados = new BASE_JS('traslados', 'traslados');
 var traslados_temp = new BASE_JS('traslados_temp', 'traslados');
 var traslados_mi = new BASE_JS('traslados_mi', 'traslados');
 
-
-// var eventClick = new Event('click');
+// var eventChange = new Event('change');
+var eventClick = new Event('click');
 
 document.addEventListener("DOMContentLoaded", function() {
-    
-    var eventChange = new Event('change');
+    // BASE_JS.notificacion({title: "hols", type: 'default', msg:  "hola"});
+
+   
 
 
     divisiones.select({
@@ -481,11 +482,12 @@ document.addEventListener("DOMContentLoaded", function() {
             promise.then(function(response) {
                 document.getElementById("trasladar").setAttribute("tipo_traslado", response.tipo_traslado);
                 if(typeof response.status != "undefined" && response.status == "ee") {
+                    // BASE_JS.notificacion(response);
                     return false;
                 }
 
-
-                document.getElementById("tipo_traslado").dispatchEvent(eventChange);
+                $("input[name=tipo_traslado][value=1]").trigger("click");
+                // document.getElementById("tipo_traslado").dispatchEvent(eventClick);
                
             })
         }
@@ -517,6 +519,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 traslados_temp.datatable.clear();
                 traslados_temp.datatable.ajax.reload();
                 traslados_temp.datatable.draw();
+
+                document.getElementById("volver").dispatchEvent(eventClick);
+
             })  
         }
 
@@ -566,19 +571,21 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#combos-origen-destino").show();
         $("#ver-lista").show();
         
-
-        $("#tipo_traslado").val("1");
+        $("input[name=tipo_traslado]").removeAttr("checked");
+        $("input[name=tipo_traslado][value=1]").prop("checked", true);
         html_destino("destino-iglesia");
     })
     
 
-    document.getElementById("tipo_traslado").addEventListener("change", function(e) {
+    //document.getElementsByName("tipo_traslado").addEventListener("click", function(e) {
+    $(document).on("click", "input[name=tipo_traslado]", function() {
         // e.preventDefault();
-      
+        // $("#tipos_traslado").is(":checked").val();
 
-        var tipo_traslado = this.value;
-
-
+        var tipo_traslado = $(this).val();
+        $("input[name=tipo_traslado]").removeAttr("checked");
+        $("input[name=tipo_traslado][value="+tipo_traslado+"]").attr("checked", "checked");
+        // console.log($(this));    
         if(tipo_traslado == "1") {
             $("#combo-tipo-traslado").hide();
             $("#combos-origen-destino").hide();
@@ -654,8 +661,9 @@ document.addEventListener("DOMContentLoaded", function() {
         var  idiglesia_origen = document.getElementById("idiglesia_origen").value;
         var  idiglesiadestino = document.getElementById("idiglesiadestino").value;
 
-        var tipo_traslado = document.getElementsByName("tipo_traslado")[0].value;
-
+        // var tipo_traslado = document.getElementsByName("tipo_traslado")[0].value;
+   
+        var tipo_traslado = $("input[name=tipo_traslado]:checked").val();
         var pais_iddestino = document.getElementsByName("pais_iddestino")[0].value;
         var array_pais_destino = pais_iddestino.split("|");
 
@@ -688,6 +696,7 @@ document.addEventListener("DOMContentLoaded", function() {
             promise.then(function(response) {
                 //console.log(response);
                 if(typeof response.status != "undefined" && response.status == "t") {
+                    // alert("hola");
                     BASE_JS.notificacion({
                         msg: traslado_correctamente,
                         type: 'success'
@@ -719,6 +728,20 @@ document.addEventListener("DOMContentLoaded", function() {
                     url: "/buscar_datos",
                     tipo_traslado: response.tipo_acceso
                 });
+
+               
+                
+                if(response.tipo_traslado_mi == 3) {
+                    BASE_JS.sweet({
+                        confirm: true,
+                        text: imprimir_carta_iglesia,
+                        callbackConfirm: function() {
+                            window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+response.idmiembro+"/"+response.idcontrol);
+                            document.getElementById("volver").dispatchEvent(eventClick);
+                        }
+                    }); 
+                }
+               
             }) 
         }
     })
@@ -729,22 +752,31 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    document.getElementById("carta-traslado").addEventListener("click", function(event) {
-        event.preventDefault();
-        // alert("hola carta");
-        var idmiembro = document.getElementsByName("idmiembro")[0].value;
-        window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro+"/0");
-    });
+    // document.getElementById("carta-traslado").addEventListener("click", function(event) {
+    //     event.preventDefault();
+    //     // alert("hola carta");
+    //     var idmiembro = document.getElementsByName("idmiembro")[0].value;
+    //     window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+idmiembro+"/0");
+    // });
 
 })
 
 
-function eliminar_temp_traslado(idtemptraslados) {
-    traslados_temp.Operacion(idtemptraslados, "E");
+function eliminar_temp_traslado(idtemptraslados, idmiembro) {
+    var promise = traslados_temp.Operacion(idtemptraslados, "E");
+    promise.then(function() {
+        $("button[agregar="+idmiembro+"]").removeClass("btn-success");
+        $("button[agregar="+idmiembro+"]").addClass("btn-primary");
+        $("button[agregar="+idmiembro+"]").find("i").removeClass("fa-check-circle").addClass("fa-plus");
+        $("button[agregar="+idmiembro+"]").attr("onclick", "agregar_temp_traslado("+idmiembro+")");
+    })
+   
 }
 
 function agregar_temp_traslado(idmiembro) {
-    var tipo_traslado = document.getElementById("tipo_traslado").value;
+   
+
+    var tipo_traslado = $("input[name=tipo_traslado]:checked").val();
 
     // if(tipo_traslado == "3" && traslados_temp.datatable.rows()[0].length >= 1) {
     //     BASE_JS.sweet({
@@ -772,6 +804,15 @@ function agregar_temp_traslado(idmiembro) {
             url: "/buscar_datos",
             tipo_traslado: tipo_traslado
         });
+
+        if(tipo_traslado == 2) {
+            $("button[agregar="+idmiembro+"]").removeClass("btn-primary");
+            $("button[agregar="+idmiembro+"]").addClass("btn-success");
+            $("button[agregar="+idmiembro+"]").find("i").removeClass("fa-plus").addClass("fa-check-circle");
+            $("button[agregar="+idmiembro+"]").removeAttr("onclick");
+        }
+
+      
         
     })  
 }
