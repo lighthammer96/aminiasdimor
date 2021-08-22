@@ -25,6 +25,7 @@ class ProvinciasModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-provincias");
         $tabla->agregarColumna("p.idprovincia", "idprovincia", "Id");
+        $tabla->agregarColumna("p.idprovincia", "idprovincia", "idprovincia");
         $tabla->agregarColumna("p.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("d.descripcion", "departamento", traducir("traductor.division_1"));
         $tabla->setSelect("p.idprovincia, p.descripcion, d.descripcion AS departamento");

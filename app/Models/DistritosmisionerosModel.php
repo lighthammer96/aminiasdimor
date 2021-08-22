@@ -22,6 +22,7 @@ class DistritosmisionerosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-distritos-misioneros");
         $tabla->agregarColumna("dm.iddistritomisionero", "iddistritomisionero", "Id");
+        $tabla->agregarColumna("dm.iddistritomisionero", "iddistritomisionero", "iddistritomisionero");
         $tabla->agregarColumna("dm.descripcion", "descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("m.descripcion", "mision", traducir('traductor.mision'));
         $tabla->agregarColumna("dm.estado", "estado", traducir('traductor.estado'));

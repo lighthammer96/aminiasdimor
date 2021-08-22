@@ -25,6 +25,7 @@ class DistritosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-distritos");
         $tabla->agregarColumna("d.iddistrito", "iddistrito", "Id");
+        $tabla->agregarColumna("d.iddistrito", "iddistrito", "iddistrito");
         $tabla->agregarColumna("d.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("p.descripcion", "provincia", traducir("traductor.division_2"));
         $tabla->setSelect("d.iddistrito, d.descripcion, p.descripcion AS provincia");

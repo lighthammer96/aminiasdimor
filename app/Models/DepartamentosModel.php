@@ -25,6 +25,7 @@ class DepartamentosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-departamentos");
         $tabla->agregarColumna("d.iddepartamento", "iddepartamento", "Id");
+        $tabla->agregarColumna("d.iddepartamento", "iddepartamento", "iddepartamento");
         $tabla->agregarColumna("d.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("p.pais_descripcion", "pais", traducir("traductor.pais"));
         $tabla->setSelect("d.iddepartamento, d.descripcion, p.pais_descripcion AS pais");
