@@ -1,3 +1,8 @@
+select i.idiglesia, i.descripcion as iglesia, i.direccion, i.telefono, dm.descripcion as distrito_misionero from iglesias.iglesia as i
+LEFT join iglesias.distritomisionero as dm on (i.iddistritomisionero=dm.iddistritomisionero)
+order by i.idiglesia asc
+
+
 SELECT c.idcargo, c.descripcion as cargo, n.descripcion as nivel, tc.descripcion as tipo_cargo FROM public.cargo AS C
 
 inner join public.nivel  as n on(c.idnivel=n.idnivel)
