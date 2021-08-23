@@ -20,6 +20,7 @@ class MisionesModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-misiones");
         $tabla->agregarColumna("m.idmision", "idmision", "Id");
+        $tabla->agregarColumna("m.idmision", "idmision", "idmision");
         $tabla->agregarColumna("m.descripcion", "descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("u.descripcion", "union", traducir('traductor.union'));
         $tabla->agregarColumna("m.estado", "estado", traducir('traductor.estado'));

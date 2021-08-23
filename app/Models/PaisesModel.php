@@ -29,12 +29,17 @@ class PaisesModel extends Model
         $tabla->agregarColumna("p.direccion", "direccion", traducir('traductor.direccion'));
         $tabla->agregarColumna("p.telefono", "telefono", traducir('traductor.telefono'));
         $tabla->agregarColumna("i.idioma_descripcion", "idioma_descripcion", traducir('traductor.idioma'));
-        $tabla->agregarColumna("d.descripcion", "division", traducir('traductor.division'));
+        $tabla->agregarColumna("di.di_descripcion", "division", traducir('traductor.division'));
         $tabla->agregarColumna("p.estado", "estado", traducir('traductor.estado'));
-        $tabla->setSelect("p.pais_id, p.pais_descripcion, p.direccion, p.telefono, i.idioma_descripcion, d.descripcion AS division, CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("p.pais_id, p.pais_descripcion, p.direccion, p.telefono, i.idioma_descripcion, 
+        CASE WHEN di.di_descripcion IS NULL THEN
+        (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+        ELSE di.di_descripcion END AS division
+        , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
         $tabla->setFrom("iglesias.paises AS p
         \nLEFT JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
-        \nLEFT JOIN iglesias.division AS d ON(d.iddivision=p.iddivision)");
+        \nLEFT JOIN iglesias.division AS d ON(d.iddivision=p.iddivision)
+        \nLEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")");
 
 
     

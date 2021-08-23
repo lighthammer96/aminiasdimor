@@ -21,6 +21,7 @@ class UnionesModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-uniones");
         $tabla->agregarColumna("u.idunion", "idunion", "Id");
+        $tabla->agregarColumna("u.idunion", "idunion", "idunion");
         $tabla->agregarColumna("u.descripcion", "descripcion", traducir('traductor.descripcion'));
        // $tabla->agregarColumna("p.pais_descripcion", "pais_descripcion", traducir('traductor.pais'));
         $tabla->agregarColumna("u.estado", "estado", traducir('traductor.estado'));

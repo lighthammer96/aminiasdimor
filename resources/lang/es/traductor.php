@@ -462,6 +462,7 @@ return [
     'eliminar_modulo_permisos' => 'No se puede eliminar, este modulo ya tiene asignado permisos',
     'eliminar_nivel_cargo' => 'No se puede eliminar, este nivel ya esta asignado a un cargo',
     'eliminar_pastor_bautizo' => 'No se puede eliminar, este pastor ya es responsable de un bautizo',
+    'eliminar_pais_union' => 'No se puede eliminar, este pais ya esta asignado a una Unión',
     'eliminar_pastor_altasybajas' => 'No se puede eliminar, este pastor ya es responsable de una alta y/o baja',
     'eliminar_perfil_usuario' => 'No se puede eliminar, este perfil ya esta asignado a un usuario',
     'eliminar_perfil_permisos' => 'No se puede eliminar, este perfil ya tiene asignado permisos',

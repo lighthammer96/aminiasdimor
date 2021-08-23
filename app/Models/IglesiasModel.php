@@ -21,7 +21,7 @@ class IglesiasModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-iglesias");
         $tabla->agregarColumna("i.idiglesia", "idiglesia", "Id");
-        $tabla->agregarColumna("i.idiglesia", "idiglesia", "idiglesia");
+        $tabla->agregarColumna("i.idiglesia", "idiglesia", "g");
         $tabla->agregarColumna("i.descripcion", "descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("i.direccion", "direccion", traducir('traductor.direccion'));
         $tabla->agregarColumna("i.telefono", "telefono", traducir('traductor.telefono'));

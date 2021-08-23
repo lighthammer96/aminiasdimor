@@ -115,11 +115,11 @@ class ImportarController extends Controller
         $celdas =  array();
 
         $inputFileType = 'Xlsx';
-        $inputFileName = base_path("public/excel/Formato_Jerarquia.xlsx");
+        $inputFileName = base_path("public/excel/Formato_Jerarquia_1.xlsx");
         
 
         $reader = IOFactory::createReader($inputFileType);
-        $reader->setLoadSheetsOnly("Hoja2");
+        $reader->setLoadSheetsOnly("Hoja1");
         $spreadsheet = $reader->load($inputFileName);
 
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
