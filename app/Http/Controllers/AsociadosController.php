@@ -109,6 +109,8 @@ class AsociadosController extends Controller
                     $res = DB::select($sql);
                     $_POST["idunion"] = $res[0]->idunion;
                 }
+
+                $_POST["pais_iddocimilio"] = $array_pais[0];
             }
 
          

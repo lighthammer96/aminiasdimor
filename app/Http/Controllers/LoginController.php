@@ -166,7 +166,7 @@ class LoginController extends Controller
                         $where_mision_padre = "";
                         $where_distrito_misionero_padre = "";
                         array_push($array_tipos_acceso, array("iddivision" => $result[0]->iddivision));
-                        $sql = "SELECT * FROM iglesias.division WHERE idivision=".$result[0]->idivision;
+                        $sql = "SELECT * FROM iglesias.division WHERE iddivision=".$result[0]->iddivision;
                         $nivel = DB::select($sql);
                         $nivel_organizativo = $nivel[0]->descripcion;
                         break;

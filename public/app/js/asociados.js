@@ -558,7 +558,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio) {
+    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_iddomicilio) {
+        // alert(pais_iddomicilio);
         var valor = "1|S"; 
 
         if($(this).val() != "" && $(this).val() != null) {
@@ -576,6 +577,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         var selected_iddepartamentodomicilio = (typeof iddepartamentodomicilio != "undefined")  ? iddepartamentodomicilio : "";
+        var pais_iddomicilio = (typeof pais_iddomicilio != "undefined" && pais_iddomicilio != null)  ? pais_iddomicilio : "";
 
         var pais_id_change = document.getElementById("pais_id_change").value;
         if(pais_id_change != d_id) {
@@ -625,6 +627,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if(pais_id_change != d_id) {
             document.getElementById("pais_id_change").value = d_id;
             // alert(selected_iddepartamentodomicilio +" "+ d_id);
+            d_id = (pais_iddomicilio != "") ? pais_iddomicilio : d_id;
+            console.log(d_id);
             principal.select({ 
                 name: 'iddepartamentodomicilio',
                 url: '/obtener_departamentos',
@@ -1160,7 +1164,7 @@ document.addEventListener("DOMContentLoaded", function() {
            
 
             // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_iddomicilio]);
             // $("#idunion").trigger("change", [response.idunion, response.idmision]);
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
@@ -1324,7 +1328,7 @@ document.addEventListener("DOMContentLoaded", function() {
            
 
             // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_iddomicilio]);
             // $("#idunion").trigger("change", [response.idunion, response.idmision]);
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
