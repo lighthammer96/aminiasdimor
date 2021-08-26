@@ -984,6 +984,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: pais_id, _token: _token }
         }).then(function(response) {
             if(response.length > 0) {
+                $("#pais_id").trigger("change", [response[0].pais_id]);
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);
@@ -996,6 +997,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             $(jerarquia[index]).find("label").text(jerarquia_traductor[response[index].descripcion]);
                         }
+
+                      
                     }
                 
                     
