@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
         d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
         var selected = (typeof pais_id != "undefined")  ? pais_id : "";
-    
+      
         paises.select({
             name: 'pais_id',
             url: '/obtener_paises_asociados',
@@ -478,22 +478,22 @@ document.addEventListener("DOMContentLoaded", function() {
                     html += '<div class="col-md-5">';
                     html += '   <fieldset>';
                     html += '       <legend><strong>Actividad Misionera</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '</div>';
 
                     html += '<div class="col-md-7">';
                     html += '   <fieldset>';
                     html += '       <legend><strong>Actividades Masivas</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
                     html += '       <legend><strong>Eventos Masivos</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
                     html += '       <legend><strong>Material Estudiado</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '</div>';
 
@@ -627,37 +627,37 @@ document.addEventListener("DOMContentLoaded", function() {
                     html += '<div class="col-md-5">';
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+actividadmisionera+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+semanal+'</tbody></table>';
                     html += '   </fieldset>';
 
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+distribucion_externa+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dexterna+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dexterna+'</tbody></table>';
                     html += '   </fieldset>';
 
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+distribucion_interna+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dinterna+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+dinterna+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '</div>';
 
                     html += '<div class="col-md-7">';
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+actividades_masivas+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+eventos_masivos+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actmasiva2+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+material_estudiado+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+materialestudiado+'</tbody></table>';
                     html += '   </fieldset>';
 
                     html += '   <fieldset>';
                     html += '       <legend><strong>'+actividades_juveniles+'</strong></legend>';
-                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered table-striped" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actjuveniles+'</tbody></table>';
+                    html += '       <table style="margin-bottom: 0px !important;" class="table table-bordered" width="100%" bgcolor="#999999" border="0" align="center" cellpadding="3" cellspacing="1"><tbody>'+actjuveniles+'</tbody></table>';
                     html += '   </fieldset>';
                     html += '</div>';
                     html += '<div class="col-md-12">';

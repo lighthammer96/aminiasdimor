@@ -161,14 +161,14 @@ class ReportesController extends Controller
             array_push($array_where, 'm.idestadocivil='.$request->input("idestadocivil"));
         }
 
-        if($request->input("idocupacion") != '') {
+        if($request->input("idocupacion") != '' && $request->input("idocupacion") != '0') {
             array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
         }
         
 
-        if($request->input("idocupacion") != '') {
-            array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
-        }
+        // if($request->input("idocupacion") != '') {
+        //     array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
+        // }
 
         if($request->input("estado") != '') {
             array_push($array_where, "m.estado='".$request->input("estado")."'");
@@ -335,7 +335,7 @@ class ReportesController extends Controller
         // $miembros = DB::select($sql_miembros);
         $miembros = $this->obtener_miembros($request, "");
         if(count($miembros) <= 0) {
-            echo '<script>alert("No hay Datos!"); window.close();</script>';
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
 
@@ -367,7 +367,7 @@ class ReportesController extends Controller
         $miembros = $this->obtener_miembros($request, "fichas");
 
         if(count($miembros) <= 0) {
-            echo '<script>alert("No hay Datos!"); window.close();</script>';
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
         $sql_estado_civil = "SELECT * FROM public.estadocivil";
@@ -429,7 +429,7 @@ class ReportesController extends Controller
         $miembros = $this->obtener_miembros($request, "");
 
         if(count($miembros) <= 0) {
-            echo '<script>alert("No hay Datos!"); window.close();</script>';
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
         return Excel::download(new AsociadosExport, 'reporte_general_asociados.xlsx');

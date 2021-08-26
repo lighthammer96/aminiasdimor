@@ -300,6 +300,16 @@ class AsociadosController extends Controller
         echo json_encode($result);
     }
 
+
+    public function obtener_profesiones_todos() {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "SELECT idocupacion as id, descripcion FROM public.ocupacion ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
+
     public function obtener_periodos_ini() {
         $result = array();
         $array = array();

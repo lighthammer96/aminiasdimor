@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     asociados.select({
         name: 'idocupacion',
-        url: '/obtener_profesiones',
+        url: '/obtener_profesiones_todos',
         placeholder: seleccione
     }).then(function() {
         //asociados.enter("idocupacion","observaciones");

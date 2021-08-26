@@ -289,6 +289,7 @@ Route::post('asociados/get', [AsociadosController::class, "get"]);
 Route::post('asociados/obtener_estado_civil', [AsociadosController::class, "obtener_estado_civil"]);
 Route::post('asociados/obtener_nivel_educativo', [AsociadosController::class, "obtener_nivel_educativo"]);
 Route::post('asociados/obtener_profesiones', [AsociadosController::class, "obtener_profesiones"]);
+Route::post('asociados/obtener_profesiones_todos', [AsociadosController::class, "obtener_profesiones_todos"]);
 Route::post('asociados/buscar_datos_responsables', [AsociadosController::class, "buscar_datos_responsables"]);
 Route::post('asociados/guardar_bajas', [AsociadosController::class, "guardar_bajas"]);
 Route::post('asociados/guardar_altas', [AsociadosController::class, "guardar_altas"]);

@@ -1025,7 +1025,8 @@ class BASE_JS {
                         atributo1 = response[i].atributo1;
                     }
                     //alert(parametros.name+ " "+selected);
-                    if (selected == response[i].id) {
+                    if (selected === response[i].id) {
+                        // alert("hola "+parametros.name+" "+response[i].id    );
                         options += '<option atributo1="' + atributo1 + '" selected="selected" value="' + response[i].id + '">' + response[i].descripcion + '</option>';
                         prioridadSelected = true;
                     } else {

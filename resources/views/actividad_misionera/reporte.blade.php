@@ -72,21 +72,23 @@
         </div>
         <div class="col-md-10">
             <div class="row">
-                <div class="col-md-1" >
-                    <label class="control-label" style="float: right;">{{ traducir("traductor.anio") }}:</label>
-                </div>
-                <div class="col-md-2">
-                    
+                <div class="col-md-2" >
+                    <label class="control-label" style="">{{ traducir("traductor.anio") }}:</label> 
                     <select name="anio" id="anio" class="entrada selectizejs"></select>
                 </div>
-                <div class="col-md-1">
-                    <label class="control-label" style="float: right;">{{ traducir("traductor.trimestre") }}:</label>
-                </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-2">
                     
+                    <select name="anio" id="anio" class="entrada selectizejs"></select>
+                </div> -->
+                <div class="col-md-3">
+                    <label class="control-label" style="">{{ traducir("traductor.trimestre") }}:</label>
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div>
-                <div class="col-md-1" id="boton-reporte" style="display: none;">
+                <!-- <div class="col-md-3">
+                    
+                    <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
+                </div> -->
+                <div class="col-md-1" id="boton-reporte" style="display: none; margin-top: 27px;">
                     <button type="button" id="ver-reporte" class="btn btn-primary btn-sm">{{ traducir("traductor.ver_reporte") }}</button>
                 </div>   
             </div>

@@ -21,7 +21,7 @@ class DivisionesModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-divisiones");
         $tabla->agregarColumna("d.iddivision", "iddivision", "Id");
-        $tabla->agregarColumna("d.iddivision", "iddivision", "iddivision");
+        $tabla->agregarColumna("d.iddivision", "iddivision", "iddivisionw");
         $tabla->agregarColumna("di.di_descripcion", "descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("d.estado", "estado", traducir('traductor.estado'));
         $tabla->setSelect("d.iddivision, CASE WHEN di.di_descripcion IS NULL THEN
