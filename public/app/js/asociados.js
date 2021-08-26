@@ -628,7 +628,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("pais_id_change").value = d_id;
             // alert(selected_iddepartamentodomicilio +" "+ d_id);
             d_id = (pais_iddomicilio != "") ? pais_iddomicilio : d_id;
-            console.log(d_id);
+            // console.log(d_id);
             principal.select({ 
                 name: 'iddepartamentodomicilio',
                 url: '/obtener_departamentos',
