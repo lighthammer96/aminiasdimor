@@ -136,6 +136,27 @@ class IglesiasController extends Controller
         echo json_encode($result);
     }
 
+    public function obtener_iglesias_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+        $result = array();
+		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
+	
+			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
+            " ORDER BY descripcion ASC";
+		} elseif(session("perfil_id") != 1) {
+            // $sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1'".
+            // " ORDER BY descripcion ASC";
+		}
+
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        array_push($result, $array);
+        echo json_encode($result);
+    }
+
     public function ver_activos($idiglesia) {
         $sql = "SELECT *, i.descripcion AS iglesia, td.descripcion AS tipo_documento
         FROM iglesias.miembro AS m
@@ -160,21 +181,5 @@ class IglesiasController extends Controller
        
     }
 
-    public function obtener_iglesias_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
-	
-			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
-            " ORDER BY descripcion ASC";
-		} else {
-            $sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1'".
-            " ORDER BY descripcion ASC";
-		}
-
-        $result = DB::select($sql);
-        array_push($result, $array);
-        echo json_encode($result);
-    }
+    
 }

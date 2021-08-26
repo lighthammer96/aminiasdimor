@@ -117,6 +117,36 @@ class MisionesController extends Controller
     }
 
 
+    public function obtener_misiones_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+        $result = array();
+        if(isset($_REQUEST["pais_id"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
+	
+			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
+            " ORDER BY descripcion ASC";		
+        } elseif(session("perfil_id") != 1) {
+            // $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision").
+            // " ORDER BY descripcion ASC";
+		}
+
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        array_push($result, $array);
+        echo json_encode($result);
+    }
+
+
     public function obtener_misiones_todos(Request $request) {
 
         $sql = "";
@@ -143,32 +173,7 @@ class MisionesController extends Controller
         echo json_encode($result);
     }
 
-    public function obtener_misiones_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-        
-        if(isset($_REQUEST["pais_id"])) {
-            $sql = "SELECT * FROM iglesias.union AS u 
-            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
-            WHERE up.pais_id={$_REQUEST["pais_id"]}";
-            $res = DB::select($sql);
-            $_REQUEST["idunion"] = $res[0]->idunion;
-        }
-
-		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
-	
-			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
-            " ORDER BY descripcion ASC";		
-        } else {
-            $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision").
-            " ORDER BY descripcion ASC";
-		}
-
-        $result = DB::select($sql);
-        array_push($result, $array);
-        echo json_encode($result);
-    }
+    
 
 
 }

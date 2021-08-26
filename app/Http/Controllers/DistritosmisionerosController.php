@@ -110,6 +110,28 @@ class DistritosmisionerosController extends Controller
         echo json_encode($result);
     }
 
+    
+    public function obtener_distritos_misioneros_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "";
+        $result = array();
+		if(isset($_REQUEST["idmision"]) && !empty($_REQUEST["idmision"])) {
+	
+			$sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' AND idmision=".$request->input("idmision")." ".session("where_distrito_misionero").
+            " ORDER BY descripcion ASC";
+		} elseif(session("perfil_id") != 1) {
+            // $sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' ".session("where_distrito_misionero").
+            // " ORDER BY descripcion ASC";
+		}
+
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        array_push($result, $array);
+        echo json_encode($result);
+    }
+
 
     public function obtener_distritos_misioneros_todos(Request $request) {
 
@@ -127,21 +149,4 @@ class DistritosmisionerosController extends Controller
         echo json_encode($result);
     }
 
-    public function obtener_distritos_misioneros_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-		if(isset($_REQUEST["idmision"]) && !empty($_REQUEST["idmision"])) {
-	
-			$sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' AND idmision=".$request->input("idmision")." ".session("where_distrito_misionero").
-            " ORDER BY descripcion ASC";
-		} else {
-            $sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' ".session("where_distrito_misionero").
-            " ORDER BY descripcion ASC";
-		}
-
-        $result = DB::select($sql);
-        array_push($result, $array);
-        echo json_encode($result);
-    }
 }

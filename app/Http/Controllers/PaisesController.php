@@ -134,6 +134,28 @@ class PaisesController extends Controller
         echo json_encode($result);
     }
 
+    public function obtener_paises_asociados_all(Request $request) {
+        $array = array("id" => 0, "descripcion" => "Todos");
+        $array = (object) $array;
+        $result = array();
+        $sql = "";
+		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
+	
+			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
+            " ORDER BY pais_descripcion ASC";;
+		} elseif(session("perfil_id") != 1) {
+            // $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais").
+            // " ORDER BY pais_descripcion ASC";;
+		}
+        // die($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        array_push($result, $array);
+
+        echo json_encode($result);
+    }
+
     public function obtener_todos_paises(Request $request) {
 
       
@@ -181,22 +203,5 @@ class PaisesController extends Controller
     }
 
 
-    public function obtener_paises_asociados_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
-	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
-            " ORDER BY pais_descripcion ASC";;
-		} else {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais").
-            " ORDER BY pais_descripcion ASC";;
-		}
-        // die($sql);
-        $result = DB::select($sql);
-        array_push($result, $array);
-
-        echo json_encode($result);
-    }
+    
 }
