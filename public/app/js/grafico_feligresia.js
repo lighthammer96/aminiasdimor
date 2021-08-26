@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     divisiones.select({
         name: 'iddivision',
         url: '/obtener_divisiones_all',
-        // placeholder: seleccione,
-        selected: 0
+        placeholder: seleccione,
+        // selected: 0
     }).then(function () {
 
         $("#iddivision").trigger("change", ["", ""]);
@@ -244,6 +244,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 idiglesia: idiglesia
             }
         }).then(function(response) {
+            if(response.length <= 0) {
+                BASE_JS.sweet({
+                    text: no_hay_datos
+                });
+                return false;
+            }
             // console.log(response);
             Highcharts.chart('container', {
                 chart: {

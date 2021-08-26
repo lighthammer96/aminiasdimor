@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <input type="hidden" name="nombres[]" value="'+objeto.nombres+'" >';
         html += '  <input type="hidden" name="idtipodoc[]" value="'+objeto.idtipodoc+'" >';
         html += '  <input type="hidden" name="nrodoc[]" value="'+objeto.nrodoc+'" >';
-        html += '  <input type="hidden" name="fechanacimiento[]" value="'+objeto.fechanacimiento+'" >';
+        html += '  <input type="hidden" name="fechanacimiento[]" value="'+BASE_JS.FormatoFecha(objeto.fechanacimiento, "server")+'" >';
         html += '  <input type="hidden" name="idpais[]" value="'+objeto.idpais+'" >';
         html += '  <input type="hidden" name="lugarnacimiento[]" value="'+objeto.lugarnacimiento+'" >';
      
