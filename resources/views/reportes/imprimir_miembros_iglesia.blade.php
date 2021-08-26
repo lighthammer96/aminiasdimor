@@ -114,7 +114,14 @@
             </div>
 
             <div class="col" style="width: 50%;">
-                <label for=""><strong>{{ $miembros[0]->iglesia }}</strong></label>
+                <label for="">
+                    <strong>
+                        @isset($miembros[0]->iglesia)
+                            {{ $miembros[0]->iglesia }} 
+                        @endisset
+
+                    </strong>
+            </label>
             </div>
 
             <div class="col" style="width: 10%;">

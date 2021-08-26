@@ -534,6 +534,11 @@ class ReportesController extends Controller
         ".$where;
         $miembros = DB::select($sql_miembros);
 
+        if(count($miembros) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
