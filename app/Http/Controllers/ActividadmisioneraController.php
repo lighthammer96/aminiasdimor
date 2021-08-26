@@ -173,7 +173,8 @@ class ActividadmisioneraController extends Controller
         // if($idtrimestre != "0") {
         //     $where .= ' AND c.trimestre='.$idtrimestre;
         // }
-
+        $group_by = "";
+        $select = "";
         if($anio != "0") {
             $where .= " AND c.anio='".$anio."'";
         }
@@ -187,6 +188,9 @@ class ActividadmisioneraController extends Controller
             if($semana != "0") {
                 $where .= ' AND c.semana='.$semana;
             }
+            $group_by = " GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana ";
+            $select = " am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistentes, SUM(c.interesados) AS interesados, SUM(c.valor) AS cantidad,
+            array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual ";
         } else {
             switch ($_REQUEST["idtrimestre"]) {
                 case 1:
@@ -202,6 +206,9 @@ class ActividadmisioneraController extends Controller
                     $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
                     break;
             }
+            $select = " am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistentes, SUM(c.interesados) AS interesados, SUM(c.valor) AS cantidad,
+            array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual ";
+            $group_by = " GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia ";
         }
         
         if($iddivision != "0" && $iddivision != "") {
@@ -228,11 +235,10 @@ class ActividadmisioneraController extends Controller
             $where .= ' AND c.idiglesia='.$idiglesia;
         }
 
-        $sql = "SELECT am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana, SUM(c.valor) AS valor, SUM(c.asistentes) AS asistentes, SUM(c.interesados) AS interesados, SUM(c.valor) AS cantidad,
-        array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
+        $sql = "SELECT ".$select."
         FROM iglesias.actividadmisionera AS am
         LEFT JOIN iglesias.controlactmisionera AS c ON(am.idactividadmisionera=c.idactividadmisionera ".$where.")
-        GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia, c.semana
+       ".$group_by."
         ORDER BY am.idactividadmisionera ASC";
         // die($sql);
         $result = DB::select($sql);
