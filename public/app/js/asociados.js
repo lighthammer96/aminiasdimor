@@ -578,7 +578,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         var selected_iddepartamentodomicilio = (typeof iddepartamentodomicilio != "undefined")  ? iddepartamentodomicilio : "";
         var pais_iddomicilio = (typeof pais_iddomicilio != "undefined" && pais_iddomicilio != null)  ? pais_iddomicilio : "";
-
+        d_id = (pais_iddomicilio != "") ? pais_iddomicilio : d_id;
         var pais_id_change = document.getElementById("pais_id_change").value;
         if(pais_id_change != d_id) {
             jerarquia(d_id);
@@ -627,7 +627,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(pais_id_change != d_id) {
             document.getElementById("pais_id_change").value = d_id;
             // alert(selected_iddepartamentodomicilio +" "+ d_id);
-            d_id = (pais_iddomicilio != "") ? pais_iddomicilio : d_id;
+        
             // console.log(d_id);
             principal.select({ 
                 name: 'iddepartamentodomicilio',
@@ -1063,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]);
+            jerarquia(response.pais_iddomicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -1227,7 +1227,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             var array_pais = response.pais_id.split("|");
-            jerarquia(array_pais[0]);
+            jerarquia(response.pais_iddomicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -1339,7 +1339,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
             $("#iddepartamentodomicilio").trigger("change", [response.iddepartamentodomicilio, response.idprovinciadomicilio]);
             $("#idprovinciadomicilio").trigger("change", [response.idprovinciadomicilio, response.iddistritodomicilio]);
-            
         })
     })
 
