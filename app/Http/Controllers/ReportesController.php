@@ -588,13 +588,17 @@ class ReportesController extends Controller
         $datos = array();
 
         // echo round(9 / 2); exit;
+        $where = "";
+        if(isset($_REQUEST["idiglesia"]) && !empty($_REQUEST["idiglesia"])) {
+            $where = " AND cm.idlugar=".$request->input("idiglesia");
+        }
         $anio = $request->input("anio");
 
         $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
 
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=5 ";
         // die($sql_director);
         $director = DB::select($sql_director);
@@ -603,7 +607,7 @@ class ReportesController extends Controller
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=6 ";
         $secretario = DB::select($sql_secretario);
 
@@ -611,7 +615,7 @@ class ReportesController extends Controller
         $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=7 ";
         // die($sql_tesorero);
         $tesorero = DB::select($sql_tesorero);
@@ -619,7 +623,7 @@ class ReportesController extends Controller
         $sql_diacono = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=64 ";
         $diacono = DB::select($sql_diacono);
 
@@ -627,14 +631,14 @@ class ReportesController extends Controller
         $sql_director_escuela_sabatica = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=65 ";
         $director_escuela_sabatica = DB::select($sql_director_escuela_sabatica);
 
         $sql_director_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=66 ";
         $director_jovenes = DB::select($sql_director_jovenes);
 
@@ -642,14 +646,14 @@ class ReportesController extends Controller
         $sql_comite = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo=67 ";
         $comite = DB::select($sql_comite);
 
         $sql_otros = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    INNER JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    INNER JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin AND  cm.idlugar=".$request->input("idiglesia")." AND cm.tabla='iglesias.iglesia')
+	    INNER JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
         WHERE c.idcargo NOT IN(5, 6, 7, 20, 64, 65, 66, 67) ";
         // die($sql_otros);
         $otros = DB::select($sql_otros);
