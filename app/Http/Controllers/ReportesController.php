@@ -181,10 +181,21 @@ class ReportesController extends Controller
         if($request->input("pais_id") != '') {
             $array_pais = explode("|", $request->input("pais_id"));
             array_push($array_where, 'm.pais_id='.$array_pais[0]);
+
+            $_REQUEST["pais_id"] = $array_pais[0];
+            if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_REQUEST["pais_id"]}";
+                $res = DB::select($sql);
+                $_REQUEST["idunion"] = $res[0]->idunion;
+            }
         }
 
-        if($request->input("idunion") != '') {
-            array_push($array_where, 'm.idunion='.$request->input("idunion"));
+      
+
+        if(isset($_REQUEST["idunion"]) && $_REQUEST["idunion"] != '') {
+            array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
         }
 
         if($request->input("idmision") != '') {
@@ -432,7 +443,9 @@ class ReportesController extends Controller
             echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
+        // echo '<script>window.close();</script>';
         return Excel::download(new AsociadosExport, 'reporte_general_asociados.xlsx');
+
     }
 
     public function obtener_feligresia(Request $request) {
@@ -445,10 +458,21 @@ class ReportesController extends Controller
         if($request->input("pais_id") != '0') {
             $array_pais = explode("|", $request->input("pais_id"));
             array_push($array_where, 'm.pais_id='.$array_pais[0]);
-        }
 
-        if($request->input("idunion") != '0') {
-            array_push($array_where, 'm.idunion='.$request->input("idunion"));
+
+            $_REQUEST["pais_id"] = $array_pais[0];
+            if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_REQUEST["pais_id"]}";
+                $res = DB::select($sql);
+                $_REQUEST["idunion"] = $res[0]->idunion;
+            }
+        }
+       
+
+        if($_REQUEST["idunion"] != '0') {
+            array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
         }
 
         if($request->input("idmision") != '0') {
@@ -497,12 +521,21 @@ class ReportesController extends Controller
         }
 
         if($request->input("pais_id") != '') {
-            $array_pais = explode("|", $request->input("pais_id"));
+            // $array_pais = explode("|", $request->input("pais_id"));
+            $array_pais = explode("|", $_REQUEST["pais_id"]);
+            $_REQUEST["pais_id"] = $array_pais[0];
+            if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+                $sql = "SELECT * FROM iglesias.union AS u 
+                INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+                WHERE up.pais_id={$_REQUEST["pais_id"]}";
+                $res = DB::select($sql);
+                $_REQUEST["idunion"] = $res[0]->idunion;
+            }
             array_push($array_where, 'm.pais_id='.$array_pais[0]);
         }
 
-        if($request->input("idunion") != '') {
-            array_push($array_where, 'm.idunion='.$request->input("idunion"));
+        if(isset($_REQUEST["idunion"]) && $_REQUEST["idunion"] != '') {
+            array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
         }
 
         if($request->input("idmision") != '') {
@@ -532,6 +565,7 @@ class ReportesController extends Controller
         LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
         ".$where;
+        // die($sql_miembros);
         $miembros = DB::select($sql_miembros);
 
         if(count($miembros) <= 0) {
@@ -677,11 +711,24 @@ class ReportesController extends Controller
 
     public function imprimir_oficiales_union_asociacion(Request $request) {
         $datos = array();
-
+        // echo "<pre>";
+        //  print_r($_REQUEST); exit;
         // echo round(9 / 2); exit;
         $periodoini = $request->input("periodoini");
         $periodofin = $request->input("periodofin");
-        $idunion = $request->input("idunion");
+
+        $array_pais = explode("|", $_REQUEST["pais_id"]);
+        $_REQUEST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+       
+        $idunion = $_REQUEST["idunion"];
         $idmision = $request->input("idmision");
         $idlugar = $idunion;
 
@@ -921,7 +968,7 @@ class ReportesController extends Controller
         $eleccion = DB::select($sql_eleccion);
 
         if(count($eleccion) <= 0) {
-            echo '<script>alert("'.traducir("traductor.no_hagity_datos").'"); window.close();</script>';
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
 
@@ -966,8 +1013,21 @@ class ReportesController extends Controller
 
     public function imprimir_informe_semestral(Request $request) {
         $datos = array();
+        // echo "<pre>";
+        // print_r($_REQUEST); exit;
         $anio = $request->input("anio");
-        $idunion = $request->input("idunion");
+
+        $array_pais = explode("|", $_REQUEST["pais_id"]);
+        $_REQUEST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+        $idunion = $_REQUEST["idunion"];
         $where = "";
 
       
@@ -989,6 +1049,11 @@ class ReportesController extends Controller
 
         $sql_misiones = "SELECT * FROM iglesias.mision WHERE idunion={$idunion} AND estado='1'";
         $misiones = DB::select($sql_misiones);
+
+        if(count($misiones) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
 
         foreach ($misiones as $key => $value) {
             $iglesias = DB::select("SELECT COUNT(*) AS iglesias FROM iglesias.iglesia WHERE estado='1' AND idmision={$value->idmision}");

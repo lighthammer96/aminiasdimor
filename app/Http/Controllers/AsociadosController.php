@@ -102,7 +102,7 @@ class AsociadosController extends Controller
 
                 $array_pais = explode("|", $_POST["pais_id"]);
                 $_POST["pais_id"] = $array_pais[0];
-                if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
+                if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_POST["idunion"])) {
                     $sql = "SELECT * FROM iglesias.union AS u 
                     INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                     WHERE up.pais_id={$_POST["pais_id"]}";

@@ -13,15 +13,15 @@ document.addEventListener("DOMContentLoaded", function() {
         name: 'periodoini',
         url: '/obtener_periodos_ini',
     }).then(function() {
-        
+        $("#periodoini").trigger("change");
     }) 
 
-    asociados.select({
-        name: 'periodofin',
-        url: '/obtener_periodos_fin_dependiente',
-    }).then(function() {
+    // asociados.select({
+    //     name: 'periodofin',
+    //     url: '/obtener_periodos_fin_dependiente',
+    // }).then(function() {
         
-    }) 
+    // }) 
 
    
     divisiones.select({

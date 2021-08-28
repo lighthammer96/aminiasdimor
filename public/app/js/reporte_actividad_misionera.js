@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             reporte.ajax({
                 url: '/obtener_actividades',
-                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre, iddivision: iddivision, pais_id: array_pais[0], idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero }
+                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre, iddivision: iddivision, pais_id: pais_id, idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero }
             }).then(function(response) {
                 // console.log(response);
 

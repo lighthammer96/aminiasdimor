@@ -404,6 +404,14 @@ document.addEventListener("DOMContentLoaded", function() {
         var anio = $("#anio").val();
         var idtrimestre = $("#idtrimestre").val();
         var idiglesia = $("#idiglesia").val();
+        
+
+        var iddivision = $("#iddivision").val();
+        var idmision = $("#idmision").val();
+        var idunion = $("#idunion").val();
+        var iddistritomisionero = $("#iddistritomisionero").val();
+
+
 
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
@@ -425,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             actividad_misionera.ajax({
                 url: '/obtener_actividades',
-                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre }
+                datos: { anio: anio, idiglesia: idiglesia, idtrimestre: idtrimestre, iddivision: iddivision, pais_id: pais_id, idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero }
             }).then(function(response) {
                 // console.log(response);
 
@@ -516,6 +524,13 @@ document.addEventListener("DOMContentLoaded", function() {
         // var fecha_inicial = $("#fecha_inicial").val();
         // var fecha_final = $("#fecha_final").val();
 
+        var iddivision = $("#iddivision").val();
+        var idmision = $("#idmision").val();
+        var idunion = $("#idunion").val();
+        var iddistritomisionero = $("#iddistritomisionero").val();
+
+
+
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
 
@@ -538,7 +553,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             actividad_misionera.ajax({
                 url: '/obtener_actividades',
-                datos: { anio: anio, idiglesia: idiglesia, mes: mes, semana: semana }
+                datos: { anio: anio, idiglesia: idiglesia, mes: mes, semana: semana, iddivision: iddivision, pais_id: pais_id, idunion: idunion, idmision: idmision, iddistritomisionero: iddistritomisionero }
             }).then(function(response) {
                 // console.log(response);
 
@@ -698,13 +713,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var anio = $("#anio").val();
         var mes = $("#mes").val();
         // var idtrimestre = $("#idtrimestre").val();
-        var pais = $("#pais_id").val().toString().split("|");
+        // var pais = $("#pais_id").val().toString().split("|");
         var idiglesia = $("#idiglesia").val();
         var idunion = $("#idunion").val();
         var idmision = $("#idmision").val();
         var iddivision = $("#iddivision").val();
         var iddistritomisionero = $("#iddistritomisionero").val();
-        var pais_id = pais[0];
+        var pais_id = $("#pais_id").val();
         var valor = $(this).val();
         var fecha_inicial = $("#fecha_inicial").val();
         var fecha_final = $("#fecha_final").val();
@@ -735,12 +750,12 @@ document.addEventListener("DOMContentLoaded", function() {
         var planes = $("#planes").val();
         var informe_espiritual = $("#informe_espiritual").val();
 
-        var pais = $("#pais_id").val().toString().split("|");
+        // var pais = $("#pais_id").val().toString().split("|");
         var idunion = $("#idunion").val();
         var idmision = $("#idmision").val();
         var iddivision = $("#iddivision").val();
         var iddistritomisionero = $("#iddistritomisionero").val();
-        var pais_id = pais[0];
+        var pais_id = $("#pais_id").val();
         //console.log($(this).val());
         actividad_misionera.ajax({
             url: '/guardar_actividad',

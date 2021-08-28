@@ -14,7 +14,7 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 4cm;
+            margin-top: 4.4cm;
             margin-left: 0.5cm;
             margin-right: 0.5cm;
             margin-bottom: 2cm;
@@ -25,7 +25,7 @@
             top: 0.9cm;
             left: 2cm;
             right: 2cm;
-            height: 4cm;
+            height: 4.4cm;
             text-align: center;
             line-height: 0.8cm;
             font-family: 'Times New Roman' !important;
@@ -144,9 +144,9 @@
         </div>
 
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th rowspan="2">{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -241,9 +241,9 @@
         </div>
 
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th rowspan="2">{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -341,9 +341,9 @@
         </div>
 
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th rowspan="2">{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -444,9 +444,9 @@
 
 
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 50%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th rowspan="2">{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -506,7 +506,7 @@
                 </table>
             </div>
             <div class="col" style="width: 50%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th >{{ traducir("traductor.reuniones_juveniles") }}</th>
@@ -570,9 +570,9 @@
             </div> 
         </div>
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th >{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -647,9 +647,9 @@
         </div>
 
         <div class="clear"></div>
-        <div class="row" style="margin-bottom: 90px;">
+        <div class="row" style="">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th >{{ traducir("traductor.nombre_asociacion") }}</th>
@@ -690,7 +690,7 @@
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 150px;">
             <div class="col" style="width: 100%;">
-                <table border="1" style="width: 100%;">
+                <table border="1" style="width: 100%; margin-bottom: 25px;">
                     <thead>
                         <tr>
                             <th >{{ traducir("traductor.propiedad") }}</th>

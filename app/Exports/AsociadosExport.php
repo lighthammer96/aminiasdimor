@@ -39,7 +39,8 @@ class AsociadosExport implements FromCollection, WithHeadings
     public function collection()
     {
       
-    
+        //  echo "<pre>";
+        // print_r($_REQUEST); exit;
         $miembros = DB::table("iglesias.miembro AS m")
         ->leftJoin('public.gradoinstruccion AS gi', 'gi.idgradoinstruccion', '=', 'm.idgradoinstruccion')
         ->leftJoin('public.ocupacion AS o', 'o.idocupacion', '=', 'm.idocupacion')
@@ -55,25 +56,27 @@ class AsociadosExport implements FromCollection, WithHeadings
         ->leftJoin('iglesias.condicioneclesiastica AS ce', 'ce.idcondicioneclesiastica', '=', 'm.idcondicioneclesiastica');
 
         for ($i=0; $i < count($_REQUEST["campos"]); $i++) { 
+           
             $miembros = $miembros->addSelect(DB::raw($_REQUEST["campos"][$i]));
         }
+       
 
         if($_REQUEST["idcondicioneclesiastica"] != '') {
             $miembros = $miembros->where('m.idcondicioneclesiastica', '=', $_REQUEST["idcondicioneclesiastica"]);
             //array_push($array_where, 'm.idcondicioneclesiastica='.$_REQUEST["idcondicioneclesiastica"]);
         }
-
         if($_REQUEST["idestadocivil"] != '') {
             // array_push($array_where, 'm.idestadocivil='.$_REQUEST["idestadocivil"]);
             $miembros = $miembros->where('m.idestadocivil', '=', $_REQUEST["idestadocivil"]);
         }
-
+        
         if($_REQUEST["idocupacion"] != '') {
             // array_push($array_where, 'm.idocupacion='.$_REQUEST["idocupacion"]);
             $miembros = $miembros->where('m.idocupacion', '=', $_REQUEST["idocupacion"]);
         }
+       
         
-
+        
   
 
         if($_REQUEST["estado"] != '') {
@@ -85,17 +88,27 @@ class AsociadosExport implements FromCollection, WithHeadings
             // array_push($array_where, 'm.iddivision='.$_REQUEST["iddivision"]);
             $miembros = $miembros->where('m.iddivision', '=', $_REQUEST["iddivision"]);
         }
+        
 
         if($_REQUEST["pais_id"] != '') {
-            $array_pais = explode("|", $_REQUEST["pais_id"]);
+            // $array_pais = explode("|", $_REQUEST["pais_id"]);
             // array_push($array_where, 'm.pais_id='.$array_pais[0]);
-            $miembros = $miembros->where('m.pais_id', '=', $array_pais[0]);
-        }
+            $miembros = $miembros->where('m.pais_id', '=', $_REQUEST["pais_id"]);
 
+            // $_REQUEST["pais_id"] = $array_pais[0];
+            // if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+            //     $sql = "SELECT * FROM iglesias.union AS u 
+            //     INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            //     WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            //     $res = DB::select($sql);
+            //     $_REQUEST["idunion"] = $res[0]->idunion;
+            // }
+        }
         if($_REQUEST["idunion"] != '') {
             // array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
             $miembros = $miembros->where('m.idunion', '=', $_REQUEST["idunion"]);
         }
+       
 
         if($_REQUEST["idmision"] != '') {
             // array_push($array_where, 'm.idmision='.$_REQUEST["idmision"]);
@@ -107,7 +120,7 @@ class AsociadosExport implements FromCollection, WithHeadings
             $miembros = $miembros->where('m.iddistritomisionero', '=', $_REQUEST["iddistritomisionero"]);
         }
         
-        
+       
         if($_REQUEST["fechaini"] != '' && $_REQUEST["fechafin"] !=  '') {
             // $where .= " AND m.fechabautizo BETWEEN '".$this->FormatoFecha($_REQUEST["fechaini"], "server")."' AND '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'";
 
@@ -123,13 +136,14 @@ class AsociadosExport implements FromCollection, WithHeadings
             //$where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'";
             $miembros = $miembros->where('m.fechabautizo', '=', $this->FormatoFecha($_REQUEST["fechafin"], "server")); 
         }
-
+        
         if(isset($_REQUEST["iglesias"]) && count($_REQUEST["iglesias"]) > 0) {
             // $iglesias = implode(", ", $_REQUEST["iglesias"]);
+            // die($iglesias);
             // $where .= ' AND m.idiglesia IN('.$iglesias.')';
-            $miembros = $miembros->whereIn('m.idiglesia', '=', $_REQUEST["iglesias"]);
+            $miembros = $miembros->whereIn('m.idiglesia', $_REQUEST["iglesias"]);
         }
-
+       
         $miembros = $miembros->get();
         // die($miembros);
         // echo count($miembros); exit;    

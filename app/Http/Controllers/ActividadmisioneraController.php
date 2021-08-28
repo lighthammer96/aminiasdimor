@@ -73,6 +73,18 @@ class ActividadmisioneraController extends Controller
         $anio = $request->input("anio");
         $mes = $request->input("mes");
 
+
+        $array_pais = explode("|", $_POST["pais_id"]);
+        $_POST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_POST["idunion"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_POST["pais_id"]}";
+            $res = DB::select($sql);
+            $_POST["idunion"] = $res[0]->idunion;
+        }
+
+
         $_POST["fecha_inicial"] = $this->FormatoFecha($_REQUEST["fecha_inicial"], "server");
         $_POST["fecha_final"] = $this->FormatoFecha($_REQUEST["fecha_final"], "server");
         // $idtrimestre = $request->input("idtrimestre");
@@ -164,8 +176,20 @@ class ActividadmisioneraController extends Controller
         $semana = $request->input("semana");
         $idiglesia = $request->input("idiglesia");
         $iddivision = $request->input("iddivision");
-        $pais_id = $request->input("pais_id");
-        $idunion = $request->input("idunion");
+
+        $array_pais = explode("|", $_REQUEST["pais_id"]);
+        $_REQUEST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+
+        $pais_id = $_REQUEST["pais_id"];
+        $idunion = $_REQUEST["idunion"];
         $idmision = $request->input("idmision");
         $iddistritomisionero = $request->input("iddistritomisionero");
 
