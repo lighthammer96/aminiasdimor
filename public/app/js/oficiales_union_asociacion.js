@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     asociados.select({
         name: 'periodofin',
-        url: '/obtener_periodos_fin',
+        url: '/obtener_periodos_fin_dependiente',
     }).then(function() {
         
     }) 
@@ -217,5 +217,38 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
 
+    $(document).on("change", "#periodoini", function(e) {
+        var periodoini = parseInt($("#periodoini").val());
+        var periodofin = parseInt($("#periodofin").val());
+
+
+        asociados.select({
+            name: 'periodofin',
+            url: '/obtener_periodos_fin_dependiente',
+            datos: { periodoini: periodoini }
+        }).then(function() {
+            
+            if(periodoini > periodofin) {
+                $("#periodoini")[0].selectize.setValue(periodofin - 1);
+
+            
+                
+            }
+            
+        }) 
+        // console.log($(this).val());
+    })
+
+    $(document).on("change", "#periodofin", function(e) {
+        var periodoini = parseInt($("#periodoini").val());
+        var periodofin = parseInt($("#periodofin").val());
+
+        
+        if(periodoini > periodofin) {
+            $("#periodofin")[0].selectize.setValue(periodoini + 1);
+            
+        }
+        // console.log($(this).val());
+    })
 
 })

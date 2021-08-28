@@ -288,6 +288,7 @@ return [
     "firma_anciano_director_iglesia" => 'Firma del Anciano/Director de Iglesia',
     "director_obra_misionera" => 'Nombre del Director de Obra Misionera',
     "eleccion_oficiales_iglesia" => 'Elección de Oficiales de Iglesia',
+    "oficiales_elegidos" => 'Oficiales Elegidos',
     "eleccion_oficiales_union_asociacion" => 'Elección de Oficiales de Unión/Asociación',
     "fax" => 'Fax',
     "otros_oficiales_iglesia" => 'Otros Oficiales de Iglesia',

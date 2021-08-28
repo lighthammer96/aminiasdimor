@@ -920,6 +920,14 @@ class ReportesController extends Controller
 
         $eleccion = DB::select($sql_eleccion);
 
+        if(count($eleccion) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hagity_datos").'"); window.close();</script>';
+            exit;
+        }
+
+
+        
+
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["nombre"] = $nombre;
         $datos["periodoini"] = $periodoini;

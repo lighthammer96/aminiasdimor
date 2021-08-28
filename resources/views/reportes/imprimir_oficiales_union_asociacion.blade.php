@@ -130,22 +130,22 @@
         </div>
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 25%;">
+            <div class="col" style="width: 10%;">
                 <label for="">{{ traducir("traductor.direccion") }}</label>
             </div>
 
-            <div class="col" style="width: 75%;">
+            <div class="col" style="width: 90%;">
                 <label for=""><strong>{{ $sede[0]->direccion }}</strong></label>
             </div>
         </div>
 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 10px;">
-            <div class="col" style="width: 15%;">
+            <div class="col" style="width: 10%;">
                 <label for="">{{ traducir("traductor.telefono") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 15%;">
                 <label for=""><strong>{{ $sede[0]->telefono }}</strong></label>
             </div>
             <div class="col" style="width: 10%;">
@@ -155,11 +155,11 @@
             <div class="col" style="width: 10%;">
                 <label for=""><strong>{{ $sede[0]->fax }}</strong></label>
             </div>
-            <div class="col" style="width: 15%;">
+            <div class="col" style="width: 10%;">
                 <label for="">{{ traducir("traductor.email") }}</label>
             </div>
 
-            <div class="col" style="width: 40%;">
+            <div class="col" style="width:45%;">
                 <label for=""><strong>{{ $sede[0]->email }}</strong></label>
             </div>
         </div>

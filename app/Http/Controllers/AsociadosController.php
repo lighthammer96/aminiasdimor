@@ -337,6 +337,24 @@ class AsociadosController extends Controller
     }
 
 
+    public function obtener_periodos_fin_dependiente() {
+        $result = array();
+        $array = array();
+        $periodoini = (isset($_REQUEST["periodoini"])) ? $_REQUEST["periodoini"] : "";
+        $anio_inicio = date("Y");
+        if(isset($_REQUEST["periodoini"])) {
+            for($i=$anio_inicio; $i>=$periodoini; $i-- ) {
+                $result["id"] = $i;
+                $result["descripcion"] = $i;
+                array_push($array, $result);
+            }
+    
+        }
+        
+        echo json_encode($array);
+    }
+
+
     public function obtener_cargos_miembro(Request $request) {
         $sql = "SELECT cm.*, c.descripcion AS cargo, tc.idtipocargo, tc.descripcion AS tipo_cargo /*, i.descripcion AS institucion*/, n.descripcion AS nivel FROM iglesias.cargo_miembro AS cm
         INNER JOIN iglesias.miembro AS m ON(m.idmiembro=cm.idmiembro)
