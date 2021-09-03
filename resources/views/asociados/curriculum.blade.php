@@ -33,7 +33,7 @@
                                     <div class="col-md-3" style="padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.parentesco') }}</label>
-                                        <select autofocus="autofocus" class="entrada selectizejs limpiar-parentesco" name="parentesco" id="parentesco">
+                                        <select class="entrada selectizejs limpiar-parentesco" name="parentesco" id="parentesco">
 
                                         </select>
                                     

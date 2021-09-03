@@ -986,7 +986,7 @@ class BASE_JS {
         }).join('&');
     }
     select(parametros) {
-        console.log(parametros);
+        // console.log(parametros);
         // parametros.datos._token = _token;
         if(typeof parametros.datos == "undefined") {
             parametros.datos = {
@@ -996,7 +996,7 @@ class BASE_JS {
             parametros.datos['_token'] = _token;
         }
        
-        console.log(parametros);
+        // console.log(parametros);
         var selected = (typeof parametros.selected != "undefined") ? parametros.selected : "";
         var placeholder = (typeof parametros.placeholder != "undefined") ? parametros.placeholder : "";
         var datos = (typeof parametros.datos == "undefined") ? new URLSearchParams("_token="+_token) : new URLSearchParams(BASE_JS.serialize(parametros.datos));

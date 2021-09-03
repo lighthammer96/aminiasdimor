@@ -26,7 +26,7 @@ class AsociadosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-asociados");
         $tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");
-        $tabla->agregarColumna("m.nombres", "nombres", traducir("traductor.nombres"));
+        $tabla->agregarColumna("(m.apellidos || ', ' || m.nombres)", "nombres", traducir("traductor.nombres"));
         $tabla->agregarColumna("td.descripcion", "descripcion", traducir("traductor.documento"));
         $tabla->agregarColumna("m.nrodoc", "nrodoc", traducir("traductor.numero"));
         $tabla->agregarColumna("m.email", "email", traducir("traductor.email"));

@@ -2813,7 +2813,7 @@ fieldset[disabled] .radio-inline {
     border-radius: 3px;
 }
 select.input-sm {
-    height: 25px;
+    height: 26px;
     line-height: 25px;
 }
 select[multiple].input-sm,

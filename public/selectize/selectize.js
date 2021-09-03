@@ -3889,6 +3889,7 @@
 	
 	// para que el scroll funcione cuando el selectize este dentro de un modal
 	Selectize.define('fix_dropdown_click_outside_item', function(options) {
+		// console.log("holaaaaa");
         var self = this;
         var _setup = self.setup;
 

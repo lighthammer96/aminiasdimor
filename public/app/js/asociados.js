@@ -363,6 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         $("#iddepartamentodomicilio").trigger("change", ["", ""]);
         $("#idprovinciadomicilio").trigger("change", ["", ""]);
+       
     }) 
 
 
@@ -559,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_iddomicilio) {
-        // alert(pais_iddomicilio);
+        // alert(pais_id);
         var valor = "1|S"; 
 
         if($(this).val() != "" && $(this).val() != null) {
@@ -984,7 +985,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: pais_id, _token: _token }
         }).then(function(response) {
             if(response.length > 0) {
-                $("#pais_id").trigger("change", [response[0].pais_id]);
+                $("#pais_id").trigger("change", [response[0].pais_id+"|N"]);
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);
@@ -1062,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idreligion", response.idreligion);
 
 
-            var array_pais = response.pais_id.split("|");
+            // var array_pais = response.pais_id.split("|");
             jerarquia(response.pais_iddomicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
@@ -1071,15 +1072,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
             }
 
-            if(response.posee_union == "N") {
-                $(".union").hide();
-            } else {
-                $(".union").show();
-            }
+           
 
             if(response.posee_union == "N") {
+                $(".union").hide();
                 $(".union-descripcion").hide();
             } else {
+                $(".union").show();
                 $(".union-descripcion").show();
             }
 
@@ -1226,7 +1225,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idreligion", response.idreligion);
 
 
-            var array_pais = response.pais_id.split("|");
+            // var array_pais = response.pais_id.split("|");
             jerarquia(response.pais_iddomicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
@@ -1235,15 +1234,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
             }
 
-            if(response.posee_union == "N") {
-                $(".union").hide();
-            } else {
-                $(".union").show();
-            }
+           
 
             if(response.posee_union == "N") {
+                $(".union").hide();
                 $(".union-descripcion").hide();
             } else {
+                $(".union").show();
                 $(".union-descripcion").show();
             }
 
@@ -2339,6 +2336,19 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#formulario-bajas").find("input[name=fecha]").addClass("focus-datepicker");
         }
     });
+
+    $(document).on("change", "#idtipodoc", function(e) {
+        var tipodoc = $(this).val();
+
+        var numdoc = document.getElementsByName("nrodoc")[0];
+       
+        if(tipodoc == 1) {
+            numdoc.setAttribute("maxlength", 8);
+            numdoc.setAttribute("minlength", 8);
+        }
+
+       
+    })
     
     
 

@@ -590,6 +590,19 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#formulario-curriculum").find("input[name=fechanac]").addClass("focus-datepicker");
         }
     });
+
+    $(document).on("change", "#tipodoc", function(e) {
+        var tipodoc = $(this).val();
+
+        var numdoc = document.getElementsByName("numdoc")[0];
+       
+        if(tipodoc == 1) {
+            numdoc.setAttribute("maxlength", 8);
+            numdoc.setAttribute("minlength", 8);
+        }
+
+       
+    })
 })
 
 

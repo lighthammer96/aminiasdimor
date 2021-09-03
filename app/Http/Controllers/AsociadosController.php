@@ -37,7 +37,7 @@ class AsociadosController extends Controller
         $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["asociados.js"]);
+        $data["scripts"] = $this->cargar_js(["asociados.js?version=020920212024"]);
         return parent::init($view, $data);
     }
 
@@ -55,7 +55,7 @@ class AsociadosController extends Controller
         // $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["curriculum.js"]);
+        $data["scripts"] = $this->cargar_js(["curriculum.js?version=310820211759"]);
         return parent::init($view, $data);
     }
 
@@ -519,7 +519,7 @@ class AsociadosController extends Controller
     }
 
     public function guardar_curriculum(Request $request) {
-
+        $result = array();
         if(isset($_REQUEST["idparentesco"]) && gettype($_REQUEST["idparentesco"]) == "array" && count($_REQUEST["idparentesco"]) > 0) {
             DB::table("iglesias.parentesco_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
             // print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;

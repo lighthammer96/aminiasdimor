@@ -49,7 +49,7 @@
                                                 </div>
                                                 <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.tipo_documento") }}</label>
-                                                    <select class="entrada selectizejs" name="idtipodoc" id="idtipodoc">
+                                                    <select class="entrada form-control input-sm select" name="idtipodoc" id="idtipodoc">
 
                                                     </select>
                                                    
@@ -84,14 +84,14 @@
                                             <div class="row">
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.departamento") }}</label>
-                                                    <select class="entrada selectizejs" name="iddepartamentodomicilio" id="iddepartamentodomicilio">
+                                                    <select class="entrada form-control input-sm select" name="iddepartamentodomicilio" id="iddepartamentodomicilio">
 
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.provincia") }}</label>
 
-                                                    <select class="entrada selectizejs" name="idprovinciadomicilio" id="idprovinciadomicilio">
+                                                    <select class="entrada form-control input-sm select" name="idprovinciadomicilio" id="idprovinciadomicilio">
 
                                                     </select>
 
@@ -101,7 +101,7 @@
                                                 <div class="col-md-4 jerarquia" style="display: none; padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.distrito") }}</label>
 
-                                                    <select class="entrada selectizejs" name="iddistritodomicilio" id="iddistritodomicilio">
+                                                    <select class="entrada form-control input-sm select" name="iddistritodomicilio" id="iddistritodomicilio">
 
                                                     </select>
 
@@ -165,7 +165,7 @@
                                                 <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
-                                                    <select class="entrada selectizejs" name="pais_id_nacimiento" id="pais_id_nacimiento">
+                                                    <select class="entrada form-control input-sm select" name="pais_id_nacimiento" id="pais_id_nacimiento">
 
                                                     </select>
                                                 </div>
@@ -184,21 +184,21 @@
                                                
                                                 <div class="col-md-4" style="padding-right: 5px;">
                                                     <label class="control-label">Estado Civil</label>
-                                                    <select class="entrada selectizejs" name="idestadocivil" id="idestadocivil">
+                                                    <select class="entrada form-control input-sm select" name="idestadocivil" id="idestadocivil">
 
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.nivel_educativo") }}</label>
 
-                                                    <select class="entrada selectizejs" name="idgradoinstruccion" id="idgradoinstruccion">
+                                                    <select class="entrada form-control input-sm select" name="idgradoinstruccion" id="idgradoinstruccion">
 
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.profesion") }}</label>
 
-                                                    <select class="entrada selectizejs" name="idocupacion" id="idocupacion">
+                                                    <select class="entrada form-control input-sm select" name="idocupacion" id="idocupacion">
 
                                                     </select>
                                                 </div>
@@ -352,7 +352,7 @@
                                     <div class="col-md-3">
                         
                                         <label class="control-label">{{ traducir('traductor.condicion_eclesiastica') }}</label>
-                                        <select class="entrada selectizejs" name="idcondicioneclesiastica" id="idcondicioneclesiastica">
+                                        <select class="entrada form-control input-sm select" name="idcondicioneclesiastica" id="idcondicioneclesiastica">
 
                                         </select>
                                     
@@ -388,7 +388,7 @@
                                     <div class="col-md-3">
                         
                                         <label class="control-label">{{ traducir('traductor.procedencia_religiosa') }}</label>
-                                        <select class="entrada selectizejs" name="idreligion" id="idreligion">
+                                        <select class="entrada form-control input-sm select" name="idreligion" id="idreligion">
 
                                         </select>
                                     
@@ -433,7 +433,7 @@
                                     <div class="col-md-2" style="padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
-                                        <select class="entrada selectizejs limpiar-cargos" name="idtipocargo" id="idtipocargo">
+                                        <select class="entrada form-control input-sm select limpiar-cargos" name="idtipocargo" id="idtipocargo">
 
                                         </select>
                                     
@@ -442,7 +442,7 @@
                                     <div class="col-md-3 nivel" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.nivel') }}</label>
-                                        <select class="entrada selectizejs limpiar-cargos" name="idnivel" id="idnivel">
+                                        <select class="entrada form-control input-sm select limpiar-cargos" name="idnivel" id="idnivel">
 
                                         </select>
                                     
@@ -451,7 +451,7 @@
                                     <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.cargo') }}</label>
-                                        <select class="entrada selectizejs limpiar-cargos" name="idcargo" id="idcargo">
+                                        <select class="entrada form-control input-sm select limpiar-cargos" name="idcargo" id="idcargo">
 
                                         </select>
                                     
@@ -460,7 +460,7 @@
                                     <!-- <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.institucion_iglesia') }}</label>
-                                        <select class="entrada selectizejs" name="idinstitucion" id="idinstitucion">
+                                        <select class="entrada selectizejs" name="idinstitucion" id="idinstitucion">g
 
                                         </select>
                                     
