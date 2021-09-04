@@ -37,7 +37,7 @@ class AsociadosController extends Controller
         $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["asociados.js?version=020920212024"]);
+        $data["scripts"] = $this->cargar_js(["asociados.js?version=030920211801 "]);
         return parent::init($view, $data);
     }
 
@@ -154,17 +154,18 @@ class AsociadosController extends Controller
         //    exit;
             //$_REQUEST["idcargo"] = (array) $_REQUEST["idcargo"];
             // echo gettype($_REQUEST["idcargo"]); exit;
+            DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
             if(isset($_REQUEST["idcargo"]) && gettype($_REQUEST["idcargo"]) == "array" && count($_REQUEST["idcargo"]) > 0) {
-                DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+               
                 //print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
                
             }
 
             //$_REQUEST["capacitacion"] = (array) $_REQUEST["capacitacion"];
-
+            DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
             if(isset($_REQUEST["capacitacion"]) && gettype($_REQUEST["capacitacion"]) == "array" && count($_REQUEST["capacitacion"]) > 0) {
-                DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
+               
                 // print_r($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D"), "D");
                

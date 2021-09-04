@@ -1017,6 +1017,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $(".modificar").hide();
         $("#bajas_altas").hide();
         $("#estado_asociado").hide();
+       
         jerarquia("");
 
         $(".nav-tabs").find("li").removeClass("active");
@@ -1031,6 +1032,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("imprimir-ficha-bautizo").removeAttribute("responsable_bautizo");
         document.getElementById("imprimir-ficha-bautizo").removeAttribute("idreligion");
         document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/images/camara.png");
+        $(".boton-ficha-bautizo").hide();
         asociados.abrirModal();
 
         
@@ -1056,6 +1058,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = asociados.get(datos.idmiembro);
 
         promise.then(function(response) {
+            $("#bajas_altas").show();
+            $(".boton-ficha-bautizo").show();
             $(".jerarquia-iglesias-descripcion").show();
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
@@ -1218,6 +1222,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = asociados.ver(datos.idmiembro);
 
         promise.then(function(response) {
+            $("#bajas_altas").hide();
+            $(".boton-ficha-bautizo").show();
             $(".jerarquia-iglesias-descripcion").show();
             document.getElementById("imprimir-ficha-bautizo").setAttribute("idcondicioneclesiastica", response.idcondicioneclesiastica);
             document.getElementById("imprimir-ficha-bautizo").setAttribute("fechabautizo", response.fechabautizo);
@@ -1413,14 +1419,14 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".tab-pane").removeClass("active");
             $("#datos-generales").addClass("active");
         }
-        if(idmiembro == "") {
-            condicion = condicion && asociados.required("idcondicioneclesiastica");
-            condicion = condicion && asociados.required("fechabautizo");
-            condicion = condicion && asociados.required("responsable_bautizo");
-            condicion = condicion && asociados.required("idreligion");
-            condicion = condicion && asociados.required("texto_bautismal");
-            // condicion = condicion && asociados.required("observaciones_bautizo");
-        }
+        // if(idmiembro == "") {
+        //     condicion = condicion && asociados.required("idcondicioneclesiastica");
+        //     condicion = condicion && asociados.required("fechabautizo");
+        //     condicion = condicion && asociados.required("responsable_bautizo");
+        //     condicion = condicion && asociados.required("idreligion");
+        //     condicion = condicion && asociados.required("texto_bautismal");
+        //     // condicion = condicion && asociados.required("observaciones_bautizo");
+        // }
        
 
         if(!condicion) {
@@ -2195,12 +2201,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     
-    $(document).on("click", "#imprimir-ficha-asociado", function(e) {
-        e.preventDefault();
+    // $(document).on("click", "#imprimir-ficha-asociado", function(e) {
+    //     e.preventDefault();
 
-        var idmiembro = document.getElementsByName("idmiembro")[0].value;
-        window.open(BaseUrl + "/asociados/imprimir_ficha_asociado/"+idmiembro);
-    })
+    //     var idmiembro = document.getElementsByName("idmiembro")[0].value;
+    //     window.open(BaseUrl + "/asociados/imprimir_ficha_asociado/"+idmiembro);
+    // })
 
     $(document).on("click", "#imprimir-ficha-bautizo", function(e) {
         e.preventDefault();

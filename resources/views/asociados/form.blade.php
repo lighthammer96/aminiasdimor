@@ -60,14 +60,14 @@
                                                 </div>
                                                 <div class="col-md-2" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.celular") }}</label>
-                                                    <input type="text" class="form-control input-sm entrada" name="celular" placeholder="" />
+                                                    <input type="text" class="form-control input-sm entrada" name="celular" placeholder=""  maxlength="11"/>
                                                 </div>
                                               
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.telefono") }}</label>
-                                                    <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" />
+                                                    <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" maxlength="11"/>
                                                 </div>
                                                 <div class="col-md-5" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.email") }}</label>
@@ -417,7 +417,7 @@
                                     
                                 </div>
 
-                                <div class="row" style="margin-top: 20px; text-align: right;">
+                                <div class="row boton-ficha-bautizo" style="margin-top: 20px; text-align: right;">
                                     <div class="col-md-2 col-md-offset-10">
                                         <button type="button" class="btn btn-success btn-sm" id="imprimir-ficha-bautizo">Ficha Bautizo</button>
                                     </div>

@@ -36,14 +36,14 @@
 }
 
 .notifyjs-metro-base .title {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 20px;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 .notifyjs-metro-base .text {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     max-width: 360px;
     vertical-align: middle;
