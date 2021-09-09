@@ -582,7 +582,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 44%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_obra_misionera[0])
                             {{ mayusculas($director_obra_misionera[0]->cargo) }} 
@@ -604,7 +604,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 11%;">
                 <label for="">
                     <strong>
                         @isset($director_obra_misionera[0])
