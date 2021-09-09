@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#periodoini").trigger("change");
     }) 
 
-    // asociados.select({
-    //     name: 'periodofin',
-    //     url: '/obtener_periodos_fin_dependiente',
-    // }).then(function() {
+    asociados.select({
+        name: 'periodofin',
+        url: '/obtener_periodos_fin_dependiente',
+    }).then(function() {
         
-    // }) 
+    }) 
 
    
     divisiones.select({
@@ -221,21 +221,27 @@ document.addEventListener("DOMContentLoaded", function() {
         var periodoini = parseInt($("#periodoini").val());
         var periodofin = parseInt($("#periodofin").val());
 
+        if(periodoini > periodofin) {
+            $("#periodoini")[0].selectize.setValue(periodofin - 1);
 
-        asociados.select({
-            name: 'periodofin',
-            url: '/obtener_periodos_fin_dependiente',
-            datos: { periodoini: periodoini }
-        }).then(function() {
+        
             
-            if(periodoini > periodofin) {
-                $("#periodoini")[0].selectize.setValue(periodofin - 1);
+        }
+
+        // asociados.select({
+        //     name: 'periodofin',
+        //     url: '/obtener_periodos_fin_dependiente',
+        //     datos: { periodoini: periodoini }
+        // }).then(function() {
+            
+        //     if(periodoini > periodofin) {
+        //         $("#periodoini")[0].selectize.setValue(periodofin - 1);
 
             
                 
-            }
+        //     }
             
-        }) 
+        // }) 
         // console.log($(this).val());
     })
 

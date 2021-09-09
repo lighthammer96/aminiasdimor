@@ -182,6 +182,7 @@ class AsociadosController extends Controller
     }
 
     public function guardar_bajas() {
+    
         try {
             DB::beginTransaction();
             $_POST = $this->toUpper($_POST, ["tabla"]);

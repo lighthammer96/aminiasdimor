@@ -102,7 +102,7 @@ class ReportesController extends Controller
       
 
   
-        $data["scripts"] = $this->cargar_js(["oficiales_union_asociacion.js"]);
+        $data["scripts"] = $this->cargar_js(["oficiales_union_asociacion.js?version=090920210947"]);
         return parent::init($view, $data);
     }
 

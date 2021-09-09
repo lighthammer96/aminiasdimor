@@ -145,7 +145,7 @@
                 </div>    -->
             </div>
             <div class="row" id="actividades">
-                
+            
             </div>
         </div>
     </div>
