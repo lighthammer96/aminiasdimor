@@ -600,11 +600,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 17%;">
+            <div class="col" style="width: 17%; border: 1px solid black;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 8%;">
+            <div class="col" style="width: 8%; border: 1px solid black;">
                 <label for="">
                     <strong>
                         @isset($director_obra_misionera[0])
