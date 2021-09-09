@@ -153,7 +153,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($director[0])
@@ -245,7 +245,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($secretario[0])
@@ -335,7 +335,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($tesorero[0])
@@ -425,7 +425,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($diacono[0])
@@ -514,7 +514,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($director_escuela_sabatica[0])
@@ -604,7 +604,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($director_obra_misionera[0])
@@ -693,7 +693,7 @@
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%; margin-bottom: 7px;">
+            <div class="col" style="width: 10%; margin-bottom: 5px;">
                 <label for="">
                     <strong>
                         @isset($director_jovenes[0])
