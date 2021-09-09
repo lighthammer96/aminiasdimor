@@ -669,6 +669,14 @@ class ReportesController extends Controller
         WHERE c.idcargo=65 ";
         $director_escuela_sabatica = DB::select($sql_director_escuela_sabatica);
 
+
+        $sql_director_obra_misionera = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        WHERE c.idcargo=20 ";
+        $director_obra_misionera = DB::select($sql_director_obra_misionera);
+
         $sql_director_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
 	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
@@ -701,6 +709,7 @@ class ReportesController extends Controller
         $datos["diacono"] = $diacono;
         $datos["otros"] = $otros;
         $datos["director_escuela_sabatica"] = $director_escuela_sabatica;
+        $datos["director_obra_misionera"] = $director_obra_misionera;
         $datos["director_jovenes"] = $director_jovenes;
         $datos["comite"] = $comite;
 
