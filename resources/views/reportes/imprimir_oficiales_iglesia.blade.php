@@ -582,7 +582,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 43%;">
+            <div class="col" style="width: 45%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_obra_misionera[0])
                             {{ mayusculas($director_obra_misionera[0]->cargo) }} 
