@@ -600,7 +600,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 16%; border: 1px solid black;">
+            <div class="col" style="width: 16%; ">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
