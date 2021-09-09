@@ -131,7 +131,7 @@
         </div>
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director[0])
                             {{ mayusculas($director[0]->cargo) }} 
@@ -139,7 +139,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($director[0])
@@ -149,11 +149,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($director[0])
@@ -223,7 +223,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($secretario[0])
                             {{ mayusculas($secretario[0]->cargo) }} 
@@ -231,7 +231,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($secretario[0])
@@ -241,11 +241,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($secretario[0])
@@ -313,7 +313,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($tesorero[0])
                             {{ mayusculas($tesorero[0]->cargo) }} 
@@ -321,7 +321,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($tesorero[0])
@@ -331,11 +331,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($tesorero[0])
@@ -403,7 +403,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($diacono[0])
                             {{ mayusculas($diacono[0]->cargo) }} 
@@ -411,7 +411,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($diacono[0])
@@ -421,11 +421,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($diacono[0])
@@ -492,7 +492,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_escuela_sabatica[0])
                             {{ mayusculas($director_escuela_sabatica[0]->cargo) }} 
@@ -500,7 +500,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($director_escuela_sabatica[0])
@@ -510,11 +510,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($director_escuela_sabatica[0])
@@ -671,7 +671,7 @@
 
         <div class="clear"></div>
         <div class="row" style="">
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_jovenes[0])
                             {{ mayusculas($director_jovenes[0]->cargo) }} 
@@ -679,7 +679,7 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 35%;">
+            <div class="col" style="width: 30%;">
                 <label for="">
                     <strong>
                         @isset($director_jovenes[0])
@@ -689,11 +689,11 @@
                 </label>
             </div>
 
-            <div class="col" style="width: 20%;">
+            <div class="col" style="width: 17%;">
                 <label for="">{{ traducir("traductor.fecha_nacimiento") }}</label>
             </div>
 
-            <div class="col" style="width: 10%;">
+            <div class="col" style="width: 10%; margin-bottom: 7px;">
                 <label for="">
                     <strong>
                         @isset($director_jovenes[0])
