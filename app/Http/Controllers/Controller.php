@@ -281,7 +281,11 @@ class Controller extends BaseController
     public function obtener_nivel_organizativo($jerarquia) {
         $sql = "";
         if(isset($jerarquia["iddivision"]) && $jerarquia["iddivision"] != '' && $jerarquia["iddivision"] != '0') {
-            $sql = "SELECT descripcion FROM iglesias.division WHERE iddivision={$jerarquia["iddivision"]}";
+            $sql = "SELECT CASE WHEN di.di_descripcion IS NULL THEN
+            (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
+            ELSE di.di_descripcion END AS descripcion FROM iglesias.division AS d 
+            LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
+            WHERE d.iddivision={$jerarquia["iddivision"]}";
         }
 
         if(isset($jerarquia["pais_id"]) && $jerarquia["pais_id"] != '' && $jerarquia["pais_id"] != '0') {
@@ -304,7 +308,7 @@ class Controller extends BaseController
             $sql = "SELECT descripcion FROM iglesias.iglesia WHERE idiglesia={$jerarquia["idiglesia"]}";
         }
 
-        
+            // die($sql);
         $nivel = "";
         if($sql != "") {
             $nivel = DB::select($sql);

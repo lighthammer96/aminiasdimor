@@ -2201,12 +2201,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     
-    // $(document).on("click", "#imprimir-ficha-asociado", function(e) {
-    //     e.preventDefault();
+    $(document).on("click", "#imprimir-ficha-asociado", function(e) {
+        e.preventDefault();
 
-    //     var idmiembro = document.getElementsByName("idmiembro")[0].value;
-    //     window.open(BaseUrl + "/asociados/imprimir_ficha_asociado/"+idmiembro);
-    // })
+        var idmiembro = document.getElementsByName("idmiembro")[0].value;
+        window.open(BaseUrl + "/asociados/imprimir_ficha_asociado/"+idmiembro);
+    })
 
     $(document).on("click", "#imprimir-ficha-bautizo", function(e) {
         e.preventDefault();

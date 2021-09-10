@@ -419,7 +419,7 @@
 
                                 <div class="row boton-ficha-bautizo" style="margin-top: 20px; text-align: right;">
                                     <div class="col-md-2 col-md-offset-10">
-                                        <button type="button" class="btn btn-success btn-sm" id="imprimir-ficha-bautizo">Ficha Bautizo</button>
+                                        <button type="button" class="btn btn-success btn-sm" id="imprimir-ficha-bautizo">{{ traducir('traductor.certificado_bautizo') }}</button>
                                     </div>
                                 </div>
                                
