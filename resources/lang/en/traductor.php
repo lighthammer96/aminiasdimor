@@ -9,7 +9,7 @@ return [
     'buscar' => 'Search',
     'online' => 'Online',
     
-    // BOTONESgi
+    // BOTONES
     'nuevo' => 'New',
     'modificar' => 'Modify',
     'eliminar' => 'Remove',
@@ -20,6 +20,9 @@ return [
 
     // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Code',
+    'mensaje' => 'MESSAGE',
+    'alerta' => 'ALERT!',
+    'asociado' => 'Associated',
     'descripcion' => 'Description',
     'idioma' => 'Language',
     'estado' => 'State',

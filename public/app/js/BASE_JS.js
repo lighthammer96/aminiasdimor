@@ -1136,13 +1136,13 @@ class BASE_JS {
     static notificacion(parametros) {
         //alert(parametros.type );
         parametros.position = (typeof parametros.position == "undefined") ? 'top right' : parametros.position;
-        parametros.title = (typeof parametros.title == "undefined") ? 'MENSAJE' : parametros.title;
+        parametros.title = (typeof parametros.title == "undefined") ? mensaje : parametros.title;
         parametros.type = (typeof parametros.type == "undefined") ? 'warning' : parametros.type;
         // alert(parametros.msg);
         $.Notification.autoHideNotify(parametros.type, parametros.position, parametros.title, parametros.msg);
     }
     static sweet(parametros) {
-        parametros.title = (typeof parametros.title == "undefined") ? "¡ALERTA!" : parametros.title;
+        parametros.title = (typeof parametros.title == "undefined") ? alerta : parametros.title;
         parametros.type = (typeof parametros.type == "undefined") ? "warning" : parametros.type;
         if (typeof parametros.confirm == "undefined") {
             parametros.showCancelButton = false;

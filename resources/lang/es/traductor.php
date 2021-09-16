@@ -20,6 +20,9 @@ return [
 
     // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Código',
+    'mensaje' => 'MENSAJE',
+    'alerta' => '¡ALERTA!',
+    'asociado' => 'Asociado',
     'descripcion' => 'Descripción',
     'idioma' => 'Idioma',
     'estado' => 'Estado',

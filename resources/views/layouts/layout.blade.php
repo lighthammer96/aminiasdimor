@@ -275,6 +275,8 @@
         var no_trasladar_iglesia_origen = "<?php echo traducir('traductor.no_trasladar_iglesia_origen'); ?>";
         var iglesia_origen_destino = "<?php echo traducir('traductor.iglesia_origen_destino'); ?>";
         var imprimir_carta_iglesia = "<?php echo traducir('traductor.imprimir_carta_iglesia'); ?>";
+        var mensaje = "<?php echo traducir('traductor.mensaje'); ?>";
+        var alerta = "<?php echo traducir('traductor.alerta'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
