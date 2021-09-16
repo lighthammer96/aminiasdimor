@@ -4581,7 +4581,7 @@ COPY iglesias.religion (idreligion, descripcion) FROM stdin;
 8	Reforma
 9	Testigo de Jehová
 0	No Determinado
-2	SMI
+2	IMS
 \.
 
 
