@@ -24,7 +24,7 @@ class LoginController extends Controller
         LEFT JOIN iglesias.miembro AS m ON(u.idmiembro=m.idmiembro)
         LEFT JOIN seguridad.tipoacceso AS ta ON(ta.idtipoacceso=u.idtipoacceso)
         
-        WHERE u.usuario_user='{$user}'";
+        WHERE lower(u.usuario_user)='{$user}'";
         // die($sql_login);
         $result = DB::select($sql_login);
        
