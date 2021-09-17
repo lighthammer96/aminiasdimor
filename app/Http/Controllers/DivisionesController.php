@@ -94,7 +94,7 @@ class DivisionesController extends Controller
 
         $sql = "";
         // $defecto = "";
-        // if(session("perfil_id") != 1) {
+        // if(session("perfil_id") != 1 && session("perfil_id") != 2) {
         //     $defecto = ", 'S' AS defecto";
         // }
         $all = false;
@@ -120,7 +120,7 @@ class DivisionesController extends Controller
         // die($sql);
         $result = DB::select($sql);
 
-        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";
         }
@@ -129,7 +129,7 @@ class DivisionesController extends Controller
 
      
     public function obtener_traducciones(Request $request) {
-        $sql = "SELECT di.iddivision, di.di_descripcion AS descripcion, i.idioma_descripcion FROM iglesias.division_idiomas AS di
+        $sql = "SELECT di.iddivision, di.di_descripcion AS descripcion, i.idioma_descripcion, di.idioma_id FROM iglesias.division_idiomas AS di
         INNER JOIN public.idiomas AS i ON(i.idioma_id=di.idioma_id)
         WHERE di.iddivision=".$request->input("iddivision")."
         ORDER BY di.iddivision ASC";

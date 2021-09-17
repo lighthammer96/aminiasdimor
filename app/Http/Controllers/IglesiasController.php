@@ -118,7 +118,7 @@ class IglesiasController extends Controller
 			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia 
             WHERE iddistritomisionero IS NOT NULL AND estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
             " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             $sql = "SELECT idiglesia AS id, descripcion
             FROM iglesias.iglesia 
             WHERE iddistritomisionero IS NOT NULL AND estado='1'".session("where_distrito_misionero_padre").
@@ -129,7 +129,7 @@ class IglesiasController extends Controller
         if($sql != "") {
             $result = DB::select($sql);
         }
-        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";
         }
@@ -145,7 +145,7 @@ class IglesiasController extends Controller
 	
 			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
             " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             // $sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1'".
             // " ORDER BY descripcion ASC";
 		}

@@ -14,8 +14,8 @@
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
             margin-top: 3.3cm;
-            margin-left: 2cm;
-            margin-right: 2cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
             margin-bottom: 2cm;
         }
             

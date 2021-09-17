@@ -120,9 +120,9 @@ document.addEventListener("DOMContentLoaded", function() {
             valor = $(this).val();
         } 
 
-        // if(pais_id != "" && pais_id != null) {
-        //     valor = pais_id;
-        // } 
+        if(pais_id != "" && pais_id != null) {
+            valor = pais_id;
+        } 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
     
@@ -338,6 +338,18 @@ document.addEventListener("DOMContentLoaded", function() {
             //     }
             //     //console.log(response);
             // })
+
+            if(response.posee_union == "N") {
+                $(".union").hide();
+            } else {
+                $(".union").show();
+            }
+
+            $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
+            $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+            
         })
     }
 
@@ -379,17 +391,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
            
-                if(response.posee_union == "N") {
-                    $(".union").hide();
-                } else {
-                    $(".union").show();
-                }
+                // if(response.posee_union == "N") {
+                //     $(".union").hide();
+                // } else {
+                //     $(".union").show();
+                // }
 
-                $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-                $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
-                $("#idunion").trigger("change", [response.idunion, response.idmision]);
-                $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
-                $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
+                // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
+                // $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamento]);
+                // $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
+                // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
     
             })
 

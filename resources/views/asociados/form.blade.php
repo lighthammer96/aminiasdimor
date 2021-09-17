@@ -42,11 +42,22 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-4" style="padding-right: 5px;">
-                                                    <label class="control-label">{{ traducir("traductor.sexo") }}</label><br>
-                                                    <input type="radio" name="sexo" value="M" class="minimal entrada" >&nbsp;{{ traducir("traductor.masculino") }}&nbsp;&nbsp;&nbsp;
-                                                    <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;{{ traducir("traductor.femenino") }}
-                                                </div>
+                                                <?php if(trim(session("idioma_codigo")) == "es") { ?>
+                                                    <div class="col-md-4" style="padding-right: 5px;">
+                                                        <label class="control-label">{{ traducir("traductor.sexo") }}</label><br>
+                                                        <input type="radio" name="sexo" value="M" class="minimal entrada" >&nbsp;{{ traducir("traductor.masculino") }}&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;{{ traducir("traductor.femenino") }}
+                                                    </div>
+                                                <?php } ?>
+
+                                                <?php if(trim(session("idioma_codigo")) == "en") { ?>
+                                                    <div class="col-md-3" style="padding-right: 5px;">
+                                                        <label class="control-label">{{ traducir("traductor.sexo") }}</label><br>
+                                                        <input type="radio" name="sexo" value="M" class="minimal entrada" >&nbsp;{{ traducir("traductor.masculino") }}&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;{{ traducir("traductor.femenino") }}
+                                                    </div>
+                                                <?php } ?>
+                                                
                                                 <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.tipo_documento") }}</label>
                                                     <select class="entrada form-control input-sm select" name="idtipodoc" id="idtipodoc">
@@ -54,10 +65,20 @@
                                                     </select>
                                                    
                                                 </div>
-                                                <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
-                                                    <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
-                                                    <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
-                                                </div>
+
+                                                <?php if(trim(session("idioma_codigo")) == "es") { ?>
+                                                    <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
+                                                        <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
+                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if(trim(session("idioma_codigo")) == "en") { ?>
+                                                    <div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
+                                                        <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
+                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
+                                                    </div>
+                                                <?php } ?>
+                                                
                                                 <div class="col-md-2" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.celular") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="celular" placeholder=""  maxlength="11"/>
@@ -481,7 +502,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-1" style="margin-top: 27px; text-align: right; padding-left: 5px;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[Agregar]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 

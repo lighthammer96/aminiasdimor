@@ -277,6 +277,11 @@
         var imprimir_carta_iglesia = "<?php echo traducir('traductor.imprimir_carta_iglesia'); ?>";
         var mensaje = "<?php echo traducir('traductor.mensaje'); ?>";
         var alerta = "<?php echo traducir('traductor.alerta'); ?>";
+        var dar_alta = "<?php echo traducir('traductor.dar_alta'); ?>";
+        var dar_baja = "<?php echo traducir('traductor.dar_baja'); ?>";
+        var imprimir_ficha = "<?php echo traducir('traductor.imprimir_ficha'); ?>";
+        var estado_activo = "<?php echo traducir('traductor.estado_activo'); ?>";
+        var estado_inactivo = "<?php echo traducir('traductor.estado_inactivo'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

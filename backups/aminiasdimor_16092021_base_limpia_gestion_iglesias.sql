@@ -5,7 +5,7 @@
 -- Dumped from database version 9.2.20
 -- Dumped by pg_dump version 12.3
 
--- Started on 2021-09-16 17:39:13
+-- Started on 2021-09-16 22:25:30
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -3105,6 +3105,9 @@ COPY iglesias.division_idiomas (iddivision, idioma_id, di_descripcion) FROM stdi
 1	1	Latinoamerica
 6	1	Africana
 0	1	No Determinado
+7	1	 chu
+7	2	ccccu
+8	1	c
 \.
 
 
@@ -4552,6 +4555,7 @@ COPY iglesias.paises_jerarquia (pj_id, pais_id, pj_descripcion, pj_item) FROM st
 59	7	municipio	2
 60	19	departamento	1
 61	19	municipio	2
+63	24	c	1
 \.
 
 
@@ -4581,7 +4585,7 @@ COPY iglesias.religion (idreligion, descripcion) FROM stdin;
 8	Reforma
 9	Testigo de Jehová
 0	No Determinado
-2	IMS
+2	SMI
 \.
 
 
@@ -4638,6 +4642,7 @@ COPY iglesias.union_paises (idunion, pais_id) FROM stdin;
 13	21
 12	8
 0	0
+15	14
 \.
 
 
@@ -25923,16 +25928,6 @@ COPY public.trimestre (idtrimestre, descripcion, fechainicial, fechafinal, nrose
 --
 
 COPY seguridad.log_sistema (idlog, mensaje, fecha, usuario, nombres, idperfil, idreferencia, ip, operacion, tabla) FROM stdin;
-1	\N	2021-09-16 17:25:46	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	insertar	public.idiomas
-2	\N	2021-09-16 17:28:25	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	modificar	public.idiomas
-3	\N	2021-09-16 17:28:33	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	modificar	public.idiomas
-4	\N	2021-09-16 17:29:00	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	modificar	public.idiomas
-5	\N	2021-09-16 17:29:09	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	modificar	public.idiomas
-6	\N	2021-09-16 17:31:07	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	modificar	public.idiomas
-7	\N	2021-09-16 17:31:31	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	20	::1	eliminar	public.idiomas
-8	\N	2021-09-16 17:32:59	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	21	::1	insertar	public.idiomas
-9	\N	2021-09-16 17:35:04	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	22	::1	insertar	public.idiomas
-10	\N	2021-09-16 17:35:27	admin	DE LA GARZA ZAVALETA, TONY MARTIN	1	3	::1	insertar	public.idiomas
 \.
 
 
@@ -26073,29 +26068,6 @@ COPY seguridad.perfiles_idiomas (perfil_id, idioma_id, pi_descripcion) FROM stdi
 --
 
 COPY seguridad.permisos (perfil_id, modulo_id) FROM stdin;
-2	10
-2	17
-2	9
-2	18
-2	19
-2	20
-2	21
-2	22
-2	23
-2	24
-2	25
-2	31
-2	32
-2	33
-2	39
-2	40
-2	16
-2	26
-2	2
-2	7
-2	4
-2	5
-2	34
 22	10
 22	17
 22	9
@@ -26163,6 +26135,39 @@ COPY seguridad.permisos (perfil_id, modulo_id) FROM stdin;
 1	41
 1	42
 1	43
+2	10
+2	17
+2	9
+2	18
+2	19
+2	20
+2	21
+2	22
+2	23
+2	24
+2	25
+2	31
+2	32
+2	33
+2	39
+2	40
+2	16
+2	29
+2	26
+2	28
+2	30
+2	44
+2	45
+2	2
+2	4
+2	5
+2	34
+2	36
+2	37
+2	38
+2	41
+2	42
+2	43
 \.
 
 
@@ -26189,6 +26194,7 @@ COPY seguridad.tipoacceso (idtipoacceso, descripcion) FROM stdin;
 
 COPY seguridad.usuarios (usuario_id, usuario_user, usuario_pass, usuario_nombres, usuario_referencia, perfil_id, estado, idmiembro, idtipoacceso) FROM stdin;
 10	admin	$2y$10$p93p/0o.usTlXCq//upIce5Chvo/KagAsZ7qX1y6Aw299eoVW8TWC	\N	\N	1	A	19	5
+13	smi	$2y$10$gFelS5s5Zjk24G4GLpDOs.WvcnQ6ddWVz/ZrY0w7visBEQRC6AF0W	\N	\N	2	A	\N	5
 \.
 
 
@@ -26279,7 +26285,7 @@ SELECT pg_catalog.setval('iglesias.distritomisionero_iddistritomisionero_seq', 5
 -- Name: division_iddivision_seq; Type: SEQUENCE SET; Schema: iglesias; Owner: postgres
 --
 
-SELECT pg_catalog.setval('iglesias.division_iddivision_seq', 6, true);
+SELECT pg_catalog.setval('iglesias.division_iddivision_seq', 8, true);
 
 
 --
@@ -26396,7 +26402,7 @@ SELECT pg_catalog.setval('iglesias.otrospastores_idotrospastores_seq', 1, false)
 -- Name: paises_jerarquia_pj_id_seq; Type: SEQUENCE SET; Schema: iglesias; Owner: postgres
 --
 
-SELECT pg_catalog.setval('iglesias.paises_jerarquia_pj_id_seq', 61, true);
+SELECT pg_catalog.setval('iglesias.paises_jerarquia_pj_id_seq', 63, true);
 
 
 --
@@ -26405,7 +26411,7 @@ SELECT pg_catalog.setval('iglesias.paises_jerarquia_pj_id_seq', 61, true);
 -- Name: paises_pais_id_seq; Type: SEQUENCE SET; Schema: iglesias; Owner: postgres
 --
 
-SELECT pg_catalog.setval('iglesias.paises_pais_id_seq', 23, true);
+SELECT pg_catalog.setval('iglesias.paises_pais_id_seq', 24, true);
 
 
 --
@@ -26432,7 +26438,7 @@ SELECT pg_catalog.setval('iglesias.religion_idreligion_seq', 1, false);
 -- Name: temp_traslados_idtemptraslados_seq; Type: SEQUENCE SET; Schema: iglesias; Owner: postgres
 --
 
-SELECT pg_catalog.setval('iglesias.temp_traslados_idtemptraslados_seq', 461, true);
+SELECT pg_catalog.setval('iglesias.temp_traslados_idtemptraslados_seq', 466, true);
 
 
 --
@@ -26441,7 +26447,7 @@ SELECT pg_catalog.setval('iglesias.temp_traslados_idtemptraslados_seq', 461, tru
 -- Name: union_idunion_seq; Type: SEQUENCE SET; Schema: iglesias; Owner: postgres
 --
 
-SELECT pg_catalog.setval('iglesias.union_idunion_seq', 14, true);
+SELECT pg_catalog.setval('iglesias.union_idunion_seq', 15, true);
 
 
 --
@@ -26621,7 +26627,7 @@ SELECT pg_catalog.setval('public.trimestre_idtrimestre_seq', 1, false);
 -- Name: log_sistema_idlog_seq; Type: SEQUENCE SET; Schema: seguridad; Owner: postgres
 --
 
-SELECT pg_catalog.setval('seguridad.log_sistema_idlog_seq', 10, true);
+SELECT pg_catalog.setval('seguridad.log_sistema_idlog_seq', 1, false);
 
 
 --
@@ -26657,7 +26663,7 @@ SELECT pg_catalog.setval('seguridad.tipoacceso_idtipoacceso_seq', 1, false);
 -- Name: usuarios_usuario_id_seq; Type: SEQUENCE SET; Schema: seguridad; Owner: postgres
 --
 
-SELECT pg_catalog.setval('seguridad.usuarios_usuario_id_seq', 12, true);
+SELECT pg_catalog.setval('seguridad.usuarios_usuario_id_seq', 13, true);
 
 
 --
@@ -27140,7 +27146,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2021-09-16 17:39:13
+-- Completed on 2021-09-16 22:25:30
 
 --
 -- PostgreSQL database dump complete

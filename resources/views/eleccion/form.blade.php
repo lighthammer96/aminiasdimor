@@ -122,7 +122,7 @@
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
-                            <label class="control-label">{{ traducir("traductor.numero_delefados_derecho") }}</label>
+                            <label class="control-label">{{ traducir("traductor.numero_delegados_derecho") }}</label>
                         </div>
                         <div class="col-md-3">
                             <input type="number" class="form-control input-sm entrada" name="delegados" placeholder="" />

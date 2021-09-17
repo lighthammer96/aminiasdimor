@@ -14,8 +14,8 @@
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
             margin-top: 3.3cm;
-            margin-left: 2cm;
-            margin-right: 2cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
             margin-bottom: 2cm;
         }
             
@@ -163,7 +163,7 @@
             <div class="col" style="width: 20%;">
                 <label for="">{{ traducir("traductor.de_iglesia_en") }}</label>
             </div>
-            <div class="col" style="width: 70%;">
+            <div class="col" style="width: 60%;">
                 <label for=""><strong>{{ $control[0]->iglesia_origen }}</strong></label>
             </div>
         </div> 

@@ -356,17 +356,26 @@ class TrasladosController extends Controller
         // $datos["estado_civil"] = $estado_civil;
         $datos["nivel_organizativo"] = session("nivel_organizativo");
         // print_r(session("nivel_organizativo")); exit;
-        
+        $funcion_origen = "iglesias.fn_mostrar_jerarquia('s.iglesia || '' / '' || s.distritomisionero  || '' / '' ||  s.mision || '' / '' || s.union || '' / '' || s.pais || '' / '' || s.division', 'i.idiglesia=' || ct.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+        $funcion_destino = "iglesias.fn_mostrar_jerarquia('s.iglesia || '' / '' || s.distritomisionero  || '' / '' ||  s.mision || '' / '' || s.union || '' / '' || s.pais || '' / '' || s.division', 'i.idiglesia=' || ct.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+
         $sql_control = "SELECT
         ct.idiglesiaanterior,
         ct.idiglesiaactual,
         ".formato_fecha_idioma("ct.fecha")." AS fecha,
         /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS 
-        iglesia_origen,*/
-        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,
+        iglesia_origen,
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,*/
 
-        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,*/
-        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,
+        ".$funcion_origen." AS iglesia_origen,
+
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_destino,*/
+
+        ".$funcion_destino." AS iglesia_destino,
+
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaanterior) AS direccion_origen
         FROM iglesias.control_traslados AS ct
         WHERE ct.idcontrol={$idcontrol}";
@@ -429,15 +438,21 @@ class TrasladosController extends Controller
 
         $datos["nivel_organizativo"] = session("nivel_organizativo");
         // print_r(session("nivel_organizativo")); exit;
-        
+        $funcion_origen = "iglesias.fn_mostrar_jerarquia('s.iglesia || '' / '' || s.distritomisionero  || '' / '' ||  s.mision || '' / '' || s.union || '' / '' || s.pais || '' / '' || s.division', 'i.idiglesia=' || ct.idiglesiaactual, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+        $funcion_destino = "iglesias.fn_mostrar_jerarquia('s.iglesia || '' / '' || s.distritomisionero  || '' / '' ||  s.mision || '' / '' || s.union || '' / '' || s.pais || '' / '' || s.division', 'i.idiglesia=' || ct.idiglesiaanterior, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+
         $sql_control = "SELECT
         ct.idiglesiaanterior,
         ct.idiglesiaactual,
         ".formato_fecha_idioma("ct.fecha")." AS fecha,
-        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,*/
-        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,
-        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,*/
-        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_destino,*/
+        ".$funcion_destino." AS iglesia_destino,
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,
+        (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaactual) AS iglesia_origen,*/
+        ".$funcion_origen." AS iglesia_origen,
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaactual) AS direccion_destino,
         ".formato_fecha_idioma("ht.fecha")." AS fecha_traslado
         FROM iglesias.control_traslados AS ct

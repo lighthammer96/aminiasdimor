@@ -98,7 +98,7 @@ class MisionesController extends Controller
 	
 			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
             " ORDER BY descripcion ASC";		
-        } elseif(session("perfil_id") != 1) {
+        } elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             $sql = "SELECT idmision AS id, descripcion
             FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre").
             " ORDER BY descripcion ASC";
@@ -108,7 +108,7 @@ class MisionesController extends Controller
         if($sql != "") {
             $result = DB::select($sql);
         }
-        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
             
             // print_r($result);
             $result[0]->defecto = "S";
@@ -134,7 +134,7 @@ class MisionesController extends Controller
 	
 			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
             " ORDER BY descripcion ASC";		
-        } elseif(session("perfil_id") != 1) {
+        } elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             // $sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' ".session("where_mision").
             // " ORDER BY descripcion ASC";
 		}

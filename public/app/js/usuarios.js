@@ -132,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // alert(usuario_id);
         var required = true;
         // required = required && usuarios.required("usuario_nombres");
-        required = required && usuarios.required("usuario_user");
         required = required && usuarios.required("asociado");
+        required = required && usuarios.required("usuario_user");
         if(usuario_id == "") {
             required = required && usuarios.required("pass1");
             // required = required && usuarios.required("pass2");

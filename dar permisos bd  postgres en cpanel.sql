@@ -18,3 +18,27 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA seguridad TO smi_user;
 
 
 -- referencia: https://www.it-swarm-es.com/es/postgresql/dar-todos-los-permisos-un-usuario-en-una-base-de-datos/1044566155/
+
+
+-------------------------
+
+
+
+
+GRANT CONNECT ON DATABASE smisystem_bd TO smisystem_user; 
+
+GRANT USAGE ON SCHEMA public TO smisystem_user;
+GRANT USAGE ON SCHEMA iglesias TO smisystem_user;
+GRANT USAGE ON SCHEMA seguridad TO smisystem_user;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA iglesias TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA seguridad TO smisystem_user;
+
+
+-- GRANT ALL PRIVILEGES ON DATABASE smisystem_bd TO smisystem_user; -- no funciono
+
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA iglesias TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA seguridad TO smisystem_user;
+

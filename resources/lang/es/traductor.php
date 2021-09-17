@@ -20,6 +20,11 @@ return [
 
     // HEADER TABLES, LABELS FORMULARIOS
     'codigo' => 'Código',
+    'dar_alta' => 'Dar de Alta',
+    'dar_baja' => 'Dar de Baja',
+    'imprimir_ficha' => 'Imprimir Ficha',
+    'estado_activo' => 'Activo',
+    'estado_inactivo' => 'Inactivo',
     'mensaje' => 'MENSAJE',
     'alerta' => '¡ALERTA!',
     'asociado' => 'Asociado',

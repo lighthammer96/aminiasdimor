@@ -37,7 +37,7 @@ class AsociadosController extends Controller
         $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["asociados.js?version=030920211801 "]);
+        $data["scripts"] = $this->cargar_js(["asociados.js?version=160920212027"]);
         return parent::init($view, $data);
     }
 
@@ -214,16 +214,19 @@ class AsociadosController extends Controller
         try {
             DB::beginTransaction();
             
-            $_POST = $this->toUpper($_POST, ["tabla"]);
+            $_POST = $this->toUpper($_POST, ["tabla", "rebautizo"]);
             $_POST["usuario"] = session("usuario_user");
             $_POST["idmiembro"] = $_POST["idmiembro_alta"];
             $_POST["responsable"] = $_POST["idresponsable"];
             $_POST["alta"] = "1";
-            $_POST["rebautizo"] = "0";
+           
             $_POST["fecha"] = $this->FormatoFecha($_REQUEST["fecha"], "server");
+            // var_dump($_POST["rebautizo"]);
             if(isset($_POST["rebautizo"]) && $_POST["rebautizo"] == "on") {
                 $_POST["rebautizo"] = "1";
-            } 
+            }  else {
+                $_POST["rebautizo"] = "0";
+            }
       
             
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_altasybajas", $_POST));

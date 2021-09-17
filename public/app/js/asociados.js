@@ -246,7 +246,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     // } else {
                     //     $("#idnivel")[0].selectize.focus();
                     // }
-                    $("#idnivel")[0].selectize.focus();
+                    // $("#idnivel")[0].selectize.focus();
+                    $("#idnivel").focus();
                     
                 // }
             } 
@@ -301,7 +302,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // var required = true;
                 // required = required && asociados.required("idtipocargo");
                 // if(required) {
-                    $("#idcargo")[0].selectize.focus();
+                    // $("#idcargo")[0].selectize.focus();
+                    $("#idcargo").focus();
                 // }
             } 
         })
@@ -389,7 +391,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // var required = true;
                 // required = required && asociados.required("iddepartamentodomicilio");
                 // if(required) {
-                    $("#idprovinciadomicilio")[0].selectize.focus();
+                    // $("#idprovinciadomicilio")[0].selectize.focus();
+                    $("#idprovinciadomicilio").focus();
                 // }
             } 
         
@@ -423,7 +426,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // var required = true;
                 // required = required && asociados.required("idprovinciadomicilio");
                 // if(required) {
-                    $("#iddistritodomicilio")[0].selectize.focus();
+                    // $("#iddistritodomicilio")[0].selectize.focus();
+                    $("#iddistritodomicilio").focus();
                 // }
             
             } 
@@ -1186,19 +1190,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function crear_botones_altas_bajas(estado) {
         if(estado == "1") {
-            document.getElementById("estado_asociado").innerText = "Activo";
+            document.getElementById("estado_asociado").innerText = estado_activo;
             document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
             document.getElementById("estado_asociado").style.color = "black";
-            button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">Dar de Baja</button>';
+            button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">'+dar_baja+'</button>';
             
         } else {
-            document.getElementById("estado_asociado").innerText = "Inactivo";
+            document.getElementById("estado_asociado").innerText = estado_inactivo;
             document.getElementById("estado_asociado").style.backgroundColor = "#666666";
             document.getElementById("estado_asociado").style.color = "white";
-            button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">Dar de Alta</button>';
+            button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">'+dar_alta+'</button>';
 
         }
-        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">Imprimir Ficha</button>';
+        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">'+imprimir_ficha+'</button>';
         document.getElementById("bajas_altas").innerHTML = button;
         $("#bajas_altas").show();
         $("#estado_asociado").show();

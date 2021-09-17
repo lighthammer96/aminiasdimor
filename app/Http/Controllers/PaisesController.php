@@ -116,7 +116,7 @@ class PaisesController extends Controller
 	
 			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
             " ORDER BY pais_descripcion ASC";
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion
             FROM iglesias.paises 
             WHERE estado='A' ".session("where_pais").session("where_division_padre").
@@ -127,7 +127,7 @@ class PaisesController extends Controller
         if($sql != "") {
             $result = DB::select($sql);
         }
-        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";
         }
@@ -143,7 +143,7 @@ class PaisesController extends Controller
 	
 			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
             " ORDER BY pais_descripcion ASC";;
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             // $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais").
             // " ORDER BY pais_descripcion ASC";;
 		}

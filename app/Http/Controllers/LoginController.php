@@ -31,6 +31,10 @@ class LoginController extends Controller
         if(!isset($result[0]->usuario_user)) {
             $data["response"] = "nouser";
         }
+
+        if($result[0]->idmiembro == NULL && $result[0]->perfil_id != 1 && $result[0]->perfil_id != 2) {
+            $data["response"] = "nouser";
+        }
         if(isset($result[0]->usuario_pass) && Hash::check($pass, $result[0]->usuario_pass)) {
             $data["response"] = "ok";
             //$request->session()->put('usuario_id', $result[0]->usuario_id);
@@ -79,7 +83,7 @@ class LoginController extends Controller
             $where_mision_padre = "";
             $where_distrito_misionero_padre = "";
             $array_tipos_acceso = array();
-            if($perfil_id != 1) {
+            if($perfil_id != 1 && $perfil_id != 2) {
                 switch ($idtipoacceso) {
                     case '1':
                         $where_division = " AND d.iddivision = ".$iddivision;

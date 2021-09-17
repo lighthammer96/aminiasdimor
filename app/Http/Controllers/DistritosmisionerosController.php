@@ -92,7 +92,7 @@ class DistritosmisionerosController extends Controller
 	
 			$sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' AND idmision=".$request->input("idmision")." ".session("where_distrito_misionero").
             " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             $sql = "SELECT iddistritomisionero AS id, descripcion
             FROM iglesias.distritomisionero WHERE estado='1' ".session("where_distrito_misionero").session("where_mision_padre").
             " ORDER BY descripcion ASC";
@@ -103,7 +103,7 @@ class DistritosmisionerosController extends Controller
             $result = DB::select($sql);
         }
  
-        if(count($result) == 1 && session("perfil_id") != 1 && $all) {
+        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
             // print_r($result);
             $result[0]->defecto = "S";
         }
@@ -120,7 +120,7 @@ class DistritosmisionerosController extends Controller
 	
 			$sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' AND idmision=".$request->input("idmision")." ".session("where_distrito_misionero").
             " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1) {
+		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
             // $sql = "SELECT iddistritomisionero AS id, descripcion FROM iglesias.distritomisionero WHERE estado='1' ".session("where_distrito_misionero").
             // " ORDER BY descripcion ASC";
 		}
