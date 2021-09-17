@@ -28,13 +28,14 @@ class LoginController extends Controller
         // die($sql_login);
         $result = DB::select($sql_login);
        
-        if(!isset($result[0]->usuario_user)) {
+        if(!isset($result[0]->usuario_user) || !isset($result[0]->idmiembro) || !isset($result[0]->perfil_id)) {
             $data["response"] = "nouser";
         }
 
         if($result[0]->idmiembro == NULL && $result[0]->perfil_id != 1 && $result[0]->perfil_id != 2) {
             $data["response"] = "nouser";
         }
+        
         if(isset($result[0]->usuario_pass) && Hash::check($pass, $result[0]->usuario_pass)) {
             $data["response"] = "ok";
             //$request->session()->put('usuario_id', $result[0]->usuario_id);
