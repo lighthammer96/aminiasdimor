@@ -5,7 +5,7 @@
 -- Dumped from database version 9.2.20
 -- Dumped by pg_dump version 12.3
 
--- Started on 2021-09-16 22:25:30
+-- Started on 2021-09-16 22:44:21
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26194,7 +26194,7 @@ COPY seguridad.tipoacceso (idtipoacceso, descripcion) FROM stdin;
 
 COPY seguridad.usuarios (usuario_id, usuario_user, usuario_pass, usuario_nombres, usuario_referencia, perfil_id, estado, idmiembro, idtipoacceso) FROM stdin;
 10	admin	$2y$10$p93p/0o.usTlXCq//upIce5Chvo/KagAsZ7qX1y6Aw299eoVW8TWC	\N	\N	1	A	19	5
-13	smi	$2y$10$gFelS5s5Zjk24G4GLpDOs.WvcnQ6ddWVz/ZrY0w7visBEQRC6AF0W	\N	\N	2	A	\N	5
+13	Ycotrina	$2y$10$gFelS5s5Zjk24G4GLpDOs.WvcnQ6ddWVz/ZrY0w7visBEQRC6AF0W	\N	\N	2	A	\N	5
 \.
 
 
@@ -27146,7 +27146,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2021-09-16 22:25:30
+-- Completed on 2021-09-16 22:44:21
 
 --
 -- PostgreSQL database dump complete
