@@ -1,3 +1,6 @@
+
+--- gestion de iglesias
+
 TRUNCATE iglesias.cargo_miembro RESTART IDENTITY;
 TRUNCATE iglesias.controlactmisionera RESTART IDENTITY;
 TRUNCATE iglesias.educacion_miembro RESTART IDENTITY;
@@ -18,3 +21,4 @@ TRUNCATE iglesias.miembro RESTART IDENTITY;
 
 TRUNCATE public.procesos RESTART IDENTITY;
 TRUNCATE seguridad.log_sistema RESTART IDENTITY;
+
