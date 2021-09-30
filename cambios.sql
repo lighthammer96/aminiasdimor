@@ -78,6 +78,9 @@ ALTER TABLE "iglesias"."miembro"
   ADD CONSTRAINT "fk_condicioneclesiastica_miembro" FOREIGN KEY ("idcondicioneclesiastica") REFERENCES "iglesias"."condicioneclesiastica" ("idcondicioneclesiastica"),
   ADD CONSTRAINT "fk_iglesia_miembro" FOREIGN KEY ("idiglesia") REFERENCES "iglesias"."iglesia" ("idiglesia"),
   ADD CONSTRAINT "fk_pais_miembro" FOREIGN KEY ("pais_id_nacimiento") REFERENCES "public"."pais" ("idpais");
+  
+  ALTER TABLE "iglesias"."union" 
+  ADD PRIMARY KEY ("idunion");
 
 
   ALTER TABLE "iglesias"."mision" 
@@ -118,8 +121,6 @@ ALTER TABLE "iglesias"."miembro"
   ADD CONSTRAINT "fk_miembro_temp_traslados" FOREIGN KEY ("idmiembro") REFERENCES "iglesias"."miembro" ("idmiembro");
 
 
-  ALTER TABLE "iglesias"."union" 
-  ADD PRIMARY KEY ("idunion");
 
 
   ALTER TABLE "iglesias"."union_paises" 
