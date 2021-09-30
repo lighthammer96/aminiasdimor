@@ -374,7 +374,8 @@ class BASE_JS {
                                 }
                             } else {
                                 if(elementos[i].type == "checkbox" ) {
-                                    if(response[elementos[i].name] == 1) {
+                                    // console.log(response[elementos[i].name]);
+                                    if(response[elementos[i].name] == 1 || response[elementos[i].name] == 'S') {
                                         elementos[i].checked = true;
                                         $("input[name='"+elementos[i].name+"']").attr("checked", "checked");
                                         elementos[i].parentNode.classList.add("checked");

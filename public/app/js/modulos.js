@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         if(required) {
-            modulos.guardar();
+            var promise = modulos.guardar();
             modulos.CerrarModal();
         
             // modulos.datatable.destroy();
@@ -208,11 +208,13 @@ document.addEventListener("DOMContentLoaded", function() {
             //     tablaID: '#tabla-modulos',
             //     url: "/buscar_datos",
             // });
-
-            modulos.select({
-                name: "modulo_padre",
-                url:  '/obtener_padres',
-            });
+            promise.then(function() {
+                modulos.select({
+                    name: "modulo_padre",
+                    url:  '/obtener_padres',
+                });
+            })
+            
             // if(detalle.length > 0) {
             //     modulos.guardar();
             //     modulos.CerrarModal();

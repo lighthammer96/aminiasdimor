@@ -86,11 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         //console.log(event.srcElement);
         switch (id) {
-            // case 'ingresar-datos':
-            //     event.preventDefault();
-            
-            //     curriculum.abrirModal();
-            // break;
+    
 
             case 'ingresar-datos':
                 event.preventDefault();
@@ -98,11 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 ingresar_datos();
             break;
 
-            case 'eliminar-perfil':
-                event.preventDefault();
-                eliminar_perfil();
-            break;
-
+    
             case 'guardar-curriculum':
                 event.preventDefault();
                 guardar_curriculum();
@@ -212,28 +204,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function eliminar_perfil() {
-        var datos = curriculum.datatable.row('.selected').data();
-        if(typeof datos == "undefined") {
-            BASE_JS.sweet({
-                text: seleccionar_registro
-            });
-            return false;
-        } 
-        BASE_JS.sweet({
-            confirm: true,
-            text: eliminar_registro,
-            callbackConfirm: function() {
-                curriculum.Operacion(datos.idmiembro, "E");
-                // curriculum.datatable.destroy();
-                // curriculum.TablaListado({
-                //     tablaID: '#tabla-curriculum',
-                //     url: "/buscar_datos",
-                // });
-            }
-        });
-    }
-
 
 
     document.addEventListener("keydown", function(event) {
@@ -253,18 +223,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-                    
-                    //     break;
-                    case 'F7':
-                        eliminar_perfil();
-                        event.preventDefault();
-                        event.stopPropagation();
-                    
-                        break;
+                 
+                  
                 }          
 
             } else {

@@ -15,7 +15,7 @@ use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\DivisionesController;
-use App\Http\Controllers\EleccionController;
+use App\Http\Controllers\AsambleasController;
 use App\Http\Controllers\IglesiasController;
 use App\Http\Controllers\ImportarController;
 use App\Http\Controllers\InstitucionesController;
@@ -283,9 +283,12 @@ Route::post('otras_propiedades/obtener_otras_propiedades', [OtraspropiedadesCont
 
 // ASOCIADOS
 Route::get('asociados/index', [AsociadosController::class, "index"]);
+Route::get('asociados/asignacion_delegados', [AsociadosController::class, "asignacion_delegados"]);
+Route::get('asociados/delegados', [AsociadosController::class, "delegados"]);
 Route::post('asociados/buscar_datos', [AsociadosController::class, "buscar_datos"]);
 Route::post('asociados/guardar_asociados', [AsociadosController::class, "guardar_asociados"]);
 Route::post('asociados/get', [AsociadosController::class, "get"]);
+Route::post('asociados/filtrar_asociados', [AsociadosController::class, "filtrar_asociados"]);
 Route::post('asociados/obtener_estado_civil', [AsociadosController::class, "obtener_estado_civil"]);
 Route::post('asociados/obtener_nivel_educativo', [AsociadosController::class, "obtener_nivel_educativo"]);
 Route::post('asociados/obtener_profesiones', [AsociadosController::class, "obtener_profesiones"]);
@@ -308,6 +311,8 @@ Route::post('asociados/obtener_parentesco_miembro', [AsociadosController::class,
 Route::post('asociados/obtener_educacion_miembro', [AsociadosController::class, "obtener_educacion_miembro"]);
 Route::post('asociados/obtener_laboral_miembro', [AsociadosController::class, "obtener_laboral_miembro"]);
 Route::post('asociados/guardar_curriculum', [AsociadosController::class, "guardar_curriculum"]);
+Route::post('asociados/guardar_delegados', [AsociadosController::class, "guardar_delegados"]);
+Route::post('asociados/guardar_asignacion_delegados', [AsociadosController::class, "guardar_asignacion_delegados"]);
 Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::class, "imprimir_curriculum"]);
 
 // TRASLADOS
@@ -344,12 +349,12 @@ Route::post('actividad_misionera/obtener_trimestres_todos  ', [Actividadmisioner
 Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [ActividadmisioneraController::class, "imprimir_actividades_misioneras"]);
 
 // ELECCION
-Route::get('eleccion/index', [EleccionController::class, "index"]);
-Route::post('eleccion/buscar_datos', [EleccionController::class, "buscar_datos"]);
-Route::post('eleccion/guardar_eleccion', [EleccionController::class, "guardar_eleccion"]);
-Route::post('eleccion/get', [EleccionController::class, "get"]);
-Route::post('eleccion/eliminar_eleccion', [EleccionController::class, "eliminar_eleccion"]);
-Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_eleccion"]);
+Route::get('eleccion/index', [AsambleasController::class, "index"]);
+Route::post('eleccion/buscar_datos', [AsambleasController::class, "buscar_datos"]);
+Route::post('eleccion/guardar_eleccion', [AsambleasController::class, "guardar_eleccion"]);
+Route::post('eleccion/get', [AsambleasController::class, "get"]);
+Route::post('eleccion/eliminar_eleccion', [AsambleasController::class, "eliminar_eleccion"]);
+Route::post('eleccion/obtener_eleccion', [AsambleasController::class, "obtener_eleccion"]);
 
 /*************
  * MODULO REPORTES*
@@ -380,3 +385,19 @@ Route::get('importar/datos', [ImportarController::class, "datos"]);
 Route::post('importar/guardar_importar', [ImportarController::class, "guardar_importar"]);
 Route::post('importar/importar_datos', [ImportarController::class, "importar_datos"]);
 Route::post('importar/procesos', [ImportarController::class, "procesos"]);
+
+
+
+/*************
+ * MODULO GESTION DE ASAMBLEAS *
+ *************/
+Route::get('asambleas/index', [AsambleasController::class, "index"]);
+Route::post('asambleas/buscar_datos', [AsambleasController::class, "buscar_datos"]);
+Route::post('asambleas/obtener_anios', [AsambleasController::class, "obtener_anios"]);
+Route::post('asambleas/obtener_tipo_convocatoria', [AsambleasController::class, "obtener_tipo_convocatoria"]);
+Route::post('asambleas/obtener_asambleas', [AsambleasController::class, "obtener_asambleas"]);
+Route::post('asambleas/obtener_detalle_agenda', [AsambleasController::class, "obtener_detalle_agenda"]);
+Route::post('asambleas/guardar_asambleas', [AsambleasController::class, "guardar_asambleas"]);
+Route::post('asambleas/get', [AsambleasController::class, "get"]);
+Route::post('asambleas/eliminar_asambleas', [AsambleasController::class, "eliminar_asambleas"]);
+Route::post('asambleas/obtener_asambleas', [AsambleasController::class, "obtener_asambleas"]);

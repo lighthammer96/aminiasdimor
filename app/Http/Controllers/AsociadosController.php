@@ -42,6 +42,37 @@ class AsociadosController extends Controller
     }
 
 
+    public function asignacion_delegados() {
+        
+       
+        $view = "asociados.asignacion_delegados";
+        $data["title"] = traducir('asambleas.titulo_asignacion_delegados');
+        $data["subtitle"] = "";
+
+   
+        $data["scripts"] = $this->cargar_js(["asignacion_delegados.js?version=160920212027"]);
+        return parent::init($view, $data);
+    }
+
+    public function delegados() {
+        
+       
+        $view = "asociados.delegados";
+        $data["title"] = traducir('asambleas.titulo_delegados');
+        $data["subtitle"] = "";
+        $data["tabla"] = $this->asociados_model->tabla("", "1")->HTML();
+ 
+
+        $botones = array();
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="ingresar-datos">'.traducir("traductor.ingresar_datos").' [F1]</button>';
+   
+        $data["botones"] = $botones;
+   
+        $data["scripts"] = $this->cargar_js(["delegados.js?version=160920212027"]);
+        return parent::init($view, $data);
+    }
+
+
     public function curriculum() {
         $view = "asociados.curriculum";
         $data["title"] = traducir('traductor.titulo_curriculum');
@@ -68,7 +99,12 @@ class AsociadosController extends Controller
         if(isset($_REQUEST["curriculum"])) {
             $curriculum = $_REQUEST["curriculum"];
         }
-        $json_data = $this->asociados_model->tabla($curriculum)->obtenerDatos();
+
+        $delegados = "";
+        if(isset($_REQUEST["delegados"])) {
+            $delegados = $_REQUEST["delegados"];
+        }
+        $json_data = $this->asociados_model->tabla($curriculum, $delegados)->obtenerDatos();
         echo json_encode($json_data);
     }
 
@@ -110,7 +146,7 @@ class AsociadosController extends Controller
                     $_POST["idunion"] = $res[0]->idunion;
                 }
 
-                $_POST["pais_iddocimilio"] = $array_pais[0];
+                $_POST["pais_id_domicilio"] = $array_pais[0];
             }
 
          
@@ -663,6 +699,82 @@ class AsociadosController extends Controller
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("curriculum.pdf"); // ver
+    }
+
+    public function filtrar_asociados(Request $request) {
+       
+
+        $array_where = array();
+        $where = '';
+        if($request->input("nombres") != '') {
+            array_push($array_where, "m.nombres ILIKE'&".$request->input("nombres")."%'");
+        }
+
+        if($request->input("idgradoinstruccion") != '') {
+            array_push($array_where, 'm.idgradoinstruccion='.$request->input("idgradoinstruccion"));
+        }
+
+        if($request->input("idocupacion") != '') {
+            array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
+        }
+
+        if($request->input("idcargo") != '') {
+            array_push($array_where, 'cm.idcargo='.$request->input("idcargo"));
+        }
+
+        $where = implode(" AND ", $array_where);
+
+        if(!empty($where)) {
+            $where = " WHERE {$where} ";
+        }
+        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+        $sql = "SELECT m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, m.nrodoc AS documento, c.descripcion AS cargo, p.pais_descripcion AS pais, {$funcion} AS jerarquia, m.email AS correo, m.telefono, CASE WHEN a.asamblea_descripcion IS NULL THEN '' ELSE a.asamblea_descripcion END AS convocatoria, 
+        CASE WHEN d.delegado_tipo = 'T' THEN '".traducir("asambleas.titular")."'
+        WHEN d.delegado_tipo = 'S' THEN '".traducir("asambleas.suplente")."' ELSE '' END AS delegado FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        INNER JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+        LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
+        {$where}";
+        // die($sql);
+        $result = DB::select($sql);
+
+        echo json_encode($result);
+    }
+    
+
+    public function guardar_asignacion_delegados(Request $request) {
+        $_POST["idmiembro"] = explode("|", $_POST["miembros"]);
+        $delegado_tipo = $request->input("delegado_tipo");
+        $_POST["delegado_tipo"] = array();
+        for ($i=0; $i < count($_POST["idmiembro"]); $i++) { 
+           array_push($_POST["delegado_tipo"], $delegado_tipo);
+        }
+        //  print_R($_POST);
+        //  print_r($this->preparar_datos("asambleas.delegados", $_POST, "D")); 
+        //  exit;
+        DB::table("asambleas.delegados")->where("asamblea_id", $request->input("asamblea_id"))->delete();
+        $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $_POST, "D"), "D");
+        echo json_encode($result);
+    }
+
+
+    public function guardar_delegados(Request $request) {
+        if(isset($_POST["posee_seguro"])) {
+            $_POST["posee_seguro"] = "S";
+        }  else {
+            $_POST["posee_seguro"] = "N";
+        }
+
+        if(isset($_POST["posee_visa"])) {
+            $_POST["posee_visa"] = "S";
+        }  else {
+            $_POST["posee_visa"] = "N";
+        }
+        $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
+        echo json_encode($result);
     }
    
 }

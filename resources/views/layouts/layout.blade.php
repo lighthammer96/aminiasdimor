@@ -282,6 +282,8 @@
         var imprimir_ficha = "<?php echo traducir('traductor.imprimir_ficha'); ?>";
         var estado_activo = "<?php echo traducir('traductor.estado_activo'); ?>";
         var estado_inactivo = "<?php echo traducir('traductor.estado_inactivo'); ?>";
+        var seleccionar_menos_asociado = "<?php echo traducir('traductor.seleccionar_menos_asociado'); ?>";
+        var imprimir_listado_delegados = "<?php echo traducir('asambleas.imprimir_listado_delegados'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

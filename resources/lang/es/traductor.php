@@ -397,7 +397,7 @@ return [
     'descargar_formato' => 'Descargar Formato de Carga',
     'quitar' => 'Quitar',
     'imprimir_carta_iglesia' => '¿Desea imprimir Carta de Iglesia?',
-   
+    
 
      // LABELS DATATABLES
     'datatable_next' => 'Siguiente',
@@ -449,6 +449,8 @@ return [
     'titulo_informe_semestral' => "Informe Semestral de Secretaría",
     'titulo_importar_datos' => "Importar Datos",
 
+
+
     // MENSAJES
     'existe_asociado' => '¡Ya existe un asociado con el mismo número de documento!',
     'error_foto' => '¡Error al subir foto del Usuario!',
@@ -496,5 +498,6 @@ return [
     'eliminar_registro' => "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
     'elemento_detalle' => '¡DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!',
     'seleccionar_iglesia' => "¡DEBE SELECCIONAR UNA IGLESIA!",
+
 
 ];

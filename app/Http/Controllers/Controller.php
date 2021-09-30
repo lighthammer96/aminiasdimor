@@ -130,7 +130,7 @@ class Controller extends BaseController
                 $parametros["datos"][$i][$primer_key] = $primer_value;
             }
         }
-        #print_r($datos); exit;
+        // print_r($cantElementos); exit;
 
         // cuando es detalle
         if ($tipoTabla == "D") {

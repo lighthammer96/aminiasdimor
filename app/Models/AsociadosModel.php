@@ -21,7 +21,7 @@ class AsociadosModel extends Model
 
     }
 
-    public function tabla($curriculum = "") {
+    public function tabla($curriculum = "", $delegados = "") {
         $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
         $tabla = new Tabla();
         $tabla->asignarID("tabla-asociados");
@@ -42,9 +42,18 @@ class AsociadosModel extends Model
             $boton = ", '<center><button type=\"button\" onclick=\"imprimir_curriculum(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
         }
         
+        $join = "";
+        if($delegados == "1") {
+            $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+            \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
+        }
+
         $tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia".$boton);
         $tabla->setFrom("iglesias.miembro AS m
-        \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)");
+        \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
+        {$join}");
+
+        // die($join);
 
         $array_where = array();
         $where = "";
@@ -57,7 +66,12 @@ class AsociadosModel extends Model
             }
             $where = implode(' AND ', $array_where);
         }
+
+        
+
         $tabla->setWhere($where);
+
+    
       
         return $tabla;
     }

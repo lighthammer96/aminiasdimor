@@ -22,3 +22,5 @@ TRUNCATE iglesias.miembro RESTART IDENTITY;
 TRUNCATE public.procesos RESTART IDENTITY;
 TRUNCATE seguridad.log_sistema RESTART IDENTITY;
 
+
+

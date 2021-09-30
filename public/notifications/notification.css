@@ -56,7 +56,7 @@
 }
 
 .notifyjs-corner {
-    top: 540px !important; 
+    top: 80% !important; 
     z-index: 999999999999 !important;
     /* bottom: 0px !important; */
 }
