@@ -70,6 +70,20 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-3" style="">
+                            <label class="control-label">{{ traducir("traductor.pais") }}</label>
+
+                            <select class="entrada form-control input-sm select" name="idpais" id="idpais">
+
+                            </select>
+                        </div>
+                        <div class="col-md-3" style="">
+                            <label class="control-label">{{ traducir("traductor.ciudad") }}</label>
+                            
+                            <input type="text" class="form-control input-sm entrada" name="asamblea_ciudad" placeholder="" />
+                        </div>
+                    </div>
+                    <div class="row">
                        
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('asambleas.agenda')}}</label>

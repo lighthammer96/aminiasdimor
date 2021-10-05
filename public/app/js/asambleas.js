@@ -1,11 +1,19 @@
 var asambleas = new BASE_JS('asambleas', 'asambleas');
+var paises = new BASE_JS('paises', 'paises');
 
 
 
 document.addEventListener("DOMContentLoaded", function() {
   
 
-   
+    paises.select({
+        name: 'idpais',
+        url: '/obtener_todos_paises',
+        placeholder: seleccione,
+    }).then(function() {
+        // asociados.enter("pais_id_nacimiento","ciudadnacextranjero");
+    })
+
     var format = "";
     if(idioma_codigo == "es") {
         format = "dd/mm/yyyy";
