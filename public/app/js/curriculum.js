@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
         curriculum.ajax({
-            url: '/get',
+            url: '/get_asociados',
             datos: { id: datos.idmiembro, _token: _token }
         }).then(function(response) {
             document.getElementById("idmiembro").value = response[0].idmiembro;

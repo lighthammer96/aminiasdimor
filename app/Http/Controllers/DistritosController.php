@@ -86,7 +86,7 @@ class DistritosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_distritos(Request $request) {
 
         $sql = "SELECT * FROM public.distrito WHERE iddistrito=".$request->input("id");
         $one = DB::select($sql);

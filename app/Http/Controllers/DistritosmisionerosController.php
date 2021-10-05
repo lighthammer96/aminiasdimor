@@ -76,7 +76,7 @@ class DistritosmisionerosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_distritos_misioneros(Request $request) {
 
         $sql = "SELECT * FROM iglesias.distritomisionero WHERE iddistritomisionero=".$request->input("id");
         $one = DB::select($sql);

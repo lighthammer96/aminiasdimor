@@ -952,7 +952,7 @@ CREATE TABLE iglesias.miembro (
     observaciones_bautizo text,
     idiomas character varying(255),
     texto_bautismal character varying(255),
-    pais_iddomicilio integer
+    pais_id_domicilio integer
 );
 
 
@@ -4395,7 +4395,7 @@ COPY iglesias.laboral_miembro (idlaboralmiembro, idmiembro, cargo, sector, insti
 -- Data for Name: miembro; Type: TABLE DATA; Schema: iglesias; Owner: postgres
 --
 
-COPY iglesias.miembro (idmiembro, pais_id_nacionalidad, iddistritonacimiento, iddistritodomicilio, idtipodoc, idestadocivil, idocupacion, idgradoinstruccion, paterno, materno, nombres, foto, fechanacimiento, lugarnacimiento, sexo, nrodoc, direccion, referenciadireccion, telefono, celular, email, emailalternativo, idreligion, fechabautizo, idcondicioneclesiastica, encargado_recibimiento, observaciones, estado, estadoeliminado, idiglesia, fechaingresoiglesia, fecharegistro, tipolugarnac, ciudadnacextranjero, apellidos, iddepartamentodomicilio, idprovinciadomicilio, iddepartamentonacimiento, idprovincianacimiento, apellido_soltera, pais_id_nacimiento, iddivision, pais_id, idunion, idmision, iddistritomisionero, tabla_encargado_bautizo, encargado_bautizo, observaciones_bautizo, idiomas, texto_bautismal, pais_iddomicilio) FROM stdin;
+COPY iglesias.miembro (idmiembro, pais_id_nacionalidad, iddistritonacimiento, iddistritodomicilio, idtipodoc, idestadocivil, idocupacion, idgradoinstruccion, paterno, materno, nombres, foto, fechanacimiento, lugarnacimiento, sexo, nrodoc, direccion, referenciadireccion, telefono, celular, email, emailalternativo, idreligion, fechabautizo, idcondicioneclesiastica, encargado_recibimiento, observaciones, estado, estadoeliminado, idiglesia, fechaingresoiglesia, fecharegistro, tipolugarnac, ciudadnacextranjero, apellidos, iddepartamentodomicilio, idprovinciadomicilio, iddepartamentonacimiento, idprovincianacimiento, apellido_soltera, pais_id_nacimiento, iddivision, pais_id, idunion, idmision, iddistritomisionero, tabla_encargado_bautizo, encargado_bautizo, observaciones_bautizo, idiomas, texto_bautismal, pais_id_domicilio) FROM stdin;
 \.
 
 

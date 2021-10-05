@@ -90,7 +90,7 @@ class PerfilesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_perfiles(Request $request) {
 
         $sql = "SELECT * FROM seguridad.perfiles WHERE perfil_id=".$request->input("id");
         $one = DB::select($sql);

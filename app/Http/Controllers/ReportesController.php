@@ -126,12 +126,12 @@ class ReportesController extends Controller
    
 
 
-    public function get(Request $request) {
+    // public function get(Request $request) {
 
-        $sql = "SELECT * FROM seguridad.ReportesController WHERE perfil_id=".$request->input("id");
-        $one = DB::select($sql);
-        echo json_encode($one);
-    }
+    //     $sql = "SELECT * FROM seguridad.ReportesController WHERE perfil_id=".$request->input("id");
+    //     $one = DB::select($sql);
+    //     echo json_encode($one);
+    // }
 
      
     public function obtener_iglesias(Request $request) {

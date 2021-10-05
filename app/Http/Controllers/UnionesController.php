@@ -83,7 +83,7 @@ class UnionesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_uniones(Request $request) {
 
         $sql = "SELECT * FROM iglesias.union WHERE idunion=".$request->input("id");
         $one = DB::select($sql);
@@ -119,12 +119,12 @@ class UnionesController extends Controller
         $result = array();
 		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
 	
-			$sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
+			$sql = "SELECT u.idunion AS id, u.descripcion, u.email AS atributo1 FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
             WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id")." ".session("where_union").
             " ORDER BY u.descripcion ASC";
 		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            $sql = "SELECT u.idunion AS id, u.descripcion 
+            $sql = "SELECT u.idunion AS id, u.descripcion , u.email AS atributo1
             FROM iglesias.union AS u
             WHERE u.estado='1' ".session("where_union").session("where_pais_padre").
             " ORDER BY u.descripcion ASC";

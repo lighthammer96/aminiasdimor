@@ -98,7 +98,7 @@ class UsuariosController extends Controller
         }
     }
 
-    public function get(Request $request) {
+    public function get_usuarios(Request $request) {
         $sql = "SELECT * FROM seguridad.usuarios WHERE usuario_id=" . $request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);

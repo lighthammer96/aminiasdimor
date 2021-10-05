@@ -93,7 +93,7 @@ class InstitucionesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_instituciones(Request $request) {
 
         $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union
         FROM iglesias.institucion AS i

@@ -47,6 +47,8 @@ class AsambleasController extends Controller
     public function guardar_asambleas(Request $request) {
    
         $_POST = $this->toUpper($_POST);
+        $_POST["asamblea_fecha_inicio"] = $this->FormatoFecha($_REQUEST["asamblea_fecha_inicio"], "server");
+        $_POST["asamblea_fecha_fin"] = $this->FormatoFecha($_REQUEST["asamblea_fecha_fin"], "server");
         if ($request->input("asamblea_id") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("asambleas.asambleas", $_POST));
         }else{
@@ -86,7 +88,7 @@ class AsambleasController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_asambleas(Request $request) {
 
         $sql = "SELECT * FROM asambleas.asambleas WHERE asamblea_id=".$request->input("id");
         $one = DB::select($sql);
@@ -125,8 +127,9 @@ class AsambleasController extends Controller
     }
 
     public function obtener_asambleas() {
-        $sql = "SELECT  a.asamblea_id  AS id, a.asamblea_descripcion AS descripcion
+        $sql = "SELECT (tc.tipconv_id  || '|'  || a.asamblea_id) AS id, a.asamblea_descripcion AS descripcion
         FROM asambleas.asambleas AS a
+        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
         WHERE a.estado='A'";
         // die($sql);
         $result = DB::select($sql);

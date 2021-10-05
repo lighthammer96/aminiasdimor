@@ -36,7 +36,7 @@
                             <label for="" class="control-label">{{ traducir('traductor.responsable')}}</label>
                             
                             <div class="input-group">
-                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado" name="asociado" placeholder="Buscar Responsable...">
+                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado" name="asociado" placeholder="{{ traducir('asambleas.buscar_responsable') }}...">
                                 <span class="input-group-btn">
                                     <button type="button" id="buscar_asociado" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
                                    
@@ -105,7 +105,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title">Listado de Responsables</h4>
+				<h4 class="modal-title">{{ traducir("asambleas.listado_responsables") }}</h4>
 
 			</div>
 			<div class="modal-body">

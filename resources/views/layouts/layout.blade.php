@@ -328,7 +328,7 @@
 
     <script src="{{ URL::asset('dist/js/highcharts.js') }}"></script>
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
-    <script src="{{ URL::asset('app/js/BASE_JS.js') }}"></script>
+    <script src="{{ URL::asset('app/js/BASE_JS.js?version=041020210813') }}"></script>
     
 
    

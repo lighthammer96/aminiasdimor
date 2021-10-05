@@ -90,7 +90,7 @@ class TiposcargoController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_tipos_cargo(Request $request) {
 
         $sql = "SELECT * FROM public.tipocargo WHERE idtipocargo=".$request->input("id");
         $one = DB::select($sql);

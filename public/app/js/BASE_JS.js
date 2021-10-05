@@ -328,8 +328,8 @@ class BASE_JS {
         var self = this;
         //var datos = {id: id};
         var datos = new URLSearchParams("id=" + id + "&_token=" + _token);
-        var promise = fetch(this.controladorURL + "/get", {
-            method: "POST",
+        var promise = fetch(this.controladorURL + "/get_" + this.referencia, {
+            method: "POST", 
             body: datos,
         }).then(function(response) {
             //console.log(response.json());

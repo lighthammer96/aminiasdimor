@@ -112,7 +112,7 @@ class IdiomasController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_idiomas(Request $request) {
 
         $sql = "SELECT * FROM public.idiomas WHERE idioma_id=".$request->input("id");
         $one = DB::select($sql);

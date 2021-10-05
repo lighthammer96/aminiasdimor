@@ -93,7 +93,7 @@ class OtraspropiedadesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_otras_propiedades(Request $request) {
 
         $sql = "SELECT ot.*, (ot.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union
         FROM iglesias.otras_propiedades AS ot

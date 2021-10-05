@@ -93,7 +93,7 @@ class EleccionController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_eleccion(Request $request) {
 
         $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union
         FROM iglesias.eleccion AS i

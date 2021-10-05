@@ -124,8 +124,12 @@ class AsociadosController extends Controller
 
         try {
             DB::beginTransaction();
+            $idtipodoc = (isset($_REQUEST["idtipodoc"])) ? $request->input("idtipodoc") : 0;
+            $nrodoc = (isset($_REQUEST["nrodoc"])) ? $request->input("nrodoc") : 0;
+            $pais_id_nacimiento = (isset($_REQUEST["pais_id_nacimiento"])) ? $request->input("pais_id_nacimiento") : 0;
 
-            $sql_validacion = "SELECT * FROM iglesias.miembro WHERE idtipodoc={$request->input("idtipodoc")} AND nrodoc='{$request->input("nrodoc")}' AND pais_id_nacimiento={$request->input("pais_id_nacimiento")}";
+
+            $sql_validacion = "SELECT * FROM iglesias.miembro WHERE idtipodoc={$idtipodoc} AND nrodoc='{$nrodoc}' AND pais_id_nacimiento={$pais_id_nacimiento}";
             // die($sql_validacion);
             $validacion = DB::select($sql_validacion);
 
@@ -158,9 +162,14 @@ class AsociadosController extends Controller
             // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
             // $_POST["idtipocargo"] = $array_tipo_cargo[0];
 
-            $_POST["fechaingresoiglesia"]            = $this->FormatoFecha($_REQUEST["fechaingresoiglesia"], "server");
-            $_POST["fechanacimiento"] = $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s");
-            $_POST["fechabautizo"] = $this->FormatoFecha($_REQUEST["fechabautizo"], "server");
+            $_POST["fechaingresoiglesia"]            = (isset($_REQUEST["fechaingresoiglesia"])) ? $this->FormatoFecha($_REQUEST["fechaingresoiglesia"], "server") : "";
+            $_POST["fechanacimiento"] = (isset($_REQUEST["fechanacimiento"])) ? $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s") : "";
+            $_POST["fechabautizo"] = (isset($_REQUEST["fechabautizo"])) ? $this->FormatoFecha($_REQUEST["fechabautizo"], "server") : "";
+            $_POST["fecha_vencimiento_pasaporte"] = (isset($_REQUEST["fecha_vencimiento_pasaporte"])) ?$this->FormatoFecha($_REQUEST["fecha_vencimiento_pasaporte"], "server") : "";
+            $_POST["fecha_pasaje"] = (isset($_REQUEST["fecha_pasaje"])) ? $this->FormatoFecha($_REQUEST["fecha_pasaje"], "server") : "";
+            $_POST["fecha_inicia_seguro"] = (isset($_REQUEST["fecha_inicia_seguro"])) ? $this->FormatoFecha($_REQUEST["fecha_inicia_seguro"], "server") : "";
+            $_POST["fecha_termina_seguro"] = (isset($_REQUEST["fecha_termina_seguro"])) ? $this->FormatoFecha($_REQUEST["fecha_termina_seguro"], "server") : "";
+            $_POST["fecha_vencimiento_visa"] = (isset($_REQUEST["fecha_vencimiento_visa"])) ?$this->FormatoFecha($_REQUEST["fecha_vencimiento_visa"], "server") : "";
 
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo", "texto_bautismal"]);
             if ($request->input("idmiembro") == '') {
@@ -286,7 +295,7 @@ class AsociadosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_asociados(Request $request) {
 
         $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable,
         CASE WHEN di.di_descripcion IS NULL THEN
@@ -737,7 +746,8 @@ class AsociadosController extends Controller
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
         LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
         LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
-        {$where}";
+        {$where}
+        ORDER BY m.idmiembro DESC";
         // die($sql);
         $result = DB::select($sql);
 
@@ -748,15 +758,36 @@ class AsociadosController extends Controller
     public function guardar_asignacion_delegados(Request $request) {
         $_POST["idmiembro"] = explode("|", $_POST["miembros"]);
         $delegado_tipo = $request->input("delegado_tipo");
-        $_POST["delegado_tipo"] = array();
+        $asamblea = explode("|", $_POST["asamblea_id"]);
+        $result = array();
+        // $_POST["delegado_tipo"] = array();
+        // for ($i=0; $i < count($_POST["idmiembro"]); $i++) { 
+        //    array_push($_POST["delegado_tipo"], $delegado_tipo);
+        // }
+
+        // DB::table("asambleas.delegados")->where("asamblea_id", $request->input("asamblea_id"))->delete();
+        // $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $_POST, "D"), "D");
+
         for ($i=0; $i < count($_POST["idmiembro"]); $i++) { 
-           array_push($_POST["delegado_tipo"], $delegado_tipo);
+            $array_datos = array();
+
+            DB::table("asambleas.delegados")->where("asamblea_id", $asamblea[1])->where("idmiembro",$_POST["idmiembro"][$i])->delete();
+
+            $array_datos["asamblea_id"] = $asamblea[1];
+            $array_datos["delegado_tipo"] = $delegado_tipo;
+            $array_datos["idmiembro"] = $_POST["idmiembro"][$i];
+
+
+            $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $array_datos));
+
+
+            // array_push($_POST["delegado_tipo"], $delegado_tipo);
         }
         //  print_R($_POST);
         //  print_r($this->preparar_datos("asambleas.delegados", $_POST, "D")); 
         //  exit;
-        DB::table("asambleas.delegados")->where("asamblea_id", $request->input("asamblea_id"))->delete();
-        $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $_POST, "D"), "D");
+        
+        // $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $_POST, "D"), "D");
         echo json_encode($result);
     }
 

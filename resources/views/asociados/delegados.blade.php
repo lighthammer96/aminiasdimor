@@ -7,11 +7,11 @@
 
 @section('content')
 
-<div id="modal-delegados" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" data-backdrop="static">
+<div id="modal-asociados" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
       
-            <form id="formulario-delegados" class="form-horizontal" role="form">
+            <form id="formulario-asociados" class="form-horizontal" role="form">
 
                 <div class="modal-body">
                     <input type="hidden" name="idmiembro" id="idmiembro" class="input-sm entrada">
@@ -136,8 +136,8 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-delegados">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-delegados" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asociados">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-asociados" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 

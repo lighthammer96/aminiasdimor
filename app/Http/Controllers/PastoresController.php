@@ -85,7 +85,7 @@ class PastoresController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_pastores(Request $request) {
 
         $sql = "SELECT * FROM iglesias.otrospastores WHERE idotrospastores=".$request->input("id");
         $one = DB::select($sql);

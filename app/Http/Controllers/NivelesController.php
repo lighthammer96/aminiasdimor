@@ -85,7 +85,7 @@ class NivelesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_niveles(Request $request) {
 
         $sql = "SELECT * FROM public.nivel WHERE idnivel=".$request->input("id");
         $one = DB::select($sql);

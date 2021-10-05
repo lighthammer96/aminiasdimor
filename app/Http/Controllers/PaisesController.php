@@ -83,7 +83,7 @@ class PaisesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_paises(Request $request) {
 
         $sql = "SELECT * FROM iglesias.paises WHERE pais_id=".$request->input("id");
         $one = DB::select($sql);

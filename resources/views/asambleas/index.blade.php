@@ -72,7 +72,7 @@
                     <div class="row">
                        
                         <div class="col-md-6">
-                            <label class="control-label">{{ traducir('asambleas.detalle')}}</label>
+                            <label class="control-label">{{ traducir('asambleas.agenda')}}</label>
                             <input type="text" class="form-control input-sm entrada limpiar" name="detalle" />
                         </div>
                         <div class="col-md-3" style="">
@@ -105,7 +105,7 @@
                             <table class="table table-striped table-bordered display compact" id="detalle-agenda" style="font-size: 13px;">
                                 <thead>
                                     <tr>
-                                        <th style="width: 200px;">{{ traducir('asambleas.detalle')}}</th>
+                                        <th style="width: 200px;">{{ traducir('asambleas.agenda')}}</th>
                                         <th style="width: 100px;">{{ traducir('traductor.fecha')}}</th>
                                         <th style="width: 100px;">{{ traducir('asambleas.hora')}}</th>
                                         <th style="width: 30px;">{{ traducir('traductor.eliminar')}}</th>

@@ -74,7 +74,7 @@ class MisionesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_misiones(Request $request) {
 
         $sql = "SELECT * FROM iglesias.mision WHERE idmision=".$request->input("id");
         $one = DB::select($sql);
@@ -96,10 +96,10 @@ class MisionesController extends Controller
 
 		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
 	
-			$sql = "SELECT idmision AS id, descripcion FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
+			$sql = "SELECT idmision AS id, descripcion, email AS atributo1 FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
             " ORDER BY descripcion ASC";		
         } elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            $sql = "SELECT idmision AS id, descripcion
+            $sql = "SELECT idmision AS id, descripcion, email AS atributo1
             FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre").
             " ORDER BY descripcion ASC";
             $all = true;

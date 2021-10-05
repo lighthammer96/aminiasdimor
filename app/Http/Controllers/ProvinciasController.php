@@ -92,7 +92,7 @@ class ProvinciasController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_provincias(Request $request) {
 
         $sql = "SELECT * FROM public.provincia WHERE idprovincia=".$request->input("id");
         $one = DB::select($sql);

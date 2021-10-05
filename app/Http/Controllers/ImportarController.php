@@ -371,7 +371,7 @@ class ImportarController extends Controller
                     
                     $data["iddivision"] = (isset($jerarquia[0]->iddivision)) ? $jerarquia[0]->iddivision : 0;
                     $data["pais_id"] = (isset($jerarquia[0]->pais_id)) ? $jerarquia[0]->pais_id : 0;
-                    $data["pais_iddomicilio"] = (isset($jerarquia[0]->pais_id)) ? $jerarquia[0]->pais_id : 0;
+                    $data["pais_id_domicilio"] = (isset($jerarquia[0]->pais_id)) ? $jerarquia[0]->pais_id : 0;
                     $data["idunion"] = (isset($jerarquia[0]->idunion)) ? $jerarquia[0]->idunion : 0;
                     $data["idmision"] = (isset($jerarquia[0]->idmision)) ? $jerarquia[0]->idmision : 0;
                     $data["iddistritomisionero"] = (isset($jerarquia[0]->iddistritomisionero)) ? $jerarquia[0]->iddistritomisionero : 0;

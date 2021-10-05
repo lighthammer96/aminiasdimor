@@ -140,12 +140,12 @@ class ActividadmisioneraController extends Controller
     }
 
 
-    public function get(Request $request) {
+    // public function get(Request $request) {
 
-        $sql = "SELECT * FROM seguridad.perfiles WHERE perfil_id=".$request->input("id");
-        $one = DB::select($sql);
-        echo json_encode($one);
-    }
+    //     $sql = "SELECT * FROM seguridad.perfiles WHERE perfil_id=".$request->input("id");
+    //     $one = DB::select($sql);
+    //     echo json_encode($one);
+    // }
 
  
 

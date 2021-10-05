@@ -1,5 +1,5 @@
 
-var delegados = new BASE_JS('delegados', 'asociados');
+var delegados = new BASE_JS('asociados', 'asociados');
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    document.getElementById("guardar-delegados").addEventListener("click", function(event) {
+    document.getElementById("guardar-asociados").addEventListener("click", function(event) {
         event.preventDefault();
 
         var required = true;
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    document.getElementById("cancelar-delegados").addEventListener("click", function(event) {
+    document.getElementById("cancelar-asociados").addEventListener("click", function(event) {
         event.preventDefault();
         delegados.CerrarModal();
     })

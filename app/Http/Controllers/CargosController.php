@@ -102,7 +102,7 @@ class CargosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_cargos(Request $request) {
 
         $sql = "SELECT c.*, /*(tc.idtipocargo || '|' || tc.posee_nivel) AS*/ tc.idtipocargo, tc.posee_nivel FROM public.cargo AS c
         LEFT JOIN public.tipocargo AS tc ON(c.idtipocargo=tc.idtipocargo)

@@ -83,7 +83,7 @@ class DivisionesController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_divisiones(Request $request) {
 
         $sql = "SELECT * FROM iglesias.division WHERE iddivision=".$request->input("id");
         $one = DB::select($sql);

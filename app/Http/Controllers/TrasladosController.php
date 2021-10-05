@@ -161,7 +161,7 @@ class TrasladosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_control(Request $request) {
 
         $sql = "SELECT * FROM iglesias.control_traslados WHERE idcontrol=".$request->input("id");
         $one = DB::select($sql);

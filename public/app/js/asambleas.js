@@ -1,5 +1,5 @@
 var asambleas = new BASE_JS('asambleas', 'asambleas');
-var principal = new BASE_JS('principal', 'principal');
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -104,13 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    principal.select({
-        name: 'idmotivobaja',
-        url: '/obtener_motivos_baja',
-        placeholder: seleccione,
-    }).then(function() {
-        
-    })
+
 
     asambleas.select({
         name: 'asamblea_anio',

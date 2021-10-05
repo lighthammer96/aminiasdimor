@@ -89,7 +89,7 @@ class DepartamentosController extends Controller
     }
 
 
-    public function get(Request $request) {
+    public function get_departamentos(Request $request) {
 
         $sql = "SELECT * FROM public.departamento WHERE iddepartamento=".$request->input("id");
         $one = DB::select($sql);

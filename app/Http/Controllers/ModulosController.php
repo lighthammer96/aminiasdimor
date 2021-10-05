@@ -104,7 +104,7 @@ class ModulosController extends Controller
         }
     }
 
-    public function get(Request $request) {
+    public function get_modulos(Request $request) {
         $sql = "SELECT * FROM seguridad.modulos WHERE modulo_id=" . $request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);

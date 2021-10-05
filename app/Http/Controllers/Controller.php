@@ -122,6 +122,8 @@ class Controller extends BaseController
         // echo $table."\n";
         // echo gettype(array_values($datos)[1])."\n";
         //PONEMOS EN EL PRIMER ELEMENTO A LA CLAVE SE REPITE EN RESTO DE REGISTRO EN EL CASO DE SER UN DETALLE
+        // print_r($datos); exit;
+
         if ($tipoTabla == "D") {
             $cantElementos = (is_array(array_values($datos)[1])) ? count(array_values($datos)[1]) : 0;
             $primer_key    = array_keys($datos)[0];
@@ -130,8 +132,7 @@ class Controller extends BaseController
                 $parametros["datos"][$i][$primer_key] = $primer_value;
             }
         }
-        // print_r($cantElementos); exit;
-
+      
         // cuando es detalle
         if ($tipoTabla == "D") {
 

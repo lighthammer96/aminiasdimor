@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_iddomicilio) {
+    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_id_domicilio) {
         // alert(pais_id);
         var valor = "1|S"; 
 
@@ -582,8 +582,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         var selected_iddepartamentodomicilio = (typeof iddepartamentodomicilio != "undefined")  ? iddepartamentodomicilio : "";
-        var pais_iddomicilio = (typeof pais_iddomicilio != "undefined" && pais_iddomicilio != null)  ? pais_iddomicilio : "";
-        d_id = (pais_iddomicilio != "") ? pais_iddomicilio : d_id;
+        var pais_id_domicilio = (typeof pais_id_domicilio != "undefined" && pais_id_domicilio != null)  ? pais_id_domicilio : "";
+        d_id = (pais_id_domicilio != "") ? pais_id_domicilio : d_id;
         var pais_id_change = document.getElementById("pais_id_change").value;
         if(pais_id_change != d_id) {
             jerarquia(d_id);
@@ -1072,7 +1072,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             // var array_pais = response.pais_id.split("|");
-            jerarquia(response.pais_iddomicilio);
+            jerarquia(response.pais_id_domicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -1174,7 +1174,7 @@ document.addEventListener("DOMContentLoaded", function() {
            
 
             // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_iddomicilio]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_id_domicilio]);
             // $("#idunion").trigger("change", [response.idunion, response.idmision]);
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
@@ -1236,7 +1236,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             // var array_pais = response.pais_id.split("|");
-            jerarquia(response.pais_iddomicilio);
+            jerarquia(response.pais_id_domicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -1338,7 +1338,7 @@ document.addEventListener("DOMContentLoaded", function() {
            
 
             // $("#iddivision").trigger("change", [response.iddivision, response.pais_id]);
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_iddomicilio]);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.iddepartamentodomicilio, response.pais_id_domicilio]);
             // $("#idunion").trigger("change", [response.idunion, response.idmision]);
             // $("#idmision").trigger("change", [response.idmision, response.iddistritomisionero]);
             // $("#iddistritomisionero").trigger("change", [response.iddistritomisionero, response.idiglesia]);
