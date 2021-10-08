@@ -2061,7 +2061,7 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+condicion_texto+'</td>';
         html += '  <td>'+tiempo_texto+'</td>';
         html += '  <td>'+objeto.observaciones_cargo+'</td>';
-        html += '  <td><center><input '+checked+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
+        html += '  <td><center><input '+checked+' '+attr+' class="minimal entrada" type="checkbox" name="vigente[]" value="1" ></center></td>';
         html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-cargo"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
 
         tr.innerHTML = html;

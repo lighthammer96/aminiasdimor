@@ -63,6 +63,14 @@ return [
     'enviado_traduccion' => 'Enviado para traduccion',
     'traduccion_completa' => 'Traducción Completa',
     'agenda' => 'Agenda',
+    'registro_estado_enviado_traduccion' => 'El registro debe estar en el estado <<Enviado para Traducción>>',
+    'registro_estado_proceso_registro' => 'El registro debe estar en el estado <<En Proceso de Registro>>',
+    'de_traducir' => 'De traducir ',
+    'a' => 'a',
+    'estado_propuesta' => 'Estado Propuesta',
+    'traducir' => 'Traducir',
+    'listado_asociados' => 'Listado Asociados',
+    'detalle_propuesta' => 'Detalle Propuesta',
 
     
     // TITULOS GESTION DE ASAMBLEAS

@@ -75,7 +75,9 @@
                     
                         <div class="col-md-4" style="margin-top: 20px;">
                             <label class="control-label">
-                                <input class="minimal entrada" type="checkbox" name="posee_seguro">
+                                <!-- <input type="hidden" name="posee_seguro" id="posee_seguro" class="input-sm entrada"> -->
+                                <input class="minimal entrada" type="checkbox" name="posee_seguro" id="posee_seguro">
+                               
                                 {{ traducir('asambleas.posee_seguro_salud')}}
                             </label>
                            
@@ -111,7 +113,8 @@
                     
                     <div class="col-md-4" style="margin-top: 20px;">
                         <label class="control-label">
-                            <input class="minimal entrada" type="checkbox" name="posee_visa">
+                            <!-- <input type="hidden" name="posee_visa" id="posee_visa" class="input-sm entrada"> -->
+                            <input class="minimal entrada" type="checkbox" name="posee_visa" id="posee_visa">
                             {{ traducir('asambleas.posee_visa')}}
                         </label>
                        

@@ -68,7 +68,7 @@ class AsociadosController extends Controller
    
         $data["botones"] = $botones;
    
-        $data["scripts"] = $this->cargar_js(["delegados.js?version=160920212027"]);
+        $data["scripts"] = $this->cargar_js(["delegados.js?version=051020212027"]);
         return parent::init($view, $data);
     }
 
@@ -153,8 +153,18 @@ class AsociadosController extends Controller
                 $_POST["pais_id_domicilio"] = $array_pais[0];
             }
 
-         
+            if(isset($_POST["posee_seguro"])) {
+                $_POST["posee_seguro"] = "S";
+            }  else {
+                $_POST["posee_seguro"] = "N";
+            }
 
+
+            if(isset($_POST["posee_visa"])) {
+                $_POST["posee_visa"] = "S";
+            }  else {
+                $_POST["posee_visa"] = "N";
+            }
            
             
            
@@ -179,7 +189,7 @@ class AsociadosController extends Controller
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
                 // print_r($result);
             }
-            print_r($result); exit;
+            // print_r($result); exit;
             $_POST["idmiembro"] = $result["id"];
             if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == "0") {
 
@@ -267,7 +277,7 @@ class AsociadosController extends Controller
            
             $_POST["fecha"] = $this->FormatoFecha($_REQUEST["fecha"], "server");
             // var_dump($_POST["rebautizo"]);
-            if(isset($_POST["rebautizo"]) && $_POST["rebautizo"] == "on") {
+            if(isset($_POST["rebautizo"])) {
                 $_POST["rebautizo"] = "1";
             }  else {
                 $_POST["rebautizo"] = "0";

@@ -1,4 +1,6 @@
 var propuestas_temas = new BASE_JS('propuestas_temas', 'propuestas');
+// var propuestas_temas = new BASE_JS('propuestas_temas', 'propuestas');
+
 var asambleas = new BASE_JS('asambleas', 'asambleas');
 var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
@@ -67,11 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     
-    asambleas.select({
-        name: 'asamblea_id',
-        url: '/obtener_asambleas',
-        placeholder: seleccione
-    })
+    // asambleas.select({
+    //     name: 'asamblea_id',
+    //     url: '/obtener_asambleas',
+    //     placeholder: seleccione
+    // })
 
     principal.select({
         name: 'cp_id',
@@ -177,8 +179,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null") {
             document.getElementsByName("pt_email")[0].value = this.options[this.selectedIndex].getAttribute("atributo1");
         }
-
-        if(typeof this.options != "undefined" && typeof this.options[this.selectedIndex] != "undefined" && this.options.length > 0) {
+        // alert(typeof idunion);
+        if(typeof this.options != "undefined" && typeof this.options[this.selectedIndex] != "undefined" && this.options.length > 0 && typeof idunion == "undefined") {
 
             document.getElementById("lugar").value = this.options[this.selectedIndex].text;
             document.getElementById("idlugar").value = this.value;
@@ -209,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
-        if(typeof this.options != "undefined" && typeof this.options[this.selectedIndex] != "undefined" && this.options.length > 0) {
+        if(typeof this.options != "undefined" && typeof this.options[this.selectedIndex] != "undefined" && this.options.length > 0 && typeof idmision == "undefined") {
 
             document.getElementById("lugar").value = this.options[this.selectedIndex].text;
             document.getElementById("idlugar").value = this.value;
@@ -218,11 +220,150 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+    function cambiar_row_1(tipo) {
 
+        var html = '';
+        if(tipo == "origen") {
+            html += '<div class="col-md-2">';
+            html += '   <label class="control-label">'+correlativo+'</label>';
+            html += '   <input type="text" class="form-control input-sm entrada" name="pt_correlativo" placeholder="" readonly="readonly"/>';
+            html += '</div>';
+            html += '<div class="col-md-7">';
+            html += '   <label class="control-label">'+convocatoria+'</label>';
+            html += '   <select class="entrada form-control input-sm select" name="asamblea_id" id="asamblea_id">';
+                            
+            html += '   </select>';
+            html += '</div>';
+            html += '<div class="col-md-3" style="">';
+            html += '   <label class="control-label">'+idioma+'</label>';
+            html += '   <select class="entrada form-control input-sm select" name="tpt_idioma" id="tpt_idioma" default-value="es">';
+            html += '       <option value="es">'+espaniol+'</option>';
+            html += '       <option value="en">'+ingles+'</option>';
+            html += '       <option value="fr">'+frances+'</option>';
+
+            html += '   </select>';
+            html += '</div>';
+        }
+
+
+        if(tipo == "traduccion") {
+            html += '<div class="col-md-2">';
+            html += '   <label class="control-label">'+correlativo+'</label>';
+            html += '   <input type="text" class="form-control input-sm entrada" name="pt_correlativo" placeholder="" readonly="readonly"/>';
+            html += '</div>';
+            html += '<div class="col-md-6">';
+            html += '   <label class="control-label">'+convocatoria+'</label>';
+            html += '   <select class="entrada form-control input-sm select" name="asamblea_id" id="asamblea_id">';
+                            
+            html += '   </select>';
+            html += '</div>';
+            html += '<div class="col-md-2" style="">';
+            html += '   <label class="control-label">'+de_traducir+'</label>';
+            html += '   <select class="form-control input-sm select" name="tpt_idioma_origen" id="tpt_idioma_origen" default-value="es">';
+            html += '       <option value="es" >'+espaniol+'</option>';
+            html += '       <option value="en">'+ingles+'</option>';
+            html += '       <option value="fr">'+frances+'</option>';
+
+            html += '   </select>';
+            html += '</div>';
+            
+            html += '<div class="col-md-2" style="">';
+            html += '   <label class="control-label">'+a+':</label>';
+            html += '   <select class="entrada form-control input-sm select" name="tpt_idioma_traduccion" id="tpt_idioma_traduccion" default-value="en">';
+            html += '       <option value="es">'+espaniol+'</option>';
+            html += '       <option value="en">'+ingles+'</option>';
+            html += '       <option value="fr">'+frances+'</option>';
+
+            html += '   </select>';
+            html += '</div>';
+        }
+        // alert(tipo);
+        // alert(html);
+
+        document.getElementsByClassName("cambiar-row-1")[0].innerHTML = html;
+
+        $(document).on("change", "#tpt_idioma_origen", function(e) {
+            // alert(this.value);
+            var idioma = $(this).val();
+            var pt_id = document.getElementsByName("pt_id")[0].value;
+            var promise = propuestas_temas.get(pt_id+'|'+idioma);
+
+
+        })
+        $(document).on("change", "#tpt_idioma_traduccion", function(e) {
+            // alert(this.value);
+            var idioma = $(this).val();
+            var pt_id = document.getElementsByName("pt_id")[0].value;
+
+              
+            var promise =  propuestas_temas.ajax({
+                url: '/get_propuestas_temas',
+                datos: { id: pt_id+'|'+idioma, _token: _token }
+            })
+
+            
+            promise.then(function(response) {
+                if(response.length > 0) {
+                    $("input[name=tpt_titulo_traduccion]").val(response[0].tpt_titulo);
+                    $("textarea[name=tpt_detalle_otros_asuntos_traduccion]").val(response[0].tpt_detalle_otros_asuntos);
+                    $("textarea[name=tpt_propuesta_traduccion]").val(response[0].tpt_propuesta);
+                    $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
+                    $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
+                    $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
+                }
+            })
+
+
+        })
+      
+    
+    }
+    
+
+    function activar_entradas() {
+        $(".traduccion").hide();
+        $(".entrada").removeAttr("readonly");
+        $(".select").removeAttr("disabled");
+        // $(".traduccion").find("input").att("readonly", "readonly");
+        // $(".traduccion").find("textarea").att("readonly", "readonly");
+        // $("#pt_estado").removeAttr("disabled");
+        // $("#pt_estado").removeAttr("readonly");
+        $("#tpt_idioma_origen").attr("readonly", "readonly");
+        $("#tpt_idioma_origen").attr("disabled", "disabled");
+        $("#tpt_idioma_traduccion").attr("readonly", "readonly");
+        $("#tpt_idioma_traduccion").attr("disabled", "disabled");
+        $("input[name=pt_correlativo]").attr("readonly", "readonly");
+    }
+
+    function desactivar_entradas() {
+        $(".traduccion").show();
+        $(".entrada").attr("readonly", "readonly");
+        $(".select").attr("disabled", "disabled");
+        $(".traduccion").find("input").removeAttr("readonly");
+        $(".traduccion").find("textarea").removeAttr("readonly");
+        $("#pt_estado").removeAttr("disabled");
+        $("#pt_estado").removeAttr("readonly");
+        $("#tpt_idioma_origen").removeAttr("readonly");
+        $("#tpt_idioma_origen").removeAttr("disabled");
+        $("#tpt_idioma_traduccion").removeAttr("readonly");
+        $("#tpt_idioma_traduccion").removeAttr("disabled");
+        
+        // console.log($(".traduccion").find("select"));
+        // $(".traduccion").find("select").prop("disabled", false);
+
+       
+    }
 
     document.getElementById("nueva-propuesta-tema").addEventListener("click", function(event) {
         event.preventDefault();
-        
+        cambiar_row_1("origen");
+        asambleas.select({
+            name: 'asamblea_id',
+            url: '/obtener_asambleas',
+            placeholder: seleccione,
+        })
+
+
         propuestas_temas.abrirModal();
         propuestas_temas.ajax({
             url: '/obtener_correlativo',
@@ -232,6 +373,8 @@ document.addEventListener("DOMContentLoaded", function() {
            if(typeof response[0].correlativo != "undefined") {
                document.getElementsByName("pt_correlativo")[0].value = response[0].correlativo;
            }
+
+           activar_entradas();
         })
 
         
@@ -248,14 +391,29 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
+        if(datos.estado_propuesta != 1) {
+            BASE_JS.sweet({
+                text: registro_estado_proceso_registro
+            });
+            return false;
+        } 
 
-        var promise = propuestas_temas.get(datos.pt_id);
+
+        cambiar_row_1("origen");
+        var idioma = $("#tpt_idioma").val();
+        var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
 
         promise.then(function(response) {
             var valor = response.asamblea_id.toString().split("|");
             var tipconv_id = valor[0];
             var asamblea_id = valor[1];
 
+            asambleas.select({
+                name: 'asamblea_id',
+                url: '/obtener_asambleas',
+                placeholder: seleccione,
+                selected: response.asamblea_id
+            })
 
 
             if(tipconv_id == 1) {
@@ -277,6 +435,7 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
             $("#idunion").trigger("change", [response.idunion, response.idmision]);
             $("#idmision").trigger("change", [response.idmision, ""]);
+            activar_entradas();
             
         })
         
@@ -304,6 +463,97 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
+   
+
+    document.getElementById("traducir-propuesta-tema").addEventListener("click", function(event) {
+        event.preventDefault();
+      
+        var datos = propuestas_temas.datatable.row('.selected').data();
+        // console.table(datos);
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+            return false;
+        } 
+        // console.log(typeof datos.estado_propuesta);
+        if(datos.estado_propuesta == 1) {
+            BASE_JS.sweet({
+                text: registro_estado_enviado_traduccion
+            });
+            return false;
+        } 
+
+        // propuestas_temas.abrirModal();
+
+        // $(".origen").hide();
+        // $(".traducir").show();
+        cambiar_row_1("traduccion");
+        var idioma = $("#tpt_idioma_origen").val();
+        var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
+
+
+        promise.then(function(response) {
+            var valor = response.asamblea_id.toString().split("|");
+            var tipconv_id = valor[0];
+            var asamblea_id = valor[1];
+
+
+            asambleas.select({
+                name: 'asamblea_id',
+                url: '/obtener_asambleas',
+                placeholder: seleccione,
+                selected: response.asamblea_id
+            })
+
+            if(tipconv_id == 1) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            if(tipconv_id == 2) {
+                $(".mision").hide();
+                $(".union").show();
+
+            }
+
+            if(tipconv_id == 3) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
+            $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            $("#idmision").trigger("change", [response.idmision, ""]);
+            
+            desactivar_entradas();
+        })
+
+
+
+        idioma = 'en';
+       
+
+          
+        var promise =  propuestas_temas.ajax({
+            url: '/get_propuestas_temas',
+            datos: { id: datos.pt_id+'|'+idioma, _token: _token }
+        })
+
+        
+        promise.then(function(response) {
+            if(response.length > 0) {
+                $("input[name=tpt_titulo_traduccion]").val(response[0].tpt_titulo);
+                $("textarea[name=tpt_detalle_otros_asuntos_traduccion]").val(response[0].tpt_detalle_otros_asuntos);
+                $("textarea[name=tpt_propuesta_traduccion]").val(response[0].tpt_propuesta);
+                $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
+                $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
+                $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
+            }
+        })
+        
+    })
+
 
 
 
@@ -312,16 +562,17 @@ document.addEventListener("DOMContentLoaded", function() {
  
 
         var required = true;
+        var pt_id = document.getElementsByName("pt_id")[0].value;
 
-        required = required && propuestas_temas.required("asamblea_id");
-        required = required && propuestas_temas.required("pt_idioma");
-        required = required && propuestas_temas.required("cp_id");
-        required = required && propuestas_temas.required("pt_propuesta");
-
-        required = required && propuestas_temas.required("estado");
-       
-       
-
+        if(pt_id == "") {
+            required = required && propuestas_temas.required("asamblea_id");
+        
+            required = required && propuestas_temas.required("tpt_idioma");
+            required = required && propuestas_temas.required("cp_id");
+            required = required && propuestas_temas.required("tpt_propuesta");
+    
+            required = required && propuestas_temas.required("estado");
+        }
    
         if(required) {
             var promise = propuestas_temas.guardar();
@@ -345,6 +596,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
     })
+
+
+   
 
 
 

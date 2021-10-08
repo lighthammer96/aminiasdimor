@@ -284,6 +284,17 @@
         var estado_inactivo = "<?php echo traducir('traductor.estado_inactivo'); ?>";
         var seleccionar_menos_asociado = "<?php echo traducir('traductor.seleccionar_menos_asociado'); ?>";
         var imprimir_listado_delegados = "<?php echo traducir('asambleas.imprimir_listado_delegados'); ?>";
+        var registro_estado_enviado_traduccion = "<?php echo traducir('asambleas.registro_estado_enviado_traduccion'); ?>";
+        var registro_estado_proceso_registro = "<?php echo traducir('asambleas.registro_estado_proceso_registro'); ?>";
+        var espaniol = "<?php echo traducir('asambleas.espaniol'); ?>";
+        var ingles = "<?php echo traducir('asambleas.ingles'); ?>";
+        var frances = "<?php echo traducir('asambleas.frances'); ?>";
+        var convocatoria = "<?php echo traducir('asambleas.convocatoria'); ?>";
+        var idioma = "<?php echo traducir('traductor.idioma'); ?>";
+        var correlativo = "<?php echo traducir('asambleas.correlativo'); ?>";
+        var de_traducir = "<?php echo traducir('asambleas.de_traducir'); ?>";
+        var a = "<?php echo traducir('asambleas.a'); ?>";
+        var descripcion = "<?php echo traducir('traductor.descripcion'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -328,7 +339,7 @@
 
     <script src="{{ URL::asset('dist/js/highcharts.js') }}"></script>
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
-    <script src="{{ URL::asset('app/js/BASE_JS.js?version=041020210813') }}"></script>
+    <script src="{{ URL::asset('app/js/BASE_JS.js?version=051020210813') }}"></script>
     
 
    

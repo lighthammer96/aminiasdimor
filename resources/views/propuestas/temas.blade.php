@@ -8,7 +8,7 @@
 @section('content')
 
 <div id="modal-propuestas_temas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -16,12 +16,12 @@
             </div> -->
             <form id="formulario-propuestas_temas" class="form-horizontal" role="form">
  
-                <div class="modal-body" style="max-height: 570px !important; overflow-y: scroll; overflow-x: hidden;" >
+                <div class="modal-body" style="max-height: 535px !important; overflow-y: scroll; overflow-x: hidden;" >
                     <input type="hidden" name="pt_id" class="input-sm entrada">
                     <input type="hidden" name="idlugar" id="idlugar" class="input-sm entrada">
                     <input type="hidden" name="lugar" id="lugar" class="input-sm entrada">
                     <input type="hidden" name="tabla" id="tabla" class="input-sm entrada">
-                    <div class="row">
+                    <div class="row cambiar-row-1" >
                         <div class="col-md-2">
                             <label class="control-label">{{ traducir("asambleas.correlativo") }}</label>
                             <input type="text" class="form-control input-sm entrada" name="pt_correlativo" placeholder="" readonly="readonly"/>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-3" style="">
                             <label class="control-label">{{ traducir("traductor.idioma") }}</label>
-                            <select class="entrada form-control input-sm select" name="pt_idioma" id="pt_idioma">
+                            <select class="entrada form-control input-sm select" name="tpt_idioma" id="tpt_idioma">
                                 <option value="es">{{ traducir("asambleas.espaniol") }}</option>
                                 <option value="en">{{ traducir("asambleas.ingles") }}</option>
                                 <option value="fr">{{ traducir("asambleas.frances") }}</option>
@@ -42,10 +42,17 @@
                             </select>
                         </div>
                     </div>
+
+            
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 origen">
                             <label class="control-label">{{ traducir("asambleas.titulo") }}</label>
-                            <input type="text" class="form-control input-sm entrada" name="pt_titulo" placeholder=""/>
+                            <input type="text" class="form-control input-sm entrada" name="tpt_titulo" placeholder=""/>
+                        </div>
+
+                        <div class="col-md-12 traduccion" style="display: none;">
+                            <label class="control-label">{{ traducir("asambleas.titulo") }}</label>
+                            <input type="text" class="form-control input-sm entrada" name="tpt_titulo_traduccion" placeholder=""/>
                         </div>
                     </div>
                     <div class="row">
@@ -182,23 +189,42 @@
                                 
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 origen">
                             <label class="control-label">{{ traducir("asambleas.detalle_otros_asuntos") }}</label>
                             <!-- <input type="text" class="form-control input-sm entrada" name="pt_detalle_otros_asuntos" placeholder=""/> -->
 
-                            <textarea class="form-control input-sm entrada" name="pt_detalle_otros_asuntos"  cols="30" rows="2"></textarea>
+                            <textarea class="form-control input-sm entrada" name="tpt_detalle_otros_asuntos"  cols="30" rows="6"></textarea>
+                            
+                        </div>
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("asambleas.detalle_otros_asuntos") }}</label>
+                            <!-- <input type="text" class="form-control input-sm entrada" name="pt_detalle_otros_asuntos" placeholder=""/> -->
+
+                            <textarea class="form-control input-sm entrada" name="tpt_detalle_otros_asuntos_traduccion"  cols="30" rows="6"></textarea>
                             
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 origen">
                             <label class="control-label">{{ traducir("asambleas.propuesta") }}</label>
-                            <textarea class="form-control input-sm entrada" name="pt_propuesta"  cols="30" rows="2"></textarea>
+                            <textarea class="form-control input-sm entrada" name="tpt_propuesta"  cols="30" rows="6"></textarea>
                         </div>
-                        <div class="col-md-12">
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("asambleas.propuesta") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_propuesta_traduccion"  cols="30" rows="6"></textarea>
+                        </div>
+                        <div class="col-md-12 origen">
                             <label class="control-label">{{ traducir("asambleas.ventajas_desventajas_propuesta") }}</label>
-                            <textarea class="form-control input-sm entrada" name="pt_ventas_desventajas"  cols="30" rows="2"></textarea>
+                            <textarea class="form-control input-sm entrada" name="tpt_ventas_desventajas"  cols="30" rows="6"></textarea>
+                            
+                        </div>
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("asambleas.ventajas_desventajas_propuesta") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_ventas_desventajas_traduccion"  cols="30" rows="6"></textarea>
                             
                         </div>
                     </div>
@@ -214,22 +240,41 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 origen">
                             <label class="control-label">{{ traducir("asambleas.descripcion_documentos_apoyo") }}</label>
-                            <textarea class="form-control input-sm entrada" name="pt_descripcion_documentos_apoyo"  cols="30" rows="2"></textarea>
+                            <textarea class="form-control input-sm entrada" name="tpt_descripcion_documentos_apoyo"  cols="30" rows="6"></textarea>
                         </div>
-                        <div class="col-md-12">
-                        <label class="control-label">{{ traducir("traductor.comentarios_") }}</label>
-                            <textarea class="form-control input-sm entrada" name="pt_comentarios"  cols="30" rows="2"></textarea>
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("asambleas.descripcion_documentos_apoyo") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_descripcion_documentos_apoyo_traduccion"  cols="30" rows="6"></textarea>
+                        </div>
+                        <div class="col-md-12 origen">
+                            <label class="control-label">{{ traducir("traductor.comentarios_") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_comentarios"  cols="30" rows="6"></textarea>
+                            
+                        </div>
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("traductor.comentarios_") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_comentarios_traduccion"  cols="30" rows="6"></textarea>
                             
                         </div>
                     </div>
 
                     <div class="row">
 
-                        <div class="col-md-3 col-md-offset-9">
+                        <div class="col-md-3 col-md-offset-6">
+                            <label class="control-label">{{ traducir('asambleas.estado_propuesta')}}</label>
+                            <select name="pt_estado" id="pt_estado" class="form-control input-sm entrada select" default-value="1">
+                                <option value="1">{{ traducir("asambleas.proceso_registro") }}</option>
+                                <option value="2">{{ traducir("asambleas.enviado_traduccion") }}</option>
+                                <option value="3">{{ traducir("asambleas.traduccion_completa") }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label class="control-label">{{ traducir('traductor.estado')}}</label>
-                            <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
+                            <select name="estado" id="estado" class="form-control input-sm entrada select" default-value="A">
                                 <option value="A">{{ traducir("traductor.estado_activo") }}</option>
                                 <option value="I">{{ traducir("traductor.estado_inactivo") }}</option>
                             </select>
@@ -257,7 +302,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title">{{ traducir("traductor.listado_asociados") }}</h4>
+				<h4 class="modal-title">{{ traducir("asambleas.listado_asociados") }}</h4>
 
 			</div>
 			<div class="modal-body">
@@ -268,6 +313,7 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-   
+
+
 @endsection
 

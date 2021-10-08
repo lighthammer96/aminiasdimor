@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     paises.select({
         name: 'pais_id[]',
         url: '/obtener_paises',
-        placeholder: 'Seleccionar Paises',
+        placeholder: seleccione,
     
     })
 

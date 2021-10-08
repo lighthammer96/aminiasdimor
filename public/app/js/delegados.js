@@ -206,4 +206,24 @@ document.addEventListener("DOMContentLoaded", function() {
        
     }); 
 
+     $("#posee_visa").on('ifClicked', function(event){
+        // var tipolugarnac = $(this).val();
+       // console.log($(this).parent(".icheckbox_minimal-blue")[0]);
+        if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
+            $("input[name=posee_visa]").val("S");
+        } else {
+            $("input[name=posee_visa]").val("N");
+        }
+    });
+
+    $("#posee_seguro").on('ifClicked', function(event){
+        // var tipolugarnac = $(this).val();
+       // console.log($(this).parent(".icheckbox_minimal-blue")[0]);
+        if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
+            $("input[name=posee_seguro]").val("S");
+        } else {
+            $("input[name=posee_seguro]").val("N");
+        }
+    });
+
 })
