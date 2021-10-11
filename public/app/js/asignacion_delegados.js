@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         asignacion_delegados.CerrarModal();
     })
-u
+
     document.getElementById("cancelar-impresion").addEventListener("click", function(event) {
         event.preventDefault();
         // asignacion_delegados.CerrarModal();
