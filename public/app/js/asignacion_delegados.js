@@ -6,7 +6,12 @@ var asambleas = new BASE_JS('asambleas', 'asambleas');
 
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    $(function() {
+        $('input[type="radio"], input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass   : 'iradio_minimal-blue'
+        })
+    })
     
     asignacion_delegados.select({
         name: 'idgradoinstruccion',
@@ -221,12 +226,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         asignacion_delegados.abrirModal();
         $("#miembros").val(array.join("|"));
+        $("#delegados").val(array.join("|"));
         // console.log(array.join("|"));
     })
 
     document.getElementById("cancelar-asignacion_delegados").addEventListener("click", function(event) {
         event.preventDefault();
         asignacion_delegados.CerrarModal();
+    })
+
+    document.getElementById("cancelar-impresion").addEventListener("click", function(event) {
+        event.preventDefault();
+        // asignacion_delegados.CerrarModal();
+        $("#modal-impresion").modal("hide");
     })
 
 
@@ -248,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         confirm: true,
                         text: imprimir_listado_delegados,
                         callbackConfirm: function() {
-                            
+                            $("#modal-impresion").modal("show");
                         }
                     });
                 }  
@@ -258,5 +270,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
        
     })
+
+    document.getElementById("guardar-impresion").addEventListener("click", function(e) {
+        e.preventDefault();
+
+
+        $("#formulario-impresion").attr("action", BaseUrl + "/asociados/imprimir_listado_delegados");
+        $("#formulario-impresion").attr("method", "GET");
+        $("#formulario-impresion").attr("target", "imprimir_listado_delegados");
+   
+        
+        window.open('', 'imprimir_listado_delegados');
+        document.getElementById('formulario-impresion').submit();
+    })
+
 
 })

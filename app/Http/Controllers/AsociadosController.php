@@ -817,5 +817,42 @@ class AsociadosController extends Controller
         $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
         echo json_encode($result);
     }
+
+
+    public function imprimir_listado_delegados(Request $request) {
+        // echo "hola";
+        // echo "<pre>";
+        // print_r($_REQUEST);
+
+        // if() {
+
+
+        // }
+
+        $select = implode(", ", $request->input("campos"));
+        $where = "WHERE d.idmiembro IN(".str_replace("|",",", $request->input("delegados")).")";
+
+        // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+
+        $sql = "SELECT {$select} FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        INNER JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+        LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
+        {$where}
+        ORDER BY m.idmiembro DESC";
+
+        $datos["delegados"] = DB::select($sql);
+        $datos["nivel_organizativo"] = "";
+        // die($sql);
+
+        $pdf = PDF::loadView("asociados.listado_delegados", $datos)->setPaper('A4', "portrait");
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("listado_delegados.pdf"); // ver
+
+    }
    
 }

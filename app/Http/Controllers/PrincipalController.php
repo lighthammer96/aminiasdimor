@@ -221,11 +221,5 @@ class PrincipalController extends Controller
     	echo "OK";
     }
 
-    public function obtener_categorias_propuestas() {
-        $sql = "SELECT cp_id as id, cp_descripcion AS descripcion FROM asambleas.categorias_propuestas 
-        WHERE estado='A'
-        ORDER BY cp_descripcion ASC";
-        $result = DB::select($sql);
-        echo json_encode($result);
-    }
+  
 }

@@ -74,7 +74,7 @@ Route::post('principal/obtener_tipos_cargo', [PrincipalController::class, "obten
 Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_cargos"]);
 Route::post('principal/obtener_instituciones', [PrincipalController::class, "obtener_instituciones"]);
 Route::post('principal/obtener_parentesco', [PrincipalController::class, "obtener_parentesco"]);
-Route::post('principal/obtener_categorias_propuestas', [PrincipalController::class, "obtener_categorias_propuestas"]);
+
 Route::post('principal/consultar_modulo', [PrincipalController::class, "consultar_modulo"]);
 Route::post('principal/EliminarProceso', [PrincipalController::class, "EliminarProceso"]);
 
@@ -316,6 +316,8 @@ Route::post('asociados/guardar_curriculum', [AsociadosController::class, "guarda
 Route::post('asociados/guardar_delegados', [AsociadosController::class, "guardar_delegados"]);
 Route::post('asociados/guardar_asignacion_delegados', [AsociadosController::class, "guardar_asignacion_delegados"]);
 Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::class, "imprimir_curriculum"]);
+Route::get('asociados/imprimir_listado_delegados', [AsociadosController::class, "imprimir_listado_delegados"]);
+
 
 // TRASLADOS
 Route::get('traslados/index', [TrasladosController::class, "index"]);
@@ -418,3 +420,7 @@ Route::post('propuestas/eliminar_propuestas_elecciones', [PropuestasController::
 Route::post('propuestas/obtener_propuestas', [PropuestasController::class, "obtener_propuestas"]);
 Route::post('propuestas/obtener_correlativo', [PropuestasController::class, "obtener_correlativo"]);
 Route::post('propuestas/obtener_detalle_propuesta', [PropuestasController::class, "obtener_detalle_propuesta"]);
+Route::post('propuestas/obtener_formas_votacion', [PropuestasController::class, "obtener_formas_votacion"]);
+Route::post('propuestas/obtener_categorias_propuestas', [PropuestasController::class, "obtener_categorias_propuestas"]);
+Route::post('propuestas/get_votaciones', [PropuestasController::class, "get_votaciones"]);
+Route::post('propuestas/guardar_votaciones', [PropuestasController::class, "guardar_votaciones"]);

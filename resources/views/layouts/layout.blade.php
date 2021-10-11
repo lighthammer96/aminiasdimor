@@ -285,7 +285,7 @@
         var seleccionar_menos_asociado = "<?php echo traducir('traductor.seleccionar_menos_asociado'); ?>";
         var imprimir_listado_delegados = "<?php echo traducir('asambleas.imprimir_listado_delegados'); ?>";
         var registro_estado_enviado_traduccion = "<?php echo traducir('asambleas.registro_estado_enviado_traduccion'); ?>";
-        var registro_estado_proceso_registro = "<?php echo traducir('asambleas.registro_estado_proceso_registro'); ?>";
+        var registro_estado_terminado = "<?php echo traducir('asambleas.registro_estado_terminado'); ?>";
         var espaniol = "<?php echo traducir('asambleas.espaniol'); ?>";
         var ingles = "<?php echo traducir('asambleas.ingles'); ?>";
         var frances = "<?php echo traducir('asambleas.frances'); ?>";

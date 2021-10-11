@@ -34,7 +34,8 @@ class PropuestasController extends Controller
         
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-propuesta-tema">'.traducir("traductor.eliminar").' [F7]</button>';
 
-        $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-propuesta-tema">'.traducir("asambleas.traducir").'</button>';
+        $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-propuesta-tema">'.traducir("asambleas.traducir").'</button>';
+        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-tema">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["propuestas_temas.js"]);
@@ -59,7 +60,7 @@ class PropuestasController extends Controller
 
         $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-propuesta-eleccion">'.traducir("asambleas.traducir").'</button>';
 
-
+        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-eleccion">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js"]);
@@ -288,12 +289,13 @@ class PropuestasController extends Controller
         $pt_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id FROM asambleas.propuestas_temas AS pt 
+        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id FROM asambleas.propuestas_temas AS pt 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=pt.pais_id)
         LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='{$idioma_codigo}')
+        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pt.pt_id AND v.tabla='asambleas.propuestas_temas')
         WHERE pt.pt_id=".$pt_id."
         ORDER BY tpt.tpt_id DESC LIMIT 1";
         $one = DB::select($sql);
@@ -307,8 +309,9 @@ class PropuestasController extends Controller
         $pe_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT tpe.*, pe.* FROM asambleas.propuestas_elecciones AS pe 
+        $sql = "SELECT v.*, tpe.*, pe.* FROM asambleas.propuestas_elecciones AS pe 
         LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$idioma_codigo}')
+        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pe.pe_id AND v.tabla='asambleas.propuestas_elecciones')
         WHERE pe.pe_id=".$pe_id."
          ORDER BY tpe.tpe_id DESC LIMIT 1";
         $one = DB::select($sql);
@@ -366,7 +369,79 @@ class PropuestasController extends Controller
         echo json_encode($correlativo);
     }
 
+    public function obtener_categorias_propuestas() {
+        $sql = "SELECT cp_id as id, cp_descripcion AS descripcion FROM asambleas.categorias_propuestas 
+        WHERE estado='A'
+        ORDER BY cp_descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
     
+
+    
+    public function obtener_formas_votacion() {
+        $sql = "SELECT fv_id as id, fv_descripcion AS descripcion FROM asambleas.formas_votacion
+        WHERE estado='A'
+        ORDER BY fv_descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function get_votaciones() {
+        $id = (empty($_REQUEST["id"])) ? 0 : $_REQUEST["id"];
+        $sql = "SELECT * FROM asambleas.votaciones
+        WHERE votacion_id={$id}";
+        $result = DB::select($sql);
+
+        echo json_encode($result);
+    }
+
+    public function guardar_votaciones(Request $request) {
+        // print_r($_REQUEST); exit;
+        $update_propuesta = array();
+        try {
+            DB::beginTransaction();
+
+        
+            if ($request->input("votacion_id") == '') {
+                $_POST["votacion_fecha"] = date("Y-m-d H:i:s");
+                $result = $this->base_model->insertar($this->preparar_datos("asambleas.votaciones", $_POST));
+            }else{
+                $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $_POST));
+            }
+
+            if($request->input("estado") == "A") {
+                if($request->input("tabla") == "asambleas.propuestas_temas") {
+                    $update_propuesta["pt_id"] = $request->input("propuesta_id");
+                    $update_propuesta["pt_someter_votacion"] = "S";
+                } elseif($request->input("tabla") == "asambleas.propuestas_elecciones") {
+                    $update_propuesta["pe_id"] = $request->input("propuesta_id");
+                    $update_propuesta["pe_someter_votacion"] = "S";
+                }
+
+                
+            } elseif($request->input("estado") == "I") {
+
+                if($request->input("tabla") == "asambleas.propuestas_temas") {
+                    $update_propuesta["pt_id"] = $request->input("propuesta_id");
+                    $update_propuesta["pt_someter_votacion"] = "N";
+                } elseif($request->input("tabla") == "asambleas.propuestas_elecciones") {
+                    $update_propuesta["pe_id"] = $request->input("propuesta_id");
+                    $update_propuesta["pe_someter_votacion"] = "N";
+                }
+            
+            }
+            $this->base_model->modificar($this->preparar_datos($request->input("tabla"), $update_propuesta));
+
+            DB::commit();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $response["status"] = "ei"; 
+            $response["msg"] = $e->getMessage(); 
+            echo json_encode($response);
+        }
+    }
 
     
 

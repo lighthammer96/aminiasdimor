@@ -286,8 +286,19 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-propuesta-tema" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <div class="pull-left" id="someter-votacion">
+                        <label class="control-label">
+                                
+                            <input class="minimal entrada" type="checkbox" name="pt_someter_votacion" id="pt_someter_votacion">
+                            
+                            {{ traducir('asambleas.someter_votacion')}}
+                        </label>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-propuesta-tema" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    </div>
+                    
                 </div>
             </form>
 
@@ -312,6 +323,92 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="modal-votaciones" data-backdrop="static" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                <button style="float: right;" type="button" class="btn btn-primary btn-sm" id="cerrar-votaciones"><i class="fa fa-close"></i></button>
+				<h4 class="modal-title">{{ traducir("asambleas.configuracion_votacion") }}</h4>
+
+			</div>
+            <form id="formulario-votaciones" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <input type="hidden" name="votacion_id" class="entrada input-sm">
+                    <input type="hidden" name="propuesta_id" class="entrada input-sm">
+                    <input type="hidden" name="tabla" class="entrada input-sm">
+                    <input type="hidden" name="asamblea_id" class="entrada input-sm">
+                    <input type="hidden" name="estado" class="entrada input-sm">
+                    <div class="row">
+                        <div class="col-md-12">
+                    
+                            <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
+                            <input type="text" class="form-control input-sm entrada" name="convocatoria" id="convocatoria" readonly="readonly" />
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                        
+                            <label class="control-label">{{ traducir('asambleas.votacion_por')}}</label>
+                            <input type="text" readonly="readonly" class="form-control input-sm entrada" name="propuesta" id="propuesta" />
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('asambleas.forma_votar')}}</label>
+                            <select name="fv_id" id="fv_id" class="form-control input-sm entrada select">
+                                
+                            </select>
+                        </div>
+            
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            
+                            <label class="control-label">{{ traducir('asambleas.hora_apertura')}}</label>
+                    
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm entrada limpiar" name="votacion_hora_apertura" />
+                                <div class="input-group-addon" style="cursor: pointer;">
+                                    <i class="fa fa-clock-o" id="time-votacion_hora_apertura"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            
+                            <label class="control-label">{{ traducir('asambleas.hora_cierre')}}</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm entrada limpiar" name="votacion_hora_cierre" />
+                                <div class="input-group-addon" style="cursor: pointer;">
+                                    <i class="fa fa-clock-o" id="time-votacion_hora_cierre"></i>
+                                </div>
+                            </div>
+                            
+                        </div>
+            
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    
+            
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones">[{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-votaciones" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                
+                        
+                </div>
+            </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 
 

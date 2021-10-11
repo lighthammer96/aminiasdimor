@@ -64,13 +64,20 @@ return [
     'traduccion_completa' => 'Traducción Completa',
     'agenda' => 'Agenda',
     'registro_estado_enviado_traduccion' => 'El registro debe estar en el estado <<Enviado para Traducción>>',
-    'registro_estado_proceso_registro' => 'El registro debe estar en el estado <<En Proceso de Registro>>',
+    'registro_estado_terminado' => 'El proceso de registro debe estar terminado',
     'de_traducir' => 'De traducir ',
     'a' => 'a',
     'estado_propuesta' => 'Estado Propuesta',
     'traducir' => 'Traducir',
     'listado_asociados' => 'Listado Asociados',
     'detalle_propuesta' => 'Detalle Propuesta',
+    'someter_votacion' => 'Someter a votación',
+    'votacion' => 'Votación',
+    'configuracion_votacion' => 'Configuración de Votación',
+    'votacion_por' => 'Votación por',
+    'forma_votar' => 'Forma de votar',
+    'hora_apertura' => 'Hora Apertura',
+    'hora_cierre' => 'Hora Cierre',
 
     
     // TITULOS GESTION DE ASAMBLEAS
@@ -79,6 +86,7 @@ return [
     'titulo_delegados' => "Administración de Delegados",
     'titulo_propuestas_temas' => "Administración de Propuestas de Temas",
     'titulo_propuestas_elecciones' => "Administración de Propuestas de Elecciones",
+    'listado_delegados' => "Listado de Delegados",
 
     
 

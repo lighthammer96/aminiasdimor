@@ -1,5 +1,5 @@
 var propuestas_temas = new BASE_JS('propuestas_temas', 'propuestas');
-// var propuestas_temas = new BASE_JS('propuestas_temas', 'propuestas');
+var votaciones = new BASE_JS('votaciones', 'propuestas');
 
 var asambleas = new BASE_JS('asambleas', 'asambleas');
 var paises = new BASE_JS('paises', 'paises');
@@ -7,6 +7,8 @@ var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var principal = new BASE_JS('principal', 'principal');
 var asociados = new BASE_JS('asociados', 'asociados');
+var eventClick = new Event('click');
+
 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -14,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
         tablaID: '#tabla-asociados',
         url: "/buscar_datos",
     });
+
+    votaciones.select({
+        name: 'fv_id',
+        url: '/obtener_formas_votacion',
+        placeholder: seleccione
+    })
 
 
     var format = "";
@@ -75,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //     placeholder: seleccione
     // })
 
-    principal.select({
+    propuestas_temas.select({
         name: 'cp_id',
         url: '/obtener_categorias_propuestas',
         placeholder: seleccione
@@ -356,13 +364,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nueva-propuesta-tema").addEventListener("click", function(event) {
         event.preventDefault();
+        $("#someter-votacion").hide();
         cambiar_row_1("origen");
         asambleas.select({
             name: 'asamblea_id',
             url: '/obtener_asambleas',
             placeholder: seleccione,
         })
-
 
         propuestas_temas.abrirModal();
         propuestas_temas.ajax({
@@ -391,14 +399,14 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        if(datos.estado_propuesta != 1) {
+        if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
-                text: registro_estado_proceso_registro
+                text: registro_estado_terminado
             });
             return false;
         } 
 
-
+        $("#someter-votacion").hide();
         cambiar_row_1("origen");
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
@@ -441,6 +449,83 @@ document.addEventListener("DOMContentLoaded", function() {
         
 
     })
+
+
+
+    document.getElementById("votacion-propuesta-tema").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        var datos = propuestas_temas.datatable.row('.selected').data();
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+            return false;
+        } 
+
+        if(datos.estado_propuesta == 1) {
+            BASE_JS.sweet({
+                text: registro_estado_terminado
+            });
+            return false;
+        } 
+
+        $("#someter-votacion").show();
+        var idioma = $("#tpt_idioma").val();
+        var promise = propuestas_temas.ver(datos.pt_id+'|'+idioma);
+
+        promise.then(function(response) {
+            var valor = response.asamblea_id.toString().split("|");
+            var tipconv_id = valor[0];
+            var asamblea_id = valor[1];
+
+            asambleas.select({
+                name: 'asamblea_id',
+                url: '/obtener_asambleas',
+                placeholder: seleccione,
+                selected: response.asamblea_id
+            })
+
+
+            if(tipconv_id == 1) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            if(tipconv_id == 2) {
+                $(".mision").hide();
+                $(".union").show();
+
+            }
+
+            if(tipconv_id == 3) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
+            $("#idunion").trigger("change", [response.idunion, response.idmision]);
+            $("#idmision").trigger("change", [response.idmision, ""]);
+            $("#pt_someter_votacion").removeAttr("disabled");
+
+            // console.log(votaciones.buscarEnFormulario("votacion_id"));
+            votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
+            votaciones.buscarEnFormulario("convocatoria").setAttribute("default-value", response.asamblea_descripcion);
+            votaciones.buscarEnFormulario("propuesta").setAttribute("default-value", response.tpt_titulo);
+            votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", asamblea_id);
+            votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_temas");
+            votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pt_id);
+
+            // $("input[name=votacion_id]").val(response.votacion_id);
+
+        
+                // $("input[name=convocatoria]").attr("default-value", response.asamblea_descripcion);
+                // $("input[name=propuesta]").attr("default-value", response.tpt_titulo);
+        })
+        
+
+    })
+
 
     document.getElementById("eliminar-propuesta-tema").addEventListener("click", function(event) {
         event.preventDefault();
@@ -488,6 +573,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // $(".origen").hide();
         // $(".traducir").show();
+        $("#someter-votacion").hide();
         cambiar_row_1("traduccion");
         var idioma = $("#tpt_idioma_origen").val();
         var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
@@ -598,6 +684,42 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
+    document.getElementById("guardar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+ 
+
+        var required = true;
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+
+        if(votacion_id == "") {
+            required = required && votaciones.required("fv_id");
+    
+            required = required && votaciones.required("votacion_hora_apertura");
+            required = required && votaciones.required("votacion_hora_cierre");
+        }
+
+      
+     
+    
+        // alert(required);
+        if(required) {
+            var promise = votaciones.guardar();
+            // votaciones.CerrarModal();
+            promise.then(function(response) {
+                if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
+                    return false;
+                }
+                $("input[name=votacion_id]").val(response.id);
+                $("#fv_id").val(response.datos[0].fv_id);
+                $("input[name=votacion_hora_apertura]").val(response.datos[0].votacion_hora_apertura);
+                $("input[name=votacion_hora_cierre]").val(response.datos[0].votacion_hora_cierre);
+                $("input[name=estado]").val(response.datos[0].estado);
+            })
+
+        }
+    })
+
+
    
 
 
@@ -670,6 +792,12 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cancelar-propuesta-tema").addEventListener("click", function(event) {
         event.preventDefault();
         propuestas_temas.CerrarModal();
+    })
+
+
+    document.getElementById("cancelar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+        votaciones.CerrarModal();
     })
 
  
@@ -789,7 +917,77 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
   
-    
+    $("#pt_someter_votacion").on('ifClicked', function(event){
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+       
+
+      
+        if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
+            // $("#modal-votaciones").modal("show");
+
+            var promise =  votaciones.get(votacion_id);
+
+            promise.then(function() {
+                votaciones.buscarEnFormulario("estado").value = 'A';
+            })
+            // votaciones.abrirModal();
+            // $("input[name=posee_seguro]").val("S");
+            if(votacion_id != "") {
+                document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+            }
+        } else {
+            votaciones.buscarEnFormulario("estado").value = 'I';
+            document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+            // $("input[name=posee_seguro]").val("N");
+        }
+    });
+
+    document.getElementById("cerrar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+        // $("#modal-votaciones").modal("hide");
+
+        votaciones.CerrarModal();
+    })
+
+
+    document.getElementById("time-votacion_hora_apertura").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("input[name=votacion_hora_apertura]").hasClass("focus-time")) {
+   
+            $("input[name=votacion_hora_apertura]").blur();
+            $("input[name=votacion_hora_apertura]").removeClass("focus-time");
+        } else {
+            
+            $("input[name=votacion_hora_apertura]").focus();
+            $("input[name=votacion_hora_apertura]").addClass("focus-time");
+        }
+       
+    }); 
+
+
+    document.getElementById("time-votacion_hora_cierre").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("input[name=votacion_hora_cierre]").hasClass("focus-time")) {
+   
+            $("input[name=votacion_hora_cierre]").blur();
+            $("input[name=votacion_hora_cierre]").removeClass("focus-time");
+        } else {
+            
+            $("input[name=votacion_hora_cierre]").focus();
+            $("input[name=votacion_hora_cierre]").addClass("focus-time");
+        }
+       
+    }); 
+
+    $('input[name=votacion_hora_apertura], input[name=votacion_hora_cierre]').inputmask("hh:mm", {
+        placeholder: "HH:MM", 
+        insertMode: false, 
+        showMaskOnHover: false,
+        hourFormat: 12
+      }
+   );
     
 
 })

@@ -1,12 +1,17 @@
 var propuestas_elecciones = new BASE_JS('propuestas_elecciones', 'propuestas');
+var votaciones = new BASE_JS('votaciones', 'propuestas');
 
-
+var eventClick = new Event('click');
 
 document.addEventListener("DOMContentLoaded", function() {
   
 
    
-    var eventClick = new Event('click');
+    votaciones.select({
+        name: 'fv_id',
+        url: '/obtener_formas_votacion',
+        placeholder: seleccione
+    })
 
     propuestas_elecciones.enter("asamblea_descripcion","tipconv_id");
     propuestas_elecciones.enter("tipconv_id","asamblea_anio");
@@ -291,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nueva-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
+        $("#someter-votacion").hide();
         cambiar_row_1("origen");
         propuestas_elecciones.abrirModal();
         activar_entradas();
@@ -310,14 +316,14 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
 
-        if(datos.estado_propuesta != 1) {
+        if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
-                text: registro_estado_proceso_registro
+                text: registro_estado_terminado
             });
             return false;
         } 
 
-
+        $("#someter-votacion").hide();
         cambiar_row_1("origen");
         var idioma = $("#tpe_idioma").val();
          
@@ -392,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // $(".traducir").show();
        
 
-
+        $("#someter-votacion").hide();
         cambiar_row_1("traduccion");
         var idioma = $("#tpe_idioma_origen").val();
        
@@ -456,6 +462,64 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+    document.getElementById("votacion-propuesta-eleccion").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        var datos = propuestas_elecciones.datatable.row('.selected').data();
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+            return false;
+        } 
+
+
+        if(datos.estado_propuesta == 1) {
+            BASE_JS.sweet({
+                text: registro_estado_terminado
+            });
+            return false;
+        } 
+
+        $("#someter-votacion").show();
+        cambiar_row_1("origen");
+        var idioma = $("#tpe_idioma").val();
+         
+        var promise = propuestas_elecciones.ver(datos.pe_id+'|'+idioma);
+
+        promise.then(function(response) {
+            
+            document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
+            propuestas_elecciones.ajax({
+                url: '/obtener_detalle_propuesta',
+                datos: { pe_id: response.pe_id, _token: _token, idioma: idioma }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(response[i]));
+                    }
+                }
+
+
+                
+               
+            })
+
+            $("#pe_someter_votacion").removeAttr("disabled");
+
+            // console.log(votaciones.buscarEnFormulario("votacion_id"));
+            votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
+            // votaciones.buscarEnFormulario("convocatoria").setAttribute("default-value", response.asamblea_descripcion);
+            votaciones.buscarEnFormulario("propuesta").setAttribute("default-value", response.tpe_descripcion);
+            //votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", asamblea_id);
+            votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_elecciones");
+            votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pe_id);
+            
+        })
+        
+
+    })
+
 
     document.getElementById("guardar-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
@@ -471,11 +535,6 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && propuestas_elecciones.required("estado");
         }
 
-      
-       
-       
-
-   
         if(required) {
             var promise = propuestas_elecciones.guardar();
             propuestas_elecciones.CerrarModal();
@@ -562,7 +621,11 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         propuestas_elecciones.CerrarModal();
     })
-
+    
+    document.getElementById("cancelar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+        votaciones.CerrarModal();
+    })
  
 
     
@@ -587,10 +650,111 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
+    document.getElementById("guardar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+ 
+
+        var required = true;
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+
+        if(votacion_id == "") {
+            required = required && votaciones.required("fv_id");
     
+            required = required && votaciones.required("votacion_hora_apertura");
+            required = required && votaciones.required("votacion_hora_cierre");
+        }
+
+      
+     
+    
+        // alert(required);
+        if(required) {
+            var promise = votaciones.guardar();
+            // votaciones.CerrarModal();
+            promise.then(function(response) {
+                if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
+                    return false;
+                }
+                $("input[name=votacion_id]").val(response.id);
+                $("#fv_id").val(response.datos[0].fv_id);
+                $("input[name=votacion_hora_apertura]").val(response.datos[0].votacion_hora_apertura);
+                $("input[name=votacion_hora_cierre]").val(response.datos[0].votacion_hora_cierre);
+                $("input[name=estado]").val(response.datos[0].estado);
+            })
+
+        }
+    })
 
     
+    $("#pe_someter_votacion").on('ifClicked', function(event){
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+        // alert(votacion_id);
+        if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
+            // $("#modal-votaciones").modal("show");
+
+            var promise =  votaciones.get(votacion_id);
+
+            promise.then(function() {
+                votaciones.buscarEnFormulario("estado").value = 'A';
+            })
+            // votaciones.abrirModal();
+            // $("input[name=posee_seguro]").val("S");
+            if(votacion_id != "") {
+                document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+            }
+        } else {
+            votaciones.buscarEnFormulario("estado").value = 'I';
+            document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+            // $("input[name=posee_seguro]").val("N");
+        }
+    });
+
+    document.getElementById("cerrar-votaciones").addEventListener("click", function(event) {
+        event.preventDefault();
+        // $("#modal-votaciones").modal("hide");
+
+        votaciones.CerrarModal();
+    })
+
+
+    document.getElementById("time-votacion_hora_apertura").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("input[name=votacion_hora_apertura]").hasClass("focus-time")) {
+   
+            $("input[name=votacion_hora_apertura]").blur();
+            $("input[name=votacion_hora_apertura]").removeClass("focus-time");
+        } else {
+            
+            $("input[name=votacion_hora_apertura]").focus();
+            $("input[name=votacion_hora_apertura]").addClass("focus-time");
+        }
+       
+    }); 
+
+
+    document.getElementById("time-votacion_hora_cierre").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        if($("input[name=votacion_hora_cierre]").hasClass("focus-time")) {
+   
+            $("input[name=votacion_hora_cierre]").blur();
+            $("input[name=votacion_hora_cierre]").removeClass("focus-time");
+        } else {
+            
+            $("input[name=votacion_hora_cierre]").focus();
+            $("input[name=votacion_hora_cierre]").addClass("focus-time");
+        }
+       
+    }); 
     
+    $('input[name=votacion_hora_apertura], input[name=votacion_hora_cierre]').inputmask("hh:mm", {
+        placeholder: "HH:MM", 
+        insertMode: false, 
+        showMaskOnHover: false,
+        hourFormat: 12
+      }
+   );
 
 })
 

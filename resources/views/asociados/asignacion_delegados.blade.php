@@ -135,4 +135,68 @@
     </div>
 </div>  
 
+
+<div id="modal-impresion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; z-index: 999999999999;" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+      
+            <form id="formulario-impresion" class="form-horizontal" role="form">
+
+                <div class="modal-body">
+                    <h3>{{ traducir('traductor.ver') }}</h3>
+                    <div class="row">
+                        <input type="hidden" name="delegados" id="delegados" class="entrada input-sm">
+                        <div class="col-md-12">
+                            <label class="control-label">
+                                <input class="minimal entrada" type="checkbox" checked="checked" name="campos[]" value="(m.nombres || ' ' || m.apellidos) AS nombres">
+                                {{ traducir('traductor.nombres')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="m.nrodoc AS documento" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('traductor.documento')}}
+                            </label><br>
+                            <label class="control-label">
+                            <input value="c.descripcion AS cargo" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('traductor.cargo')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="<?php echo "CASE WHEN d.delegado_tipo = 'T' THEN '".traducir("asambleas.titular")."' WHEN d.delegado_tipo = 'S' THEN '".traducir("asambleas.suplente")."' ELSE '' END AS delegado"; ?>" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('asambleas.delegado')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="p.pais_descripcion AS pais" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('traductor.pais')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="<?php echo "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").") AS jerarquia"; ?>" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('asambleas.jerarquia')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="m.email AS correo" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('asambleas.correo')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="m.telefono" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('traductor.telefono')}}
+                            </label><br>
+                            <label class="control-label">
+                                <input value="CASE WHEN a.asamblea_descripcion IS NULL THEN '' ELSE a.asamblea_descripcion END AS convocatoria" class="minimal entrada" type="checkbox" checked="checked" name="campos[]">
+                                {{ traducir('asambleas.convocatoria')}}
+                            </label><br>
+                        </div>
+                    </div>
+                   
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-impresion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-impresion" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.imprimir')}}]</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>  
+
+
 @endsection
