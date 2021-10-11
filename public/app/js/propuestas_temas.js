@@ -929,12 +929,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
             promise.then(function() {
                 votaciones.buscarEnFormulario("estado").value = 'A';
+
+                if(votacion_id != "") {
+                    document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+                }
             })
             // votaciones.abrirModal();
             // $("input[name=posee_seguro]").val("S");
-            if(votacion_id != "") {
-                document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
-            }
+            
         } else {
             votaciones.buscarEnFormulario("estado").value = 'I';
             document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
