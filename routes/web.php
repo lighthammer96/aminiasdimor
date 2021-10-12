@@ -26,6 +26,7 @@ use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\PropuestasController;
 use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\ResolucionesController;
 use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
@@ -395,6 +396,8 @@ Route::post('importar/procesos', [ImportarController::class, "procesos"]);
 /*************
  * MODULO GESTION DE ASAMBLEAS *
  *************/
+
+ // ASAMBLEAS DE CONVOCATORIA
 Route::get('asambleas/index', [AsambleasController::class, "index"]);
 Route::post('asambleas/buscar_datos', [AsambleasController::class, "buscar_datos"]);
 Route::post('asambleas/obtener_anios', [AsambleasController::class, "obtener_anios"]);
@@ -404,9 +407,12 @@ Route::post('asambleas/obtener_detalle_agenda', [AsambleasController::class, "ob
 Route::post('asambleas/guardar_asambleas', [AsambleasController::class, "guardar_asambleas"]);
 Route::post('asambleas/get_asambleas', [AsambleasController::class, "get_asambleas"]);
 Route::post('asambleas/eliminar_asambleas', [AsambleasController::class, "eliminar_asambleas"]);
-Route::post('asambleas/obtener_asambleas', [AsambleasController::class, "obtener_asambleas"]);
 
 
+
+
+
+// PROPUESTAS DE TEMAS Y ELECCIONES
 Route::get('propuestas/temas', [PropuestasController::class, "temas"]);
 Route::get('propuestas/elecciones', [PropuestasController::class, "elecciones"]);
 Route::post('propuestas/buscar_datos', [PropuestasController::class, "buscar_datos"]);
@@ -424,3 +430,14 @@ Route::post('propuestas/obtener_formas_votacion', [PropuestasController::class, 
 Route::post('propuestas/obtener_categorias_propuestas', [PropuestasController::class, "obtener_categorias_propuestas"]);
 Route::post('propuestas/get_votaciones', [PropuestasController::class, "get_votaciones"]);
 Route::post('propuestas/guardar_votaciones', [PropuestasController::class, "guardar_votaciones"]);
+
+
+ // RESOLUCIONES
+ Route::get('resoluciones/index', [ResolucionesController::class, "index"]);
+ Route::post('resoluciones/buscar_datos', [ResolucionesController::class, "buscar_datos"]);
+
+ Route::post('resoluciones/obtener_resoluciones', [ResolucionesController::class, "obtener_resoluciones"]);
+
+ Route::post('resoluciones/guardar_resoluciones', [ResolucionesController::class, "guardar_resoluciones"]);
+ Route::post('resoluciones/get_resoluciones', [ResolucionesController::class, "get_resoluciones"]);
+ Route::post('resoluciones/eliminar_resoluciones', [ResolucionesController::class, "eliminar_resoluciones"]);

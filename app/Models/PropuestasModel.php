@@ -36,7 +36,7 @@ class PropuestasModel extends Model
         WHEN pt.pt_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
         WHEN pt.pt_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
         END AS pt_estado, 
-        CASE WHEN pt.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pt.pt_estado AS estado_propuesta");
+        CASE WHEN pt.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pt.pt_estado AS estado_propuesta,  date_part('year', pt.pt_fecha) AS anio");
         $tabla->setFrom("asambleas.propuestas_temas AS pt
         \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
         \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')");
@@ -64,7 +64,7 @@ class PropuestasModel extends Model
         WHEN pe.pe_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
         WHEN pe.pe_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
         END AS pe_estado, 
-        CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pe.pe_estado AS estado_propuesta");
+        CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pe.pe_estado AS estado_propuesta, date_part('year', pe.pe_fecha) AS anio, pe.pe_correlativo");
         $tabla->setFrom("asambleas.propuestas_elecciones AS pe
         \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."')");
 

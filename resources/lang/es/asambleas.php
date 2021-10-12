@@ -78,6 +78,15 @@ return [
     'forma_votar' => 'Forma de votar',
     'hora_apertura' => 'Hora Apertura',
     'hora_cierre' => 'Hora Cierre',
+    'temas' => 'Temas',
+    'elecciones' => 'Elecciones',
+    'anio_correlativo' => 'Año - Correlativo',
+    'propuesta' => 'Propuesta',
+    'resolucion' => 'Resolución',
+    'resultado_votacion' => 'Resultado de Votación',
+    'buscar_propuesta' => 'Buscar Propuesta',
+    'estado_resolucion' => 'Estado Resolución',
+    'registro_traduccion_terminado' => 'Ya no se puede modificar, la traduccion ha finalizado.',
 
     
     // TITULOS GESTION DE ASAMBLEAS
@@ -87,6 +96,9 @@ return [
     'titulo_propuestas_temas' => "Administración de Propuestas de Temas",
     'titulo_propuestas_elecciones' => "Administración de Propuestas de Elecciones",
     'listado_delegados' => "Listado de Delegados",
+    'titulo_resoluciones' => "Administración de Resoluciones",
+    'listado_propuestas_elecciones' => "Listado de Propuestas de Elecciones",
+    'listado_propuestas_temas' => "Listado de Propuestas de Temas",
 
     
 

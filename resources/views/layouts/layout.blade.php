@@ -295,6 +295,8 @@
         var de_traducir = "<?php echo traducir('asambleas.de_traducir'); ?>";
         var a = "<?php echo traducir('asambleas.a'); ?>";
         var descripcion = "<?php echo traducir('traductor.descripcion'); ?>";
+        var estado = "<?php echo traducir('traductor.estado'); ?>";
+        var registro_traduccion_terminado = "<?php echo traducir('asambleas.registro_traduccion_terminado'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

@@ -399,9 +399,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        if(datos.estado_propuesta == 1) {
+        if(datos.estado_propuesta == 3) {
             BASE_JS.sweet({
-                text: registro_estado_terminado
+                text: registro_traduccion_terminado
             });
             return false;
         } 
