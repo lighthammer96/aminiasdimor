@@ -8,7 +8,7 @@ use App\Models\PropuestasModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class PropuestasController extends Controller
 {
     //
@@ -444,6 +444,33 @@ class PropuestasController extends Controller
     }
 
     
+    public function imprimir_propuesta_tema($pt_id) {
 
+        $sql = "SELECT tpt.*, pt.*, a.*, ".formato_fecha_idioma(" a.asamblea_fecha_inicio")." AS asamblea_fecha_inicio, ".formato_fecha_idioma(" a.asamblea_fecha_fin")." AS asamblea_fecha_fin, p.descripcion AS pais, tc.*, (m.apellidos || ', ' || m.nombres) AS responsable, ".formato_fecha_idioma("pt.pt_fecha_reunion_uya")." AS pt_fecha_reunion_uya
+        
+        FROM asambleas.propuestas_temas AS pt
+        INNER JOIN asambleas.asambleas AS a ON(pt.asamblea_id=a.asamblea_id)
+        LEFT JOIN public.pais AS p ON(p.idpais=a.idpais)
+        LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
+        LEFT JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
+        LEFT JOIN iglesias.miembro AS m ON(pt.pt_dirigido_por_uya=m.idmiembro)
+        WHERE pt.pt_id={$pt_id}";
+        $propuesta = DB::select($sql);
+
+        $sql = "SELECT * FROM asambleas.categorias_propuestas WHERE estado='A'";
+        $categorias = DB::select($sql);
+        
+
+        $datos["propuesta"] = $propuesta;
+        $datos["categorias"] = $categorias;
+
+        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("propuestas.imprimir", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("propuesta_tema.pdf"); // ver
+    }
     
 }

@@ -45,9 +45,21 @@ return [
     'categoria_propuesta' => 'Categoría de Propuesta',
     'detalle_otros_asuntos' => 'Detalle de Otros Asuntos',
     'ventajas_desventajas_propuesta' => 'Ventajas y Desventajas de la Propuesta',
+    'justificacion_propuesta' => 'Justificación de la Propuesta',
     'documentos_apoyo_propuesta' => 'Documentos de apoyo a ser presentados junto a la propuesta',
     'certificacion_propuestas_asociaciones_uniones' => 'Certificación para propuestas de las Asociaciones y Uniones',
+    'cpau_oracion_1' => 'Esta Propuesta, para los Delegados de la Conferencia General, fue aprobada mediante un voto mayoritario de',
+    'cpau_oracion_2' => 'Abstenciones por los delegados de la asociación o unión arriba mencionada, reunidos en calidad oficial el',
+    'cpau_oracion_3' => 'bajo la dirección de',
+    'cpau_oracion_4' => 'representante debidamente autorizado de la Asociación General',
+    'si' => 'Sí',
+    'no' => 'No',
+    'y' => 'y',
+
     'certificacion_propuestas_comite_plenario_asociacion_general' => 'Certificación para propuestas del comité plenario de la Asociación General',
+    'cpcpag_oracion_2' => 'Abstenciones por los miembros del Comité Plenario de la Asociación General, reunidos en calidad oficial el',
+
+
     'no_presentaran_otros_documentos' => 'No se presentarán otros documentos con esta Propuesta.',
     'si_enviar_documentos_adicionales' => 'Sí, enviaremos documentos adicionales por correo electrónico a ims@sda1844.org en la respuesta al mensaje de confirmación.',
     'descripcion_documentos_apoyo' => 'Descripción de los documentos de apoyo a ser presentados',
@@ -87,6 +99,20 @@ return [
     'buscar_propuesta' => 'Buscar Propuesta',
     'estado_resolucion' => 'Estado Resolución',
     'registro_traduccion_terminado' => 'Ya no se puede modificar, la traduccion ha finalizado.',
+    'delegados_conferencia_reunidos' => 'para los Delegados de la Conferencia General reunidos del',
+    'en' => 'en',
+    'email_oficial_de_la' => 'Email oficial de la',
+    'pais_sede' => 'País donde está la sede',
+    'nombres_letras_presidente' => 'Nombre en letras del Presidente',
+    'nombres_letras_secretario' => 'Nombre en letras del Secretario',
+    'email_presidente' => 'Email del Presidente',
+    'email_secretario' => 'Email del Secretario',
+    'fecha_firma' => 'Fecha y firma',
+    'ultimo_parrafo_propuesta_tema_1' => 'REVISIÓN Y ENVÍO:',
+    'ultimo_parrafo_propuesta_tema_2' => 'Este formulario ha sido diseñado como una hoja de trabajo para uso sin conexión a internet. Para presentar oficialmente la Propuesta, por favor visite la página web de la Asociación General www.asd1844.org y rellene la versión en línea del formulario si aún no lo ha hecho. Gracias.',
+    'ultimo_parrafo_propuesta_tema_3' => 'Para más ayuda con asuntos relacionados con la Asamblea Mundial, por favor contactar a la Asociación General bajo ims@sda1844.org o por teléfono al (+1) 770-748-0077.',
+    
+ 
 
     
     // TITULOS GESTION DE ASAMBLEAS

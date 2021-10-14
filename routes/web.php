@@ -431,7 +431,7 @@ Route::post('propuestas/obtener_categorias_propuestas', [PropuestasController::c
 Route::post('propuestas/get_votaciones', [PropuestasController::class, "get_votaciones"]);
 Route::post('propuestas/guardar_votaciones', [PropuestasController::class, "guardar_votaciones"]);
 
-
+Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::class, "imprimir_propuesta_tema"]);
  // RESOLUCIONES
  Route::get('resoluciones/index', [ResolucionesController::class, "index"]);
  Route::post('resoluciones/buscar_datos', [ResolucionesController::class, "buscar_datos"]);

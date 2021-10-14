@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("nueva-propuesta-tema").addEventListener("click", function(event) {
         event.preventDefault();
         $("#someter-votacion").hide();
+        $("#imprimir").hide();
         cambiar_row_1("origen");
         asambleas.select({
             name: 'asamblea_id',
@@ -407,6 +408,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
         $("#someter-votacion").hide();
+        $("#imprimir").show();
         cambiar_row_1("origen");
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
@@ -471,6 +473,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
         $("#someter-votacion").show();
+        $("#imprimir").show();
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.ver(datos.pt_id+'|'+idioma);
 
@@ -574,6 +577,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // $(".origen").hide();
         // $(".traducir").show();
         $("#someter-votacion").hide();
+        $("#imprimir").hide();
         cambiar_row_1("traduccion");
         var idioma = $("#tpt_idioma_origen").val();
         var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
@@ -991,6 +995,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
    );
     
+
+   $(document).on("click", "#imprimir", function(e) {
+        e.preventDefault();
+
+        var pt_id = document.getElementsByName("pt_id")[0].value;
+        window.open(BaseUrl + "/propuestas/imprimir_propuesta_tema/"+pt_id);
+    })
 
 })
 

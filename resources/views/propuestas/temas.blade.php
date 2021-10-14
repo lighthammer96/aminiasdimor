@@ -263,7 +263,6 @@
                     </div>
 
                     <div class="row">
-
                         <div class="col-md-3 col-md-offset-6">
                             <label class="control-label">{{ traducir('asambleas.estado_propuesta')}}</label>
                             <select name="pt_estado" id="pt_estado" class="form-control input-sm entrada select" default-value="1">
@@ -286,13 +285,15 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <div class="pull-left" id="someter-votacion">
-                        <label class="control-label">
+                    <div class="pull-left" >
+                        <label class="control-label" id="someter-votacion">
                                 
                             <input class="minimal entrada" type="checkbox" name="pt_someter_votacion" id="pt_someter_votacion">
                             
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
+
+                        <button type="button" class="btn btn-success btn-sm" id="imprimir">{{ traducir('traductor.imprimir')}}</button>
                     </div>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
