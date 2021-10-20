@@ -44,7 +44,7 @@ class AsociadosModel extends Model
         
         $join = "";
         if($delegados == "1") {
-            $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+            $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
 

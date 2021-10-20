@@ -318,6 +318,7 @@ Route::post('asociados/guardar_delegados', [AsociadosController::class, "guardar
 Route::post('asociados/guardar_asignacion_delegados', [AsociadosController::class, "guardar_asignacion_delegados"]);
 Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::class, "imprimir_curriculum"]);
 Route::get('asociados/imprimir_listado_delegados', [AsociadosController::class, "imprimir_listado_delegados"]);
+Route::post('asociados/notificar_delegados', [AsociadosController::class, "notificar_delegados"]);
 
 
 // TRASLADOS
@@ -430,8 +431,13 @@ Route::post('propuestas/obtener_formas_votacion', [PropuestasController::class, 
 Route::post('propuestas/obtener_categorias_propuestas', [PropuestasController::class, "obtener_categorias_propuestas"]);
 Route::post('propuestas/get_votaciones', [PropuestasController::class, "get_votaciones"]);
 Route::post('propuestas/guardar_votaciones', [PropuestasController::class, "guardar_votaciones"]);
+Route::post('propuestas/obtener_propuestas_temas_origen', [PropuestasController::class, "obtener_propuestas_temas_origen"]);
+Route::post('propuestas/obtener_propuestas_origen', [PropuestasController::class, "obtener_propuestas_origen"]);
+Route::post('propuestas/obtener_descripciones_propuestas_origen', [PropuestasController::class, "obtener_descripciones_propuestas_origen"]);
 
 Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::class, "imprimir_propuesta_tema"]);
+
+
  // RESOLUCIONES
  Route::get('resoluciones/index', [ResolucionesController::class, "index"]);
  Route::post('resoluciones/buscar_datos', [ResolucionesController::class, "buscar_datos"]);

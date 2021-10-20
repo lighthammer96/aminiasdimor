@@ -269,7 +269,7 @@
         <br>
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
-                <label for="" >{{ mayusculas(traducir("asambleas.justificacion_propuesta")) }}: </label>
+                <label for="" >{{ mayusculas(traducir("asambleas.justificacion_propuesta")) }}: {{ $propuesta[0]->tpt_justificacion_propuesta }} </label>
             </div>
         
         </div>

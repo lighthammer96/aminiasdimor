@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3" style="">
+        <div class="col-md-2" style="">
                             
             <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
             <select class="entrada selectizejs" name="idtipocargo" id="idtipocargo">
@@ -64,8 +64,16 @@
             <button id="filtrar" type="button" class="btn btn-primary btn-sm">{{ traducir('asambleas.filtrar') }}</button>
         </div>
 
-        <div class="col-md-2" style="margin-top: 27px; display: none;" id="boton-asignar">
+        <div class="col-md-1" style="margin-top: 27px; display: none;" id="boton-asignar">
             <button type="button" id="asignar" class="btn btn-success btn-sm">{{ traducir('asambleas.asignar') }}</button>
+        </div>
+
+        <div class="col-md-1" style="margin-top: 27px;" id="boton-imprimir">
+            <button type="button" id="imprimir" class="btn btn-danger btn-sm">{{ traducir('traductor.imprimir') }}</button>
+        </div>
+
+        <div class="col-md-1" style="margin-top: 27px;" id="boton-notificar">
+            <button type="button" id="notificar" class="btn btn-danger btn-sm">{{ traducir('asambleas.notificar') }}</button>
         </div>
     </div>
 
@@ -136,6 +144,66 @@
 </div>  
 
 
+
+<!-- <div id="modal-imprimir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; z-index: 999999999999;" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+      
+            <form id="formulario-imprimir" class="form-horizontal" role="form">
+
+                <div class="modal-body">
+                    <div class="row">                    
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
+                            <select name="asamblea_id_imprimir" id="asamblea_id_imprimir" class="selectizejs entrada">
+                                
+                            </select>
+                        </div>
+                      
+                    </div>
+                   
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-imprimir">[{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="ejecutar-impresion" class="btn btn-primary btn-sm">[{{ traducir('traductor.imprimir')}}]</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>   -->
+
+<div id="modal-notificar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; z-index: 999999999999;" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+      
+            <form id="formulario-notificar" class="form-horizontal" role="form">
+
+                <div class="modal-body">
+                    <div class="row">                    
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
+                            <select name="asamblea_id_notificar" id="asamblea_id_notificar" class="selectizejs entrada">
+                                
+                            </select>
+                        </div>
+                      
+                    </div>
+                   
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-notificar">[{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="ejecutar-notificacion" class="btn btn-primary btn-sm">[{{ traducir('asambleas.notificar')}}]</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>  
+
+
 <div id="modal-impresion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; z-index: 999999999999;" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -146,6 +214,17 @@
                     <h3>{{ traducir('traductor.ver') }}</h3>
                     <div class="row">
                         <input type="hidden" name="delegados" id="delegados" class="entrada input-sm">
+                        <input type="hidden" name="asamblea_id_impresion" id="asamblea_id_impresion" class="entrada input-sm">
+
+                               
+                        <div class="col-md-12 asamblea-impresion">
+                            <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
+                            <select name="asamblea_id_imprimir" id="asamblea_id_imprimir" class="selectizejs entrada">
+                                
+                            </select>
+                        </div>
+                      
+                
                         <div class="col-md-12">
                             <label class="control-label">
                                 <input class="minimal entrada" type="checkbox" checked="checked" name="campos[]" value="(m.nombres || ' ' || m.apellidos) AS nombres">

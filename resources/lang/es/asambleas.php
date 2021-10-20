@@ -99,6 +99,7 @@ return [
     'buscar_propuesta' => 'Buscar Propuesta',
     'estado_resolucion' => 'Estado Resolución',
     'registro_traduccion_terminado' => 'Ya no se puede modificar, la traduccion ha finalizado.',
+    'registro_enviado_traduccion' => 'Ya no se puede modificar, el registro se ha enviado para traducción.',
     'delegados_conferencia_reunidos' => 'para los Delegados de la Conferencia General reunidos del',
     'en' => 'en',
     'email_oficial_de_la' => 'Email oficial de la',
@@ -111,6 +112,14 @@ return [
     'ultimo_parrafo_propuesta_tema_1' => 'REVISIÓN Y ENVÍO:',
     'ultimo_parrafo_propuesta_tema_2' => 'Este formulario ha sido diseñado como una hoja de trabajo para uso sin conexión a internet. Para presentar oficialmente la Propuesta, por favor visite la página web de la Asociación General www.asd1844.org y rellene la versión en línea del formulario si aún no lo ha hecho. Gracias.',
     'ultimo_parrafo_propuesta_tema_3' => 'Para más ayuda con asuntos relacionados con la Asamblea Mundial, por favor contactar a la Asociación General bajo ims@sda1844.org o por teléfono al (+1) 770-748-0077.',
+    'notificar' => 'Notificar',
+    'notifico_correctamente' => 'Se notificó Correctamente',
+    'notificacion_asignacion_delegados' => 'Notificación de Asignación de Delegados',
+    'estimado' => 'Estimado', // para saludo o encabezado de correo
+    'notifica' => ' se le notifica que usted ha sido asignado como delegado', 
+    'asamblea_convocatoria' => 'de la asamblea/convocatoria', 
+    'atentamente' => 'Atentamente', 
+    'propuesta_origen' => 'Propuesta Origen', 
     
  
 

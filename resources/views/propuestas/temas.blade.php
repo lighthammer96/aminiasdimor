@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-3" style="">
                             <label class="control-label">{{ traducir("traductor.idioma") }}</label>
-                            <select class="entrada form-control input-sm select" name="tpt_idioma" id="tpt_idioma">
+                            <select class="entrada form-control input-sm select"  name="tpt_idioma" id="tpt_idioma">
                                 <option value="es">{{ traducir("asambleas.espaniol") }}</option>
                                 <option value="en">{{ traducir("asambleas.ingles") }}</option>
                                 <option value="fr">{{ traducir("asambleas.frances") }}</option>
@@ -43,6 +43,16 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir("asambleas.propuesta_origen") }}</label>
+                            <select class="entrada selectizejs"  multiple="multiple" name="pt_id_origen[]" id="pt_id_origen">
+                                
+                            </select>
+                        </div>
+
+                      
+                    </div>
             
                     <div class="row">
                         <div class="col-md-12 origen">
@@ -225,6 +235,18 @@
                         <div class="col-md-12 traduccion" style="display: none">
                             <label class="control-label">{{ traducir("asambleas.ventajas_desventajas_propuesta") }}</label>
                             <textarea class="form-control input-sm entrada" name="tpt_ventas_desventajas_traduccion"  cols="30" rows="6"></textarea>
+                            
+                        </div>
+
+                        <div class="col-md-12 origen">
+                            <label class="control-label">{{ traducir("asambleas.justificacion_propuesta") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_justificacion_propuesta"  cols="30" rows="6"></textarea>
+                            
+                        </div>
+
+                        <div class="col-md-12 traduccion" style="display: none">
+                            <label class="control-label">{{ traducir("asambleas.justificacion_propuesta") }}</label>
+                            <textarea class="form-control input-sm entrada" name="tpt_justificacion_propuesta_traduccion"  cols="30" rows="6"></textarea>
                             
                         </div>
                     </div>

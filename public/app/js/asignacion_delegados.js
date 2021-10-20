@@ -32,6 +32,25 @@ document.addEventListener("DOMContentLoaded", function() {
         
     }) 
 
+    asambleas.select({
+        name: 'asamblea_id_imprimir',
+        url: '/obtener_asambleas',
+        placeholder: seleccione
+    }).then(function() {
+        // asignacion_delegados.enter("idocupacion","observaciones");   
+        
+    }) 
+
+    asambleas.select({
+        name: 'asamblea_id_notificar',
+        url: '/obtener_asambleas',
+        placeholder: seleccione
+    }).then(function() {
+        // asignacion_delegados.enter("idocupacion","observaciones");   
+        
+    }) 
+
+
     asignacion_delegados.select({
         name: 'idocupacion',
         url: '/obtener_profesiones',
@@ -260,6 +279,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         confirm: true,
                         text: imprimir_listado_delegados,
                         callbackConfirm: function() {
+                            $(".asamblea-impresion").hide();
+                          
+                            $("#asamblea_id_impresion").val(response.datos[0].asamblea_id);
+                            // alert(response.datos[0].asamblea_id);
+                           // $("#asamblea_id_imprimir")[0].selectize.setValue(response.datos[0].asamblea_id);
+                        
                             $("#modal-impresion").modal("show");
                         }
                     });
@@ -282,7 +307,88 @@ document.addEventListener("DOMContentLoaded", function() {
         
         window.open('', 'imprimir_listado_delegados');
         document.getElementById('formulario-impresion').submit();
+        $("#miembros").val("");
+        $("#delegados").val("");
+        $("#asamblea_id_impresion").val("");
+        
     })
+
+    document.getElementById("imprimir").addEventListener("click", function(e) {
+        e.preventDefault();
+        $(".asamblea-impresion").show();
+        $("#asamblea_id_imprimir")[0].selectize.setValue("");
+        // $("#modal-imprimir").modal("show");
+        $("#modal-impresion").modal("show");
+    
+    })
+
+    // document.getElementById("cancelar-imprimir").addEventListener("click", function(e) {
+    //     e.preventDefault();
+
+    //     $("#modal-imprimir").modal("hide");
+    
+    // })
+
+
+    document.getElementById("notificar").addEventListener("click", function(e) {
+        e.preventDefault();
+
+        $("#modal-notificar").modal("show");
+    
+    })
+
+    document.getElementById("cancelar-notificar").addEventListener("click", function(e) {
+        e.preventDefault();
+
+        $("#modal-notificar").modal("hide");
+    
+    })
+
+
+
+
+
+    document.getElementById("ejecutar-notificacion").addEventListener("click", function(e) {
+        e.preventDefault();
+
+
+        // $("#formulario-notificar").attr("action", BaseUrl + "/asociados/notificar_delegados");
+        // $("#formulario-notificar").attr("method", "GET");
+        // $("#formulario-notificar").attr("target", "notificar_delegados");
+   
+        
+        // window.open('', 'notificar_delegados');
+        // document.getElementById('formulario-notificar').submit();
+        $("#ejecutar-notificacion").attr("disabled", "disabled");
+        $("#cancelar-notificar").attr("disabled", "disabled");
+        var promise = asignacion_delegados.ajax({
+            url: '/notificar_delegados',
+            datos: { asamblea_id: $("#asamblea_id_notificar").val(), _token: _token }
+        }).then(function(response) {
+            console.log(response);
+
+            if(response.result == "S") {
+                BASE_JS.notificacion({
+                    msg: notifico_correctamente,
+                    type: 'success'
+                })
+            }   
+            
+            if(response.msg != "") {
+                BASE_JS.sweet({
+                    text: response.msg
+                });
+            }
+
+
+            $("#ejecutar-notificacion").removeAttr("disabled", "disabled");
+            $("#cancelar-notificar").removeAttr("disabled", "disabled");
+
+           
+        })
+    })
+
+    
 
 
 })

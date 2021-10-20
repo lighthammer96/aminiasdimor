@@ -315,6 +315,12 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
+        if(datos.estado_propuesta == 2) {
+            BASE_JS.sweet({
+                text: registro_enviado_traduccion
+            });
+            return false;
+        } 
 
         
         if(datos.estado_propuesta == 3) {

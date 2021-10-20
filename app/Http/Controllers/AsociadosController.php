@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
+
 class AsociadosController extends Controller
 {
     //
@@ -754,7 +758,7 @@ class AsociadosController extends Controller
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         INNER JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
-        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
         LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
         {$where}
         ORDER BY m.idmiembro DESC";
@@ -781,11 +785,17 @@ class AsociadosController extends Controller
         for ($i=0; $i < count($_POST["idmiembro"]); $i++) { 
             $array_datos = array();
 
-            DB::table("asambleas.delegados")->where("asamblea_id", $asamblea[1])->where("idmiembro",$_POST["idmiembro"][$i])->delete();
+            // DB::table("asambleas.delegados")->where("asamblea_id", $asamblea[1])->where("idmiembro",$_POST["idmiembro"][$i])->delete();
+
+            DB::table("asambleas.delegados")
+            //   ->where("asamblea_id", $asamblea[1])
+              ->where("idmiembro", $_POST["idmiembro"][$i])
+              ->update(array("estado" => "I"));
 
             $array_datos["asamblea_id"] = $asamblea[1];
             $array_datos["delegado_tipo"] = $delegado_tipo;
             $array_datos["idmiembro"] = $_POST["idmiembro"][$i];
+            $array_datos["delegado_fecha"] = date("Y-m-d H:i:s");
 
 
             $result = $this->base_model->insertar($this->preparar_datos("asambleas.delegados", $array_datos));
@@ -822,15 +832,29 @@ class AsociadosController extends Controller
     public function imprimir_listado_delegados(Request $request) {
         // echo "hola";
         // echo "<pre>";
-        // print_r($_REQUEST);
+        // print_r($_REQUEST); exit;
 
         // if() {
 
 
         // }
-
+        $where = " WHERE 1=1 ";
+      
         $select = implode(", ", $request->input("campos"));
-        $where = "WHERE d.idmiembro IN(".str_replace("|",",", $request->input("delegados")).")";
+
+        if(isset($_REQUEST["delegados"]) && !empty($_REQUEST["delegados"])) {
+            $where = " AND d.idmiembro IN(".str_replace("|",",", $request->input("delegados")).")";
+        }
+        
+        
+        if(isset($_REQUEST["asamblea_id_impresion"]) && !empty($_REQUEST["asamblea_id_impresion"])) {
+            $where .= " AND d.asamblea_id = {$_REQUEST["asamblea_id_impresion"]} ";
+        }
+
+        if(isset($_REQUEST["asamblea_id_imprimir"]) && !empty($_REQUEST["asamblea_id_imprimir"])) {
+            $array = explode("|", $_REQUEST["asamblea_id_imprimir"]);
+            $where .= " AND d.asamblea_id = {$array[1]} ";
+        }
 
         // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
@@ -838,14 +862,19 @@ class AsociadosController extends Controller
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         INNER JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
         INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
-        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
-        LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
-        {$where}
+        INNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro )
+        INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
+        {$where} AND  d.estado='A' AND a.estado='A'
         ORDER BY m.idmiembro DESC";
 
         $datos["delegados"] = DB::select($sql);
+        if(count($datos["delegados"]) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }   
+
         $datos["nivel_organizativo"] = "";
-        // die($sql);
+        //  die($sql);
 
         $pdf = PDF::loadView("asociados.listado_delegados", $datos)->setPaper('A4', "portrait");
 
@@ -854,5 +883,98 @@ class AsociadosController extends Controller
         return $pdf->stream("listado_delegados.pdf"); // ver
 
     }
+
+    public function notificar_delegados(Request $request) {
+        // print_r($_REQUEST);
+
+        $array = explode("|", $_REQUEST["asamblea_id"]);
+        $asamblea_id = $array[1];
+
+        $msg = "";
+        $response = array();
+        $response["result"] = "";
+        $response["msg"] = "";
+
+        $sql = "SELECT  m.*, CASE WHEN d.delegado_tipo = 'T' THEN '".traducir("asambleas.titular")."'
+        WHEN d.delegado_tipo = 'S' THEN '".traducir("asambleas.suplente")."' ELSE '' END AS delegado, a.*  FROM iglesias.miembro AS m
+        INNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro )
+        INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
+        WHERE  d.estado='A' AND a.estado='A' and d.asamblea_id={$asamblea_id}
+        ORDER BY m.idmiembro DESC";
+    // echo "<pre>";
+        $delegados = DB::select($sql);
+        // print_r($delegados); exit;
+
+        foreach ($delegados as $key => $value) {
+            $email = $value->email;
+            if(empty($email)) {
+                $email = $value->emailalternativo;
+
+                if(empty($email)) {
+                    continue;
+                }
+
+
+            }
+
+            // echo $value->email."<br>";
+            $mail = new PHPMailer(true);
+            try {
+                $mail->SMTPDebug  = SMTP::DEBUG_OFF; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
+                $mail->isSMTP();
+                $mail->Host       = "smtp.gmail.com";
+                $mail->SMTPAuth = true;
+                $mail->Username = "bleonardo.gsinarahua@gmail.com";
+                $mail->Password = "garcia2004";
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
+                $mail->Port       = 587; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
+                //o sino la mejor opcion es con SMTPSecure='ssl' y el puerto 665
+                
+                $mail->setFrom("bleonardo.gsinarahua@gmail.com", utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)"));
+                $mail->addAddress($email, $value->apellidos.", ".$value->nombres);
+                $mail->Subject = utf8_decode(traducir("asambleas.notificacion_asignacion_delegados")).utf8_decode(" (Notificación de Asignación de Delegados)");
+                $mail->isHTML(true);
+                
+
+                $Contenido = utf8_decode(traducir("asambleas.estimado")).": " . $value->apellidos.", ".$value->nombres .utf8_decode(traducir("asambleas.notifica")).": ".$value->delegado." ".traducir("asambleas.asamblea_convocatoria").": ". utf8_decode($value->asamblea_descripcion);
+                $Contenido .= "<br> ".utf8_decode(traducir("asambleas.atentamente")).": ".utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)")."<br><br><br>";
+
+
+                $Contenido .= "Estimado: " . $value->apellidos.", ".$value->nombres . " se le notifica que usted ha sido asignado como delegado: ".$value->delegado." de la asamblea/convocatoria: ". utf8_decode($value->asamblea_descripcion);
+                $Contenido .= "<br> Atentamente: ".utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)");
+
+                $mail->Body = $Contenido;
+
+            
+        
+                $mail->send();
+               
+            } catch (Exception $e) {
+                // echo $e->getMessage()."<br>";
+                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+
+                $response["result"] = "N";
+                $msg .= $e->getMessage(). " Message could not be sent. Mailer Error: {$mail->ErrorInfo} \n";
+
+                
+                
+            }
+
+        }
+        if($response["result"] == "N") {
+            $response["msg"] = $msg;
+            echo json_encode($response);
+
+            exit;
+        }
+        $response["result"] = "S";
+        $response["msg"] = "";
+        echo json_encode($response);
+
+        
+        // $where .= " AND d.asamblea_id = {$array[1]} ";
+    }
+   
+
    
 }

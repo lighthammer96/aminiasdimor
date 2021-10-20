@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
+
     votaciones.select({
         name: 'fv_id',
         url: '/obtener_formas_votacion',
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }) 
 
     
-    $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_id_domicilio) {
+    $(document).on('change', '#pais_id', function(event, pais_id, idunion, idmision) {
         // alert(pais_id);
         var valor = "1|S"; 
 
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var selected = (typeof idunion != "undefined")  ? idunion : "";
     
-       
+        var selected_mision = (typeof idmision != "undefined")  ? idmision : "";
 
         uniones.select({
             name: 'idunion',
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 name: 'idmision',
                 url: '/obtener_misiones',
                 placeholder: seleccione,
+                selected: selected_mision,
                 datos: { pais_id: d_id }
             })
         } else {
@@ -184,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
+         
         if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null") {
             document.getElementsByName("pt_email")[0].value = this.options[this.selectedIndex].getAttribute("atributo1");
         }
@@ -195,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("tabla").value = "iglesias.union";
         }
         // console.log(this.options[this.selectedIndex].getAttribute("atributo1"))
+        // alert(selected);
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
@@ -219,11 +223,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
+        // alert(typeof this.options[this.selectedIndex]);
+        // console.log(this.options[this.selectedIndex].getAttribute("atributo1"));
+        // console.log(typeof idmision);
         if(typeof this.options != "undefined" && typeof this.options[this.selectedIndex] != "undefined" && this.options.length > 0 && typeof idmision == "undefined") {
 
             document.getElementById("lugar").value = this.options[this.selectedIndex].text;
             document.getElementById("idlugar").value = this.value;
             document.getElementById("tabla").value = "iglesias.mision";
+        }
+
+        if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null") {
+            document.getElementsByName("pt_email")[0].value = this.options[this.selectedIndex].getAttribute("atributo1");
         }
     });
 
@@ -318,6 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
                     $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
                     $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
+                    $("textarea[name=tpt_justificacion_propuesta_traduccion]").val(response[0].tpt_justificacion_propuesta);
                 }
             })
 
@@ -373,7 +385,20 @@ document.addEventListener("DOMContentLoaded", function() {
             placeholder: seleccione,
         })
 
+        $("#pt_id_origen").removeAttr("disabled");
+        propuestas_temas.select({
+            name: 'pt_id_origen[]',
+            url: '/obtener_propuestas_temas_origen',
+            placeholder: seleccione,
+        
+        })
+
+        
+       
+
+
         propuestas_temas.abrirModal();
+
         propuestas_temas.ajax({
             url: '/obtener_correlativo',
             datos: { _token: _token }
@@ -400,12 +425,24 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
+        if(datos.estado_propuesta == 2) {
+            BASE_JS.sweet({
+                text: registro_enviado_traduccion
+            });
+            return false;
+        } 
+
+
         if(datos.estado_propuesta == 3) {
             BASE_JS.sweet({
                 text: registro_traduccion_terminado
             });
             return false;
         } 
+
+
+      
+
 
         $("#someter-votacion").hide();
         $("#imprimir").show();
@@ -441,10 +478,38 @@ document.addEventListener("DOMContentLoaded", function() {
                 $(".mision").show();
                 $(".union").show();
             }
+            var pais = response.pais_id.toString().split("|");
+            // console.log(pais);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.idmision]);
+            // alert(pais[1]);
+            if(pais[1] != "N") {
+                $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                $("#idmision").trigger("change", [response.idmision, ""]);
+            }
 
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
-            $("#idunion").trigger("change", [response.idunion, response.idmision]);
-            $("#idmision").trigger("change", [response.idmision, ""]);
+
+            $("#pt_id_origen").removeAttr("disabled");
+
+            propuestas_temas.select({
+                name: 'pt_id_origen[]',
+                url: '/obtener_propuestas_temas_origen',
+                placeholder: seleccione,
+                datos: { pt_id: datos.pt_id }
+            
+            })
+
+            propuestas_temas.ajax({
+                url: '/obtener_propuestas_origen',
+                datos: { pt_id: datos.pt_id }
+            }).then(function(response) {
+                var array = [];
+                for(let i = 0; i < response.length; i++){
+                    array.push(response[i].pt_id_origen);
+                }
+                //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
+                $("#pt_id_origen")[0].selectize.setValue(array);
+            })
+
             activar_entradas();
             
         })
@@ -471,6 +536,14 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             return false;
         } 
+        $("#pt_id_origen").attr("disabled", "disabled");
+        propuestas_temas.select({
+            name: 'pt_id_origen[]',
+            url: '/obtener_propuestas_temas_origen',
+            placeholder: seleccione,
+            datos: { pt_id: datos.pt_id }
+        
+        })
 
         $("#someter-votacion").show();
         $("#imprimir").show();
@@ -506,9 +579,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 $(".union").show();
             }
 
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
-            $("#idunion").trigger("change", [response.idunion, response.idmision]);
-            $("#idmision").trigger("change", [response.idmision, ""]);
+            var pais = response.pais_id.toString().split("|");
+            // console.log(pais);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.idmision]);
+            // alert(pais[1]);
+            if(pais[1] != "N") {
+                $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                $("#idmision").trigger("change", [response.idmision, ""]);
+            }
+
             $("#pt_someter_votacion").removeAttr("disabled");
 
             // console.log(votaciones.buscarEnFormulario("votacion_id"));
@@ -518,6 +597,20 @@ document.addEventListener("DOMContentLoaded", function() {
             votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", asamblea_id);
             votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_temas");
             votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pt_id);
+
+
+            propuestas_temas.ajax({
+                url: '/obtener_propuestas_origen',
+                datos: { pt_id: datos.pt_id }
+            }).then(function(response) {
+                var array = [];
+                for(let i = 0; i < response.length; i++){
+                    array.push(response[i].pt_id_origen);
+                }
+                //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
+                $("#pt_id_origen")[0].selectize.setValue(array);
+            })
+
 
             // $("input[name=votacion_id]").val(response.votacion_id);
 
@@ -571,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             return false;
         } 
-
+       
         // propuestas_temas.abrirModal();
 
         // $(".origen").hide();
@@ -612,9 +705,38 @@ document.addEventListener("DOMContentLoaded", function() {
                 $(".union").show();
             }
 
-            $("#pais_id").trigger("change", [response.pais_id, response.idunion]);
-            $("#idunion").trigger("change", [response.idunion, response.idmision]);
-            $("#idmision").trigger("change", [response.idmision, ""]);
+            var pais = response.pais_id.toString().split("|");
+            // console.log(pais);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.idmision]);
+            // alert(pais[1]);
+            if(pais[1] != "N") {
+                $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                $("#idmision").trigger("change", [response.idmision, ""]);
+            }
+
+
+            $("#pt_id_origen").attr("disabled", "disabled");
+            propuestas_temas.select({
+                name: 'pt_id_origen[]',
+                url: '/obtener_propuestas_temas_origen',
+                placeholder: seleccione,
+                datos: { pt_id: datos.pt_id }
+            
+            })
+
+            propuestas_temas.ajax({
+                url: '/obtener_propuestas_origen',
+                datos: { pt_id: datos.pt_id }
+            }).then(function(response) {
+                var array = [];
+                for(let i = 0; i < response.length; i++){
+                    array.push(response[i].pt_id_origen);
+                }
+                //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
+                $("#pt_id_origen")[0].selectize.setValue(array);
+            })
+
+
             
             desactivar_entradas();
         })
@@ -639,6 +761,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
                 $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
                 $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
+                $("textarea[name=tpt_justificacion_propuesta_traduccion]").val(response[0].tpt_justificacion_propuesta);
             }
         })
         
@@ -1002,6 +1125,58 @@ document.addEventListener("DOMContentLoaded", function() {
         var pt_id = document.getElementsByName("pt_id")[0].value;
         window.open(BaseUrl + "/propuestas/imprimir_propuesta_tema/"+pt_id);
     })
+
+  
+    $(document).on('change', '#pt_id_origen', function(event) {
+        var pt_id_origen = $(this).val();   
+        var tpt_idioma = $("#tpt_idioma").val();
+        
+        propuestas_temas.ajax({
+            url: '/obtener_descripciones_propuestas_origen',
+            datos: { _token: _token,  pt_id_origen: pt_id_origen, tpt_idioma: tpt_idioma}
+        }).then(function(response) {
+        //    console.table(response);
+            if(response.length > 0 ) {
+                var tpt_titulo = "";
+                var tpt_detalle_otros_asuntos = "";
+                var tpt_propuesta = "";
+                var tpt_ventas_desventajas = "";
+                var tpt_descripcion_documentos_apoyo = "";
+                var tpt_comentarios = "";
+                var tpt_idioma = "";
+                var tpt_justificacion_propuesta = "";
+                for (let index = 0; index < response.length; index++) {
+                    tpt_titulo += response[index].tpt_titulo+", ";
+                    tpt_detalle_otros_asuntos += response[index].tpt_detalle_otros_asuntos+"\n";
+                    tpt_propuesta += response[index].tpt_propuesta+"\n";
+                    tpt_ventas_desventajas += response[index].tpt_ventas_desventajas+"\n";
+                    tpt_descripcion_documentos_apoyo += response[index].tpt_descripcion_documentos_apoyo+"\n";
+                    tpt_comentarios += response[index].tpt_comentarios+"\n";
+                    tpt_idioma += response[index].tpt_idioma+"\n";
+                    tpt_justificacion_propuesta += response[index].tpt_justificacion_propuesta+"\n";
+                }
+
+
+                $("input[name=tpt_titulo]").val(tpt_titulo);
+                $("textarea[name=tpt_detalle_otros_asuntos]").val(tpt_detalle_otros_asuntos);
+                $("textarea[name=tpt_propuesta]").val(tpt_propuesta);
+                $("textarea[name=tpt_ventas_desventajas]").val(tpt_ventas_desventajas);
+                $("textarea[name=tpt_descripcion_documentos_apoyo]").val(tpt_descripcion_documentos_apoyo);
+                $("textarea[name=tpt_comentarios]").val(tpt_comentarios);
+                $("textarea[name=tpt_justificacion_propuesta]").val(tpt_justificacion_propuesta);
+                
+            }
+           
+       
+        })
+
+        // alert(pt_id_origen);
+    })
+
+    $(document).on('change', '#tpt_idioma', function(event) {
+        $("#pt_id_origen").trigger("change");
+    })
+
 
 })
 

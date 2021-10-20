@@ -38,7 +38,7 @@ class PropuestasController extends Controller
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-tema">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?161020210706"]);
         return parent::init($view, $data);  
 
       
@@ -151,6 +151,13 @@ class PropuestasController extends Controller
             } else {
                 // print_r($this->preparar_datos("asambleas.traduccion_propuestas_temas", $_POST));
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_propuestas_temas", $_POST));
+            }
+
+            DB::table("asambleas.propuestas_origen")->where("pt_id", $_POST["pt_id"] )->delete();
+            if(isset($_REQUEST["pt_id_origen"])) {
+                // $_POST["idunion"] = $result["id"];
+                
+                $this->base_model->insertar($this->preparar_datos("asambleas.propuestas_origen", $_POST, "D"), "D");
             }
 
        
@@ -289,7 +296,7 @@ class PropuestasController extends Controller
         $pt_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id FROM asambleas.propuestas_temas AS pt 
+        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado FROM asambleas.propuestas_temas AS pt 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
@@ -473,4 +480,44 @@ class PropuestasController extends Controller
         return $pdf->stream("propuesta_tema.pdf"); // ver
     }
     
+
+    public function obtener_propuestas_temas_origen() {
+        
+        $where = (isset($_REQUEST["pt_id"]) && !empty($_REQUEST["pt_id"])) ?  " AND pt.pt_id NOT IN({$_REQUEST["pt_id"]})" : "";
+        $sql = "SELECT pt.pt_id AS id, CASE WHEN tpt.tpt_titulo IS NULL THEN
+        (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."')
+        ELSE tpt.tpt_titulo END AS descripcion
+        FROM asambleas.propuestas_temas AS pt
+        INNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
+        LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".trim(session("idioma_codigo"))."')
+        WHERE pt.estado='A' {$where}
+        ORDER BY tpt.tpt_titulo ASC";
+        // die($sql);
+
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_propuestas_origen(Request $request) {
+        $sql = "SELECT * FROM asambleas.propuestas_origen 
+        WHERE pt_id={$request->input("pt_id")}"; 
+
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_descripciones_propuestas_origen(Request $request) {
+        
+      
+        $sql = "SELECT *
+        FROM asambleas.propuestas_temas AS pt
+        INNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
+        LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".$request->input("tpt_idioma")."')
+        WHERE pt.estado='A' AND pt.pt_id IN(".$request->input("pt_id_origen").")
+        ORDER BY tpt.tpt_titulo ASC";
+        // die($sql);
+
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
 }
