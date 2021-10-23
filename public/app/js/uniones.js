@@ -73,8 +73,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 for(let i = 0; i < response.length; i++){
                     array.push(response[i].pais_id);
                 }
+                // console.log(array);
                 //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
                 $("#pais_id")[0].selectize.setValue(array);
+                // console.log($("#pais_id")[0].selectize.getValue());
             })
         });
     }

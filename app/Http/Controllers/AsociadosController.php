@@ -920,7 +920,7 @@ class AsociadosController extends Controller
             // echo $value->email."<br>";
             $mail = new PHPMailer(true);
             try {
-                $mail->SMTPDebug  = SMTP::DEBUG_OFF; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
+                $mail->SMTPDebug  = SMTP::DEBUG_SERVER; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
                 $mail->isSMTP();
                 $mail->Host       = "smtp.gmail.com";
                 $mail->SMTPAuth = true;

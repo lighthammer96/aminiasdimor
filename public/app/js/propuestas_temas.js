@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     paises.select({
         name: 'pais_id',
-        url: '/obtener_paises',
+        url: '/obtener_paises_propuestas',
         placeholder: seleccione
     }).then(function() {
         $("#pais_id").trigger("change", ["", "", ""]);

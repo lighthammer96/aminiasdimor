@@ -147,6 +147,7 @@ Route::post('paises/guardar_paises', [PaisesController::class, "guardar_paises"]
 Route::post('paises/get_paises', [PaisesController::class, "get_paises"]);
 Route::post('paises/eliminar_paises', [PaisesController::class, "eliminar_paises"]);
 Route::post('paises/obtener_paises', [PaisesController::class, "obtener_paises"]);
+Route::post('paises/obtener_paises_propuestas', [PaisesController::class, "obtener_paises_propuestas"]);
 Route::post('paises/obtener_paises_asociados', [PaisesController::class, "obtener_paises_asociados"]);
 Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_todos_paises"]);
 Route::post('paises/obtener_paises_asociados_todos', [PaisesController::class, "obtener_paises_asociados_todos"]);

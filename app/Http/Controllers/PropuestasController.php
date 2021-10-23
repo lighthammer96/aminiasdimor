@@ -38,6 +38,7 @@ class PropuestasController extends Controller
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-tema">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
+        
         $data["scripts"] = $this->cargar_js(["propuestas_temas.js?201020210706"]);
         return parent::init($view, $data);  
 

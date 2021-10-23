@@ -32,7 +32,7 @@ class UnionesController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-union">'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-union">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "uniones.js"]);
+        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js?version=231020211647", "uniones.js"]);
         return parent::init($view, $data);
 
       

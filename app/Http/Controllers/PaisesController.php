@@ -95,6 +95,24 @@ class PaisesController extends Controller
         $sql = "";
 		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
 	
+			$sql = "SELECT pais_id  AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
+            " ORDER BY pais_descripcion ASC";;
+		} else {
+            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'
+            ORDER BY pais_descripcion ASC";
+		}
+
+        $result = DB::select($sql);
+
+        echo json_encode($result);
+    }
+
+
+    public function obtener_paises_propuestas(Request $request) {
+
+        $sql = "";
+		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
+	
 			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
             " ORDER BY pais_descripcion ASC";;
 		} else {
