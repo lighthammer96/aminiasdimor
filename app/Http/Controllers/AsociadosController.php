@@ -941,14 +941,14 @@ class AsociadosController extends Controller
                 // $mail->Username = "imssystem@iglesia.solucionesahora.com";
                 // $mail->Password = "Zarria1996@070316";
                 // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-                $mail->Host       = "mail.iglesia.solucionesahora.com";
-                $mail->Host = gethostbyname('smtp.gmail.com');
-                $mail->SMTPAuth = true;
+                // $mail->Host       = "mail.iglesia.solucionesahora.com";
+                $mail->Host = gethostbyname('localhost');
+                $mail->SMTPAuth = false;
                 $mail->Username = "imssystem@iglesia.solucionesahora.com";
                 $mail->Password = "Zarria1996@070316";
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // TLS:
+                // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // TLS:
 
-                $mail->Port       = 465; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
+                $mail->Port       = 25; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
                 //o sino la mejor opcion es con SMTPSecure='ssl' y el puerto 665
                 
                 $mail->setFrom("imssystem@iglesia.solucionesahora.com", utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)"));
