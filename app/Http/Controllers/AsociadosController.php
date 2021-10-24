@@ -925,8 +925,8 @@ class AsociadosController extends Controller
                 $mail->Host       = "smtp.gmail.com";
                 $mail->SMTPAuth = true;
                 $mail->Username = "bleonardo.gsinarahua@gmail.com";
-                $mail->Password = "garcia@git s2004";
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
+                $mail->Password = "garcia@2004";
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
 
 
                 // $mail->Host       = "mail.iglesia.solucionesahora.com";
@@ -936,7 +936,7 @@ class AsociadosController extends Controller
                 // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
 
 
-                $mail->Port       = 587; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
+                $mail->Port       = 465; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
                 //o sino la mejor opcion es con SMTPSecure='ssl' y el puerto 665
                 
                 $mail->setFrom("jmzs@corpcardozo.com", utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)"));
