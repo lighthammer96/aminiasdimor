@@ -927,7 +927,7 @@ class AsociadosController extends Controller
                 $mail->Username = "bleonardo.gsinarahua@gmail.com";
                 $mail->Password = "garcia2004";
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
-                $mail->Port       = 587; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
+                $mail->Port       = 25; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
                 //o sino la mejor opcion es con SMTPSecure='ssl' y el puerto 665
                 
                 $mail->setFrom("bleonardo.gsinarahua@gmail.com", utf8_decode(traducir("traductor.titulo_cabecera_2")).utf8_decode(" (Iglesia Adventista del Séptimo Día Movimiento de Reforma)"));
