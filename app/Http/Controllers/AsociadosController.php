@@ -942,6 +942,7 @@ class AsociadosController extends Controller
                 // $mail->Password = "Zarria1996@070316";
                 // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
                 $mail->Host       = "mail.iglesia.solucionesahora.com";
+                $mail->Host = gethostbyname('smtp.gmail.com');
                 $mail->SMTPAuth = true;
                 $mail->Username = "imssystem@iglesia.solucionesahora.com";
                 $mail->Password = "Zarria1996@070316";
