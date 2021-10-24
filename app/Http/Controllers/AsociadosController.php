@@ -886,7 +886,7 @@ class AsociadosController extends Controller
 
     public function notificar_delegados(Request $request) {
         // print_r($_REQUEST);
-        echo (extension_loaded('openssl')?'SSL loaded':'SSL not loaded')."\n";
+        // echo (extension_loaded('openssl')?'SSL loaded':'SSL not loaded')."\n";
         $array = explode("|", $_REQUEST["asamblea_id"]);
         $asamblea_id = $array[1];
 
@@ -919,6 +919,13 @@ class AsociadosController extends Controller
 
             // echo $value->email."<br>";
             $mail = new PHPMailer(true);
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ]
+            ];
             try {
                 $mail->SMTPDebug  = SMTP::DEBUG_OFF; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
                 $mail->isSMTP();
