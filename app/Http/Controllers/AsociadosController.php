@@ -920,13 +920,13 @@ class AsociadosController extends Controller
             // echo $value->email."<br>";
             $mail = new PHPMailer(true);
             try {
-                $mail->SMTPDebug  = SMTP::DEBUG_SERVER; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
+                $mail->SMTPDebug  = SMTP::DEBUG_OFF; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
                 $mail->isSMTP();
                 $mail->Host       = "localhost";
-                $mail->SMTPAuth = true;
+                $mail->SMTPAuth = false;
                 $mail->Username = "imssystem@iglesia.solucionesahora.com";
                 $mail->Password = "Zarria1996@070316";
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
 
 
                 // $mail->Host       = "mail.iglesia.solucionesahora.com";
