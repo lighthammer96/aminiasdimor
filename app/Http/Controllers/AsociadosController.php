@@ -923,7 +923,7 @@ class AsociadosController extends Controller
                 $mail->SMTPDebug  = SMTP::DEBUG_OFF; // SMTP::DEBUG_OFF: No output, SMTP::DEBUG_SERVER: Client and server messages 
                 $mail->isSMTP();
                 $mail->Host       = "smtp.gmail.com";
-                $mail->SMTPAuth = false;
+                $mail->SMTPAuth = true;
                 $mail->Username = "bleonardo.gsinarahua@gmail.com";
                 $mail->Password = "garcia@2004";
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS: ENCRYPTION_STARTTLS, SSL: ENCRYPTION_SMTPS
