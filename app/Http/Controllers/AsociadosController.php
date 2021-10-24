@@ -886,7 +886,7 @@ class AsociadosController extends Controller
 
     public function notificar_delegados(Request $request) {
         // print_r($_REQUEST);
-
+        echo (extension_loaded('openssl')?'SSL loaded':'SSL not loaded')."\n";
         $array = explode("|", $_REQUEST["asamblea_id"]);
         $asamblea_id = $array[1];
 
