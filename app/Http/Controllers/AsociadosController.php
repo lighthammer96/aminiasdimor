@@ -941,10 +941,10 @@ class AsociadosController extends Controller
                 // $mail->Username = "imssystem@iglesia.solucionesahora.com";
                 // $mail->Password = "Zarria1996@070316";
                 // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-                $mail->Host       = "host2.solucionesahora.com";
+                $mail->Host       = "mail.iglesia.solucionesahora.com";
                 $mail->SMTPAuth = true;
-                $mail->Username = "jmzs@corpcardozo.com";
-                $mail->Password = "jmzs@1235";
+                $mail->Username = "imssystem@iglesia.solucionesahora.com";
+                $mail->Password = "Zarria1996@070316";
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // TLS:
 
                 $mail->Port       = 465; // si no quiere con el puerto 25 poner el puerto 587, al parecer en produccion va el puerto 587 y en desarollo el puerto 25,
