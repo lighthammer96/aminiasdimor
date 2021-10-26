@@ -309,6 +309,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         })
+        document.getElementById("tpt_idioma").addEventListener("change", function(e) {
+            if(typeof $("input[name=tpt_titulo]").attr("disabled") != "undefined") {
+                
+                var idioma = this.value;
+                var pt_id = document.getElementsByName("pt_id")[0].value;
+                var promise = propuestas_temas.ver(pt_id+'|'+idioma);
+    
+                promise.then(function(response) {
+                    $("#tpt_idioma").removeAttr("disabled");
+                })
+            }
+        })
+      
+
         $(document).on("change", "#tpt_idioma_traduccion", function(e) {
             // alert(this.value);
             var idioma = $(this).val();
@@ -546,6 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
 
         $("#someter-votacion").show();
+        cambiar_row_1("origen");
         $("#imprimir").show();
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.ver(datos.pt_id+'|'+idioma);
@@ -611,7 +626,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#pt_id_origen")[0].selectize.setValue(array);
             })
 
-
+            $(".traduccion").hide();
+            $("#tpt_idioma").removeAttr("disabled");
             // $("input[name=votacion_id]").val(response.votacion_id);
 
         
@@ -658,12 +674,24 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
         // console.log(typeof datos.estado_propuesta);
+
+       
+
         if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
                 text: registro_estado_enviado_traduccion
             });
             return false;
         } 
+
+        if(datos.estado_propuesta == 3) {
+            BASE_JS.sweet({
+                text: registro_traduccion_terminado
+            });
+            return false;
+        } 
+
+
        
         // propuestas_temas.abrirModal();
 
@@ -736,8 +764,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#pt_id_origen")[0].selectize.setValue(array);
             })
 
-
-            
             desactivar_entradas();
         })
 
@@ -1066,6 +1092,8 @@ document.addEventListener("DOMContentLoaded", function() {
             
         } else {
             votaciones.buscarEnFormulario("estado").value = 'I';
+            votaciones.buscarEnFormulario("propuesta_id").value = propuestas_temas.buscarEnFormulario("pt_id").value;
+            votaciones.buscarEnFormulario("tabla").value = "asambleas.propuestas_temas";
             document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
             // $("input[name=posee_seguro]").val("N");
         }
@@ -1129,6 +1157,10 @@ document.addEventListener("DOMContentLoaded", function() {
   
     $(document).on('change', '#pt_id_origen', function(event) {
         var pt_id_origen = $(this).val();   
+
+        if(pt_id_origen == "") {
+            return false;
+        }
         var tpt_idioma = $("#tpt_idioma").val();
         
         propuestas_temas.ajax({
@@ -1174,7 +1206,9 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     $(document).on('change', '#tpt_idioma', function(event) {
-        $("#pt_id_origen").trigger("change");
+        if(typeof $("input[name=tpt_titulo]").attr("disabled") == "undefined") {
+            $("#pt_id_origen").trigger("change");
+        }
     })
 
 

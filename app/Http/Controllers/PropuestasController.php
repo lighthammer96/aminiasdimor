@@ -39,7 +39,7 @@ class PropuestasController extends Controller
 
         $data["botones"] = $botones;
         
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?201020210706"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?261020210706"]);
         return parent::init($view, $data);  
 
       
@@ -64,7 +64,7 @@ class PropuestasController extends Controller
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-eleccion">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?26102021"]);
         return parent::init($view, $data);  
     }
 
@@ -297,7 +297,7 @@ class PropuestasController extends Controller
         $pt_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado FROM asambleas.propuestas_temas AS pt 
+        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma FROM asambleas.propuestas_temas AS pt 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
@@ -317,7 +317,7 @@ class PropuestasController extends Controller
         $pe_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT v.*, tpe.*, pe.* FROM asambleas.propuestas_elecciones AS pe 
+        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma  FROM asambleas.propuestas_elecciones AS pe 
         LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$idioma_codigo}')
         LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pe.pe_id AND v.tabla='asambleas.propuestas_elecciones')
         WHERE pe.pe_id=".$pe_id."
@@ -509,12 +509,17 @@ class PropuestasController extends Controller
 
     public function obtener_descripciones_propuestas_origen(Request $request) {
         
+        $in = "";
+
+        if(!empty($_REQUEST["pt_id_origen"])) {
+            $in = " AND pt.pt_id IN(".$request->input("pt_id_origen").")";
+        }
       
         $sql = "SELECT *
         FROM asambleas.propuestas_temas AS pt
         INNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
         LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".$request->input("tpt_idioma")."')
-        WHERE pt.estado='A' AND pt.pt_id IN(".$request->input("pt_id_origen").")
+        WHERE pt.estado='A' {$in}
         ORDER BY tpt.tpt_titulo ASC";
         // die($sql);
 

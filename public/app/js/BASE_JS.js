@@ -640,6 +640,7 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName("entrada");
         for (let i = 0; i < elementos.length; i++) {
             elementos[i].disabled = true;
+            // console.log(elementos[i]);
 
             if(elementos[i].type == "radio" && elementos[i].parentNode.classList.contains("iradio_minimal-blue")) {
                 elementos[i].parentNode.classList.add("disabled");

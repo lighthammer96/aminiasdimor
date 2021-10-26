@@ -86,7 +86,7 @@
                     <div class="row">
 
                         <div class="col-md-4 col-md-offset-5">
-                            <label class="control-label">{{ traducir('asambleas.estado_propuesta')}}</label>
+                            <label class="control-label">{{ traducir('asambleas.estado_resolucion')}}</label>
                             <select name="resolucion_estado" id="resolucion_estado" class="form-control input-sm entrada select" default-value="1">
                                 <option value="1">{{ traducir("asambleas.proceso_registro") }}</option>
                                 <option value="2">{{ traducir("asambleas.enviado_traduccion") }}</option>

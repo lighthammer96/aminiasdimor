@@ -40,7 +40,7 @@ class ResolucionesController extends Controller
         $data["tabla_propuestas_elecciones"] = $this->propuestas_model->tabla_propuestas_elecciones()->HTML();
 
 
-        $data["scripts"] = $this->cargar_js(["resoluciones.js"]);
+        $data["scripts"] = $this->cargar_js(["resoluciones.js?261020210706"]);
         return parent::init($view, $data);
 
       

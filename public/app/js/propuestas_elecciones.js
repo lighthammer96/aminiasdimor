@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //     attr = 'disabled="disabled"';
         // }
         //alert(document.getElementsByName("tpe_descripcion")[0].readOnly);
-        if(document.getElementsByName("tpe_descripcion")[0].readOnly) {
+        if(document.getElementsByName("tpe_descripcion")[0].readOnly || document.getElementsByName("tpe_descripcion")[0].disabled ) {
             attr = 'disabled="disabled"';
         }
 
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function cambiar_row_1(tipo) {
-
+       
         var html = '';
         if(tipo == "origen") {
             html += '<div class="col-md-6">';
@@ -254,6 +254,29 @@ document.addEventListener("DOMContentLoaded", function() {
             })
 
         })
+
+        document.getElementById("tpe_idioma").addEventListener("change", function(e) {
+            if(typeof $("input[name=tpe_descripcion]").attr("disabled") != "undefined") {
+                var idioma = this.value
+                var pe_id = document.getElementsByName("pe_id")[0].value;
+                var promise = propuestas_elecciones.ver(pe_id+'|'+idioma);
+                promise.then(function(response) {
+                    document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
+                    propuestas_elecciones.ajax({
+                        url: '/obtener_detalle_propuesta',
+                        datos: { pe_id: response.pe_id, _token: _token, idioma: idioma }
+                    }).then(function(response) {
+                        if(response.length > 0) {
+                            for(let i = 0; i < response.length; i++){
+                                document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(response[i]));
+                            }
+                        }
+                        $("#tpe_idioma").removeAttr("disabled");
+                    })
+                })
+            }
+        })
+     
 
 
         $(document).on("change", "#tpe_idioma_traduccion", function(e) {
@@ -399,6 +422,14 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
+        if(datos.estado_propuesta == 3) {
+            BASE_JS.sweet({
+                text: registro_traduccion_terminado
+            });
+            return false;
+        } 
+
+
         // propuestas_elecciones.abrirModal();
 
         // $(".origen").hide();
@@ -522,6 +553,8 @@ document.addEventListener("DOMContentLoaded", function() {
             votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_elecciones");
             votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pe_id);
             
+            $(".traduccion").hide();
+            $("#tpe_idioma").removeAttr("disabled");
         })
         
 
@@ -713,6 +746,8 @@ document.addEventListener("DOMContentLoaded", function() {
             
         } else {
             votaciones.buscarEnFormulario("estado").value = 'I';
+            votaciones.buscarEnFormulario("propuesta_id").value = propuestas_elecciones.buscarEnFormulario("pe_id").value;
+            votaciones.buscarEnFormulario("tabla").value = "asambleas.propuestas_elecciones";
             document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
             // $("input[name=posee_seguro]").val("N");
         }
