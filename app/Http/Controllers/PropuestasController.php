@@ -39,7 +39,7 @@ class PropuestasController extends Controller
 
         $data["botones"] = $botones;
         
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?271020210706"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?271020211722"]);
         return parent::init($view, $data);  
 
       

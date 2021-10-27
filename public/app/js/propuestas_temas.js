@@ -787,6 +787,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#idmision").val("");
             }
 
+            $("#imprimir").removeAttr("disabled");
+
             desactivar_entradas();
         })
 
