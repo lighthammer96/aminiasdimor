@@ -525,7 +525,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     array.push(response[i].pt_id_origen);
                 }
                 //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
-                $("#pt_id_origen")[0].selectize.setValue(array);
+                if(array.length > 0) {
+
+                    $("#pt_id_origen")[0].selectize.setValue(array);
+                }
             })
 
             activar_entradas();
@@ -627,7 +630,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     array.push(response[i].pt_id_origen);
                 }
                 //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
-                $("#pt_id_origen")[0].selectize.setValue(array);
+                if(array.length > 0) {
+
+                    $("#pt_id_origen")[0].selectize.setValue(array);
+                }
             })
 
             $(".traduccion").hide();
@@ -765,7 +771,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     array.push(response[i].pt_id_origen);
                 }
                 //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
-                $("#pt_id_origen")[0].selectize.setValue(array);
+                if(array.length > 0) {
+
+                    $("#pt_id_origen")[0].selectize.setValue(array);
+                }
             })
 
             desactivar_entradas();
