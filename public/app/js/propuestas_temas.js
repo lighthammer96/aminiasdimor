@@ -644,6 +644,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             $(".traduccion").hide();
             $("#tpt_idioma").removeAttr("disabled");
+
+            $("#imprimir").removeAttr("disabled");
             // $("input[name=votacion_id]").val(response.votacion_id);
 
         
@@ -789,8 +791,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             
             desactivar_entradas();
-            console.log("hola");
-            $("#imprimir").removeAttr("disabled");
+            
+            
         })
 
 
