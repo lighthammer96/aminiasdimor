@@ -309,18 +309,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         })
-        document.getElementById("tpt_idioma").addEventListener("change", function(e) {
-            if(typeof $("input[name=tpt_titulo]").attr("disabled") != "undefined") {
-                
-                var idioma = this.value;
-                var pt_id = document.getElementsByName("pt_id")[0].value;
-                var promise = propuestas_temas.ver(pt_id+'|'+idioma);
-    
-                promise.then(function(response) {
-                    $("#tpt_idioma").removeAttr("disabled");
-                })
-            }
-        })
+
+        if(tipo == "origen") {
+
+            document.getElementById("tpt_idioma").addEventListener("change", function(e) {
+                if(typeof $("input[name=tpt_titulo]").attr("disabled") != "undefined") {
+                    
+                    var idioma = this.value;
+                    var pt_id = document.getElementsByName("pt_id")[0].value;
+                    var promise = propuestas_temas.ver(pt_id+'|'+idioma);
+        
+                    promise.then(function(response) {
+                        $("#tpt_idioma").removeAttr("disabled");
+                    })
+                }
+            })
+        }
       
 
         $(document).on("change", "#tpt_idioma_traduccion", function(e) {

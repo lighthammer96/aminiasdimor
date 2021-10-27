@@ -254,29 +254,29 @@ document.addEventListener("DOMContentLoaded", function() {
             })
 
         })
-
-        document.getElementById("tpe_idioma").addEventListener("change", function(e) {
-            if(typeof $("input[name=tpe_descripcion]").attr("disabled") != "undefined") {
-                var idioma = this.value
-                var pe_id = document.getElementsByName("pe_id")[0].value;
-                var promise = propuestas_elecciones.ver(pe_id+'|'+idioma);
-                promise.then(function(response) {
-                    document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
-                    propuestas_elecciones.ajax({
-                        url: '/obtener_detalle_propuesta',
-                        datos: { pe_id: response.pe_id, _token: _token, idioma: idioma }
-                    }).then(function(response) {
-                        if(response.length > 0) {
-                            for(let i = 0; i < response.length; i++){
-                                document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(response[i]));
+        if(tipo == "origen") {
+            document.getElementById("tpe_idioma").addEventListener("change", function(e) {
+                if(typeof $("input[name=tpe_descripcion]").attr("disabled") != "undefined") {
+                    var idioma = this.value
+                    var pe_id = document.getElementsByName("pe_id")[0].value;
+                    var promise = propuestas_elecciones.ver(pe_id+'|'+idioma);
+                    promise.then(function(response) {
+                        document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
+                        propuestas_elecciones.ajax({
+                            url: '/obtener_detalle_propuesta',
+                            datos: { pe_id: response.pe_id, _token: _token, idioma: idioma }
+                        }).then(function(response) {
+                            if(response.length > 0) {
+                                for(let i = 0; i < response.length; i++){
+                                    document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(response[i]));
+                                }
                             }
-                        }
-                        $("#tpe_idioma").removeAttr("disabled");
+                            $("#tpe_idioma").removeAttr("disabled");
+                        })
                     })
-                })
-            }
-        })
-     
+                }
+            })
+        }   
 
 
         $(document).on("change", "#tpe_idioma_traduccion", function(e) {
