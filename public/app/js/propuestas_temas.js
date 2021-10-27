@@ -789,6 +789,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             
             desactivar_entradas();
+            console.log("hola");
             $("#imprimir").removeAttr("disabled");
         })
 
