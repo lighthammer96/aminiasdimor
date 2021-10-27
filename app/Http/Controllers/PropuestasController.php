@@ -297,7 +297,7 @@ class PropuestasController extends Controller
         $pt_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma FROM asambleas.propuestas_temas AS pt 
+        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma, pt.tabla FROM asambleas.propuestas_temas AS pt 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)

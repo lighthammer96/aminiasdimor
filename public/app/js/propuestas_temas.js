@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function() {
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
          
-        if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null") {
+        if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null" && typeof idunion == "undefined" ) {
             document.getElementsByName("pt_email")[0].value = this.options[this.selectedIndex].getAttribute("atributo1");
         }
         // alert(typeof idunion);
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("tabla").value = "iglesias.mision";
         }
 
-        if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null") {
+        if(typeof this.options[this.selectedIndex] != "undefined" && this.options[this.selectedIndex].getAttribute("atributo1") != "null" && typeof idmision == "undefined") {
             document.getElementsByName("pt_email")[0].value = this.options[this.selectedIndex].getAttribute("atributo1");
         }
     });
@@ -530,7 +530,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("#pt_id_origen")[0].selectize.setValue(array);
                 }
             })
-
+            if(response.tabla == "iglesias.union") {
+                $("#idmision").val("");
+            }
             activar_entradas();
             
         })
@@ -635,6 +637,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("#pt_id_origen")[0].selectize.setValue(array);
                 }
             })
+
+            if(response.tabla == "iglesias.union") {
+                $("#idmision").val("");
+            }
 
             $(".traduccion").hide();
             $("#tpt_idioma").removeAttr("disabled");
@@ -776,6 +782,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("#pt_id_origen")[0].selectize.setValue(array);
                 }
             })
+
+            if(response.tabla == "iglesias.union") {
+                $("#idmision").val("");
+            }
 
             desactivar_entradas();
         })
