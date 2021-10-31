@@ -1,0 +1,29 @@
+url: https://www.youtube.com/watch?v=nWYOEYirlpg
+
+otra opcion es la siguiente y creo que la mejor sin afecta nada mas en el codigo
+
+
+url: https://guias.webempresa.com/preguntas-frecuentes/apuntar-dominio-principal-una-carpeta/
+    
+
+copiar este .htaccess en la raiz de public_html del cpanel
+
+# Webempresa.com
+# Redireccion de dominio principal a subdirectorio
+# Copiar y pegar y modificar según necesidades
+# Esta linea no quitarla
+RewriteEngine on
+# Cambiar sudominio.com por su nombre de dominio
+RewriteCond %{HTTP_HOST} ^(www.)?sudominio.com$
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteCond %{REQUEST_URI} !^/subdirectory/
+# No cambiar estas lineas.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteRule ^(.*)$ /subdirectory/$1
+# Cambiar sudominio.com por su nombre de dominio
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+# followed by / then the main file for your site, index.php, index.html, etc.
+RewriteCond %{HTTP_HOST} ^(www.)?sudominio.com$
+RewriteRule ^(/)?$ subdirectory/index.php [L]
