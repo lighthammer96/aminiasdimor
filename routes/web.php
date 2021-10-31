@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActividadmisioneraController;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AsociadosController;
 use App\Http\Controllers\CargosController;
 use App\Http\Controllers\DepartamentosController;
@@ -448,3 +449,10 @@ Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::
  Route::post('resoluciones/guardar_resoluciones', [ResolucionesController::class, "guardar_resoluciones"]);
  Route::post('resoluciones/get_resoluciones', [ResolucionesController::class, "get_resoluciones"]);
  Route::post('resoluciones/eliminar_resoluciones', [ResolucionesController::class, "eliminar_resoluciones"]);
+
+
+ 
+
+ // API APP
+
+ Route::get('api/login', [ApiController::class, "login"]);
