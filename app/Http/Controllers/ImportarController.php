@@ -115,7 +115,7 @@ class ImportarController extends Controller
         $celdas =  array();
 
         $inputFileType = 'Xlsx';
-        $inputFileName = base_path("public/excel/Formato_Jerarquia_1.xlsx");
+        $inputFileName = base_path("public/excel/Formato_Jerarquia_2.xlsx");
         
 
         $reader = IOFactory::createReader($inputFileType);
@@ -210,7 +210,7 @@ class ImportarController extends Controller
             $sql_division = "SELECT * FROM public.departamento AS d
             INNER JOIN public.provincia AS p ON (d.iddepartamento=p.iddepartamento)
             /*INNER JOIN public.distrito AS dd ON (dd.idprovincia=p.idprovincia)*/
-            WHERE upper(p.descripcion)='".trim(strtoupper($sheetData[$i]["J"]))."'";
+            WHERE upper(p.descripcion)='".trim(strtr(strtoupper($sheetData[$i]["J"]), "ãàèìòùáéíóúçñäëïöü", "ÃÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ"))."'";
             $division = DB::select($sql_division);
             $data_iglesia =  array(
                 "descripcion" => trim($sheetData[$i]["F"]),
