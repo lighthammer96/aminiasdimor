@@ -343,6 +343,9 @@
 
     <script src="{{ URL::asset('dist/js/highcharts.js') }}"></script>
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
+    <!-- libreria para los sockets -->
+    <script src="{{ URL::asset('dist/js/socket.io-2.3.0.js') }}"></script>
+ 
     <script src="{{ URL::asset('app/js/BASE_JS.js?version=051020210813') }}"></script>
     
 

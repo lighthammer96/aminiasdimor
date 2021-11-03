@@ -27,7 +27,7 @@ use App\Http\Controllers\PastoresController;
 use App\Http\Controllers\PropuestasController;
 use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
-use App\Http\Controllers\ResolucionesController;
+use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
@@ -441,14 +441,25 @@ Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::
 
 
  // RESOLUCIONES
- Route::get('resoluciones/index', [ResolucionesController::class, "index"]);
- Route::post('resoluciones/buscar_datos', [ResolucionesController::class, "buscar_datos"]);
+ Route::get('resoluciones/index', [AsistenciaController::class, "index"]);
+ Route::post('resoluciones/buscar_datos', [AsistenciaController::class, "buscar_datos"]);
 
- Route::post('resoluciones/obtener_resoluciones', [ResolucionesController::class, "obtener_resoluciones"]);
+ Route::post('resoluciones/obtener_resoluciones', [AsistenciaController::class, "obtener_resoluciones"]);
 
- Route::post('resoluciones/guardar_resoluciones', [ResolucionesController::class, "guardar_resoluciones"]);
- Route::post('resoluciones/get_resoluciones', [ResolucionesController::class, "get_resoluciones"]);
- Route::post('resoluciones/eliminar_resoluciones', [ResolucionesController::class, "eliminar_resoluciones"]);
+ Route::post('resoluciones/guardar_resoluciones', [AsistenciaController::class, "guardar_resoluciones"]);
+ Route::post('resoluciones/get_resoluciones', [AsistenciaController::class, "get_resoluciones"]);
+ Route::post('resoluciones/eliminar_resoluciones', [AsistenciaController::class, "eliminar_resoluciones"]);
+
+
+ // ASISTENCIA
+ Route::get('asistencia/index', [AsistenciaController::class, "index"]);
+ Route::post('asistencia/buscar_datos', [AsistenciaController::class, "buscar_datos"]);
+
+ Route::post('asistencia/obtener_asistencia', [AsistenciaController::class, "obtener_asistencia"]);
+
+ Route::post('asistencia/guardar_asistencia', [AsistenciaController::class, "guardar_asistencia"]);
+ Route::post('asistencia/get_asistencia', [AsistenciaController::class, "get_asistencia"]);
+ Route::post('asistencia/eliminar_asistencia', [AsistenciaController::class, "eliminar_asistencia"]);
 
 
  

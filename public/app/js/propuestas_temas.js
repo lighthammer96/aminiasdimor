@@ -10,8 +10,53 @@ var asociados = new BASE_JS('asociados', 'asociados');
 var eventClick = new Event('click');
 
 
+
+// funciona con la libreria: public\dist\js\socket.io.js
+// que se descargo de la siguiente ruta: https://github.com/socketio/socket.io-client/tree/master/dist
+// referencia: https://www.npmjs.com/package/socket.io =>
+// Características
+// Socket.IO permite la comunicación bidireccional basada en eventos en tiempo real. Consiste en: 
+// 1) un servidor Node.js (este repositorio) 
+// 2) una biblioteca cliente Javascript para el navegador (o un cliente Node.js)
+
+// docs: https://socket.io/docs/v4/
+
+// solucion al problema de cors: https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error
+
+// muy importante la version del archivo js que se usa, debe ser la misma version que la del server node js y la del flutter(^1.0.1) en este caso la 2.3.0 es compatible con la version que se uso en flutter ^1.0.1.
+// url donde estan varias versiones: https://cdn.socket.io/
+
+const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
+
+// socket.on("connect", () => {
+//   // either with send()
+//   socket.send("Hello!");
+
+//   // or with emit() and custom event names
+//   socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+// });
+
+socket.on('connect', function() {
+    console.log('Conectado al servidor desde la propuesta')
+});
+
+socket.on('disconnect', function() {
+    console.log('Perdimos comunicación con el servidor desde la propuesta');
+});
+
+
+// socket.emit('mensaje', { nombre: 'Fernando' } );
+
+// socket.on('nuevo-mensaje', function( payload ){
+//     console.log('Escuchando:', payload );
+// });
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     
+   
+
     asociados.TablaListado({
         tablaID: '#tabla-asociados',
         url: "/buscar_datos",
@@ -868,7 +913,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-votaciones").addEventListener("click", function(event) {
         event.preventDefault();
  
-
         var required = true;
         var votacion_id = document.getElementsByName("votacion_id")[0].value;
 
@@ -895,6 +939,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("input[name=votacion_hora_apertura]").val(response.datos[0].votacion_hora_apertura);
                 $("input[name=votacion_hora_cierre]").val(response.datos[0].votacion_hora_cierre);
                 $("input[name=estado]").val(response.datos[0].estado);
+                alert("hola");
+                socket.emit("votacion-activada", response);
             })
 
         }

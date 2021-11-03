@@ -134,11 +134,13 @@ return [
     'titulo_resoluciones' => "Administración de Resoluciones",
     'listado_propuestas_elecciones' => "Listado de Propuestas de Elecciones",
     'listado_propuestas_temas' => "Listado de Propuestas de Temas",
+    'titulo_asistencia' => "Administración de Asistencias",
 
     
 
     // MENSAJES GESTION DE ASAMBLEAS
     'eliminar_asamblea_agenda' => "No se puede eliminar, esta convocatoria de asamblea ya tiene un detalle", 
     'imprimir_listado_delegados' => "¿Desea imprimir el listado de delegados?", 
+    'eliminar_asistencia_detalle' => "No se puede eliminar, este registro de asistencia ya tiene un detalle", 
 
 ];

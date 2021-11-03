@@ -614,6 +614,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
         
         })
+        // alert(posee_union);
         if(posee_union == "N") {
             $(".union").hide();
 
@@ -989,7 +990,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: pais_id, _token: _token }
         }).then(function(response) {
             if(response.length > 0) {
-                $("#pais_id").trigger("change", [response[0].pais_id+"|N"]);
+                $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union]);
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);
@@ -1380,41 +1381,62 @@ document.addEventListener("DOMContentLoaded", function() {
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
-        // alert(idmiembro);
+        // alert(array_pais[1]);
         var required = true;
         var condicion = true;
         required = required && asociados.required("nombres");
+        // console.log(required);
         required = required && asociados.required("apellidos");
+        // console.log(required);
         required = required && asociados.required("sexo");
+        // console.log(required);
         required = required && asociados.required("idtipodoc");
+        // console.log(required);
         required = required && asociados.required("nrodoc");
+        // console.log(required);
         // required = required && asociados.required("celular");
         // required = required && asociados.required("telefono");
         // required = required && asociados.required("email");
         required = required && asociados.validar_email("email");
+        // console.log(required);
         if(emailalternativo != "") {
             required = required && asociados.validar_email("emailalternativo");
+            // console.log(required);
         }
         required = required && asociados.required("direccion");
+        //   console.log(required);
         required = required && asociados.required("fechanacimiento");
+        // console.log(required);
         required = required && asociados.required("pais_id_nacimiento");
+        // console.log(required);
         required = required && asociados.required("ciudadnacextranjero");
+        // console.log(required);
         required = required && asociados.required("idestadocivil");
+        // console.log(required);
         required = required && asociados.required("idgradoinstruccion");
+        // console.log(required);
         required = required && asociados.required("idocupacion");
+        // console.log(required);
         // required = required && asociados.required("pais_id_nacionalidad");
         required = required && asociados.required("fechaingresoiglesia");
+        // console.log(required);
         
         if(idmiembro == "") {
             required = required && asociados.required("iddivision");
+            // console.log(required);
             required = required && asociados.required("pais_id");
+            // console.log(required);
             // required = required && asociados.required("iddivision");
             if(array_pais[1] == "S") {
                 required = required && asociados.required("idunion");
+                // console.log(required);
             }
             required = required && asociados.required("idmision");
+            // console.log(required);
             required = required && asociados.required("iddistritomisionero");
+            // console.log(required);
             required = required && asociados.required("idiglesia");
+            // console.log(required);
         }
 
         if(!required) {
@@ -1441,6 +1463,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // alert(required);
+        // alert(condicion);
         if(required && condicion) {
             var promise = asociados.guardar();
             asociados.CerrarModal();

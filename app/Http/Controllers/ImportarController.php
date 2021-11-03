@@ -144,7 +144,7 @@ class ImportarController extends Controller
         $union_id = "";
         $asociacion_id = "";
         $distrito_id = "";
-        for ($i=2; $i < $count ; $i++) { 
+        for ($i=2; $i <= $count ; $i++) { 
            // echo $sheetData[$i]["A"]. " ".$sheetData[$i]["B"]."<br>";
 
             if(!in_array($sheetData[$i]["C"] , $union)) {
@@ -207,7 +207,7 @@ class ImportarController extends Controller
                 echo "DISTRITO MISIONERO: ".$sheetData[$i]["E"]. " INSERTADO ...<br>";
             }
 
-            $sql_division = "SELECT * FROM public.departamento AS d
+             $sql_division = "SELECT * FROM public.departamento AS d
             INNER JOIN public.provincia AS p ON (d.iddepartamento=p.iddepartamento)
             /*INNER JOIN public.distrito AS dd ON (dd.idprovincia=p.idprovincia)*/
             WHERE upper(p.descripcion)='".trim(strtr(strtoupper($sheetData[$i]["J"]), "ãàèìòùáéíóúçñäëïöü", "ÃÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ"))."'";

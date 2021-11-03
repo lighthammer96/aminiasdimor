@@ -204,14 +204,18 @@ class PaisesController extends Controller
 
     public function obtener_jerarquia(Request $request) {
         if(!empty($_REQUEST["pais_id"])) {
-            $sql = "SELECT pj_item AS item, pj_descripcion AS descripcion, pais_id
-            FROM iglesias.paises_jerarquia 
-            WHERE pais_id=".$request->input("pais_id")."
+            $sql = "SELECT pj.pj_item AS item, pj.pj_descripcion AS descripcion, pj.pais_id, p.posee_union
+            FROM iglesias.paises_jerarquia AS pj
+            INNER JOIN iglesias.paises AS p ON(p.pais_id=pj.pais_id)
+
+            WHERE pj.pais_id=".$request->input("pais_id")."
             ORDER BY pj_item ASC";  
         } else {
-            $sql = "SELECT pj_item AS item, pj_descripcion AS descripcion, pais_id
-            FROM iglesias.paises_jerarquia 
-            WHERE pais_id=".session("pais_id")."
+            $sql = "SELECT pj.pj_item AS item, pj.pj_descripcion AS descripcion, pj.pais_id, p.posee_union
+            FROM iglesias.paises_jerarquia AS pj
+            INNER JOIN iglesias.paises AS p ON(p.pais_id=pj.pais_id)
+
+            WHERE pj.pais_id=".session("pais_id")."
             ORDER BY pj_item ASC";  
         }
         

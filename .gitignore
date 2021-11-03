@@ -18,3 +18,5 @@ yarn-error.log
 /public/carta_traslados/
 /public/excel/
 composer.lock
+
+package-lock.json
