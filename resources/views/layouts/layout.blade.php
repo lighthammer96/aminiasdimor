@@ -365,7 +365,8 @@
         // muy importante la version del archivo js que se usa, debe ser la misma version que la del server node js y la del flutter(^1.0.1) en este caso la 2.3.0 es compatible con la version que se uso en flutter ^1.0.1.
         // url donde estan varias versiones: https://cdn.socket.io/
 
-        const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
+        // const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
+        const socket = io("ws://iglesia.solucionesahora.com/server/", { transports : ['websocket'] });
 
         // socket.on("connect", () => {
         //   // either with send()
