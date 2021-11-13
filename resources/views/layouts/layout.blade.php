@@ -366,7 +366,7 @@
         // url donde estan varias versiones: https://cdn.socket.io/
 
         // const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
-        const socket = io("ws://127.0.0.1:3000", { transports : ['websocket'] });
+        const socket = io("ws://localhost:3000", { transports : ['websocket'] });
 
         // socket.on("connect", () => {
         //   // either with send()
