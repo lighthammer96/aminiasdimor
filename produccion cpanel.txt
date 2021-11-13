@@ -27,3 +27,27 @@ RewriteRule ^(.*)$ /subdirectory/$1
 # followed by / then the main file for your site, index.php, index.html, etc.
 RewriteCond %{HTTP_HOST} ^(www.)?sudominio.com$
 RewriteRule ^(/)?$ subdirectory/index.php [L]
+
+
+// para el caso de imssystem fue de la siguiente manera
+
+
+# Webempresa.com
+# Redireccion de dominio principal a subdirectorio
+# Copiar y pegar y modificar según necesidades
+# Esta linea no quitarla
+RewriteEngine on
+# Cambiar sudominio.com por su nombre de dominio
+RewriteCond %{HTTP_HOST} ^(www.)?iglesia.solucionesahora.com$
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteCond %{REQUEST_URI} !^/imssystem/public/
+# No cambiar estas lineas.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteRule ^(.*)$ /imssystem/public/$1
+# Cambiar sudominio.com por su nombre de dominio
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+# followed by / then the main file for your site, index.php, index.html, etc.
+RewriteCond %{HTTP_HOST} ^(www.)?iglesia.solucionesahora.com$
+RewriteRule ^(/)?$ imssystem/public/index.php [L]

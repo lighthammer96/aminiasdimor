@@ -366,7 +366,7 @@
         // url donde estan varias versiones: https://cdn.socket.io/
 
         // const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
-        const socket = io("wss://iglesia.solucionesahora.com/", { transports : ['websocket'] });
+        const socket = io("https://imsapp-socket-server.herokuapp.com/", { transports : ['websocket'] });
 
 
         // socket.on("connect", () => {
