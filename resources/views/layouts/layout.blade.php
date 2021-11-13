@@ -366,7 +366,8 @@
         // url donde estan varias versiones: https://cdn.socket.io/
 
         // const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
-        const socket = io("ws://localhost:3000", { transports : ['websocket'] });
+        const socket = io("ws://iglesia.solucionesahora.com/server/", { transports : ['websocket'] });
+
 
         // socket.on("connect", () => {
         //   // either with send()
