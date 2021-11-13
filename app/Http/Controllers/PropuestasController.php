@@ -39,7 +39,7 @@ class PropuestasController extends Controller
 
         $data["botones"] = $botones;
         
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?271020211722"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?121120211722"]);
         return parent::init($view, $data);  
 
       
@@ -52,7 +52,7 @@ class PropuestasController extends Controller
         $data["title"] = traducir("asambleas.titulo_propuestas_elecciones");
         $data["subtitle"] = "";
         $data["tabla"] = $this->propuestas_model->tabla_propuestas_elecciones()->HTML();
-
+        $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-propuesta-eleccion">'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-propuesta-eleccion">'.traducir("traductor.modificar").' [F2]</button>';
@@ -64,7 +64,7 @@ class PropuestasController extends Controller
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-eleccion">'.traducir("asambleas.votacion").'</button>';
 
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?27102021"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?12112021"]);
         return parent::init($view, $data);  
     }
 
@@ -125,11 +125,11 @@ class PropuestasController extends Controller
             $_POST["pt_fecha_reunion_cpag"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_cpag"], "server");
             $_POST["pt_fecha_reunion_uya"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_uya"], "server");
 
-            if(count($asamblea) > 0) {
+            if(count($asamblea) > 1) {
                 $_POST["asamblea_id"] = $asamblea[1];
             }
 
-            if(count($pais) > 0) {
+            if(count($pais) > 1) {
                 $_POST["pais_id"] = $pais[0];
             }
             // print_r($_POST); exit;
@@ -179,8 +179,19 @@ class PropuestasController extends Controller
 
         $array_traducciones = array();
         
+        
         try {
             DB::beginTransaction();
+
+            if(isset($_POST["asamblea_id"])) {
+                $asamblea =  explode("|", $_POST["asamblea_id"]);
+                if(count($asamblea) > 1) {
+
+                    $_POST["asamblea_id"] = $asamblea[1];
+                } 
+            }
+            
+            
 
             $idioma = (isset($_REQUEST["tpe_idioma"])) ? $_REQUEST["tpe_idioma"] : "";
             foreach ($_REQUEST as $key => $value) {
@@ -216,7 +227,8 @@ class PropuestasController extends Controller
             // print_r($result);
             $_POST["pe_id"] = $result["id"];
 
-            DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->where("dp_idioma", $idioma)->delete();
+            // DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->where("dp_idioma", $idioma)->delete();
+            DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->delete();
             if(isset($_REQUEST["dp_descripcion"]) && gettype($_REQUEST["dp_descripcion"]) == "array" && count($_REQUEST["dp_descripcion"]) > 0) {
             
                 
@@ -255,12 +267,12 @@ class PropuestasController extends Controller
        
 
         try {
-            // $sql_agenda = "SELECT * FROM asambleas.agenda WHERE pt_id=".$_REQUEST["id"];
-            // $agenda = DB::select($sql_agenda);
+            $sql_detalle_traduccion = "SELECT * FROM asambleas.traduccion_propuestas_temas WHERE pt_id=".$_REQUEST["id"];
+            $detalle_traduccion  = DB::select($sql_detalle_traduccion);
 
-            // if(count($agenda) > 0) {
-            //     throw new Exception(traducir("traductor.eliminar_asamblea_agenda"));
-            // }
+            if(count($detalle_traduccion) > 0) {
+                throw new Exception(traducir("asambleas.eliminar_propuesta_temas_traduccion"));
+            }
 
            
 
@@ -279,8 +291,24 @@ class PropuestasController extends Controller
             // $agenda = DB::select($sql_agenda);
 
             // if(count($agenda) > 0) {
-            //     throw new Exception(traducir("traductor.eliminar_asamblea_agenda"));
+            //     throw new Exception(traducir("asambleas.eliminar_asamblea_agenda"));
             // }
+
+            $sql_detalle_traduccion = "SELECT * FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=".$_REQUEST["id"];
+            $detalle_traduccion  = DB::select($sql_detalle_traduccion);
+
+            if(count($detalle_traduccion) > 0) {
+                throw new Exception(traducir("asambleas.eliminar_propuesta_eleccion_traduccion"));
+            }
+
+
+            $sql_detalle = "SELECT * FROM asambleas.detalle_propuestas WHERE pe_id=".$_REQUEST["id"];
+            $detalle  = DB::select($sql_detalle);
+
+            if(count($detalle) > 0) {
+                throw new Exception(traducir("asambleas.eliminar_propuesta_eleccion_detalle"));
+            }
+
 
            
 
@@ -303,7 +331,7 @@ class PropuestasController extends Controller
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=pt.pais_id)
         LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='{$idioma_codigo}')
-        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pt.pt_id AND v.tabla='asambleas.propuestas_temas')
+        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pt.pt_id AND v.tabla='asambleas.propuestas_temas' AND v.estado='A')
         WHERE pt.pt_id=".$pt_id."
         ORDER BY tpt.tpt_id DESC LIMIT 1";
         $one = DB::select($sql);
@@ -317,9 +345,11 @@ class PropuestasController extends Controller
         $pe_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma  FROM asambleas.propuestas_elecciones AS pe 
+        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma, (tc.tipconv_id || '|' || pe.asamblea_id) AS asamblea_id FROM asambleas.propuestas_elecciones AS pe 
+        INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pe.asamblea_id)
+        INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$idioma_codigo}')
-        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pe.pe_id AND v.tabla='asambleas.propuestas_elecciones')
+        LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pe.pe_id AND v.tabla='asambleas.propuestas_elecciones' AND v.estado='A')
         WHERE pe.pe_id=".$pe_id."
          ORDER BY tpe.tpe_id DESC LIMIT 1";
         $one = DB::select($sql);
@@ -330,7 +360,7 @@ class PropuestasController extends Controller
         $sql = "SELECT *
         FROM asambleas.detalle_propuestas AS dp 
       
-        WHERE dp.pe_id={$request->input("pe_id")} AND dp.dp_idioma='{$request->input("idioma")}'";
+        WHERE dp.pe_id={$request->input("pe_id")} /*AND dp.dp_idioma='{$request->input("idioma")}'*/";
         // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
@@ -387,9 +417,9 @@ class PropuestasController extends Controller
     
 
     
-    public function obtener_formas_votacion() {
+    public function obtener_formas_votacion(Request $request) {
         $sql = "SELECT fv_id as id, fv_descripcion AS descripcion FROM asambleas.formas_votacion
-        WHERE estado='A'
+        WHERE estado='A' AND fv_tipo='{$request->input("fv_tipo")}'
         ORDER BY fv_descripcion ASC";
         $result = DB::select($sql);
         echo json_encode($result);
@@ -398,7 +428,7 @@ class PropuestasController extends Controller
     public function get_votaciones() {
         $id = (empty($_REQUEST["id"])) ? 0 : $_REQUEST["id"];
         $sql = "SELECT * FROM asambleas.votaciones
-        WHERE votacion_id={$id}";
+        WHERE votacion_id={$id} AND estado = 'A'";
         $result = DB::select($sql);
 
         echo json_encode($result);
@@ -410,15 +440,28 @@ class PropuestasController extends Controller
         try {
             DB::beginTransaction();
 
-        
-            if ($request->input("votacion_id") == '') {
+            if(isset($_POST["asamblea_id"])) {
+                $asamblea =  explode("|", $_POST["asamblea_id"]);
+                if(count($asamblea) > 1) {
+
+                    $_POST["asamblea_id"] = $asamblea[1];
+                } 
+            }
+            
+            
+            
+            // exit;
+            // if ($request->input("votacion_id") == '') {
+               
+            // }else{
+                
+            // }
+           
+            if($request->input("estado") == "A") {
+
                 $_POST["votacion_fecha"] = date("Y-m-d H:i:s");
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.votaciones", $_POST));
-            }else{
-                $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $_POST));
-            }
-
-            if($request->input("estado") == "A") {
+                // print_R($result); exit;
                 if($request->input("tabla") == "asambleas.propuestas_temas") {
                     $update_propuesta["pt_id"] = $request->input("propuesta_id");
                     $update_propuesta["pt_someter_votacion"] = "S";
@@ -429,6 +472,9 @@ class PropuestasController extends Controller
 
                 
             } elseif($request->input("estado") == "I") {
+                $update_votacion["votacion_id"] = $request->input("votacion_id");
+                $update_votacion["estado"] = "I";
+                $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $update_votacion));
 
                 if($request->input("tabla") == "asambleas.propuestas_temas") {
                     $update_propuesta["pt_id"] = $request->input("propuesta_id");
@@ -437,9 +483,69 @@ class PropuestasController extends Controller
                     $update_propuesta["pe_id"] = $request->input("propuesta_id");
                     $update_propuesta["pe_someter_votacion"] = "N";
                 }
-            
+                
             }
-            $this->base_model->modificar($this->preparar_datos($request->input("tabla"), $update_propuesta));
+            $r = $this->base_model->modificar($this->preparar_datos($request->input("tabla"), $update_propuesta));
+            // print_r($this->preparar_datos($request->input("tabla"), $update_propuesta));     exit;
+
+            if($request->input("estado") == "I") {
+                DB::commit();
+                echo json_encode($result);
+                exit;
+            }
+           
+            $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
+            FROM asambleas.votaciones AS v
+            INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
+            WHERE v.votacion_id={$result["id"]} AND v.estado='A'";
+
+            $result["formas_votacion"] = DB::select($sql_forma_votacion);
+            $result["formas_votacion"][0]->items = array();
+
+            // print_r($result); exit;
+            if($request->input("tabla") == "asambleas.propuestas_temas") {
+
+                $sql_propuestas = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS propuesta, tpt.tpt_idioma AS idioma_codigo FROM asambleas.propuestas_temas AS pt
+                INNER JOIN asambleas.traduccion_propuestas_temas AS tpt ON(pt.pt_id=tpt.pt_id)
+                WHERE pt.pt_id = {$result["formas_votacion"][0]->propuesta_id}";
+                $propuestas = DB::select($sql_propuestas);
+
+            } elseif($request->input("tabla") == "asambleas.propuestas_elecciones") {
+
+                $sql_propuestas = "SELECT CASE WHEN tpe.tpe_descripcion IS NULL THEN '' ELSE tpe.tpe_descripcion END AS propuesta, tpe.tpe_idioma AS idioma_codigo FROM asambleas.propuestas_elecciones AS pe
+                INNER JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(pe.pe_id=tpe.pe_id)
+                WHERE pe.pe_id = {$result["formas_votacion"][0]->propuesta_id}";
+
+                $propuestas = DB::select($sql_propuestas);
+            }
+           
+            if($result["formas_votacion"][0]->fv_id == 3) {
+                $sql_asistencia = "SELECT m.idmiembro AS id, (m.apellidos || ', ' || m.nombres) AS descripcion FROM asambleas.asistencia AS a
+                INNER JOIN asambleas.detalle_asistencia AS da ON(a.asistencia_id=da.asistencia_id)
+                INNER JOIN iglesias.miembro AS m ON(m.idmiembro=da.idmiembro)
+                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id}";
+                $result["formas_votacion"][0]->items = DB::select($sql_asistencia);
+            }
+
+            if($result["formas_votacion"][0]->fv_id == 6) {
+                $sql_detalle_propuesta = "SELECT dp.dp_id AS id, dp.dp_descripcion AS descripcion FROM asambleas.propuestas_elecciones AS pe
+                INNER JOIN asambleas.detalle_propuestas AS dp ON(dp.pe_id=pe.pe_id)
+                WHERE pe.estado='A' AND pe.pe_id={$result["formas_votacion"][0]->propuesta_id}";
+                // die($sql_detalle_propuesta);
+                $result["formas_votacion"][0]->items = DB::select($sql_detalle_propuesta);
+            }
+            // print_r($propuestas); exit;
+            $result["formas_votacion"][0]->propuestas = $propuestas;
+            if($result["formas_votacion"][0]->fv_id == 5) {
+                // $sql_detalle_propuesta = "SELECT dp.dp_id AS id, dp.dp_descripcion AS descripcion FROM asambleas.propuestas_elecciones AS pe
+                // INNER JOIN asambleas.detalle_propuestas AS dp ON(dp.pe_id=pe.pe_id)
+                // WHERE pe.estado='A' AND pe.pe_id={$result["formas_votacion"][0]->propuesta_id} AND dp.dp_idioma='".session("idioma_codigo")."'";
+                // $result["formas_votacion"][0]->items = DB::select($sql_detalle_propuesta);
+            }
+
+
+           
+           
 
             DB::commit();
             echo json_encode($result);
@@ -525,5 +631,161 @@ class PropuestasController extends Controller
 
         $result = DB::select($sql);
         echo json_encode($result);
+    }
+
+    public function obtener_resultados(Request $request) {
+
+
+        $sql = "SELECT * FROM asambleas.votaciones AS vs
+        WHERE vs.estado='A' AND vs.propuesta_id = {$request->input("propuesta_id")} AND vs.tabla='{$request->input("tabla")}'";
+        $votacion = DB::select($sql);
+        
+        // DB::table("asambleas.resultados")->where("votacion_id", $votacion[0]->votacion_id)->delete();
+
+        $sql_results = "SELECT * FROM asambleas.resultados WHERE votacion_id = {$votacion[0]->votacion_id}";
+        $results = DB::select($sql_results);
+
+        if($votacion[0]->fv_id == 1 || $votacion[0]->fv_id == 2) {
+            //
+
+            $sql_forma = "SELECT * FROM asambleas.formas_votacion WHERE fv_id={$votacion[0]->fv_id}";
+            $forma = DB::select($sql_forma);
+            $criterios = explode(",", $forma[0]->fv_descripcion);
+
+
+            $sql = "SELECT CASE 
+            WHEN v.voto_item = 0 THEN '".$criterios[0]."'
+            WHEN v.voto_item = 1 THEN '".$criterios[1]."'
+            WHEN v.voto_item = 2 THEN '".$criterios[2]."'
+            END AS resultado_descripcion, 
+            COUNT(v.voto_item) AS resultado_votos, 
+            vs.votacion_id,  COUNT(v.voto_item) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY v.voto_item, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+        if($votacion[0]->fv_id == 3) {
+
+            $sql = "SELECT (m.apellidos || ', ' || m.nombres) AS resultado_descripcion, COUNT(v.idmiembro_votado) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.idmiembro_votado) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY m.apellidos, m.nombres, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+        if($votacion[0]->fv_id == 4) {
+
+            $sql = "SELECT v.voto_numero AS resultado_descripcion, COUNT(v.voto_numero) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_numero) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY v.voto_numero, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+        if($votacion[0]->fv_id == 6) {
+            //
+            $sql = "SELECT dp.dp_descripcion AS resultado_descripcion, COUNT(v.dp_id) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.dp_id) AS resultado_total, dp.idmiembro
+            FROM asambleas.detalle_propuestas AS dp 
+            LEFT JOIN asambleas.propuestas_elecciones AS pe ON(pe.pe_id=dp.pe_id )
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.dp_id=dp.dp_id AND v.tabla='asambleas.propuestas_elecciones' )
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY dp.dp_descripcion, vs.votacion_id, dp.idmiembro";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+
+        if($votacion[0]->fv_id == 7) {
+
+            $sql = "SELECT v.voto_miembro AS resultado_descripcion, COUNT(v.voto_miembro) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_miembro) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY v.voto_miembro, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+
+        // print_r($result); exit;
+        $abstenciones = 0;
+        if(count($results) > 0) {
+            //MODIFICAMOS
+            foreach ($result as $key => $value) {
+
+               DB::update(
+                    'UPDATE asambleas.resultados set resultado_votos = '.$value->resultado_votos.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
+                    [$value->resultado_descripcion, $votacion[0]->votacion_id]
+                );
+            }
+
+            DB::update(
+                'UPDATE asambleas.resultados set resultado_votos = '.$abstenciones.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
+                [traducir("asambleas.abstencion"), $votacion[0]->votacion_id]
+            );
+
+           
+        } else {
+            //INSERTAMOS
+      
+            foreach ($result as $key => $value) {
+                $this->base_model->insertar($this->preparar_datos("asambleas.resultados", (array)$value));
+                $abstenciones += $value->abstenciones;
+            }
+
+    
+            $data = array();
+            $data["resultado_descripcion"] = traducir("asambleas.abstencion");
+            $data["votacion_id"] = $result[0]->votacion_id;
+            $data["resultado_votos"] = $abstenciones;
+            $data["resultado_total"] = $abstenciones;
+            $this->base_model->insertar($this->preparar_datos("asambleas.resultados", $data));
+        }
+
+
+
+        $sql_resultados = "SELECT * FROM asambleas.resultados AS r
+        INNER JOIN asambleas.votaciones AS v ON(r.votacion_id=v.votacion_id)
+        WHERE r.votacion_id={$votacion[0]->votacion_id}";
+
+        $resultados = DB::select($sql_resultados);
+
+        echo json_encode($resultados);
+    }
+
+    public function guardar_resultados(Request $request) {
+        $update = array();
+        $update["resultado_id"] = $request->input("resultado_id");
+        $update["resultado_mano_alzada"] = $request->input("resultado_mano_alzada");
+
+        $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $update));
+        echo json_encode($result);
+ 
+    }
+
+    public function guardar_ganador(Request $request) {
+        $update = array();
+        $update["resultado_id"] = $request->input("resultado_id");
+        $update["resultado_ganador"] = $request->input("resultado_ganador");
+        
+        $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $update));
+        echo json_encode($result);
+ 
     }
 }

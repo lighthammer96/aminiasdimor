@@ -299,6 +299,7 @@
         var registro_traduccion_terminado = "<?php echo traducir('asambleas.registro_traduccion_terminado'); ?>";
         var registro_enviado_traduccion = "<?php echo traducir('asambleas.registro_enviado_traduccion'); ?>";
         var notifico_correctamente = "<?php echo traducir('asambleas.notifico_correctamente'); ?>";
+        var no_hay_resultados = "<?php echo traducir('asambleas.no_hay_resultados'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -348,7 +349,49 @@
  
     <script src="{{ URL::asset('app/js/BASE_JS.js?version=051020210813') }}"></script>
     
+    <script>                
+        // funciona con la libreria: public\dist\js\socket.io.js
+        // que se descargo de la siguiente ruta: https://github.com/socketio/socket.io-client/tree/master/dist
+        // referencia: https://www.npmjs.com/package/socket.io =>
+        // Características
+        // Socket.IO permite la comunicación bidireccional basada en eventos en tiempo real. Consiste en: 
+        // 1) un servidor Node.js (este repositorio) 
+        // 2) una biblioteca cliente Javascript para el navegador (o un cliente Node.js)
 
+        // docs: https://socket.io/docs/v4/
+
+        // solucion al problema de cors: https://stackoverflow.com/questions/44628363/socket-io-access-control-allow-origin-error
+
+        // muy importante la version del archivo js que se usa, debe ser la misma version que la del server node js y la del flutter(^1.0.1) en este caso la 2.3.0 es compatible con la version que se uso en flutter ^1.0.1.
+        // url donde estan varias versiones: https://cdn.socket.io/
+
+        const socket = io("ws://192.168.1.52:3000", { transports : ['websocket'] });
+
+        // socket.on("connect", () => {
+        //   // either with send()
+        //   socket.send("Hello!");
+
+        //   // or with emit() and custom event names
+        //   socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+        // });
+
+        socket.on('connect', function() {
+            console.log('Conectado al servidor desde la propuesta')
+        });
+
+        socket.on('disconnect', function() {
+            console.log('Perdimos comunicación con el servidor desde la propuesta');
+        });
+
+
+        // socket.emit('mensaje', { nombre: 'Fernando' } );
+
+        // socket.on('nuevo-mensaje', function( payload ){
+        //     console.log('Escuchando:', payload );
+        // });
+
+
+    </script>                         
    
     @isset($scripts)
 

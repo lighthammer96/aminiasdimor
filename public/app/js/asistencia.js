@@ -100,12 +100,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
 
         required = required && asistencia.required("asamblea_id");
-
         required = required && asistencia.required("estado");
-       
-       
-
-   
+ 
         if(required) {
             var promise = asistencia.guardar();
             asistencia.CerrarModal();
@@ -115,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
            
-                
+                socket.emit("asistencia-activada", response);
             })
 
         }

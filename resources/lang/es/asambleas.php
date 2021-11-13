@@ -72,7 +72,7 @@ return [
     'propuesta' => 'Propuesta',
     'estado_propuesta' => 'Estado Propuesta',
     'proceso_registro' => 'En proceso de registro',
-    'enviado_traduccion' => 'Enviado para traduccion',
+    'enviado_traduccion' => 'Enviado para traducción',
     'traduccion_completa' => 'Traducción Completa',
     'agenda' => 'Agenda',
     'registro_estado_enviado_traduccion' => 'El registro debe estar en el estado <<Enviado para Traducción>>',
@@ -98,7 +98,7 @@ return [
     'resultado_votacion' => 'Resultado de Votación',
     'buscar_propuesta' => 'Buscar Propuesta',
     'estado_resolucion' => 'Estado Resolución',
-    'registro_traduccion_terminado' => 'Ya no se puede modificar, la traduccion ha finalizado.',
+    'registro_traduccion_terminado' => 'Ya no se puede modificar, la traducción ha finalizado.',
     'registro_enviado_traduccion' => 'Ya no se puede modificar, el registro se ha enviado para traducción.',
     'delegados_conferencia_reunidos' => 'para los Delegados de la Conferencia General reunidos del',
     'en' => 'en',
@@ -120,6 +120,16 @@ return [
     'asamblea_convocatoria' => 'de la asamblea/convocatoria', 
     'atentamente' => 'Atentamente', 
     'propuesta_origen' => 'Propuesta Origen', 
+    'lista_items' => 'Lista Items', 
+    'lista_asociados' => 'Lista Asociados', 
+    'ver_resultados' => 'Ver Resultados', 
+    'resultados' => 'Resultados', 
+    'no_hay_resultados' => '¡No Hay Resultados!', 
+    'votos' => 'Votos', 
+    'mano_alzada' => 'Mano Alzada', 
+    'abstencion' => 'Abstención', 
+    'ganador' => 'Ganador', 
+
     
  
 
@@ -142,5 +152,8 @@ return [
     'eliminar_asamblea_agenda' => "No se puede eliminar, esta convocatoria de asamblea ya tiene un detalle", 
     'imprimir_listado_delegados' => "¿Desea imprimir el listado de delegados?", 
     'eliminar_asistencia_detalle' => "No se puede eliminar, este registro de asistencia ya tiene un detalle", 
+    'eliminar_propuesta_eleccion_traduccion' => "No se puede eliminar, esta propuesta de elección ya tiene un detalle de traducción", 
+    'eliminar_propuesta_temas_traduccion' => "No se puede eliminar, esta propuesta de tema ya tiene un detalle de traducción", 
+    'eliminar_propuesta_eleccion_detalle' => "No se puede eliminar, esta propuesta de elección ya tiene un detalle", 
 
 ];

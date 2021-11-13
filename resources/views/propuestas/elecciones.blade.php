@@ -18,6 +18,14 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="pe_id" class="input-sm entrada">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir("asambleas.convocatoria") }}</label>
+                            <select class="entrada form-control input-sm select" name="asamblea_id" id="asamblea_id">
+                                
+                            </select>
+                        </div>
+                    </div>
                     <div class="row cambiar-row-1">
                         <div class="col-md-6 origen" style="padding-right: 5px;">
                             <label class="control-label">{{ traducir("traductor.descripcion") }}</label>
@@ -78,16 +86,33 @@
                         </div>
                     </div>
                  
-                    <div class="row sin-traduccion">
-                       
+                    <div class="row">
                         <div class="col-md-6 origen">
+                            <label class="control-label">{{ traducir('traductor.tipo')}}</label>
+                            <input type="hidden" name="pe_tipo" id="pe_tipo" class="entrada input-sm">
+                            <select name="tipo" id="tipo" class="form-control input-sm entrada select" default-value="I">
+                                <option value="I">{{ traducir("asambleas.lista_items") }}</option>
+                                <option value="A">{{ traducir("asambleas.lista_asociados") }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 origen propuestas sin-traduccion">
                             <label class="control-label">{{ traducir('asambleas.propuesta')}}</label>
                             <input type="text" class="form-control input-sm entrada limpiar" name="propuesta" />
                         </div>
 
-                    
-                        
+                        <div class="col-md-6 origen asociados sin-traduccion" style="display: none">
+                            <label class="control-label">{{ traducir('traductor.asociados')}}</label>
+                            <div class="input-group">
+                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado limpiar" name="asociado" placeholder="{{ traducir('asambleas.buscar_responsable') }}...">
+                                <span class="input-group-btn">
+                                    <button type="button" id="buscar_asociado" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                                   
+                                </span>
 
+                            </div>
+                        </div>
+
+            
                     </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-md-12 origen">
@@ -109,7 +134,7 @@
                    
                 </div>
 
-                
+<!--                 
                 <div class="row con-traduccion" style="display: none;">
                        
 
@@ -138,7 +163,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                    
                 </div>
                 <div class="modal-footer">
@@ -150,6 +175,8 @@
                             
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary btn-sm" id="ver-resultados">[{{ traducir('asambleas.ver_resultados')}}]</button>
                     </div>
 
                     <div class="pull-right">
@@ -243,6 +270,57 @@
                 
                         
                 </div>
+            </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="modal-lista-asociados" data-backdrop="static" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">{{ traducir("asambleas.listado_asociados") }}</h4>
+
+			</div>
+			<div class="modal-body">
+				<?php echo $tabla_asociados; ?>
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="modal-resultados" data-backdrop="static" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                <button style="float: right;" type="button" class="btn btn-primary btn-sm" id="cerrar-resultados"><i class="fa fa-close"></i></button>
+				<h4 class="modal-title">{{ traducir("asambleas.resultados") }}</h4>
+
+			</div>
+            <form id="formulario-resultados" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered display compact" id="detalle-resultados" style="font-size: 13px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 200px;">{{ traducir('asambleas.resultados')}}</th>
+                                <th style="width: 50px;">{{ traducir('asambleas.votos')}}</th>
+                                <th style="width: 60px;">{{ traducir('asambleas.mano_alzada')}}</th>
+                                <th style="width: 50px;">{{ traducir('traductor.total')}}</th>
+                                <th style="width: 50px;">{{ traducir('asambleas.ganador')}}</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                
             </form>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

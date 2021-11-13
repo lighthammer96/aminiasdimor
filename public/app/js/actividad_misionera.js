@@ -702,6 +702,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var cont = parseInt($(this).attr("cont"));
         if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
             $("input[cont="+(cont+1)+"]").focus();
+            $("input[cont="+(cont+1)+"]").select();
         }
     })
 

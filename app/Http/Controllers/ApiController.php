@@ -21,13 +21,63 @@ class ApiController extends Controller
     }
 
     public function login(Request $request) {
+        $pais = explode("|", $_REQUEST["pais_id"]);
+        $tipodoc = explode("|", $_REQUEST["idtipodoc"]);
 
-        $sql = "SELECT * FROM iglesias.miembro WHERE nrodoc='{$request->input("user")}' AND nrodoc='{$request->input("pass")}'";
+        $sql = "SELECT m.*, i.idioma_codigo FROM iglesias.miembro AS m 
+        INNER JOIN iglesias.paises AS p ON(m.pais_id=p.pais_id)
+        INNER JOIN public.idiomas AS i ON(i.idioma_id=p.idioma_id)
+        WHERE m.nrodoc='{$request->input("user")}' AND m.nrodoc='{$request->input("pass")}' AND m.pais_id={$pais[0]} AND m.idtipodoc={$tipodoc[0]}";
         // die($sql);
         $response = DB::select($sql);
         echo json_encode($response);
         // print("hola");
     }
+
+    public function marcar_asistencia(Request $request) {
+        $_REQUEST["da_fecha"] = date("Y-m-d");
+        $_REQUEST["da_hora"] = date("H:i:s");
+        $result = $this->base_model->insertar($this->preparar_datos("asambleas.detalle_asistencia", $_REQUEST));
+        // print_r($result);
+        $result["datos"][0]["status"] = $result["status"];
+        $result["datos"][0]["type"] = $result["type"];
+        $result["datos"][0]["msg"] = $result["msg"];
+        echo json_encode($result["datos"]);
+    }
+
+    public function guardar_votos(Request $request) {
+        $miembro_votado = explode("|", $request->input("idmiembro_votado"));
+        if($request->input("fv_id") == 6) {
+            $_REQUEST["idmiembro_votado"] = "";
+            $_REQUEST["dp_id"] = $miembro_votado[0];
+        } else {
+            $_REQUEST["idmiembro_votado"] = $miembro_votado[0];
+            $_REQUEST["dp_id"] = "";
+        }
+
+      
+        $_REQUEST["voto_fecha"] = date("Y-m-d");
+        $_REQUEST["voto_hora"] = date("H:i:s");
+        $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $_REQUEST));
+        // print_r($result);
+        $result["datos"][0]["status"] = $result["status"];
+        $result["datos"][0]["type"] = $result["type"];
+        $result["datos"][0]["msg"] = $result["msg"];
+        echo json_encode($result["datos"]);
+    }
+
+    public function obtener_paises() {
+        $sql = "SELECT * FROM iglesias.paises WHERE estado='A' ORDER BY pais_descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_tipos_documento() {
+        $sql = "SELECT * FROM public.tipodoc ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
 
     public function buscar_datos() {
         $json_data = $this->distritos_model->tabla()->obtenerDatos();

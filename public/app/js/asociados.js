@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_id_domicilio) {
-        // alert(pais_id);
+        // alert(typeof idunion);
         var valor = "1|S"; 
 
         if($(this).val() != "" && $(this).val() != null) {
@@ -614,20 +614,25 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
         
         })
-        // alert(posee_union);
-        if(posee_union == "N") {
-            $(".union").hide();
+        // alert(idunion);
 
-            misiones.select({
-                name: 'idmision',
-                url: '/obtener_misiones',
-                placeholder: seleccione,
-                datos: { pais_id: d_id }
-            })
-        } else {
-            $(".union").show();
+        if(typeof idunion == "undefined") {
+            // alert("hola");
+            if(posee_union == "N") {
+                $(".union").hide();
+    
+                misiones.select({
+                    name: 'idmision',
+                    url: '/obtener_misiones',
+                    placeholder: seleccione,
+                    datos: { pais_id: d_id }
+                })
+            } else {
+                $(".union").show();
+            }
+    
         }
-
+        
         
        
         if(pais_id_change != d_id) {
@@ -990,7 +995,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: pais_id, _token: _token }
         }).then(function(response) {
             if(response.length > 0) {
-                $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union]);
+                $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union, ""]);
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);

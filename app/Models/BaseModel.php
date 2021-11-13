@@ -372,6 +372,7 @@ class BaseModel extends Model
 
         $campos = array();
         $tabla = explode(".", $tabla);
+        // print_r($tabla);
         $schema = $tabla[0];
         $table = $tabla[1];
 

@@ -680,6 +680,7 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName("entrada");
         for (let i = 0; i < elementos.length; i++) {
             elementos[i].disabled = false;
+            
             if(elementos[i].type == "radio" && elementos[i].parentNode.classList.contains("iradio_minimal-blue")) {
                 elementos[i].parentNode.classList.remove("disabled");
             }
@@ -688,6 +689,7 @@ class BASE_JS {
         for (let i = 0; i < botones.length; i++) {
             botones[i].style.display = 'inline';
             botones[i].disabled = false;
+           
         }
         //alert(this.formularioID);
         // $("#"+this.formularioID).find(".chosen-select").val("").trigger("chosen:updated");;

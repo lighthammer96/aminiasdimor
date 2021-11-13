@@ -68,6 +68,7 @@ class Controller extends BaseController
 
         $campos = array();
         $tabla = explode(".", $tabla);
+        
         $schema = $tabla[0];
         $table = $tabla[1];
 
@@ -105,13 +106,13 @@ class Controller extends BaseController
     * @return [type]         [array de campo de la respectivaa tabla con su valor del request]
     */
     public function preparar_datos($table, $data, $tipoTabla = 'N') {
-        #print_r($data); exit;
+        // print_r($data); exit;
         $parametros = array();
 
         // $tabla  = $this->sinSchema($table);
         //$fields = $this->db->list_fields($tabla);
         $fields = $this->listar_campos($table);
-        //print_r(count($data)); exit;
+        // print_r($fields); exit;
         $datos = array();
         //ordenamos los campos de acuerdo a la tabla que corresponde
         for ($i = 0; $i < count($fields); $i++) {
@@ -180,6 +181,7 @@ class Controller extends BaseController
 
     public function sinSchema($table) {
         $schema = explode(".", $table);
+        // print_r($schema);
         if (count($schema) > 1) {
             $tabla = $schema[1];
         } else {
