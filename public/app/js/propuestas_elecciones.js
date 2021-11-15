@@ -572,6 +572,13 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
+        
+        if(datos.state == 'I') {
+            BASE_JS.sweet({
+                text: propuesta_inactiva
+            });
+            return false;
+        } 
 
         if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
@@ -969,7 +976,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }).then(function(response) {
             if(response.length > 0) {
                 var html = '';
-                if(response[0].fv_id == 6) {
+                // if(response[0].fv_id == 6) {
                     for(let i = 0; i < response.length; i++){
 
                         var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
@@ -981,7 +988,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         html += '   <td ><center><input resultado_id="'+response[i].resultado_id+'" type="checkbox" '+checked+' name="ganador[]"/></center></td>';
                         html += '</tr>';
                     }
-                }
+                // }
 
                
                 

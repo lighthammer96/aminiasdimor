@@ -300,6 +300,7 @@
         var registro_enviado_traduccion = "<?php echo traducir('asambleas.registro_enviado_traduccion'); ?>";
         var notifico_correctamente = "<?php echo traducir('asambleas.notifico_correctamente'); ?>";
         var no_hay_resultados = "<?php echo traducir('asambleas.no_hay_resultados'); ?>";
+        var propuesta_inactiva = "<?php echo traducir('asambleas.propuesta_inactiva'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

@@ -36,8 +36,8 @@ class ResolucionesController extends Controller
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-resolucion">'.traducir("asambleas.traducir").'</button>';
         $data["botones"] = $botones;
 
-        $data["tabla_propuestas_temas"] = $this->propuestas_model->tabla()->HTML();
-        $data["tabla_propuestas_elecciones"] = $this->propuestas_model->tabla_propuestas_elecciones()->HTML();
+        $data["tabla_propuestas_temas"] = $this->propuestas_model->tabla("S")->HTML();
+        $data["tabla_propuestas_elecciones"] = $this->propuestas_model->tabla_propuestas_elecciones("S")->HTML();
 
 
         $data["scripts"] = $this->cargar_js(["resoluciones.js?261020210706"]);

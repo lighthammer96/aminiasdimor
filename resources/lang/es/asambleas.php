@@ -129,6 +129,7 @@ return [
     'mano_alzada' => 'Mano Alzada', 
     'abstencion' => 'Abstención', 
     'ganador' => 'Ganador', 
+    'propuesta_inactiva' => 'Propuesta inactiva, no puede someterse a votación', 
 
     
  

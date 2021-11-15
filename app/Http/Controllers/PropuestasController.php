@@ -69,12 +69,14 @@ class PropuestasController extends Controller
     }
 
     public function buscar_datos() {
-        $json_data = $this->propuestas_model->tabla()->obtenerDatos();
+        $con_votacion = (isset($_REQUEST["con_votacion"])) ? $_REQUEST["con_votacion"] : "N";
+        $json_data = $this->propuestas_model->tabla($con_votacion)->obtenerDatos();
         echo json_encode($json_data);
     }
 
     public function buscar_datos_elecciones() {
-        $json_data = $this->propuestas_model->tabla_propuestas_elecciones()->obtenerDatos();
+        $con_votacion = (isset($_REQUEST["con_votacion"])) ? $_REQUEST["con_votacion"] : "N";
+        $json_data = $this->propuestas_model->tabla_propuestas_elecciones($con_votacion)->obtenerDatos();
         echo json_encode($json_data);
     }
 
@@ -636,133 +638,11 @@ class PropuestasController extends Controller
     public function obtener_resultados(Request $request) {
 
 
-        $sql = "SELECT * FROM asambleas.votaciones AS vs
-        WHERE vs.estado='A' AND vs.propuesta_id = {$request->input("propuesta_id")} AND vs.tabla='{$request->input("tabla")}'";
-        $votacion = DB::select($sql);
-        
-        // DB::table("asambleas.resultados")->where("votacion_id", $votacion[0]->votacion_id)->delete();
-
-        $sql_results = "SELECT * FROM asambleas.resultados WHERE votacion_id = {$votacion[0]->votacion_id}";
-        $results = DB::select($sql_results);
-
-        if($votacion[0]->fv_id == 1 || $votacion[0]->fv_id == 2) {
-            //
-
-            $sql_forma = "SELECT * FROM asambleas.formas_votacion WHERE fv_id={$votacion[0]->fv_id}";
-            $forma = DB::select($sql_forma);
-            $criterios = explode(",", $forma[0]->fv_descripcion);
-
-
-            $sql = "SELECT CASE 
-            WHEN v.voto_item = 0 THEN '".$criterios[0]."'
-            WHEN v.voto_item = 1 THEN '".$criterios[1]."'
-            WHEN v.voto_item = 2 THEN '".$criterios[2]."'
-            END AS resultado_descripcion, 
-            COUNT(v.voto_item) AS resultado_votos, 
-            vs.votacion_id,  COUNT(v.voto_item) AS resultado_total
-            FROM asambleas.propuestas_elecciones AS pe
-            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
-            WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY v.voto_item, vs.votacion_id";
-            // die($sql);
-            $result = DB::select($sql);
-        }
-
-        if($votacion[0]->fv_id == 3) {
-
-            $sql = "SELECT (m.apellidos || ', ' || m.nombres) AS resultado_descripcion, COUNT(v.idmiembro_votado) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.idmiembro_votado) AS resultado_total
-            FROM asambleas.propuestas_elecciones AS pe
-            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
-            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
-            WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY m.apellidos, m.nombres, vs.votacion_id";
-            // die($sql);
-            $result = DB::select($sql);
-        }
-
-        if($votacion[0]->fv_id == 4) {
-
-            $sql = "SELECT v.voto_numero AS resultado_descripcion, COUNT(v.voto_numero) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_numero) AS resultado_total
-            FROM asambleas.propuestas_elecciones AS pe
-            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
-            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
-            WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY v.voto_numero, vs.votacion_id";
-            // die($sql);
-            $result = DB::select($sql);
-        }
-
-        if($votacion[0]->fv_id == 6) {
-            //
-            $sql = "SELECT dp.dp_descripcion AS resultado_descripcion, COUNT(v.dp_id) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.dp_id) AS resultado_total, dp.idmiembro
-            FROM asambleas.detalle_propuestas AS dp 
-            LEFT JOIN asambleas.propuestas_elecciones AS pe ON(pe.pe_id=dp.pe_id )
-            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.dp_id=dp.dp_id AND v.tabla='asambleas.propuestas_elecciones' )
-            WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY dp.dp_descripcion, vs.votacion_id, dp.idmiembro";
-            // die($sql);
-            $result = DB::select($sql);
-        }
-
-
-        if($votacion[0]->fv_id == 7) {
-
-            $sql = "SELECT v.voto_miembro AS resultado_descripcion, COUNT(v.voto_miembro) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_miembro) AS resultado_total
-            FROM asambleas.propuestas_elecciones AS pe
-            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
-            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
-            WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY v.voto_miembro, vs.votacion_id";
-            // die($sql);
-            $result = DB::select($sql);
-        }
-
-
-        // print_r($result); exit;
-        $abstenciones = 0;
-        if(count($results) > 0) {
-            //MODIFICAMOS
-            foreach ($result as $key => $value) {
-
-               DB::update(
-                    'UPDATE asambleas.resultados set resultado_votos = '.$value->resultado_votos.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
-                    [$value->resultado_descripcion, $votacion[0]->votacion_id]
-                );
-            }
-
-            DB::update(
-                'UPDATE asambleas.resultados set resultado_votos = '.$abstenciones.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
-                [traducir("asambleas.abstencion"), $votacion[0]->votacion_id]
-            );
-
-           
-        } else {
-            //INSERTAMOS
-      
-            foreach ($result as $key => $value) {
-                $this->base_model->insertar($this->preparar_datos("asambleas.resultados", (array)$value));
-                $abstenciones += $value->abstenciones;
-            }
-
-    
-            $data = array();
-            $data["resultado_descripcion"] = traducir("asambleas.abstencion");
-            $data["votacion_id"] = $result[0]->votacion_id;
-            $data["resultado_votos"] = $abstenciones;
-            $data["resultado_total"] = $abstenciones;
-            $this->base_model->insertar($this->preparar_datos("asambleas.resultados", $data));
-        }
-
-
+        $resultados = $this->procesar_resultados($request);
 
         $sql_resultados = "SELECT * FROM asambleas.resultados AS r
         INNER JOIN asambleas.votaciones AS v ON(r.votacion_id=v.votacion_id)
-        WHERE r.votacion_id={$votacion[0]->votacion_id}";
+        WHERE r.votacion_id={$resultados[0]->votacion_id}";
 
         $resultados = DB::select($sql_resultados);
 

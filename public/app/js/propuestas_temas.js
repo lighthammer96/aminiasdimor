@@ -549,9 +549,17 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
 
         var datos = propuestas_temas.datatable.row('.selected').data();
+        // console.log(datos);
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
                 text: seleccionar_registro
+            });
+            return false;
+        } 
+
+        if(datos.state == 'I') {
+            BASE_JS.sweet({
+                text: propuesta_inactiva
             });
             return false;
         } 
@@ -649,6 +657,7 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#tpt_idioma").removeAttr("disabled");
 
             $("#imprimir").removeAttr("disabled");
+            $("#ver-resultados").removeAttr("disabled");
             // $("input[name=votacion_id]").val(response.votacion_id);
 
         
@@ -991,25 +1000,25 @@ document.addEventListener("DOMContentLoaded", function() {
  
 
     
-    document.addEventListener("click", function(event) {
+    // document.addEventListener("click", function(event) {
 
-        // console.log(event.target.classList);
-        // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
-        if(event.target.classList.value.indexOf("eliminar-agenda") != -1) {
-            event.preventDefault();
-            event.srcElement.parentNode.parentNode.parentNode.remove();
+    //     // console.log(event.target.classList);
+    //     // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+    //     if(event.target.classList.value.indexOf("eliminar-agenda") != -1) {
+    //         event.preventDefault();
+    //         event.srcElement.parentNode.parentNode.parentNode.remove();
 
-        }
+    //     }
 
-        if(event.srcElement.parentNode.classList.value.indexOf("eliminar-agenda") != -1 && !event.srcElement.parentNode.disabled) {
-            event.preventDefault();
-            ///console.log(event.srcElement.parentNode);
-            event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
-        }
+    //     if(event.srcElement.parentNode.classList.value.indexOf("eliminar-agenda") != -1 && !event.srcElement.parentNode.disabled) {
+    //         event.preventDefault();
+    //         ///console.log(event.srcElement.parentNode);
+    //         event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+    //     }
 
 
       
-    })
+    // })
 
 
     
@@ -1252,6 +1261,52 @@ document.addEventListener("DOMContentLoaded", function() {
         if(typeof $("input[name=tpt_titulo]").attr("disabled") == "undefined") {
             $("#pt_id_origen").trigger("change");
         }
+    })
+
+
+    document.getElementById("ver-resultados").addEventListener("click", function(event) {
+        event.preventDefault();
+    
+        var pt_id = document.getElementsByName("pt_id")[0].value;
+        propuestas_temas.ajax({
+            url: '/obtener_resultados',
+            datos: { tabla: 'asambleas.propuestas_temas', propuesta_id: pt_id }
+        }).then(function(response) {
+            if(response.length > 0) {
+                var html = '';
+                // if(response[0].fv_id == 6) {
+                    for(let i = 0; i < response.length; i++){
+
+                        var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
+                        html += '<tr>';
+                        html += '   <td>'+response[i].resultado_descripcion+'</td>';
+                        html += '   <td >'+response[i].resultado_votos+'</td>';
+                        html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        html += '   <td class="total">'+response[i].resultado_total+'</td>';
+                        // html += '   <td ><center><input resultado_id="'+response[i].resultado_id+'" type="checkbox" '+checked+' name="ganador[]"/></center></td>';
+                        html += '</tr>';
+                    }
+                // }
+
+               
+                
+                document.getElementById("detalle-resultados").getElementsByTagName("tbody")[0].innerHTML = html;
+                $("#modal-resultados").modal("show");
+            } else {
+                BASE_JS.sweet({
+                    text: no_hay_resultados
+                });
+            }
+        })
+
+       
+    })
+
+
+    document.getElementById("cerrar-resultados").addEventListener("click", function(event) {
+        event.preventDefault();
+      
+        $("#modal-resultados").modal("hide");
     })
 
 

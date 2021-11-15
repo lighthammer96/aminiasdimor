@@ -333,5 +333,159 @@ class Controller extends BaseController
 
     
 
+    public function procesar_resultados($request) {
+        $votacion = array();
+        $sql = "SELECT * FROM asambleas.votaciones AS vs
+        WHERE vs.estado='A' AND vs.propuesta_id = {$request->input("propuesta_id")} AND vs.tabla='{$request->input("tabla")}'";
 
+        $votacion = DB::select($sql);
+        // var_dump(count($votacion));  exit;
+        if(count($votacion) <= 0)  {
+            $votacion[0] = (object) array("votacion_id" => 0);
+            return $votacion; 
+        }
+        // DB::table("asambleas.resultados")->where("votacion_id", $votacion[0]->votacion_id)->delete();
+
+        $sql_results = "SELECT * FROM asambleas.resultados WHERE votacion_id = {$votacion[0]->votacion_id}";
+        $results = DB::select($sql_results);
+
+        $sql_resolucion = "SELECT * FROM asambleas.resoluciones WHERE resultado_id={$results[0]->resultado_id}";
+        $resolucion = DB::select($sql_resolucion);
+
+        if(count($resolucion) > 0) {
+            return $votacion; 
+        }
+
+        if($votacion[0]->fv_id == 1 || $votacion[0]->fv_id == 2) {
+            //
+            $result = array();
+            $sql_forma = "SELECT * FROM asambleas.formas_votacion WHERE fv_id={$votacion[0]->fv_id}";
+            $forma = DB::select($sql_forma);
+            $criterios = explode(",", $forma[0]->fv_descripcion);
+
+            for ($i=0; $i < count($criterios); $i++) { 
+                $sql = "SELECT CASE 
+                WHEN v.voto_item = 0 THEN '".$criterios[0]."'
+                WHEN v.voto_item = 1 THEN '".$criterios[1]."'
+                WHEN v.voto_item = 2 THEN '".$criterios[2]."'
+                END AS resultado_descripcion, 
+                COUNT(v.voto_item) AS resultado_votos, 
+                vs.votacion_id,  COUNT(v.voto_item) AS resultado_total
+                FROM asambleas.propuestas_temas AS pt
+                LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pt.pt_id AND vs.tabla='asambleas.propuestas_temas')
+                LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pt.pt_id=v.propuesta_id AND v.tabla='asambleas.propuestas_temas' )
+                WHERE vs.votacion_id={$votacion[0]->votacion_id} AND v.voto_item={$i}
+                GROUP BY v.voto_item, vs.votacion_id";
+                // die($sql);
+                $res = DB::select($sql);
+
+                if(count($res) > 0) {
+                    $arr = $res[0];
+                } else {
+                    $arr = array();
+                    $arr["resultado_descripcion"] = $criterios[$i];
+                    $arr["resultado_votos"] = 0;
+                    $arr["resultado_total"] = 0;
+                    $arr["votacion_id"] = $votacion[0]->votacion_id;
+                }
+    
+                array_push($result, (object)$arr);
+            }
+          
+        }   
+
+        if($votacion[0]->fv_id == 3) {
+
+            $sql = "SELECT (m.apellidos || ', ' || m.nombres) AS resultado_descripcion, COUNT(v.idmiembro_votado) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.idmiembro_votado) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY m.apellidos, m.nombres, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+        if($votacion[0]->fv_id == 4) {
+
+            $sql = "SELECT v.voto_numero AS resultado_descripcion, COUNT(v.voto_numero) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_numero) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY v.voto_numero, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+        if($votacion[0]->fv_id == 6) {
+            //
+            $sql = "SELECT dp.dp_descripcion AS resultado_descripcion, COUNT(v.dp_id) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.dp_id) AS resultado_total, dp.idmiembro
+            FROM asambleas.detalle_propuestas AS dp 
+            LEFT JOIN asambleas.propuestas_elecciones AS pe ON(pe.pe_id=dp.pe_id )
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.dp_id=dp.dp_id AND v.tabla='asambleas.propuestas_elecciones' )
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY dp.dp_descripcion, vs.votacion_id, dp.idmiembro";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+
+        if($votacion[0]->fv_id == 7) {
+
+            $sql = "SELECT v.voto_miembro AS resultado_descripcion, COUNT(v.voto_miembro) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_miembro) AS resultado_total
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=v.idmiembro_votado)
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY v.voto_miembro, vs.votacion_id";
+            // die($sql);
+            $result = DB::select($sql);
+        }
+
+
+        // print_r($result); exit;
+        $abstenciones = 0;
+        if(count($results) > 0) {
+            //MODIFICAMOS
+            foreach ($result as $key => $value) {
+
+               DB::update(
+                    'UPDATE asambleas.resultados set resultado_votos = '.$value->resultado_votos.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
+                    [$value->resultado_descripcion, $votacion[0]->votacion_id]
+                );
+            }
+
+            DB::update(
+                'UPDATE asambleas.resultados set resultado_votos = '.$abstenciones.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
+                [traducir("asambleas.abstencion"), $votacion[0]->votacion_id]
+            );
+
+           
+        } else {
+            //INSERTAMOS
+            // print_r($sql); exit;
+            foreach ($result as $key => $value) {
+                $this->base_model->insertar($this->preparar_datos("asambleas.resultados", (array)$value));
+
+                $abstenciones += (isset($value->abstenciones)) ? $value->abstenciones : 0;
+            }
+
+            if(isset($result[0]->abstenciones)) {
+                $data = array();
+                $data["resultado_descripcion"] = traducir("asambleas.abstencion");
+                $data["votacion_id"] = $result[0]->votacion_id;
+                $data["resultado_votos"] = $abstenciones;
+                $data["resultado_total"] = $abstenciones;
+                $this->base_model->insertar($this->preparar_datos("asambleas.resultados", $data));
+            }
+           
+        }
+
+        return $votacion;
+    }
 }

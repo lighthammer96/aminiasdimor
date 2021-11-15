@@ -151,7 +151,7 @@ class BASE_JS {
             "columns": array,
             "createdRow": function(row, data, dataIndex) {
                 // console.log(data);
-                if (data.estado == 'INACTIVO' || data.estado == 'ANULADO') {
+                if (typeof data.state != "undefined" && (data.state == "I")) {
                     $(row).addClass("text-danger");
                     $(row).css("font-weight", "bold");
                 }

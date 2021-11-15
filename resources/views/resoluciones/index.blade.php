@@ -18,6 +18,7 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="resolucion_id" class="input-sm entrada">
+                    <input type="hidden" name="resultado_id" class="input-sm entrada">
                     <div class="row cambiar-row-1">
 <!--                         
                         <div class="col-md-3  col-md-offset-6">
@@ -106,9 +107,25 @@
                         
                         <div class="col-md-12" style="">
                             <label class="control-label">{{ traducir("asambleas.resultado_votacion") }}</label>
-                            <!-- <textarea class="form-control input-sm entrada" name="tr_descripcion"  cols="30" rows="6"></textarea> -->
+                                <!-- <textarea class="form-control input-sm entrada" name="tr_descripcion"  cols="30" rows="6"></textarea> -->
                         </div>
-                      
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered display compact" id="detalle-resultados" style="font-size: 13px; display: none;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 200px;">{{ traducir('asambleas.resultados')}}</th>
+                                        <th style="width: 50px;">{{ traducir('asambleas.votos')}}</th>
+                                        <th style="width: 60px;">{{ traducir('asambleas.mano_alzada')}}</th>
+                                        <th style="width: 50px;">{{ traducir('traductor.total')}}</th>
+                                        <th style="width: 50px; display: none;" class="ganador">{{ traducir('asambleas.ganador')}}</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                        
                     </div>
                     

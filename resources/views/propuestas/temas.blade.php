@@ -307,15 +307,18 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <div class="pull-left" >
-                        <label class="control-label" id="someter-votacion">
+                    <div class="pull-left" id="someter-votacion">
+                        <label class="control-label" >
                                 
                             <input class="minimal entrada" type="checkbox" name="pt_someter_votacion" id="pt_someter_votacion">
                             
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
-
+                        &nbsp;&nbsp;
                         <button type="button" class="btn btn-success btn-sm" id="imprimir">{{ traducir('traductor.imprimir')}}</button>
+
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary btn-sm" id="ver-resultados">[{{ traducir('asambleas.ver_resultados')}}]</button>
                     </div>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
@@ -433,7 +436,38 @@
 </div><!-- /.modal -->
 
 
+<div class="modal fade" id="modal-resultados" data-backdrop="static" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                <button style="float: right;" type="button" class="btn btn-primary btn-sm" id="cerrar-resultados"><i class="fa fa-close"></i></button>
+				<h4 class="modal-title">{{ traducir("asambleas.resultados") }}</h4>
 
+			</div>
+            <form id="formulario-resultados" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered display compact" id="detalle-resultados" style="font-size: 13px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 200px;">{{ traducir('asambleas.resultados')}}</th>
+                                <th style="width: 50px;">{{ traducir('asambleas.votos')}}</th>
+                                <th style="width: 60px;">{{ traducir('asambleas.mano_alzada')}}</th>
+                                <th style="width: 50px;">{{ traducir('traductor.total')}}</th>
+                                <!-- <th style="width: 50px;">{{ traducir('asambleas.ganador')}}</th> -->
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                
+            </form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @endsection
 

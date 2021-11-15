@@ -18,16 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
     resoluciones.enter("fecha","hora");
 
 
-
-
-
-
-
-
-
-
-
-
     resoluciones.TablaListado({
         tablaID: '#tabla-resoluciones',
         url: "/buscar_datos",
@@ -211,7 +201,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         promise.then(function(response) {
             activar_entradas();
-           
+            if(response.tabla == "asambleas.propuestas_elecciones") {
+                cargar_datos_propuestas_elecciones(response);
+            }
+
+            if(response.tabla == "asambleas.propuestas_temas") {
+                cargar_datos_propuestas_temas(response);
+
+            }
             
         })
         
@@ -304,6 +301,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
  
         var resolucion_id = document.getElementsByName("resolucion_id")[0].value;
+        var propuesta_id = document.getElementsByName("propuesta_id")[0].value;
 
         var required = true;
         if(resolucion_id == "") {
@@ -311,7 +309,9 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && resoluciones.required("tabla");
             required = required && resoluciones.required("tr_idioma");
             required = required && resoluciones.required("anio_correlativo");
-            required = required && resoluciones.required("propuesta");
+            if(propuesta_id == "") {
+                required = required && resoluciones.required("propuesta");
+            }
             required = required && resoluciones.required("tr_descripcion");
             required = required && resoluciones.required("estado");
        
@@ -431,14 +431,62 @@ document.addEventListener("DOMContentLoaded", function() {
     propuestas_temas.TablaListado({
         tablaID: '#tabla-propuestas-temas',
         url: "/buscar_datos",
+        con_votacion: 'S'
     });
 
     propuestas_elecciones.TablaListado({
         tablaID: '#tabla-propuestas-elecciones',
         url: "/buscar_datos_elecciones",
+        con_votacion: 'S'
     });
 
+    function cargar_resultados(propuesta_id, tabla) {
+      
+        propuestas_elecciones.ajax({
+            url: '/obtener_resultados',
+            datos: { tabla: tabla, propuesta_id: propuesta_id }
+        }).then(function(response) {
+            if(response.length > 0) {
+                document.getElementsByName("resultado_id")[0].value = response[0].resultado_id;
+                var html = '';
+                // if(response[0].fv_id == 6) {
+                    for(let i = 0; i < response.length; i++){
 
+                        var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
+                        html += '<tr>';
+                        html += '   <td>'+response[i].resultado_descripcion+'</td>';
+                        html += '   <td >'+response[i].resultado_votos+'</td>';
+                        html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        html += '   <td class="total">'+response[i].resultado_total+'</td>';
+                        if(tabla == 'asambleas.propuestas_elecciones') {
+                            if(response.resultado_ganador == "S") {
+
+                                html += '   <td ><center><button type="button" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button></center></td>';
+                               
+                            } else {
+
+                                html += '   <td ><center><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-close"></i></button></center></td>';
+                            }
+                            $(".ganador").show();
+                        } else {
+                            $(".ganador").hide();
+                        }
+                       
+                        html += '</tr>';
+                    }
+                // }
+
+               
+                
+                document.getElementById("detalle-resultados").getElementsByTagName("tbody")[0].innerHTML = html;
+                $("#detalle-resultados").show();
+            } else {
+                BASE_JS.sweet({
+                    text: no_hay_resultados
+                });
+            }
+        })
+    }
     document.getElementById("buscar_propuesta").addEventListener("click", function(event) {
         event.preventDefault();
         
@@ -469,8 +517,10 @@ document.addEventListener("DOMContentLoaded", function() {
             anio_correlativo: datos.anio+'-'+datos.pt_correlativo,
             // tabla: 'asambleas.propuestas_temas'
         });
-        $("#modal-propuestas-temas").modal("hide");
 
+        cargar_resultados(datos.pt_id, 'asambleas.propuestas_temas');
+        $("#modal-propuestas-temas").modal("hide");
+        
 
     }
     
@@ -501,6 +551,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // tabla: 'asambleas.propuestas_elecciones'
             
         });
+
+        cargar_resultados(datos.pe_id, 'asambleas.propuestas_elecciones');
         $("#modal-propuestas-elecciones").modal("hide");
 
 

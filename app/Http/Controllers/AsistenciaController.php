@@ -64,6 +64,9 @@ class AsistenciaController extends Controller
            
         //     $this->base_model->insertar($this->preparar_datos("asambleas.asistencia_idiomas", $_POST, "D"), "D");
         // }
+        $sql_asamblea = "SELECT * FROM asambleas.asambleas WHERE asamblea_id={$asamblea[1]}";
+        $asamblea = DB::select($sql_asamblea);
+        $result["datos"][0]["asamblea"] = $asamblea[0]->asamblea_descripcion;
         echo json_encode($result);
     }
 
