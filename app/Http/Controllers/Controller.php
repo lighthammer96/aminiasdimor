@@ -348,14 +348,16 @@ class Controller extends BaseController
 
         $sql_results = "SELECT * FROM asambleas.resultados WHERE votacion_id = {$votacion[0]->votacion_id}";
         $results = DB::select($sql_results);
-
-        $sql_resolucion = "SELECT * FROM asambleas.resoluciones WHERE resultado_id={$results[0]->resultado_id}";
-        $resolucion = DB::select($sql_resolucion);
-
-        if(count($resolucion) > 0) {
-            return $votacion; 
+        if(count($results) > 0) {
+            $sql_resolucion = "SELECT * FROM asambleas.resoluciones WHERE resultado_id={$results[0]->resultado_id}";
+            $resolucion = DB::select($sql_resolucion);
+    
+            if(count($resolucion) > 0) {
+                return $votacion; 
+            }
+    
         }
-
+       
         if($votacion[0]->fv_id == 1 || $votacion[0]->fv_id == 2) {
             //
             $result = array();

@@ -147,12 +147,25 @@ class ResolucionesController extends Controller
         
         FROM asambleas.resoluciones AS r 
         LEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='{$idioma_codigo}')
-        \nLEFT JOIN asambleas.propuestas_temas AS pt on(pt.pt_id=r.propuesta_id AND r.tabla='asambleas.propuestas_temas')
-        \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id)
-        \nLEFT JOIN asambleas.propuestas_elecciones AS pe on(pe.pe_id=r.propuesta_id AND r.tabla='asambleas.propuestas_elecciones')
-        \n LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id)
         WHERE r.resolucion_id=".$resolucion_id;
         $one = DB::select($sql);
+
+        if($one[0]->tabla == "asambleas.propuestas_temas") {
+            $sql_propuesta = "SELECT * FROM  asambleas.propuestas_temas AS pt 
+            \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
+            WHERE pt.pt_id = {$one[0]->propuesta_id}
+            ORDER BY ";
+        }
+
+        if($one[0]->tabla == "asambleas.propuestas_elecciones") {
+            $sql_propuesta = "SELECT * FROM  asambleas.propuestas_elecciones AS pe 
+            \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."'))
+            WHERE pe.pe_id = {$one[0]->propuesta_id}";
+        }
+
+
+        
+
         echo json_encode($one);
     }
 
