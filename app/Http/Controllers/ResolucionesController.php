@@ -8,7 +8,7 @@ use App\Models\ResolucionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class ResolucionesController extends Controller
 {
     //
@@ -102,6 +102,18 @@ class ResolucionesController extends Controller
             } else {
                 // print_r($this->preparar_datos("asambleas.traduccion_resoluciones", $_POST));
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_resoluciones", $_POST));
+            }   
+
+            $resultado_ids = explode(",", $_REQUEST["resultado_ids"]);
+
+            if(count($resultado_ids) > 0) {
+                for ($i=0; $i < count($resultado_ids); $i++) { 
+
+                    $update_resultado = array();
+                    $update_resultado["resultado_id"] = $resultado_ids[$i];
+                    $update_resultado["resolucion_id"] = $_POST["resolucion_id"];
+                    $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $update_resultado));
+                }
             }
      
             DB::commit();
@@ -139,29 +151,24 @@ class ResolucionesController extends Controller
         $id = explode("|", $_REQUEST["id"]);
         $resolucion_id = $id[0];
         $idioma_codigo = $id[1];
-        $sql = "SELECT r.*,  CASE WHEN r.tabla ='asambleas.propuestas_temas' THEN tpt.tpt_titulo
-        ELSE tpe.tpe_descripcion END AS propuesta,  tr.tr_descripcion,
-        
-        CASE WHEN r.tabla ='asambleas.propuestas_temas' THEN date_part('year', pt.pt_fecha) || '-' || pt.pt_correlativo ELSE date_part('year', pe.pe_fecha) || '-' || pe.pe_correlativo
-        END AS anio_correlativo, r.tabla
-        
+        $sql = "SELECT *
         FROM asambleas.resoluciones AS r 
         LEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='{$idioma_codigo}')
         WHERE r.resolucion_id=".$resolucion_id;
         $one = DB::select($sql);
 
-        if($one[0]->tabla == "asambleas.propuestas_temas") {
-            $sql_propuesta = "SELECT * FROM  asambleas.propuestas_temas AS pt 
-            \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
-            WHERE pt.pt_id = {$one[0]->propuesta_id}
-            ORDER BY ";
-        }
+        // if($one[0]->tabla == "asambleas.propuestas_temas") {
+        //     $sql_propuesta = "SELECT * FROM  asambleas.propuestas_temas AS pt 
+        //     \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
+        //     WHERE pt.pt_id = {$one[0]->propuesta_id}
+        //     ORDER BY ";
+        // }
 
-        if($one[0]->tabla == "asambleas.propuestas_elecciones") {
-            $sql_propuesta = "SELECT * FROM  asambleas.propuestas_elecciones AS pe 
-            \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."'))
-            WHERE pe.pe_id = {$one[0]->propuesta_id}";
-        }
+        // if($one[0]->tabla == "asambleas.propuestas_elecciones") {
+        //     $sql_propuesta = "SELECT * FROM  asambleas.propuestas_elecciones AS pe 
+        //     \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."'))
+        //     WHERE pe.pe_id = {$one[0]->propuesta_id}";
+        // }
 
 
         
@@ -169,7 +176,58 @@ class ResolucionesController extends Controller
         echo json_encode($one);
     }
 
+    public function imprimir_resolucion($resolucion_id) {
+        // print_r($resolucion_id); exit;  
+
+        $resolucion = explode("|", $resolucion_id);
+        $resolucion_id = $resolucion[0];
+        $idioma_codigo = $resolucion[1];
+
+
+        $sql = "SELECT r.resolucion_id, 
    
+        CASE WHEN tr.tr_descripcion IS NULL THEN (SELECT tr_descripcion FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_descripcion  END AS tr_descripcion, 
+
+        ".formato_fecha_idioma_customer(" r.resolucion_fecha", $idioma_codigo)." AS resolucion_fecha,
+    
+        CASE WHEN tr.tr_titulo_propuesta IS NULL THEN (SELECT tr_titulo_propuesta FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_titulo_propuesta  END AS tr_titulo_propuesta, 
+        CASE WHEN tr.tr_propuesta IS NULL THEN (SELECT tr_propuesta FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_propuesta  END AS tr_propuesta, 
+        CASE 
+        WHEN r.resolucion_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
+        WHEN r.resolucion_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
+        WHEN r.resolucion_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
+        END AS resolucion_estado,
+        r.resolucion_estado AS estado_resolucion,
+        r.resolucion_anio_correlativo,
+       
+        r.tabla
+        
+        FROM asambleas.resoluciones AS r
+        LEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='".$idioma_codigo."')
+        WHERE r.resolucion_id={$resolucion_id}";
+        $resolucion = DB::select($sql);
+
+
+        $sql_resultados = "SELECT * FROM asambleas.resultados where resolucion_id={$resolucion_id}";
+        $resultados = DB::select($sql_resultados);
+
+        // die($sql_resultados);
+    // print_r($resultados); exit;
+        $datos["resolucion"] = $resolucion;
+        $datos["resultados"] = $resultados;
+ 
+
+        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        // echo "<pre>";
+        // print_r($datos);
+        // exit;
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("resoluciones.imprimir", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("resolucion.pdf"); // ver
+    }
     
 
     

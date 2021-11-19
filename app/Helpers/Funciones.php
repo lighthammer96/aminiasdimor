@@ -2,14 +2,27 @@
 
 use Illuminate\Support\Facades\DB;
 
-function formato_fecha_idioma($campo_fecha) {
+    function formato_fecha_idioma($campo_fecha) {
         $formato = "";
         if(trim(session("idioma_codigo")) == "es") {
             $formato = " to_char(".$campo_fecha.", 'DD/MM/YYYY') ";
         }
 
         if(trim(session("idioma_codigo")) == "en") {
-            $formato = $campo_fecha;
+            $formato = " to_char(".$campo_fecha.", 'YYYY-MM-DD') ";
+        }
+        
+        return $formato;
+    }
+
+    function formato_fecha_idioma_customer($campo_fecha, $idioma_codigo) {
+        $formato = "";
+        if(trim($idioma_codigo) == "es") {
+            $formato = " to_char(".$campo_fecha.", 'DD/MM/YYYY') ";
+        }
+
+        if(trim($idioma_codigo) == "en") {
+            $formato = " to_char(".$campo_fecha.", 'YYYY-MM-DD') "; 
         }
         
         return $formato;

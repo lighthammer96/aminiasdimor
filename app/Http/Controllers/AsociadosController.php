@@ -989,7 +989,87 @@ class AsociadosController extends Controller
         
         // $where .= " AND d.asamblea_id = {$array[1]} ";
     }
-   
+    
+
+    public function imprimir_certificado($idmiembro) {
+
+        $datos = array();
+        $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
+        gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo, mi.descripcion AS nivel_organizativo,
+        d.*, a.*, ".formato_fecha_idioma("a.asamblea_fecha_inicio")." AS asamblea_fecha_inicio, ".formato_fecha_idioma("a.asamblea_fecha_fin")." AS asamblea_fecha_fin, p.descripcion AS pais, tc.*, ".formato_fecha_idioma("d.delegado_fecha")." AS delegado_fecha, pp.descripcion AS pais_ciudadania, ec.descripcion AS estado_civil, to_char(m.fechaingresoiglesia, 'YYYY') AS anio_ingreso, i.descripcion AS iglesia
+        FROM iglesias.miembro AS m
+        LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
+        LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)
+        LEFT JOIN iglesias.religion AS r ON(r.idreligion=m.idreligion)
+        LEFT JOIN iglesias.vista_responsables AS vr ON(m.encargado_bautizo=vr.id AND vr.tabla=m.tabla_encargado_bautizo)
+        LEFT JOIN iglesias.mision AS mi  ON(m.idmision=mi.idmision)
+        INNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
+        INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
+        INNER JOIN public.pais AS p ON(p.idpais=a.idpais)
+        LEFT JOIN public.pais AS pp ON(pp.idpais=m.pais_id_nacimiento)
+        LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
+        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
+        LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
+        WHERE m.idmiembro={$idmiembro}";
+        $miembro = DB::select($sql_miembro);
+
+        $sql_totales = "SELECT delegado_tipo, COUNT(idmiembro) AS total FROM asambleas.delegados 
+        WHERE asamblea_id = {$miembro[0]->asamblea_id} AND estado='A'
+        GROUP BY delegado_tipo";
+        $totales = DB::select($sql_totales);
+       
+
+        $sql_cargos = "SELECT c.descripcion AS cargo, (cm.periodoini || '-' || cm.periodofin) AS anios, cm.lugar, cm.vigente, n.descripcion AS nivel FROM iglesias.miembro AS m
+        INNER JOIN iglesias.cargo_miembro AS cm ON(cm.idmiembro=m.idmiembro)
+        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        INNER JOIN public.nivel AS n ON(cm.idnivel=n.idnivel)
+        WHERE m.idmiembro=".$idmiembro."
+        ORDER BY cm.idcargomiembro DESC LIMIT 7";
+        $cargos = DB::select($sql_cargos);
+
+
+        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, ".formato_fecha_idioma("pm.fechanacimiento")." AS fechanacimiento
+        FROM iglesias.parentesco_miembro AS pm
+        INNER JOIN public.parentesco AS p ON(p.idparentesco=pm.idparentesco)
+        INNER JOIN public.tipodoc AS td ON(td.idtipodoc=pm.idtipodoc)
+        INNER JOIN public.pais AS pp ON(pp.idpais=pm.idpais)
+        WHERE pm.idmiembro=".$idmiembro;
+        $parentesco = DB::select($sql_parentesco);
+
+
+        $sql_educacion = "SELECT em.* 
+        FROM iglesias.educacion_miembro AS em
+     
+        WHERE em.idmiembro=".$idmiembro;
+        $educacion = DB::select($sql_educacion);
+
+        $sql_laboral = "SELECT * FROM iglesias.laboral_miembro WHERE idmiembro=".$idmiembro;
+        $laboral = DB::select($sql_laboral);
+
+        $nivel_organizativo = $miembro[0]->nivel_organizativo;
+        foreach ($cargos as $key => $value) {
+            if($value->vigente == "1") {
+                $nivel_organizativo = $value->lugar;
+                break;
+            }
+        }
+        
+        $datos["miembro"] = $miembro;
+        $datos["parentesco"] = $parentesco;
+        $datos["educacion"] = $educacion;
+        $datos["totales"] = $totales;
+        $datos["laboral"] = $laboral;
+        $datos["nivel_organizativo"] = $nivel_organizativo
+        ;
+    
+        $datos["cargos"] = $cargos; 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("certificado.pdf"); // ver
+    }
 
    
 }

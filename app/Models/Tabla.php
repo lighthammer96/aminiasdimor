@@ -455,7 +455,7 @@ class Tabla extends Model
 
        // ESTE BLOQUE DE 3 LINEAS DE CODIGO SE UTILIZA SIN EL LIMIT
         $consulta = $select . $from . $where. $groupBy . $having;
-       //echo $consulta; exit;
+    //    echo $consulta; exit;
         // $totalFiltered = $this->ci->db->query($consulta)->num_rows();
         // $totalRegistros = $this->ci->db->query($consulta)->num_rows();
         // die($consulta);

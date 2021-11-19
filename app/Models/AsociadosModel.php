@@ -41,6 +41,12 @@ class AsociadosModel extends Model
             $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
             $boton = ", '<center><button type=\"button\" onclick=\"imprimir_curriculum(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
         }
+
+
+        if($delegados == "1") {
+            $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
+            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_certificado(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
+        }
         
         $join = "";
         if($delegados == "1") {

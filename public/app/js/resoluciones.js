@@ -1,6 +1,7 @@
 var resoluciones = new BASE_JS('resoluciones', 'resoluciones');
 var propuestas_temas = new BASE_JS('propuestas_temas', 'propuestas');
 var propuestas_elecciones = new BASE_JS('propuestas_elecciones', 'propuestas');
+var propuestas = new BASE_JS('propuestas', 'propuestas');
 
 document.addEventListener("DOMContentLoaded", function() {
   
@@ -37,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#tr_idioma_origen").attr("disabled", "disabled");
         $("#tr_idioma_traduccion").attr("readonly", "readonly");
         $("#tr_idioma_traduccion").attr("disabled", "disabled");
-        $("input[name=anio_correlativo]").attr("readonly", "readonly");
-        $("input[name=propuesta]").attr("readonly", "readonly");
+        $("input[name=resolucion_anio_correlativo]").attr("readonly", "readonly");
+        $("input[name=tr_titulo_propuesta]").attr("readonly", "readonly");
 
       
     }
@@ -56,8 +57,8 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#tr_idioma_traduccion").removeAttr("readonly");
         $("#tr_idioma_traduccion").removeAttr("disabled");
         
-        $("input[name=anio_correlativo]").attr("readonly", "readonly");
-        $("input[name=propuesta]").attr("readonly", "readonly");
+        $("input[name=resolucion_anio_correlativo]").attr("readonly", "readonly");
+        $("input[name=tr_titulo_propuesta]").attr("readonly", "readonly");
         $("#resolucion_estado").removeAttr("disabled");
         $("#resolucion_estado").removeAttr("readonly");
         // console.log($(".traduccion").find("select"));
@@ -128,7 +129,9 @@ document.addEventListener("DOMContentLoaded", function() {
             var idioma = $(this).val();
             var resolucion_id = document.getElementsByName("resolucion_id")[0].value;
             var promise = resoluciones.get(resolucion_id+'|'+idioma);
-
+            promise.then(function(response) {
+                obtener_descripcion_propuestas(response.propuesta_id, idioma, response.tabla);
+            })
 
         })
         $(document).on("change", "#tr_idioma_traduccion", function(e) {
@@ -164,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         cambiar_row_1("origen");
         resoluciones.abrirModal();
+        $("#imprimir").hide();
+        $("#buscar_propuesta").css("visibility", "visible");
         activar_entradas();
         
     })
@@ -209,7 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 cargar_datos_propuestas_temas(response);
 
             }
-            
+            $("#imprimir").show();
+            $("#buscar_propuesta").css("visibility", "hidden");
         })
         
 
@@ -250,6 +256,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
         promise.then(function(response) {
             desactivar_entradas();
+
+            if(response.tabla == "asambleas.propuestas_elecciones") {
+                cargar_datos_propuestas_elecciones(response);
+            }
+
+            if(response.tabla == "asambleas.propuestas_temas") {
+                cargar_datos_propuestas_temas(response);
+
+            }
+            $("#imprimir").show();
+            $("#buscar_propuesta").css("visibility", "hidden");
         });
 
         var idioma = 'en';
@@ -308,25 +325,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
             required = required && resoluciones.required("tabla");
             required = required && resoluciones.required("tr_idioma");
-            required = required && resoluciones.required("anio_correlativo");
+            required = required && resoluciones.required("resolucion_anio_correlativo");
             if(propuesta_id == "") {
-                required = required && resoluciones.required("propuesta");
+                required = required && resoluciones.required("tr_titulo_propuesta");
             }
             required = required && resoluciones.required("tr_descripcion");
             required = required && resoluciones.required("estado");
        
         }
-        if(required) {
-            var promise = resoluciones.guardar();
-            resoluciones.CerrarModal();
-            promise.then(function(response) {
-                if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
-                    return false;
-                }
 
-           
+        var detalle = document.getElementById("detalle-resultados").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    
+        if(detalle.length <= 0) {
+            BASE_JS.sweet({
+                text: no_guardar_resolucion_sin_resultados
+            });
+           return false;
+        } 
+        if(required) {
+            BASE_JS.sweet({
+                confirm: true,
+                text: guardar_resolucion,
+                callbackConfirm: function() {
+                    var promise = resoluciones.guardar();
+                    resoluciones.CerrarModal();
+                    promise.then(function(response) {
+                        if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
+                            return false;
+                        }
+
                 
-            })
+                        
+                    })
+                }
+            });
+            
 
         }
     })
@@ -427,19 +460,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    
-    propuestas_temas.TablaListado({
-        tablaID: '#tabla-propuestas-temas',
-        url: "/buscar_datos",
-        con_votacion: 'S'
-    });
-
-    propuestas_elecciones.TablaListado({
-        tablaID: '#tabla-propuestas-elecciones',
-        url: "/buscar_datos_elecciones",
-        con_votacion: 'S'
-    });
-
+   
     function cargar_resultados(propuesta_id, tabla) {
       
         propuestas_elecciones.ajax({
@@ -447,16 +468,23 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { tabla: tabla, propuesta_id: propuesta_id }
         }).then(function(response) {
             if(response.length > 0) {
-                document.getElementsByName("resultado_id")[0].value = response[0].resultado_id;
+                
                 var html = '';
+                var resultado_ids = [];
                 // if(response[0].fv_id == 6) {
                     for(let i = 0; i < response.length; i++){
 
-                        var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
+                        
                         html += '<tr>';
                         html += '   <td>'+response[i].resultado_descripcion+'</td>';
                         html += '   <td >'+response[i].resultado_votos+'</td>';
-                        html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        
+                        if(document.getElementsByName("resolucion_id")[0].value == "") {
+                            html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        } else {
+                            html += '   <td>'+response[i].resultado_mano_alzada+'</td>';
+                        }
+                       
                         html += '   <td class="total">'+response[i].resultado_total+'</td>';
                         if(tabla == 'asambleas.propuestas_elecciones') {
                             if(response.resultado_ganador == "S") {
@@ -473,7 +501,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                        
                         html += '</tr>';
-                    }
+                        resultado_ids.push(response[i].resultado_id);
+                    }   
+                    // console.log(resultado_ids);
+
+                    document.getElementsByName("resultado_ids")[0].value = resultado_ids.join(",");
                 // }
 
                
@@ -492,14 +524,35 @@ document.addEventListener("DOMContentLoaded", function() {
         
         var tabla = $("#tabla").val();
         var required = true;
+        var idioma_codigo = $("#tr_idioma").val();
         required = required && resoluciones.required("tabla");
         if(required) {
             if(tabla == "asambleas.propuestas_temas") {
+                if(typeof propuestas_temas.datatable.length != "undefined") {
+                    propuestas_temas.datatable.destroy();
+                }
+                propuestas_temas.TablaListado({
+                    tablaID: '#tabla-propuestas-temas',
+                    url: "/buscar_datos",
+                    con_votacion: 'S',
+                    idioma_codigo: idioma_codigo
+                });
 
+               
                 $("#modal-propuestas-temas").modal("show");
             }
 
             if(tabla == "asambleas.propuestas_elecciones") {
+                if(typeof propuestas_elecciones.datatable.length != "undefined") {
+                    propuestas_elecciones.datatable.destroy();
+                }
+                propuestas_elecciones.TablaListado({
+                    tablaID: '#tabla-propuestas-elecciones',
+                    url: "/buscar_datos_elecciones",
+                    con_votacion: 'S',
+                    idioma_codigo: idioma_codigo
+                });
+
 
                 $("#modal-propuestas-elecciones").modal("show");
             }
@@ -511,14 +564,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
         resoluciones.limpiarDatos("datos-propuesta");
         // console.log(datos);
-        resoluciones.asignarDatos({
-            propuesta_id: datos.pt_id,
-            propuesta: datos.tpt_titulo,
-            anio_correlativo: datos.anio+'-'+datos.pt_correlativo,
-            // tabla: 'asambleas.propuestas_temas'
-        });
+        resoluciones.asignarDatos(datos);
 
-        cargar_resultados(datos.pt_id, 'asambleas.propuestas_temas');
+        cargar_resultados(datos.propuesta_id, 'asambleas.propuestas_temas');
         $("#modal-propuestas-temas").modal("hide");
         
 
@@ -528,13 +576,14 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#tabla-propuestas-temas").on('key.dt', function(e, datatable, key, cell, originalEvent){
         if(key === 13){
             var datos = propuestas_temas.datatable.row(cell.index().row).data();
-            cargar_datos_propuestas_temas(datos);
+
+            cargar_datos_propuestas_temas({propuesta_id: datos.pt_id, tr_titulo_propuesta:  datos.tpt_titulo, resolucion_anio_correlativo: datos.anio+'-'+datos.pt_correlativo, tr_propuesta: datos.tpt_propuesta});
         }
     });
 
     $('#tabla-propuestas-temas').on('dblclick', 'tr', function () {
         var datos = propuestas_temas.datatable.row( this ).data();
-        cargar_datos_propuestas_temas(datos);
+        cargar_datos_propuestas_temas({propuesta_id: datos.pt_id, tr_titulo_propuesta:  datos.tpt_titulo, resolucion_anio_correlativo: datos.anio+'-'+datos.pt_correlativo, tr_propuesta: datos.tpt_propuesta});
     });
 
 
@@ -544,15 +593,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
         resoluciones.limpiarDatos("datos-propuesta");
         // console.log(datos);
-        resoluciones.asignarDatos({
-            propuesta_id: datos.pe_id,
-            propuesta: datos.tpe_descripcion,
-            anio_correlativo: datos.anio+'-'+datos.pe_correlativo,
-            // tabla: 'asambleas.propuestas_elecciones'
-            
-        });
+        resoluciones.asignarDatos(datos);
 
-        cargar_resultados(datos.pe_id, 'asambleas.propuestas_elecciones');
+        cargar_resultados(datos.propuesta_id, 'asambleas.propuestas_elecciones');
         $("#modal-propuestas-elecciones").modal("hide");
 
 
@@ -562,17 +605,59 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#tabla-propuestas-elecciones").on('key.dt', function(e, datatable, key, cell, originalEvent){
         if(key === 13){
             var datos = propuestas_elecciones.datatable.row(cell.index().row).data();
-            cargar_datos_propuestas_elecciones(datos);
+            cargar_datos_propuestas_elecciones({propuesta_id: datos.pe_id, tr_titulo_propuesta: datos.tpe_descripcion, resolucion_anio_correlativo: datos.anio+'-'+datos.pe_correlativo, tr_propuesta: datos.tpe_detalle_propuesta});
         }
     });
 
     $('#tabla-propuestas-elecciones').on('dblclick', 'tr', function () {
         var datos = propuestas_elecciones.datatable.row( this ).data();
-        cargar_datos_propuestas_elecciones(datos);
+        cargar_datos_propuestas_elecciones({propuesta_id: datos.pe_id, tr_titulo_propuesta: datos.tpe_descripcion, resolucion_anio_correlativo: datos.anio+'-'+datos.pe_correlativo, tr_propuesta: datos.tpe_detalle_propuesta});
     });
 
     document.getElementById("tabla").addEventListener("change", function(e) {
         resoluciones.limpiarDatos("datos-propuesta");
+    })
+
+
+    function obtener_descripcion_propuestas(propuesta_id, tr_idioma, tabla) {
+        propuestas.ajax({
+            url: '/obtener_descripcion_propuestas',
+            datos: { _token: _token,  propuesta_id: propuesta_id, tr_idioma: tr_idioma, tabla: tabla }
+        }).then(function(response) {
+        //    console.table(response);
+            if(response.length > 0 ) {
+               
+                $("input[name=tr_titulo_propuesta]").val(response[0].tr_titulo_propuesta);
+                $("input[name=tr_propuesta]").val(response[0].tr_propuesta);
+               
+                
+            }
+           
+       
+        })
+    }
+
+    $(document).on('change', '#tr_idioma', function(event) {
+        var propuesta_id = document.getElementsByName("propuesta_id")[0].value;
+        var tabla = document.getElementsByName("tabla")[0].value;
+        if(propuesta_id == "") {
+            return false;
+        }
+        var tr_idioma = $("#tr_idioma").val();
+        obtener_descripcion_propuestas(propuesta_id, tr_idioma, tabla);
+       
+
+        // alert(pt_id_origen);
+    })
+
+
+    $(document).on("click", "#imprimir", function(e) {
+        e.preventDefault();
+
+        var resolucion_id = document.getElementsByName("resolucion_id")[0].value;
+        var tr_idioma = (document.getElementsByName("tr_idioma").length > 0 ) ? document.getElementsByName("tr_idioma")[0].value : document.getElementsByName("tr_idioma_origen")[0].value;
+      
+        window.open(BaseUrl + "/resoluciones/imprimir_resolucion/"+resolucion_id+"|"+tr_idioma);
     })
 })
 

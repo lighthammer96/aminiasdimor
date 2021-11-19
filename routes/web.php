@@ -320,6 +320,7 @@ Route::post('asociados/guardar_curriculum', [AsociadosController::class, "guarda
 Route::post('asociados/guardar_delegados', [AsociadosController::class, "guardar_delegados"]);
 Route::post('asociados/guardar_asignacion_delegados', [AsociadosController::class, "guardar_asignacion_delegados"]);
 Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::class, "imprimir_curriculum"]);
+Route::get('asociados/imprimir_certificado/{idmiembro}', [AsociadosController::class, "imprimir_certificado"]);
 Route::get('asociados/imprimir_listado_delegados', [AsociadosController::class, "imprimir_listado_delegados"]);
 Route::post('asociados/notificar_delegados', [AsociadosController::class, "notificar_delegados"]);
 
@@ -440,6 +441,7 @@ Route::post('propuestas/obtener_descripciones_propuestas_origen', [PropuestasCon
 Route::post('propuestas/obtener_resultados', [PropuestasController::class, "obtener_resultados"]);
 Route::post('propuestas/guardar_resultados', [PropuestasController::class, "guardar_resultados"]);
 Route::post('propuestas/guardar_ganador', [PropuestasController::class, "guardar_ganador"]);
+Route::post('propuestas/obtener_descripcion_propuestas', [PropuestasController::class, "obtener_descripcion_propuestas"]);
 
 Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::class, "imprimir_propuesta_tema"]);
 
@@ -453,6 +455,8 @@ Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::
  Route::post('resoluciones/guardar_resoluciones', [ResolucionesController::class, "guardar_resoluciones"]);
  Route::post('resoluciones/get_resoluciones', [ResolucionesController::class, "get_resoluciones"]);
  Route::post('resoluciones/eliminar_resoluciones', [ResolucionesController::class, "eliminar_resoluciones"]);
+
+ Route::get('resoluciones/imprimir_resolucion/{resolucion_id}', [ResolucionesController::class, "imprimir_resolucion"]);
 
 
  // ASISTENCIA

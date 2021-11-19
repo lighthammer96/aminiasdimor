@@ -301,6 +301,8 @@
         var notifico_correctamente = "<?php echo traducir('asambleas.notifico_correctamente'); ?>";
         var no_hay_resultados = "<?php echo traducir('asambleas.no_hay_resultados'); ?>";
         var propuesta_inactiva = "<?php echo traducir('asambleas.propuesta_inactiva'); ?>";
+        var no_guardar_resolucion_sin_resultados = "<?php echo traducir('asambleas.no_guardar_resolucion_sin_resultados'); ?>";
+        var guardar_resolucion = "<?php echo traducir('asambleas.guardar_resolucion'); ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

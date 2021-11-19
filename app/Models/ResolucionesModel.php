@@ -27,12 +27,22 @@ class ResolucionesModel extends Model
         $tabla->agregarColumna("r.resolucion_id", "resolucion_id", "Id");
         $tabla->agregarColumna("tr.tr_descripcion", "tr_descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("r.resolucion_fecha", "resolucion_fecha", traducir("traductor.fecha"));
-        $tabla->agregarColumna("CASE WHEN r.tabla ='asambleas.propuestas_temas' THEN tpt.tpt_titulo
-        ELSE tpe.tpe_descripcion END AS propuesta", "propuesta", traducir("asambleas.propuesta"));
+        $tabla->agregarColumna("CASE WHEN tr.tr_titulo_propuesta IS NULL THEN (SELECT tr_titulo_propuesta FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_titulo_propuesta", "propuesta", traducir("asambleas.propuesta"));
         $tabla->agregarColumna("r.resolucion_estado", "resolucion_estado", traducir("asambleas.estado_resolucion"));
-        $tabla->setSelect("r.resolucion_id, tr.tr_descripcion, ".formato_fecha_idioma(" r.resolucion_fecha")." AS resolucion_fecha, 
-        CASE WHEN r.tabla ='asambleas.propuestas_temas' THEN tpt.tpt_titulo
-        ELSE tpe.tpe_descripcion END AS propuesta, 
+        $tabla->setSelect("r.resolucion_id, 
+   
+        CASE WHEN tr.tr_descripcion IS NULL THEN (SELECT tr_descripcion FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_descripcion  END AS tr_descripcion, 
+
+        ".formato_fecha_idioma(" r.resolucion_fecha")." AS resolucion_fecha,
+        /* 
+        CASE WHEN r.tabla ='asambleas.propuestas_temas' 
+        THEN 
+        (CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END)
+        ELSE 
+        (CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END)
+        END AS propuesta, */
+        CASE WHEN tr.tr_titulo_propuesta IS NULL THEN (SELECT tr_titulo_propuesta FROM asambleas.traduccion_resoluciones WHERE resolucion_id=r.resolucion_id AND tr_idioma='".trim(session("idioma_defecto"))."') ELSE tr.tr_titulo_propuesta  END AS propuesta, 
+
         CASE 
         WHEN r.resolucion_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
         WHEN r.resolucion_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
@@ -41,10 +51,10 @@ class ResolucionesModel extends Model
         r.resolucion_estado AS estado_resolucion
         /*CASE WHEN r.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado*/");
         $tabla->setFrom("asambleas.resoluciones AS r
-        \nLEFT JOIN asambleas.propuestas_temas AS pt on(pt.pt_id=r.propuesta_id AND r.tabla='asambleas.propuestas_temas')
+        /*\nLEFT JOIN asambleas.propuestas_temas AS pt on(pt.pt_id=r.propuesta_id AND r.tabla='asambleas.propuestas_temas')
         \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
         \nLEFT JOIN asambleas.propuestas_elecciones AS pe on(pe.pe_id=r.propuesta_id AND r.tabla='asambleas.propuestas_elecciones')
-        \n LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."')
+        \n LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."')*/
         \nLEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='".session("idioma_codigo")."')");
 
         return $tabla;

@@ -18,7 +18,7 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="resolucion_id" class="input-sm entrada">
-                    <input type="hidden" name="resultado_id" class="input-sm entrada">
+                    <input type="hidden" name="resultado_ids" class="input-sm entrada">
                     <div class="row cambiar-row-1">
 <!--                         
                         <div class="col-md-3  col-md-offset-6">
@@ -52,14 +52,15 @@
 
                         <div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
                             <label class="control-label">{{ traducir("asambleas.anio_correlativo") }}</label>
-                            <input  type="text" class="form-control input-sm entrada datos-propuesta" name="anio_correlativo" placeholder="" readonly="readonly" />
+                            <input  type="text" class="form-control input-sm entrada datos-propuesta" name="resolucion_anio_correlativo" placeholder="" readonly="readonly" />
                         </div>
                         <div class="col-md-6" style="padding-left: 5px;">
                             <label class="control-label">{{ traducir("asambleas.propuesta") }}</label>
                             <input type="hidden" name="propuesta_id" class="input-sm entrada datos-propuesta" >
+                            <input type="hidden" name="tr_propuesta" class="input-sm entrada datos-propuesta" >
                             <!-- <input type="hidden" name="tabla" class="input-sm entrada datos-propuesta" > -->
                             <div class="input-group">
-                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-propuesta" name="propuesta" placeholder="{{ traducir('asambleas.buscar_propuesta') }}...">
+                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-propuesta" name="tr_titulo_propuesta" placeholder="{{ traducir('asambleas.buscar_propuesta') }}...">
                                 <span class="input-group-btn">
                                     <button type="button" id="buscar_propuesta" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
                                    
@@ -132,8 +133,17 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-resolucion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-resolucion" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <div class="pull-left" id="someter-votacion">
+                        
+                        <button type="button" class="btn btn-success btn-sm" id="imprimir">{{ traducir('traductor.imprimir')}}</button>
+
+                     
+                    </div>
+                    <div class="pull-right">
+
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-resolucion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-resolucion" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    </div>
                 </div>
             </form>
 

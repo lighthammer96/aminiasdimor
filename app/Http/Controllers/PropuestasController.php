@@ -668,4 +668,31 @@ class PropuestasController extends Controller
         echo json_encode($result);
  
     }
+    
+
+    public function obtener_descripcion_propuestas(Request $request) {
+        if($request->input("tabla") == "asambleas.propuestas_temas") {
+            $sql = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END AS tr_titulo_propuesta ,
+
+            CASE WHEN tpt.tpt_propuesta IS NULL THEN (SELECT tpt_propuesta FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_propuesta  END AS tr_propuesta 
+            FROM asambleas.propuestas_temas AS pt
+            
+            LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='{$request->input("tr_idioma")}')
+            WHERE pt.pt_id = {$request->input("propuesta_id")}";
+        }
+
+
+        if($request->input("tabla") == "asambleas.propuestas_elecciones") {
+            $sql = "SELECT  CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS tr_titulo_propuesta ,
+            CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta  END AS tr_propuesta 
+            
+            FROM asambleas.propuestas_elecciones AS pe
+            LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$request->input("tr_idioma")}')
+            WHERE pe.pe_id = {$request->input("propuesta_id")}";
+        }
+        $result = DB::select($sql);
+        
+
+        echo json_encode($result);
+    }
 }

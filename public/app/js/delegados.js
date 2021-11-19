@@ -226,4 +226,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+
+    
+
 })
+
+function imprimir_certificado(idmiembro) {
+    
+    window.open(BaseUrl + "/asociados/imprimir_certificado/"+idmiembro);
+}
