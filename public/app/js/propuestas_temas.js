@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         $("#someter-votacion").hide();
-        $("#imprimir").show();
+       
         cambiar_row_1("origen");
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.get(datos.pt_id+'|'+idioma);
@@ -580,12 +580,23 @@ document.addEventListener("DOMContentLoaded", function() {
         })
 
         $("#someter-votacion").show();
+        $("#checkbox-someter-votacion").show();
+        $("#imprimir").hide();
+        $("#ver-resultados").show();
+
         cambiar_row_1("origen");
-        $("#imprimir").show();
+ 
         var idioma = $("#tpt_idioma").val();
         var promise = propuestas_temas.ver(datos.pt_id+'|'+idioma);
 
         promise.then(function(response) {
+            if(response.resolucion_id != null) {
+                // alert("disabled");
+                $('#pt_someter_votacion').iCheck('disable');
+            } else {
+                $('#pt_someter_votacion').iCheck('enable');
+            }
+
             var valor = response.asamblea_id.toString().split("|");
             var tipconv_id = valor[0];
             var asamblea_id = valor[1];
@@ -623,7 +634,137 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#idmision").trigger("change", [response.idmision, ""]);
             }
 
-            $("#pt_someter_votacion").removeAttr("disabled");
+            // $("#pt_someter_votacion").removeAttr("disabled");
+
+            // console.log(votaciones.buscarEnFormulario("votacion_id"));
+            votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
+            votaciones.buscarEnFormulario("convocatoria").setAttribute("default-value", response.asamblea_descripcion);
+            votaciones.buscarEnFormulario("propuesta").setAttribute("default-value", response.tpt_titulo);
+            votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", asamblea_id);
+            votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_temas");
+            votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pt_id);
+
+
+            propuestas_temas.ajax({
+                url: '/obtener_propuestas_origen',
+                datos: { pt_id: datos.pt_id }
+            }).then(function(response) {
+                var array = [];
+                for(let i = 0; i < response.length; i++){
+                    array.push(response[i].pt_id_origen);
+                }
+                //$("select[name='modulo_id[]']").val(array).trigger("chosen:updated");
+                if(array.length > 0) {
+
+                    $("#pt_id_origen")[0].selectize.setValue(array);
+                }
+            })
+
+            if(response.tabla == "iglesias.union") {
+                $("#idmision").val("");
+            }
+
+            $(".traduccion").hide();
+            $("#tpt_idioma").removeAttr("disabled");
+
+            $("#imprimir").removeAttr("disabled");
+            $("#ver-resultados").removeAttr("disabled");
+            // $("input[name=votacion_id]").val(response.votacion_id);
+
+        
+                // $("input[name=convocatoria]").attr("default-value", response.asamblea_descripcion);
+                // $("input[name=propuesta]").attr("default-value", response.tpt_titulo);
+        })
+        
+
+    })
+
+
+    document.getElementById("ver-propuesta-tema").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        var datos = propuestas_temas.datatable.row('.selected').data();
+        // console.log(datos);
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+            return false;
+        } 
+
+        if(datos.state == 'I') {
+            BASE_JS.sweet({
+                text: propuesta_inactiva
+            });
+            return false;
+        } 
+
+        if(datos.estado_propuesta == 1) {
+            BASE_JS.sweet({
+                text: registro_estado_terminado
+            });
+            return false;
+        } 
+        $("#pt_id_origen").attr("disabled", "disabled");
+        propuestas_temas.select({
+            name: 'pt_id_origen[]',
+            url: '/obtener_propuestas_temas_origen',
+            placeholder: seleccione,
+            datos: { pt_id: datos.pt_id }
+        
+        })
+
+        $("#someter-votacion").show();
+        $("#checkbox-someter-votacion").hide();
+        $("#ver-resultados").hide();
+        $("#imprimir").show();
+
+        cambiar_row_1("origen");
+   
+        var idioma = $("#tpt_idioma").val();
+        var promise = propuestas_temas.ver(datos.pt_id+'|'+idioma);
+
+        promise.then(function(response) {
+            
+
+            var valor = response.asamblea_id.toString().split("|");
+            var tipconv_id = valor[0];
+            var asamblea_id = valor[1];
+
+            asambleas.select({
+                name: 'asamblea_id',
+                url: '/obtener_asambleas',
+                placeholder: seleccione,
+                selected: response.asamblea_id
+            })
+
+
+            if(tipconv_id == 1) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            if(tipconv_id == 2) {
+                $(".mision").hide();
+                $(".union").show();
+
+            }
+
+            if(tipconv_id == 3) {
+                $(".mision").show();
+                $(".union").show();
+            }
+
+            var pais = response.pais_id.toString().split("|");
+            // console.log(pais);
+            $("#pais_id").trigger("change", [response.pais_id, response.idunion, response.idmision]);
+            // alert(pais[1]);
+            if(pais[1] != "N") {
+                $("#idunion").trigger("change", [response.idunion, response.idmision]);
+                $("#idmision").trigger("change", [response.idmision, ""]);
+            }
+
+            // $("#pt_someter_votacion").removeAttr("disabled");
 
             // console.log(votaciones.buscarEnFormulario("votacion_id"));
             votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
@@ -804,32 +945,30 @@ document.addEventListener("DOMContentLoaded", function() {
             
             desactivar_entradas();
             
+            idioma = 'en';          
+            var promise =  propuestas_temas.ajax({
+                url: '/get_propuestas_temas',
+                datos: { id: datos.pt_id+'|'+idioma }
+            })
+
+            
+            promise.then(function(response) {
+                if(response.length > 0) {
+                    $("input[name=tpt_titulo_traduccion]").val(response[0].tpt_titulo);
+                    $("textarea[name=tpt_detalle_otros_asuntos_traduccion]").val(response[0].tpt_detalle_otros_asuntos);
+                    $("textarea[name=tpt_propuesta_traduccion]").val(response[0].tpt_propuesta);
+                    $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
+                    $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
+                    $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
+                    $("textarea[name=tpt_justificacion_propuesta_traduccion]").val(response[0].tpt_justificacion_propuesta);
+                }
+            })
             
         })
 
 
 
-        idioma = 'en';
-       
-
-          
-        var promise =  propuestas_temas.ajax({
-            url: '/get_propuestas_temas',
-            datos: { id: datos.pt_id+'|'+idioma }
-        })
-
         
-        promise.then(function(response) {
-            if(response.length > 0) {
-                $("input[name=tpt_titulo_traduccion]").val(response[0].tpt_titulo);
-                $("textarea[name=tpt_detalle_otros_asuntos_traduccion]").val(response[0].tpt_detalle_otros_asuntos);
-                $("textarea[name=tpt_propuesta_traduccion]").val(response[0].tpt_propuesta);
-                $("textarea[name=tpt_ventas_desventajas_traduccion]").val(response[0].tpt_ventas_desventajas);
-                $("textarea[name=tpt_descripcion_documentos_apoyo_traduccion]").val(response[0].tpt_descripcion_documentos_apoyo);
-                $("textarea[name=tpt_comentarios_traduccion]").val(response[0].tpt_comentarios);
-                $("textarea[name=tpt_justificacion_propuesta_traduccion]").val(response[0].tpt_justificacion_propuesta);
-            }
-        })
         
     })
 

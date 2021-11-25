@@ -37,11 +37,14 @@ class PropuestasController extends Controller
 
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
-        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
+
+        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
+
+        $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
         
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?121120211722"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?251120211722"]);
         return parent::init($view, $data);  
 
       
@@ -65,10 +68,13 @@ class PropuestasController extends Controller
         $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
 
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
-        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
+
+        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
+
+        $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?12112021"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?25112021"]);
         return parent::init($view, $data);  
     }
 
@@ -242,8 +248,8 @@ class PropuestasController extends Controller
             $_POST["pe_id"] = $result["id"];
 
             // DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->where("dp_idioma", $idioma)->delete();
-            DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->delete();
             if(isset($_REQUEST["dp_descripcion"]) && gettype($_REQUEST["dp_descripcion"]) == "array" && count($_REQUEST["dp_descripcion"]) > 0) {
+                DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->delete();
             
                 
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.detalle_propuestas", $_POST, "D"), "D");
@@ -339,13 +345,14 @@ class PropuestasController extends Controller
         $pt_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma, pt.tabla FROM asambleas.propuestas_temas AS pt 
+        $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma, pt.tabla, r.resolucion_id FROM asambleas.propuestas_temas AS pt 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=pt.pais_id)
         LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='{$idioma_codigo}')
         LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pt.pt_id AND v.tabla='asambleas.propuestas_temas' AND v.estado='A')
+        LEFT JOIN asambleas.resultados AS r ON(r.votacion_id=v.votacion_id)
         WHERE pt.pt_id=".$pt_id."
         ORDER BY tpt.tpt_id DESC LIMIT 1";
         $one = DB::select($sql);
@@ -359,11 +366,12 @@ class PropuestasController extends Controller
         $pe_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma, (tc.tipconv_id || '|' || pe.asamblea_id) AS asamblea_id FROM asambleas.propuestas_elecciones AS pe 
+        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma, (tc.tipconv_id || '|' || pe.asamblea_id) AS asamblea_id, r.resolucion_id FROM asambleas.propuestas_elecciones AS pe 
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pe.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$idioma_codigo}')
         LEFT JOIN asambleas.votaciones AS v ON(v.propuesta_id=pe.pe_id AND v.tabla='asambleas.propuestas_elecciones' AND v.estado='A')
+        LEFT JOIN asambleas.resultados AS r ON(r.votacion_id=v.votacion_id)
         WHERE pe.pe_id=".$pe_id."
          ORDER BY tpe.tpe_id DESC LIMIT 1";
         $one = DB::select($sql);

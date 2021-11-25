@@ -731,7 +731,7 @@ class AsociadosController extends Controller
         $array_where = array();
         $where = '';
         if($request->input("nombres") != '') {
-            array_push($array_where, "m.nombres ILIKE'&".$request->input("nombres")."%'");
+            array_push($array_where, "(m.nombres || ' ' || m.apellidos) ILIKE '%".$request->input("nombres")."%'");
         }
 
         if($request->input("idgradoinstruccion") != '') {
@@ -763,7 +763,7 @@ class AsociadosController extends Controller
         LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')
         {$where}
         ORDER BY m.idmiembro DESC";
-        // die($sql);
+        die($sql);
         $result = DB::select($sql);
 
         echo json_encode($result);

@@ -20,8 +20,11 @@ class PropuestasModel extends Model
 
     public function tabla($con_votacion = "N") {
         $where = "1=1";
+        $join = "";
         if($con_votacion == "S") {
             $where = "pt.estado='A'";
+            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pt.pt_id AND vs.tabla='asambleas.propuestas_temas')
+            INNER JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id AND r.resolucion_id IS NULL)";
         }
 
         $and = "AND tpt.tpt_idioma='".session("idioma_codigo")."'";
@@ -56,7 +59,8 @@ class PropuestasModel extends Model
         CASE WHEN tpt.tpt_propuesta IS NULL THEN (SELECT tpt_propuesta FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_propuesta  END AS tpt_propuesta");
         $tabla->setFrom("asambleas.propuestas_temas AS pt
         \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
-        \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id {$and})");
+        \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id {$and})
+        {$join}");
         $tabla->setWhere($where);
         return $tabla;
     }
@@ -64,8 +68,11 @@ class PropuestasModel extends Model
 
     public function tabla_propuestas_elecciones($con_votacion = "N") {
         $where = "1=1";
+        $join = "";
         if($con_votacion == "S") {
             $where = "pe.estado='A'";
+            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
+            INNER JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id AND r.resolucion_id IS NULL)";
         }
 
         $and = "AND tpe.tpe_idioma='".trim(session("idioma_codigo"))."'";
@@ -97,7 +104,8 @@ class PropuestasModel extends Model
         END AS pe_estado, 
         CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pe.pe_estado AS estado_propuesta, date_part('year', pe.pe_fecha) AS anio, pe.pe_correlativo, pe.estado AS state");
         $tabla->setFrom("asambleas.propuestas_elecciones AS pe
-        \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id {$and})");
+        \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id {$and})
+        {$join}");
 
         $tabla->setWhere($where);
 

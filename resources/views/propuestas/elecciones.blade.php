@@ -189,7 +189,7 @@
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary btn-sm" id="ver-resultados">[{{ traducir('asambleas.ver_resultados')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="ver-resultados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>[{{ traducir('asambleas.ver_resultados')}}]</button>
                     </div>
 
                     <div class="pull-right">

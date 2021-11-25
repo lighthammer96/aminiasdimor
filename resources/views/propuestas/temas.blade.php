@@ -308,17 +308,17 @@
                 </div>
                 <div class="modal-footer">
                     <div class="pull-left" id="someter-votacion">
-                        <label class="control-label" >
+                        <label class="control-label" id="checkbox-someter-votacion">
                                 
                             <input class="minimal entrada" type="checkbox" name="pt_someter_votacion" id="pt_someter_votacion">
                             
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-success btn-sm" id="imprimir">{{ traducir('traductor.imprimir')}}</button>
+                        <button type="button" class="btn btn-default btn-sm" id="imprimir"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.imprimir')}}</button>
 
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary btn-sm" id="ver-resultados">[{{ traducir('asambleas.ver_resultados')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="ver-resultados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>[{{ traducir('asambleas.ver_resultados')}}]</button>
                     </div>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
