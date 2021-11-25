@@ -139,7 +139,7 @@
     </div>
     <div class="row">
         <div class="col-md-2 col-md-offset-5" style="margin-top: 10px;">
-            <button type="button" class="btn btn-primary" id="ver-lista">[{{ traducir('traductor.ver_lista') }}]</button>
+            <button type="button" class="btn btn-default" id="ver-lista"><img style="width: 30px; height: 30px;" src="{{ URL::asset('images/iconos/listado.png') }}" ><br>[{{ traducir('traductor.ver_lista') }}]</button>
         </div>
     </div>
 
@@ -148,10 +148,10 @@
 
 <div class="row" >
     <div class="col-md-2 volver"  style="display: none;">
-        <button type="button" class="btn btn-success" id="volver">[{{ traducir('traductor.volver') }}]</button>
+        <button type="button" class="btn btn-default" id="volver"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/back.png') }}" ><br>[{{ traducir('traductor.volver') }}]</button>
     </div>
     <div class="col-md-2 col-md-offset-8 trasladar" style="text-align: right; display: none;" >
-        <button type="button" class="btn btn-primary" id="trasladar">[{{ traducir('traductor.trasladar_ahora') }}]</button>
+        <button type="button" class="btn btn-default" id="trasladar"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/next.png') }}" ><br>[{{ traducir('traductor.trasladar_ahora') }}]</button>
     </div>
    
 
@@ -241,8 +241,8 @@
                         <button type="button" class="btn btn-warning btn-sm" id="carta-traslado">[{{ traducir('traductor.carta_traslado')}}]</button>
                     </div> -->
                     <div class="pull-rigth">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi">[{{ traducir('traductor.cancelar')}}]</button>
-                        <button type="button" id="guardar-traslados-mi" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-traslados-mi"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-traslados-mi" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar')}}]</button>
                     </div>
                    
                 </div>

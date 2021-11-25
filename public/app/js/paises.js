@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             paises.ajax({
                 url: '/obtener_jerarquia',
-                datos: { pais_id: response.pais_id, _token: _token }
+                datos: { pais_id: response.pais_id }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){

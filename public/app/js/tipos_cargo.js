@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             // tipos_cargo.ajax({
             //     url: '/obtener_traducciones',
-            //     datos: { idtipocargo: response.idtipocargo, _token: _token }
+            //     datos: { idtipocargo: response.idtipocargo }
             // }).then(function(response) {
             //     if(response.length > 0) {
             //         for(let i = 0; i < response.length; i++){

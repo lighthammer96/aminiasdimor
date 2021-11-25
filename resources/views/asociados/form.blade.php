@@ -440,7 +440,7 @@
 
                                 <div class="row boton-ficha-bautizo" style="margin-top: 20px; text-align: right;">
                                     <div class="col-md-2 col-md-offset-10">
-                                        <button type="button" class="btn btn-success btn-sm" id="imprimir-ficha-bautizo">{{ traducir('traductor.certificado_bautizo') }}</button>
+                                        <button type="button" class="btn btn-default btn-sm" id="imprimir-ficha-bautizo">{{ traducir('traductor.certificado_bautizo') }}</button>
                                     </div>
                                 </div>
                                
@@ -501,8 +501,8 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-md-1" style="margin-top: 27px; text-align: right; padding-left: 5px;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-cargo">[{{ traducir("traductor.agregar") }}]</button> 
+                                    <div class="col-md-1" style="margin-top: 7px; text-align: right; padding-left: 5px;">
+                                        <button type="button" class="btn btn-default btn-sm" id="agregar-cargo"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/plus.png') }}" ><br>[{{ traducir("traductor.agregar") }}]</button> 
 
                                     </div>
 
@@ -731,8 +731,8 @@
                         
                     </div>
                     <div class="pull-rigth">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado">[Esc] [{{ traducir("traductor.cancelar") }}]</button>
-                        <button type="button" id="guardar-asociado" class="btn btn-primary btn-sm">[F9] [{{ traducir("traductor.guardar") }}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir("traductor.cancelar") }}]</button>
+                        <button type="button" id="guardar-asociado" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir("traductor.guardar") }}]</button>
                     </div>
                 </div>
             </form>

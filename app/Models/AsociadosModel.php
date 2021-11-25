@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
+use Illuminate\Support\Facades\URL;
 
 class AsociadosModel extends Model
 {
@@ -39,13 +40,13 @@ class AsociadosModel extends Model
         // var_dump($curriculum);
         if($curriculum == "1") {
             $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
-            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_curriculum(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
+            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_curriculum(''' || m.idmiembro || ''')\" class=\"btn btn-xs\" ><img style=\"width: 20px; height: 20px;\" src=\"".URL::asset('images/iconos/print.png')."\"><br></button></center>' AS boton";
         }
 
 
         if($delegados == "1") {
             $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
-            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_certificado(''' || m.idmiembro || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton";
+            $boton = ", '<center><button type=\"button\" onclick=\"imprimir_certificado(''' || m.idmiembro || ''')\" class=\"btn btn-xs\" ><img style=\"width: 20px; height: 20px;\" src=\"".URL::asset('images/iconos/print.png')."\"><br></button></center>' AS boton";
         }
         
         $join = "";

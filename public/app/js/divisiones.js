@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementsByName("descripcion")[0].value = "";
             divisiones.ajax({
                 url: '/obtener_traducciones',
-                datos: { iddivision: response.iddivision, _token: _token }
+                datos: { iddivision: response.iddivision }
             }).then(function(response) {
             
                 if(response.length > 0) {

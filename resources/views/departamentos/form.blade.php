@@ -20,24 +20,24 @@
                       
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.pais')}}</label>
-
-                            <div class="input-group m-bot15 col-md-12 sin-padding">
-                                <select name="pais_id" id="pais_id" class="selectizejs entrada"></select>
+                            <select name="pais_id" id="pais_id" class="selectizejs entrada"></select>
+                            <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
+                              
 
                                 <span class="input-group-btn">
                                     <button type="button" id="nuevo-pais" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button>
 
                                 </span>
 
-                            </div>
+                            </div> -->
 
                         </div>
                         
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-departamento">[Esc] [{{ traducir('traductor.cancelar') }}]</button>
-                    <button type="button" id="guardar-departamento" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-departamento"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-departamento" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

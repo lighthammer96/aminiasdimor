@@ -321,8 +321,8 @@
                         <button type="button" class="btn btn-primary btn-sm" id="ver-resultados">[{{ traducir('asambleas.ver_resultados')}}]</button>
                     </div>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                        <button type="button" id="guardar-propuesta-tema" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-propuesta-tema" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
                     </div>
                     
                 </div>
@@ -426,7 +426,7 @@
                     
             
                     <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones">[{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-votaciones" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" id="guardar-votaciones" class="btn btn-default btn-sm">[{{ traducir('traductor.guardar')}}]</button>
                 
                         
                 </div>

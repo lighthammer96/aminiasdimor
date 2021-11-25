@@ -10,7 +10,7 @@
 <form id="formulario-permisos" class="form-horizontal">
     <div class="row">
        
-        <div class="col-md-4 col-md-offset-3" >
+        <div class="col-md-4 col-md-offset-3" style="margin-top: 12px;">
             <select name="perfil_id" id="perfil_id" class="selectizejs entrada">
             </select>
             <!-- <div class="input-group m-bot15">
@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-md-2" style="">
-            <button type="button" class="btn btn-success btn-sm" id="guardar-permisos">{{ traducir('traductor.guardar')}}</button>
+            <button type="button" class="btn btn-default btn-sm" id="guardar-permisos"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>{{ traducir('traductor.guardar')}}</button>
         </div>
 
      <!--    <label class="control-label">Modulo Padre</label>

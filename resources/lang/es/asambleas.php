@@ -122,6 +122,10 @@ return [
     'propuesta_origen' => 'Propuesta Origen', 
     'lista_items' => 'Lista Items', 
     'lista_asociados' => 'Lista Asociados', 
+    'lista_propuestas' => 'Lista Propuestas', 
+    'propuestas' => 'Propuestas', 
+    'buscar_propuestas' => 'Buscar Propuestas', 
+    'buscar_asociados' => 'Buscar Asociados', 
     'ver_resultados' => 'Ver Resultados', 
     'resultados' => 'Resultados', 
     'no_hay_resultados' => '¡No Hay Resultados!', 
@@ -159,7 +163,7 @@ return [
     'pasaporte' => 'Pasaporte N°', 
     'fecha_emision' => 'Fecha de emisión', 
     'fecha_expiracion' => 'Fecha de expiración', 
-    'expedidor_por' => 'Expedido por', 
+    'expedido_por' => 'Expedido por', 
     'estado_pasaporte' => 'Estado actual del pasaporte', 
     'edades_hijos' => 'Edades de los hijos', 
     'lengua_materna' => 'Lengua materna', 
@@ -191,6 +195,7 @@ return [
     'revision_envio_1' => 'Este formulario ha sido diseñado como una hoja de trabajo para uso sin conexión a internet. Para presentar oficialmente la Certificación de Delegado, por favor visite la página web de la Asociación General www.asd1844.org y rellene la versión en línea del formulario si aún no lo ha hecho. Gracias.', 
     'revision_envio_2' => 'Para más ayuda con asuntos relacionados con la Asamblea Mundial, por favor contactar a la Asociación General bajo ims@sda1844.org o por teléfono al (+1) 770-748-0077.', 
     'anios' => 'Años (Desde-Hasta)', 
+    'listado' => 'Listado', 
     
 
     

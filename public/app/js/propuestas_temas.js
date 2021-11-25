@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function() {
               
             var promise =  propuestas_temas.ajax({
                 url: '/get_propuestas_temas',
-                datos: { id: pt_id+'|'+idioma, _token: _token }
+                datos: { id: pt_id+'|'+idioma }
             })
 
             
@@ -422,7 +422,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         propuestas_temas.ajax({
             url: '/obtener_correlativo',
-            datos: { _token: _token }
+            datos: { }
         }).then(function(response) {
         //    console.table(response);
            if(typeof response[0].correlativo != "undefined") {
@@ -815,7 +815,7 @@ document.addEventListener("DOMContentLoaded", function() {
           
         var promise =  propuestas_temas.ajax({
             url: '/get_propuestas_temas',
-            datos: { id: datos.pt_id+'|'+idioma, _token: _token }
+            datos: { id: datos.pt_id+'|'+idioma }
         })
 
         
@@ -864,7 +864,7 @@ document.addEventListener("DOMContentLoaded", function() {
            
                 propuestas_temas.ajax({
                     url: '/obtener_correlativo',
-                    datos: { _token: _token }
+                    datos: { }
                 }).then(function(response) {
                 //    console.table(response);
                 if(typeof response[0].correlativo != "undefined") {
@@ -1217,7 +1217,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         propuestas_temas.ajax({
             url: '/obtener_descripciones_propuestas_origen',
-            datos: { _token: _token,  pt_id_origen: pt_id_origen, tpt_idioma: tpt_idioma}
+            datos: { pt_id_origen: pt_id_origen, tpt_idioma: tpt_idioma}
         }).then(function(response) {
         //    console.table(response);
             if(response.length > 0 ) {
@@ -1307,6 +1307,13 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
       
         $("#modal-resultados").modal("hide");
+    })
+
+    
+    document.getElementById("listado-propuesta-tema").addEventListener("click", function(event) {
+        event.preventDefault();
+      
+        window.open(BaseUrl + "/propuestas/imprimir_propuestas_temas/");
     })
 
 

@@ -8,6 +8,7 @@ use App\Models\PropuestasModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use PDF;
 class PropuestasController extends Controller
 {
@@ -29,13 +30,14 @@ class PropuestasController extends Controller
         $data["tabla"] = $this->propuestas_model->tabla()->HTML();
         $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
         $botones = array();
-        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-propuesta-tema">'.traducir("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-propuesta-tema">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         
-        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-propuesta-tema">'.traducir("traductor.eliminar").' [F7]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
 
-        $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-propuesta-tema">'.traducir("asambleas.traducir").'</button>';
-        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-tema">'.traducir("asambleas.votacion").'</button>';
+        $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
+        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
+        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
         
@@ -52,16 +54,18 @@ class PropuestasController extends Controller
         $data["title"] = traducir("asambleas.titulo_propuestas_elecciones");
         $data["subtitle"] = "";
         $data["tabla"] = $this->propuestas_model->tabla_propuestas_elecciones()->HTML();
+        $data["tabla_propuestas_elecciones_origen"] = $this->propuestas_model->tabla_propuestas_elecciones_origen()->HTML();
         $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
         $botones = array();
-        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-propuesta-eleccion">'.traducir("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-propuesta-eleccion">'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         
-        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-propuesta-eleccion">'.traducir("traductor.eliminar").' [F7]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
 
-        $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="traducir-propuesta-eleccion">'.traducir("asambleas.traducir").'</button>';
+        $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
 
-        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-warning btn-sm" id="votacion-propuesta-eleccion">'.traducir("asambleas.votacion").'</button>';
+        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
+        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?12112021"]);
@@ -76,7 +80,15 @@ class PropuestasController extends Controller
 
     public function buscar_datos_elecciones() {
         $con_votacion = (isset($_REQUEST["con_votacion"])) ? $_REQUEST["con_votacion"] : "N";
+      
         $json_data = $this->propuestas_model->tabla_propuestas_elecciones($con_votacion)->obtenerDatos();
+        echo json_encode($json_data);
+    }
+
+    public function buscar_datos_elecciones_origen() {
+      
+     
+        $json_data = $this->propuestas_model->tabla_propuestas_elecciones_origen()->obtenerDatos();
         echo json_encode($json_data);
     }
 
@@ -453,16 +465,16 @@ class PropuestasController extends Controller
             
             
             // exit;
-            // if ($request->input("votacion_id") == '') {
-               
-            // }else{
-                
-            // }
-           
+          
             if($request->input("estado") == "A") {
-
-                $_POST["votacion_fecha"] = date("Y-m-d H:i:s");
-                $result = $this->base_model->insertar($this->preparar_datos("asambleas.votaciones", $_POST));
+                if ($request->input("votacion_id") == '') {
+                    $_POST["votacion_fecha"] = date("Y-m-d H:i:s");
+                    $result = $this->base_model->insertar($this->preparar_datos("asambleas.votaciones", $_POST));
+                }else{
+                    $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $_POST));
+                }
+               
+               
                 // print_R($result); exit;
                 if($request->input("tabla") == "asambleas.propuestas_temas") {
                     $update_propuesta["pt_id"] = $request->input("propuesta_id");
@@ -642,7 +654,8 @@ class PropuestasController extends Controller
 
         $sql_resultados = "SELECT * FROM asambleas.resultados AS r
         INNER JOIN asambleas.votaciones AS v ON(r.votacion_id=v.votacion_id)
-        WHERE r.votacion_id={$resultados[0]->votacion_id}";
+        WHERE r.votacion_id={$resultados[0]->votacion_id}
+        ORDER BY r.resultado_total DESC";
 
         $resultados = DB::select($sql_resultados);
 
@@ -694,5 +707,72 @@ class PropuestasController extends Controller
         
 
         echo json_encode($result);
+    }
+
+    public function obtener_ganadores(Request $request) {
+        $sql = "SELECT * FROM asambleas.resultados AS r 
+        WHERE r.resolucion_id={$request->input("resolucion_id")} AND r.resultado_ganador='S'";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+
+    public function imprimir_propuestas_temas() {
+
+        $sql = "SELECT ".formato_fecha_idioma(" pt.pt_fecha")." AS fecha, pt.pt_correlativo AS correlativo, 
+        CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END AS titulo, 
+        p.pais_descripcion AS pais, pt.lugar AS de, CASE 
+        WHEN pt.pt_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
+        WHEN pt.pt_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
+        WHEN pt.pt_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
+        END AS estado_propuesta, 
+        CASE WHEN pt.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado
+        FROM asambleas.propuestas_temas AS pt
+        \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
+        \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='".session("idioma_codigo")."')
+        ORDER BY pt.pt_id DESC";
+        $propuestas = DB::select($sql);
+
+    
+        $datos["propuestas"] = $propuestas;
+
+        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("propuestas.imprimir_propuestas_temas", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("listado_propuestas_temas.pdf"); // ver
+    }
+
+
+    public function imprimir_propuestas_elecciones() {
+
+        $sql = "SELECT ".formato_fecha_idioma(" pe.pe_fecha")." AS fecha, 
+        CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS descripcion, 
+
+        CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta END  AS detalle_propuesta, 
+        
+        CASE 
+        WHEN pe.pe_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
+        WHEN pe.pe_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
+        WHEN pe.pe_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
+        END AS estado_propuesta, 
+        CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado
+        FROM asambleas.propuestas_elecciones AS pe
+        \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".trim(session("idioma_codigo"))."')
+        ORDER BY pe.pe_id DESC";
+        $propuestas = DB::select($sql);
+
+    
+        $datos["propuestas"] = $propuestas;
+
+        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("propuestas.imprimir_propuestas_elecciones", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("listado_propuestas_elecciones.pdf"); // ver
     }
 }

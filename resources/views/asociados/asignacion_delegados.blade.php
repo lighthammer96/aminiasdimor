@@ -60,20 +60,20 @@
             </select>
         
         </div>
-        <div class="col-md-1" style="margin-top: 27px;">
-            <button id="filtrar" type="button" class="btn btn-primary btn-sm">{{ traducir('asambleas.filtrar') }}</button>
+        <div class="col-md-1" style="margin-top: 7px;">
+            <button id="filtrar" type="button" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/lupa.png') }}" ><br>{{ traducir('asambleas.filtrar') }}</button>
         </div>
 
-        <div class="col-md-1" style="margin-top: 27px; display: none;" id="boton-asignar">
-            <button type="button" id="asignar" class="btn btn-success btn-sm">{{ traducir('asambleas.asignar') }}</button>
+        <div class="col-md-1" style="margin-top: 7px; display: none;" id="boton-asignar">
+            <button type="button" id="asignar" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>{{ traducir('asambleas.asignar') }}</button>
         </div>
 
-        <div class="col-md-1" style="margin-top: 27px;" id="boton-imprimir">
-            <button type="button" id="imprimir" class="btn btn-danger btn-sm">{{ traducir('traductor.imprimir') }}</button>
+        <div class="col-md-1" style="margin-top: 7px;" id="boton-imprimir">
+            <button type="button" id="imprimir" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.imprimir') }}</button>
         </div>
 
-        <div class="col-md-1" style="margin-top: 27px;" id="boton-notificar">
-            <button type="button" id="notificar" class="btn btn-danger btn-sm">{{ traducir('asambleas.notificar') }}</button>
+        <div class="col-md-1" style="margin-top: 7px;" id="boton-notificar">
+            <button type="button" id="notificar" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/importante.png') }}" ><br>{{ traducir('asambleas.notificar') }}</button>
         </div>
     </div>
 
@@ -134,8 +134,8 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asignacion_delegados">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-asignacion_delegados" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asignacion_delegados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-asignacion_delegados" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 
@@ -269,7 +269,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" id="cancelar-impresion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-impresion" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.imprimir')}}]</button>
+                    <button type="button" id="guardar-impresion" class="btn btn-default btn-sm">[F9] [{{ traducir('traductor.imprimir')}}]</button>
                 </div>
             </form>
 

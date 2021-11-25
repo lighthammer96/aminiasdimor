@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja">[{{ traducir('traductor.cancelar') }}]</button>
-                    <button type="button" id="guardar-baja" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-baja"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-baja" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 
@@ -146,8 +146,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta">[{{ traducir('traductor.cancelar') }}]</button>
-                    <button type="button" id="guardar-alta" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar') }}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-alta"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar') }}]</button>
+                    <button type="button" id="guardar-alta" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar') }}]</button>
                 </div>
             </form>
 

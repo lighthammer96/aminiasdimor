@@ -93,6 +93,7 @@
                             <select name="tipo" id="tipo" class="form-control input-sm entrada select" default-value="I">
                                 <option value="I">{{ traducir("asambleas.lista_items") }}</option>
                                 <option value="A">{{ traducir("asambleas.lista_asociados") }}</option>
+                                <option value="P">{{ traducir("asambleas.lista_propuestas") }}</option>
                             </select>
                         </div>
                         <div class="col-md-6 origen propuestas sin-traduccion">
@@ -103,7 +104,7 @@
                         <div class="col-md-6 origen asociados sin-traduccion" style="display: none">
                             <label class="control-label">{{ traducir('traductor.asociados')}}</label>
                             <div class="input-group">
-                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado limpiar" name="asociado" placeholder="{{ traducir('asambleas.buscar_responsable') }}...">
+                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado limpiar" name="asociado" placeholder="{{ traducir('asambleas.buscar_asociados') }}...">
                                 <span class="input-group-btn">
                                     <button type="button" id="buscar_asociado" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
                                    
@@ -111,7 +112,19 @@
 
                             </div>
                         </div>
+                        
+                        <div class="col-md-6 origen lista-propuestas sin-traduccion" style="display: none">
+                            <label class="control-label">{{ traducir('asambleas.propuestas')}}</label>
+                            <div class="input-group">
+                                <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado limpiar" name="propuesta_descripcion" placeholder="{{ traducir('asambleas.buscar_propuestas') }}...">
+                                <input type="hidden" name="pe_id_origen" class="input-sm entrada limpiar">
+                                <span class="input-group-btn">
+                                    <button type="button" id="buscar-propuesta" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                                   
+                                </span>
 
+                            </div>
+                        </div>
             
                     </div>
                     <div class="row" style="margin-top: 15px;">
@@ -180,8 +193,8 @@
                     </div>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-eleccion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                        <button type="button" id="guardar-propuesta-eleccion" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-eleccion"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-propuesta-eleccion" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
                     </div>
                 </div>
             </form>
@@ -265,8 +278,8 @@
                 <div class="modal-footer">
                     
             
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones">[{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-votaciones" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-votaciones" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar')}}]</button>
                 
                         
                 </div>
@@ -326,5 +339,21 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<div class="modal fade" id="modal-propuestas-elecciones" data-backdrop="static" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">{{ traducir("asambleas.listado_propuestas_elecciones") }}</h4>
+
+			</div>
+			<div class="modal-body">
+				<?php echo $tabla_propuestas_elecciones_origen; ?>
+			</div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 

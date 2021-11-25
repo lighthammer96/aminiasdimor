@@ -303,6 +303,13 @@
         var propuesta_inactiva = "<?php echo traducir('asambleas.propuesta_inactiva'); ?>";
         var no_guardar_resolucion_sin_resultados = "<?php echo traducir('asambleas.no_guardar_resolucion_sin_resultados'); ?>";
         var guardar_resolucion = "<?php echo traducir('asambleas.guardar_resolucion'); ?>";
+
+        var img_activos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/cheque.png').'\"><br>'; ?>";
+        var img_inactivos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/inactivo.png').'\"><br>'; ?>";
+        var img_printer = "<?php echo '<img style=\'width: 20px; height: 20px;\' src=\"'.URL::asset('images/iconos/printer.png').'\"><br>'; ?>";
+        var img_print = "<?php echo '<img style=\'width: 20px; height: 20px;\' src=\"'.URL::asset('images/iconos/print.png').'\"><br>'; ?>";
+        var img_baja = "<?php echo '<img style=\'width: 20px; height: 20px;\' src=\"'.URL::asset('images/iconos/baja.png').'\"><br>'; ?>";
+        var img_alta = "<?php echo '<img style=\'width: 20px; height: 20px;\' src=\"'.URL::asset('images/iconos/alta.png').'\"><br>'; ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ URL::asset('bower_components/jquery/dist/jquery.min.js') }}"></script>

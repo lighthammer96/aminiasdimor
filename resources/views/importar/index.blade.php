@@ -27,14 +27,14 @@
             <input type="file" name="excel" id="excel" class="form-control">
         </div>
         <div class="col-md-3" style="margin-top: 27px;">
-            <button type="button" class="btn btn-primary"><a id="formato" style="color: white !important;" href="{{ URL::asset('formatos_carga/iglesias.xlsx') }}">{{ traducir("traductor.descargar_formato") }}</a></button>
+            <button type="button" class="btn btn-default"><a id="formato" style="color: #444 !important;" href="{{ URL::asset('formatos_carga/iglesias.xlsx') }}"><img style="width: 25px; height: 25px;" src="{{ URL::asset('images/iconos/archivo.png') }}" ><br>{{ traducir("traductor.descargar_formato") }}</a></button>
         </div>
 
    </div>
 
    <div class="row" style="margin-top: 20px;">
        <div class="col-md-2 col-md-offset-5">
-           <button type="button" class="btn btn-primary" id="importar">{{ traducir("traductor.importar") }}</button>
+           <button type="button" class="btn btn-default" id="importar"><img style="width: 25px; height: 25px;" src="{{ URL::asset('images/iconos/update.png') }}" ><br>{{ traducir("traductor.importar") }}</button>
        </div>
    </div>
 

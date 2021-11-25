@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             modulos.ajax({
                 url: '/obtener_traducciones',
-                datos: { modulo_id: response.modulo_id, _token: _token }
+                datos: { modulo_id: response.modulo_id }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){

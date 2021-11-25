@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // cargos.ajax({
             //     url: '/obtener_traducciones',
-            //     datos: { idcargo: response.idcargo, _token: _token }
+            //     datos: { idcargo: response.idcargo }
             // }).then(function(response) {
             //     if(response.length > 0) {
             //         for(let i = 0; i < response.length; i++){

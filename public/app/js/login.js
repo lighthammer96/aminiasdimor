@@ -28,7 +28,7 @@ $(function() {
             url: 'login/loguearse',
             type: 'POST',
             dataType: 'json',
-            data: "user="+$("#user").val()+"&"+"pass="+$("#pass").val()+"&_token="+$("#_token").val()+"&pais_id="+$("#pais_id").val()
+            data: "user="+$("#user").val()+"&"+"pass="+$("#pass").val()+"&_token="+_token+"&pais_id="+$("#pais_id").val()
         }).done(function(json) {
             // console.log(json);
             if(json.response == 'ok') {

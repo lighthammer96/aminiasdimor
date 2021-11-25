@@ -7,6 +7,7 @@ use App\Models\BaseModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use PDF;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -36,9 +37,9 @@ class AsociadosController extends Controller
         $data["tabla_responsables"] = $this->asociados_model->tabla_responsables()->HTML();
 
         $botones = array();
-        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-asociado">'.traducir("traductor.nuevo").' [F1]</button>';
-        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-asociado">'.traducir("traductor.modificar").' [F2]</button>';
-        $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado">'.traducir("traductor.ver").' [F4]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nuevo-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").' [F4]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["asociados.js?version=021120212027"]);
@@ -68,7 +69,7 @@ class AsociadosController extends Controller
  
 
         $botones = array();
-        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="ingresar-datos">'.traducir("traductor.ingresar_datos").' [F1]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ingresar-datos"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.ingresar_datos").' [F1]</button>';
    
         $data["botones"] = $botones;
    
@@ -996,7 +997,7 @@ class AsociadosController extends Controller
         $datos = array();
         $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
         gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, CASE WHEN m.sexo='M' THEN 'Masculino' ELSE 'Femenino' END AS sexo, mi.descripcion AS nivel_organizativo,
-        d.*, a.*, ".formato_fecha_idioma("a.asamblea_fecha_inicio")." AS asamblea_fecha_inicio, ".formato_fecha_idioma("a.asamblea_fecha_fin")." AS asamblea_fecha_fin, p.descripcion AS pais, tc.*, ".formato_fecha_idioma("d.delegado_fecha")." AS delegado_fecha, pp.descripcion AS pais_ciudadania, ec.descripcion AS estado_civil, to_char(m.fechaingresoiglesia, 'YYYY') AS anio_ingreso, i.descripcion AS iglesia
+        d.*, a.*, ".formato_fecha_idioma("a.asamblea_fecha_inicio")." AS asamblea_fecha_inicio, ".formato_fecha_idioma("a.asamblea_fecha_fin")." AS asamblea_fecha_fin, p.descripcion AS pais, tc.*, ".formato_fecha_idioma("d.delegado_fecha")." AS delegado_fecha, pp.descripcion AS pais_ciudadania, ec.descripcion AS estado_civil, to_char(m.fechaingresoiglesia, 'YYYY') AS anio_ingreso, i.descripcion AS iglesia, ".formato_fecha_idioma("m.fecha_emision_pasaporte")." AS fecha_emision_pasaporte, ".formato_fecha_idioma("m.fecha_vencimiento_pasaporte")." AS fecha_vencimiento_pasaporte, CASE WHEN m.fecha_vencimiento_pasaporte < NOW() THEN 'VENCIDO' ELSE 'VIGENTE' END AS estado_pasaporte
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
         LEFT JOIN public.ocupacion AS o ON(o.idocupacion=m.idocupacion)

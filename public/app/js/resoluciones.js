@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
               
             var promise =  resoluciones.ajax({
                 url: '/get_resoluciones',
-                datos: { id: resolucion_id+'|'+idioma, _token: _token }
+                datos: { id: resolucion_id+'|'+idioma }
             })
 
             
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function() {
           
         var promise =  resoluciones.ajax({
             url: '/get_resoluciones',
-            datos: { id: datos.resolucion_id+'|'+idioma, _token: _token }
+            datos: { id: datos.resolucion_id+'|'+idioma }
         })
 
         
@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", function() {
                        
                         html += '   <td class="total">'+response[i].resultado_total+'</td>';
                         if(tabla == 'asambleas.propuestas_elecciones') {
-                            if(response.resultado_ganador == "S") {
+                            if(response[i].resultado_ganador == "S") {
 
                                 html += '   <td ><center><button type="button" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button></center></td>';
                                
@@ -622,7 +622,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function obtener_descripcion_propuestas(propuesta_id, tr_idioma, tabla) {
         propuestas.ajax({
             url: '/obtener_descripcion_propuestas',
-            datos: { _token: _token,  propuesta_id: propuesta_id, tr_idioma: tr_idioma, tabla: tabla }
+            datos: { propuesta_id: propuesta_id, tr_idioma: tr_idioma, tabla: tabla }
         }).then(function(response) {
         //    console.table(response);
             if(response.length > 0 ) {

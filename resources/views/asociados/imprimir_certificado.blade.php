@@ -244,17 +244,17 @@
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 50%; text-align: justify;">
-               <label>{{ traducir("asambleas.fecha_emision") }}: </label>
+               <label>{{ traducir("asambleas.fecha_emision") }}: {{ $miembro[0]->fecha_emision_pasaporte }}</label>
            </div>
            <div class="col" style="width: 50%; text-align: justify;">
-               <label>{{ traducir("asambleas.fecha_expiracion") }}: </label>
+               <label>{{ traducir("asambleas.fecha_expiracion") }}: {{ $miembro[0]->fecha_vencimiento_pasaporte }}</label>
            </div>
         </div>
 
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
-               <label>{{ traducir("asambleas.expedidor_por") }}: </label>
+               <label>{{ traducir("asambleas.expedido_por") }}: {{ $miembro[0]->pasaporte_expedido_por }}</label>
            </div>
            
         </div>
@@ -264,7 +264,7 @@
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
-               <label>{{ traducir("asambleas.estado_pasaporte") }}: </label>
+               <label>{{ traducir("asambleas.estado_pasaporte") }}: {{ $miembro[0]->estado_pasaporte }}</label>
            </div>
            
         </div>

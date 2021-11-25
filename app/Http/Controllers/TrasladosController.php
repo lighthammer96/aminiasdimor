@@ -7,6 +7,7 @@ use App\Models\TrasladosModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use PDF;
 class TrasladosController extends Controller
 {
@@ -47,7 +48,7 @@ class TrasladosController extends Controller
         $data["tabla"] = $this->traslados_model->tabla_control()->HTML();
        
         $botones = array();
-        $botones[0] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="finalizar-traslado">'.traducir("traductor.finalizar_traslado").' [F2]</button>';
+        $botones[0] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="finalizar-traslado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/floppy-disk.png').'"><br>'.traducir("traductor.finalizar_traslado").' [F2]</button>';
         // $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-perfil">'.traducir("traductor.modificar").' [F2]</button>';
         // $botones[2] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-perfil">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;

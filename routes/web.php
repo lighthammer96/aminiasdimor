@@ -422,6 +422,7 @@ Route::get('propuestas/temas', [PropuestasController::class, "temas"]);
 Route::get('propuestas/elecciones', [PropuestasController::class, "elecciones"]);
 Route::post('propuestas/buscar_datos', [PropuestasController::class, "buscar_datos"]);
 Route::post('propuestas/buscar_datos_elecciones', [PropuestasController::class, "buscar_datos_elecciones"]);
+Route::post('propuestas/buscar_datos_elecciones_origen', [PropuestasController::class, "buscar_datos_elecciones_origen"]);
 Route::post('propuestas/guardar_propuestas_temas', [PropuestasController::class, "guardar_propuestas_temas"]);
 Route::post('propuestas/guardar_propuestas_elecciones', [PropuestasController::class, "guardar_propuestas_elecciones"]);
 Route::post('propuestas/get_propuestas_temas', [PropuestasController::class, "get_propuestas_temas"]);
@@ -439,11 +440,15 @@ Route::post('propuestas/obtener_propuestas_temas_origen', [PropuestasController:
 Route::post('propuestas/obtener_propuestas_origen', [PropuestasController::class, "obtener_propuestas_origen"]);
 Route::post('propuestas/obtener_descripciones_propuestas_origen', [PropuestasController::class, "obtener_descripciones_propuestas_origen"]);
 Route::post('propuestas/obtener_resultados', [PropuestasController::class, "obtener_resultados"]);
+Route::post('propuestas/obtener_ganadores', [PropuestasController::class, "obtener_ganadores"]);
 Route::post('propuestas/guardar_resultados', [PropuestasController::class, "guardar_resultados"]);
 Route::post('propuestas/guardar_ganador', [PropuestasController::class, "guardar_ganador"]);
 Route::post('propuestas/obtener_descripcion_propuestas', [PropuestasController::class, "obtener_descripcion_propuestas"]);
 
 Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::class, "imprimir_propuesta_tema"]);
+
+Route::get('propuestas/imprimir_propuestas_temas/', [PropuestasController::class, "imprimir_propuestas_temas"]);
+Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::class, "imprimir_propuestas_elecciones"]);
 
 
  // RESOLUCIONES

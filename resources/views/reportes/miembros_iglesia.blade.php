@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-md-8 col-md-offset-1" style="margin-top: 15px;">
                         <center>
-                            <button type="button" id="ver-reporte" class="btn btn-success">{{ traducir("traductor.ver") }}</button>
+                            <button type="button" id="ver-reporte" class="btn btn-default"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>{{ traducir("traductor.ver") }}</button>
                         </center>
                     </div>
                 </div>

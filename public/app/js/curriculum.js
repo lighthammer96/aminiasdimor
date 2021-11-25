@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         curriculum.ajax({
             url: '/get_asociados',
-            datos: { id: datos.idmiembro, _token: _token }
+            datos: { id: datos.idmiembro }
         }).then(function(response) {
             document.getElementById("idmiembro").value = response[0].idmiembro;
             curriculum.abrirModal();
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-parentesco").getElementsByTagName("tbody")[0].innerHTML = "";
             curriculum.ajax({
                 url: '/obtener_parentesco_miembro',
-                datos: { idmiembro: response[0].idmiembro, _token: _token }
+                datos: { idmiembro: response[0].idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-educacion").getElementsByTagName("tbody")[0].innerHTML = "";
             curriculum.ajax({
                 url: '/obtener_educacion_miembro',
-                datos: { idmiembro: response[0].idmiembro, _token: _token }
+                datos: { idmiembro: response[0].idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-laboral").getElementsByTagName("tbody")[0].innerHTML = "";
             curriculum.ajax({
                 url: '/obtener_laboral_miembro',
-                datos: { idmiembro: response[0].idmiembro, _token: _token }
+                datos: { idmiembro: response[0].idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){

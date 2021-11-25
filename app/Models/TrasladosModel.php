@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\URL;
 
 class TrasladosModel extends Model
 {
@@ -139,7 +139,7 @@ class TrasladosModel extends Model
         ".$funcion_1." AS iglesia_anterior,
         ".$funcion_2." AS iglesia_traslado,
         ".formato_fecha_idioma("ct.fecha")." AS fecha,
-        CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado, '<center><button type=\"button\" onclick=\"imprimir_carta_iglesia(''' || ct.idmiembro || ''', ''' || ct.idcontrol || ''')\" class=\"btn btn-danger btn-xs\" ><i class=\"fa fa-file-pdf-o\"></i></button></center>' AS boton");
+        CASE WHEN ct.estado='1' THEN 'PENDIENTE' ELSE 'TRASLADADO' END AS estado, '<center><button type=\"button\" onclick=\"imprimir_carta_iglesia(''' || ct.idmiembro || ''', ''' || ct.idcontrol || ''')\" class=\"btn btn-xs\" ><img style=\"width: 20px; height: 20px;\" src=\"".URL::asset('images/iconos/print.png')."\"><br></button></center>' AS boton");
         $tabla->setFrom("iglesias.control_traslados AS ct 
         \nINNER JOIN iglesias.miembro AS m ON(ct.idmiembro=m.idmiembro)");
         $tabla->setWhere("ct.estado='1'");

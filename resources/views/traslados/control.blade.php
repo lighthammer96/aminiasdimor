@@ -47,8 +47,8 @@
                     
                     </div>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" id="cancelar-control">[{{ traducir('traductor.cancelar')}}]</button>
-                        <button type="button" id="guardar-control" class="btn btn-primary btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-control"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-control" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar')}}]</button>
                     </div>
                 </div>
             </form>

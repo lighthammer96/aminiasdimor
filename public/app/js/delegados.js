@@ -22,18 +22,18 @@ document.addEventListener("DOMContentLoaded", function() {
     if(idioma_codigo == "es") {
         format = "dd/mm/yyyy";
        
-        $("input[name=fecha_pasaje], input[name=fecha_vencimiento_pasaporte], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_visa]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=fecha_pasaje], input[name=fecha_vencimiento_pasaporte], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_visa], input[name=fecha_emision_pasaporte]").attr("data-inputmask", "'alias': '"+format+"'");
     } else {
         format = "yyyy-mm-dd";
    
-        $("input[name=fecha_pasaje], input[name=fecha_vencimiento_pasaporte], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_visa]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=fecha_pasaje], input[name=fecha_vencimiento_pasaporte], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_visa], input[name=fecha_emision_pasaporte]").attr("data-inputmask", "'alias': '"+format+"'");
         
     }
 
-    $("input[name=fecha_pasaje], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_pasaporte], input[name=fecha_vencimiento_visa]").inputmask();
+    $("input[name=fecha_pasaje], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_pasaporte], input[name=fecha_vencimiento_visa], input[name=fecha_emision_pasaporte]").inputmask();
 
  
-    jQuery( "input[name=fecha_pasaje], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_pasaporte], input[name=fecha_vencimiento_visa]" ).datepicker({
+    jQuery( "input[name=fecha_pasaje], input[name=fecha_termina_seguro], input[name=fecha_inicia_seguro], input[name=fecha_vencimiento_pasaporte], input[name=fecha_vencimiento_visa], input[name=fecha_emision_pasaporte]" ).datepicker({
         format: format,
         language: "es",
         todayHighlight: true,
@@ -186,6 +186,23 @@ document.addEventListener("DOMContentLoaded", function() {
             
             $("input[name=fecha_vencimiento_pasaporte]").focus();
             $("input[name=fecha_vencimiento_pasaporte]").addClass("focus-datepicker");
+        }
+       
+    });
+
+
+    document.getElementById("calendar-fecha_emision_pasaporte").addEventListener("click", function(e) {
+        e.preventDefault();
+
+  
+        if($("input[name=fecha_emision_pasaporte]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fecha_emision_pasaporte]").blur();
+            $("input[name=fecha_emision_pasaporte]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fecha_emision_pasaporte]").focus();
+            $("input[name=fecha_emision_pasaporte]").addClass("focus-datepicker");
         }
        
     });

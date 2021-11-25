@@ -230,22 +230,22 @@
         <center>
             <div class="col-md-3">
                 <center>
-                    <button type="button" id="imprimir_fichas" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_fichas") }}</button>
+                    <button type="button" id="imprimir_fichas" class="btn btn-default"><img style="width: 30px; height: 30px;" src="{{ URL::asset('images/iconos/pdf.png') }}" ><br>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_fichas") }}</button>
                 </center>
             </div>
             <div class="col-md-3">
                 <center>
-                    <button type="button" id="imprimir_vertical" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_vertical") }}</button>
+                    <button type="button" id="imprimir_vertical" class="btn btn-default"><img style="width: 30px; height: 30px;" src="{{ URL::asset('images/iconos/pdf.png') }}" ><br>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_vertical") }}</button>
                 </center>
             </div>
             <div class="col-md-3">
                 <center>
-                    <button type="button" id="imprimir_horizontal" class="btn btn-primary"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_horizontal") }}</button>
+                    <button type="button" id="imprimir_horizontal" class="btn btn-default"><img style="width: 30px; height: 30px;" src="{{ URL::asset('images/iconos/pdf.png') }}" ><br>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.imprimir_horizontal") }}</button>
                 </center>
             </div>
             <div class="col-md-3">
                 <center>
-                    <button type="button" id="exportar_excel" class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.exportar_excel") }}</button>
+                    <button type="button" id="exportar_excel" class="btn btn-default"><img style="width: 30px; height: 30px;" src="{{ URL::asset('images/iconos/excel.png') }}" ><br>&nbsp;&nbsp;&nbsp;{{ traducir("traductor.exportar_excel") }}</button>
                 </center>
             </div>
 

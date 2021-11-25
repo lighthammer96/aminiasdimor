@@ -105,5 +105,48 @@ class PropuestasModel extends Model
     }
 
 
+    public function tabla_propuestas_elecciones_origen() {
+     
+        $and = "AND tpe.tpe_idioma='".trim(session("idioma_codigo"))."'";
+
+        if(isset($_REQUEST["idioma_codigo"])) {
+            $and = "AND tpe.tpe_idioma='".trim($_REQUEST["idioma_codigo"])."'";
+        }
+
+     
+
+        $tabla = new Tabla();
+        $tabla->asignarID("tabla-propuestas-elecciones-origen");
+        $tabla->agregarColumna("pe.pe_id", "pe_id", "Id");
+        $tabla->agregarColumna("pe.pe_fecha", "pe_fecha", traducir("traductor.fecha"));
+        $tabla->agregarColumna("tpe.tpe_descripcion", "tpe_descripcion", traducir("traductor.descripcion"));
+        $tabla->agregarColumna("tpe.tpe_detalle_propuesta", "tpe_detalle_propuesta", traducir("asambleas.detalle_propuesta"));
+
+       
+        $tabla->agregarColumna("pe.pe_estado", "pe_estado", traducir("asambleas.estado_propuesta"));
+        $tabla->agregarColumna("pe.estado", "estado", traducir("traductor.estado"));
+       
+        $tabla->setSelect("pe.pe_id, ".formato_fecha_idioma(" pe.pe_fecha")." AS pe_fecha, 
+        CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS tpe_descripcion, 
+
+        CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta END  AS tpe_detalle_propuesta, 
+        
+        CASE 
+        WHEN pe.pe_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
+        WHEN pe.pe_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
+        WHEN pe.pe_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
+        END AS pe_estado, 
+        CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pe.pe_estado AS estado_propuesta, date_part('year', pe.pe_fecha) AS anio, pe.pe_correlativo, pe.estado AS state, r.resolucion_id");
+        $tabla->setFrom("asambleas.propuestas_elecciones AS pe
+        \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id {$and})
+        \nINNER JOIN asambleas.resoluciones AS r ON(r.propuesta_id=pe.pe_id AND r.tabla='asambleas.propuestas_elecciones')");
+
+        $tabla->setWhere("pe.estado='A'");
+
+        return $tabla;
+    }
+
+
+
   
 } 

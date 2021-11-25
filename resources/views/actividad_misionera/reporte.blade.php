@@ -88,8 +88,8 @@
                     
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div> -->
-                <div class="col-md-1" id="boton-reporte" style="display: none; margin-top: 27px;">
-                    <button type="button" id="ver-reporte" class="btn btn-primary btn-sm">{{ traducir("traductor.ver_reporte") }}</button>
+                <div class="col-md-1" id="boton-reporte" style="display: none; margin-top: 7px;">
+                    <button type="button" id="ver-reporte" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>{{ traducir("traductor.ver_reporte") }}</button>
                 </div>   
             </div>
 

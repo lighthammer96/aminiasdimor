@@ -21,7 +21,17 @@
                             <label class="control-label">{{ traducir('asambleas.numero_pasaporte')}}</label>
                             <input type="text" class="form-control input-sm entrada" name="nropasaporte" />
                         </div>
-                        
+                        <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
+                            <label class="control-label">{{ traducir('asambleas.fecha_emision')}}</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm entrada" name="fecha_emision_pasaporte" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
+                                <div class="input-group-addon"  id="calendar-fecha_emision_pasaporte" style="cursor: pointer;">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                   
+                        </div>
+
                         <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
                             <label class="control-label">{{ traducir('asambleas.fecha_vencimiento')}}</label>
                             <div class="input-group">
@@ -30,6 +40,13 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
+                   
+                        </div>
+
+                        
+                        <div class="col-md-3" style="padding-left: 5px;">
+                            <label class="control-label">{{ traducir('asambleas.expedido_por')}}</label>
+                            <input type="text" class="form-control input-sm entrada" name="pasaporte_expedido_por" />
                    
                         </div>
                        
@@ -139,8 +156,8 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asociados">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-asociados" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asociados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-asociados" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
 

@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             // eleccion.ajax({
             //     url: '/obtener_traducciones',
-            //     datos: { ideleccion: response.ideleccion, _token: _token }
+            //     datos: { ideleccion: response.ideleccion }
             // }).then(function(response) {
             //     if(response.length > 0) {
             //         for(let i = 0; i < response.length; i++){

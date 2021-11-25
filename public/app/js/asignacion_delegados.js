@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var idtipocargo = document.getElementsByName("idtipocargo")[0].value;
         var promise = asignacion_delegados.ajax({
             url: '/filtrar_asociados',
-            datos: { nombres: nombres, idgradoinstruccion: idgradoinstruccion, idocupacion: idocupacion, idcargo: idcargo, idnivel: idnivel, idtipocargo: idtipocargo, _token: _token }
+            datos: { nombres: nombres, idgradoinstruccion: idgradoinstruccion, idocupacion: idocupacion, idcargo: idcargo, idnivel: idnivel, idtipocargo: idtipocargo }
         }).then(function(response) {
             // console.log(response);
 
@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#cancelar-notificar").attr("disabled", "disabled");
         var promise = asignacion_delegados.ajax({
             url: '/notificar_delegados',
-            datos: { asamblea_id: $("#asamblea_id_notificar").val(), _token: _token }
+            datos: { asamblea_id: $("#asamblea_id_notificar").val() }
         }).then(function(response) {
             console.log(response);
 

@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             // niveles.ajax({
             //     url: '/obtener_traducciones',
-            //     datos: { idnivel: response.idnivel, _token: _token }
+            //     datos: { idnivel: response.idnivel }
             // }).then(function(response) {
             //     if(response.length > 0) {
             //         for(let i = 0; i < response.length; i++){

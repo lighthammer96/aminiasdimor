@@ -163,3 +163,10 @@ N -> NO';
 
 COMMENT ON COLUMN "iglesias"."miembro"."posee_visa" IS 'S -> SI
 N -> NO';
+
+ --- 23/11/2021
+ ALTER TABLE "iglesias"."miembro" 
+  ADD COLUMN "pasaporte_expedido_por" varchar(255);
+
+ALTER TABLE "iglesias"."miembro" 
+  ADD COLUMN "fecha_emision_pasaporte" date;

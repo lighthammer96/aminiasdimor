@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
         promise.then(function(response) {
             perfiles.ajax({
                 url: '/obtener_traducciones',
-                datos: { perfil_id: response.perfil_id, _token: _token }
+                datos: { perfil_id: response.perfil_id }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){

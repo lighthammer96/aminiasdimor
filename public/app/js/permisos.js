@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(perfil_id != "") {
             permisos.ajax({
                 url: '/get',
-                datos: { perfil_id: perfil_id, _token: _token }
+                datos: { perfil_id: perfil_id }
             }).then(function(response) {
                 var checks = document.getElementsByClassName("checkboxes");
                 for(let i = 0; i < checks.length; i++){

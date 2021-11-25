@@ -514,8 +514,17 @@ class BASE_JS {
         return promise;
     }
     async AjaxAsync(parametros) {
+        if(typeof parametros.datos == "undefined") {
+            parametros.datos = {
+                '_token': _token
+            };
+        } else {
+            parametros.datos['_token'] = _token;
+        }
+        
         parametros.type = (typeof parametros.type == "undefined") ? "POST" : parametros.type;
         parametros.contentType = (typeof parametros.contentType == "undefined") ? "json" : parametros.contentType;
+        
         var datos = (typeof parametros.datos == "undefined") ? {} : new URLSearchParams(BASE_JS.serialize(parametros.datos));
         try {
             let response = await fetch(this.controladorURL + parametros.url, {

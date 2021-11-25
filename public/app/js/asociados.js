@@ -992,7 +992,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var jerarquia = document.getElementsByClassName("jerarquia");
         var promise = paises.ajax({
             url: '/obtener_jerarquia',
-            datos: { pais_id: pais_id, _token: _token }
+            datos: { pais_id: pais_id }
         }).then(function(response) {
             if(response.length > 0) {
                 $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union, ""]);
@@ -1108,7 +1108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_cargos_miembro',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1122,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             asociados.ajax({
                 url: '/obtener_historial_altas_bajas',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1136,7 +1136,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_traslados',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1152,7 +1152,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_capacitacion_miembro',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1199,16 +1199,16 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("estado_asociado").innerText = estado_activo;
             document.getElementById("estado_asociado").style.backgroundColor = "#FFFF33";
             document.getElementById("estado_asociado").style.color = "black";
-            button = '<button type="button" class="btn btn-danger btn-sm" id="dar-baja">'+dar_baja+'</button>';
+            button = '<button type="button" class="btn btn-default btn-sm" id="dar-baja">'+img_baja+dar_baja+'</button>';
             
         } else {
             document.getElementById("estado_asociado").innerText = estado_inactivo;
             document.getElementById("estado_asociado").style.backgroundColor = "#666666";
             document.getElementById("estado_asociado").style.color = "white";
-            button = '<button type="button" class="btn btn-success btn-sm" id="dar-alta">'+dar_alta+'</button>';
+            button = '<button type="button" class="btn btn-default btn-sm" id="dar-alta">'+img_alta+dar_alta+'</button>';
 
         }
-        button += '<button type="button" class="btn btn-primary btn-sm" id="imprimir-ficha-asociado">'+imprimir_ficha+'</button>';
+        button += '<button type="button" class="btn btn-default btn-sm" id="imprimir-ficha-asociado">'+img_printer+imprimir_ficha+'</button>';
         document.getElementById("bajas_altas").innerHTML = button;
         $("#bajas_altas").show();
         $("#estado_asociado").show();
@@ -1272,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-cargos").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_cargos_miembro',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1286,7 +1286,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             asociados.ajax({
                 url: '/obtener_historial_altas_bajas',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1300,7 +1300,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-traslados").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_traslados',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1316,7 +1316,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-capacitacion").getElementsByTagName("tbody")[0].innerHTML = "";
             asociados.ajax({
                 url: '/obtener_capacitacion_miembro',
-                datos: { idmiembro: response.idmiembro, _token: _token }
+                datos: { idmiembro: response.idmiembro }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
@@ -1781,7 +1781,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 asociados.ajax({
                     url: '/obtener_historial_altas_bajas',
-                    datos: { idmiembro: response.datos[0].idmiembro, _token: _token }
+                    datos: { idmiembro: response.datos[0].idmiembro }
                 }).then(function(response) {
                     if(response.length > 0) {
                         for(let i = 0; i < response.length; i++){
@@ -1812,7 +1812,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 asociados.ajax({
                     url: '/obtener_historial_altas_bajas',
-                    datos: { idmiembro: response.datos[0].idmiembro, _token: _token }
+                    datos: { idmiembro: response.datos[0].idmiembro }
                 }).then(function(response) {
                     if(response.length > 0) {
                         for(let i = 0; i < response.length; i++){
@@ -2167,7 +2167,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var buttons = '';
 
         if(objeto.idcontrol != '' && objeto.idcontrol != null) {
-            buttons = '<center><button '+attr+' title="Carta de Iglesia" type="button" onclick="imprimir_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button>&nbsp;<button '+attr+' title="Respuesta de Carta de Iglesia" type="button" onclick="imprimir_respuesta_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-danger btn-xs" ><i class="fa fa-file-pdf-o"></i></button></center>';
+            buttons = '<center><button '+attr+' title="Carta de Iglesia" type="button" onclick="imprimir_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-xs" >'+img_print+'</button>&nbsp;<button '+attr+' title="Respuesta de Carta de Iglesia" type="button" onclick="imprimir_respuesta_carta_iglesia(' + objeto.idmiembro + ', ' + objeto.idcontrol + ')" class="btn btn-xs" >'+img_print+'</button></center>';
         }
 
         var tr = document.createElement("tr");

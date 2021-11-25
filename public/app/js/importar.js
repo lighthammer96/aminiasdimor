@@ -44,8 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         NombreFile: response.NombreFile,
                         proceso_id: response.proceso_id,
                         total_elementos: response.total_elementos,
-                        dato: document.getElementById("dato").value,
-                        _token: _token
+                        dato: document.getElementById("dato").value
                     }
                 }).then(function(datos) {
                     //console.log(datos);

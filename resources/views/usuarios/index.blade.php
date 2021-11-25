@@ -92,8 +92,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-usuario">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-usuario" class="btn btn-primary btn-sm">[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-usuario"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-usuario" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
                 </div>
             </form>
         </div>

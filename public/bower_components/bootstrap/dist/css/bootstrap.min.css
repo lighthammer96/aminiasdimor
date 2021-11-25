@@ -2663,7 +2663,8 @@ output {
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: #dceff7;
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -4811,7 +4812,8 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
     color: #337ab7;
     text-decoration: none;
     background-color: #fff;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+    border: 1px solid #3c8dbc;
 }
 .pagination > li > a:focus,
 .pagination > li > a:hover,
@@ -4820,7 +4822,8 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
     z-index: 2;
     color: #23527c;
     background-color: #eee;
-    border-color: #ddd;
+    /* border-color: #ddd; */
+    border-color: #3c8dbc;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
@@ -4854,7 +4857,8 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
     color: #777;
     cursor: not-allowed;
     background-color: #fff;
-    border-color: #ddd;
+    /* border-color: #ddd; */
+    border-color: #367fa9;
 }
 .pagination-lg > li > a,
 .pagination-lg > li > span {
@@ -6043,11 +6047,20 @@ button.close {
 .modal-body {
     position: relative;
     padding: 10px;
+    /* border-top: 4px solid #3c8dbc;
+    border-left: 4px solid #3c8dbc;
+    border-right: 4px solid #3c8dbc;
+    border-bottom: 4px solid #3c8dbc; */
+    /* border-bottom: 1px solid #3c8dbc; */
 }
 .modal-footer {
     padding: 15px;
     text-align: right;
-    border-top: 1px solid #e5e5e5;
+    /* border-top: 1px solid #e5e5e5; */
+    border-top: 1px solid #3c8dbc;
+    /* border-left: 4px solid #3c8dbc;
+    border-right: 4px solid #3c8dbc;
+    border-bottom: 4px solid #3c8dbc; */
 }
 .modal-footer .btn + .btn {
     margin-bottom: 0;

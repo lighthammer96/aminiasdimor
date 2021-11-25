@@ -497,8 +497,8 @@ class Tabla extends Model
         $html .= '<thead><tr>';
 
         foreach ($columnas as $columna) {
-
-            $html .= '<th bgcolor="#666666" style="color: white;" width="'.$columna->width.'" height="'.$columna->height.'">' . $columna->titulo . '</th>';
+            
+            $html .= '<th /*bgcolor="#666666" */ bgcolor="#4896c4" style="color: white;" width="'.$columna->width.'" height="'.$columna->height.'">' . $columna->titulo . '</th>';
 
         }
 

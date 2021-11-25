@@ -147,7 +147,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var jerarquia = document.getElementsByClassName("jerarquia");
         var promise = paises.ajax({
             url: '/obtener_jerarquia',
-            datos: { pais_id: pais_id, _token: _token }
+            datos: { pais_id: pais_id
+             }
         }).then(function(response) {
             if(response.length > 0) {
                 //  $("#pais_id").trigger("change", [response[0].pais_id]);
@@ -397,9 +398,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function crear_botones_iglesia(activos, inactivos, idiglesia) {
         var botones = "";
-        botones += '<button id="activos" cont="'+activos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-success btn-sm" id="dar-baja">[ Ver Asociados Activos ('+activos+') ]</button>';
+        botones += '<button id="activos" cont="'+activos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-default btn-sm" id="dar-baja">'+img_activos+'[ Ver Asociados Activos ('+activos+') ]</button>';
     
-        botones += '<button id="inactivos" cont="'+inactivos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-danger btn-sm" id="dar-alta">[ Ver Asociados Inactivos ('+inactivos+') ]</button>';
+        botones += '<button id="inactivos" cont="'+inactivos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-default btn-sm" id="dar-alta">'+img_inactivos+'[ Ver Asociados Inactivos ('+inactivos+') ]</button>';
 
     
         document.getElementById("botones_iglesia").innerHTML = botones;

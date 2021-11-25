@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("detalle-agenda").getElementsByTagName("tbody")[0].innerHTML = "";
             asambleas.ajax({
                 url: '/obtener_detalle_agenda',
-                datos: { asamblea_id: response.asamblea_id, _token: _token }
+                datos: { asamblea_id: response.asamblea_id }
             }).then(function(response) {
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
