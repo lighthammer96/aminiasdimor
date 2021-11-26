@@ -140,7 +140,7 @@
                             <th style="width: 60px;">{{ traducir('asambleas.mano_alzada')}}</th>
                             <th style="width: 50px;">{{ traducir('traductor.total')}}</th>
                             <?php if($resolucion[0]->tabla == "asambleas.propuestas_elecciones") { ?>
-                                <th style="width: 50px; display: none;" class="ganador">{{ traducir('asambleas.ganador')}}</th>
+                                <th style="width: 50px; " class="ganador">{{ traducir('asambleas.ganador')}}</th>
                             <?php } ?>
                         </tr>
 
@@ -157,7 +157,7 @@
                                 echo '   <td>'.$value->resultado_mano_alzada.'</td>';
                                 echo '   <td>'.$value->resultado_total.'</td>';
                                 if($resolucion[0]->tabla == "asambleas.propuestas_elecciones") {
-                                    echo '   <td>'.$ganador.'</td>';
+                                    echo '   <td  align="center">'.$ganador.'</td>';
                                 }
                                
                                 echo '</tr>';
