@@ -29,7 +29,7 @@ class UsuariosModel extends Model
         CASE WHEN pi.pi_descripcion IS NULL THEN 
         (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=u.perfil_id AND idioma_id=".session("idioma_id_defecto").")
         ELSE pi.pi_descripcion END AS pi_descripcion
-        , ta.descripcion AS tipoacceso, CASE WHEN u.estado = 'A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        , ta.descripcion AS tipoacceso, CASE WHEN u.estado = 'A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, u.estado AS state");
         $tabla->setFrom("seguridad.usuarios as u
         \nINNER JOIN seguridad.perfiles AS p ON(p.perfil_id=u.perfil_id)
         \nLEFT JOIN seguridad.perfiles_idiomas AS pi on(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")

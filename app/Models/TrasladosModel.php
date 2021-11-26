@@ -74,7 +74,7 @@ class TrasladosModel extends Model
             vat.pais, vat.union, vat.mision, vat.distritomisionero, vat.iglesia, CASE WHEN temp.idmiembro IS NULL THEN '<center><button agregar=\"' || vat.idmiembro  || '\" type=\"button\" onclick=\"agregar_temp_traslado(' || vat.idmiembro || ')\" class=\"btn btn-primary btn-xs\" ><i class=\"fa fa-plus\"></i></button></center>' ELSE 
             '<center><button agregar=\"' || vat.idmiembro  || '\" type=\"button\"  class=\"btn btn-success btn-xs\" ><i class=\"fa fa-check-circle\"></i></button></center>'
             
-            END AS boton");
+            END AS boton, vat.estado AS state");
             $tabla->setFrom("iglesias.vista_asociados_traslados AS vat
             LEFT JOIN iglesias.temp_traslados AS temp ON(vat.idmiembro=temp.idmiembro AND temp.tipo_traslado=".$_REQUEST["tipo_traslado"].")
             LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
@@ -89,7 +89,7 @@ class TrasladosModel extends Model
             ELSE 
             '<center><button title=\"".traducir("traductor.traslado_proceso")."\" type=\"button\"  class=\"btn btn-success btn-xs\" ><i class=\"fa fa-hourglass-half\"></i></button></center>'
             
-            END AS boton");
+            END AS boton, vat.estado AS state");
             $tabla->setFrom("iglesias.vista_asociados_traslados AS vat
             LEFT JOIN iglesias.control_traslados AS ct ON(vat.idmiembro=ct.idmiembro AND ct.estado='1')
             LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)

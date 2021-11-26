@@ -31,7 +31,7 @@ class AsistenciaModel extends Model
       
         $tabla->agregarColumna("a.estado", "estado", traducir("traductor.estado"));
         $tabla->setSelect("a.asistencia_id, aa.asamblea_descripcion , ".formato_fecha_idioma("a.asistencia_fecha")." AS asistencia_fecha, a.asistencia_hora,
-        CASE WHEN a.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        CASE WHEN a.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, a.estado AS state");
         $tabla->setFrom("asambleas.asistencia AS a
         \nINNER JOIN asambleas.asambleas AS aa on(aa.asamblea_id=a.asamblea_id)");
 

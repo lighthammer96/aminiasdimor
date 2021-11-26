@@ -25,7 +25,7 @@ idmiembro=113
 --- vista_asociados_traslados
 SELECT m.idmiembro, m.idtipodoc, m.nrodoc, d.descripcion AS division, p.pais_descripcion AS pais, u.descripcion AS union,
 mi.descripcion AS mision, dm.descripcion AS distritomisionero, i.descripcion AS iglesia, td.descripcion AS tipo_documento,
-m.iddivision, m.pais_id, m.idunion, m.idmision, m.iddistritomisionero, m.idiglesia
+m.iddivision, m.pais_id, m.idunion, m.idmision, m.iddistritomisionero, m.idiglesia, m.estado
 FROM iglesias.miembro AS m
 INNER JOIN iglesias.division AS d ON(m.iddivision=d.iddivision)
 INNER JOIN iglesias.paises AS p ON(m.pais_id=p.pais_id)

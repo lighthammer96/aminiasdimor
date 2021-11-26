@@ -30,7 +30,7 @@ class PastoresModel extends Model
         $tabla->agregarColumna("ot.nombrecompleto", "nombrecompleto", traducir('traductor.nombre_completo'));
         $tabla->agregarColumna("c.descripcion", "cargo", traducir('traductor.cargo'));
         $tabla->agregarColumna("ot.estado", "estado", traducir('traductor.estado'));
-        $tabla->setSelect("ot.idotrospastores, td.descripcion AS tipo_documento, ot.nrodoc, ot.nombrecompleto, c.descripcion AS cargo, CASE WHEN ot.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("ot.idotrospastores, td.descripcion AS tipo_documento, ot.nrodoc, ot.nombrecompleto, c.descripcion AS cargo, CASE WHEN ot.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, ot.estado AS state");
         $tabla->setFrom("iglesias.otrospastores AS ot
         \nINNER JOIN public.cargo AS c on(c.idcargo=ot.idcargo)
         \nINNER JOIN public.tipodoc AS td on(td.idtipodoc=ot.idtipodoc)");

@@ -28,7 +28,7 @@ class IglesiasModel extends Model
         $tabla->agregarColumna("dm.descripcion", "distrito_misionero", traducir('traductor.distrito_misionero'));
         $tabla->agregarColumna("i.estado", "estado", traducir('traductor.estado'));
 
-        $tabla->setSelect("i.idiglesia, i.descripcion, i.direccion, i.telefono, dm.descripcion AS distrito_misionero, CASE WHEN i.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("i.idiglesia, i.descripcion, i.direccion, i.telefono, dm.descripcion AS distrito_misionero, CASE WHEN i.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, i.estado AS state");
         $tabla->setFrom("iglesias.iglesia AS i
         \nLEFT JOIN iglesias.distritomisionero AS dm ON(dm.iddistritomisionero=i.iddistritomisionero)");
 

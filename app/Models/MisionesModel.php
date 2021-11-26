@@ -24,7 +24,7 @@ class MisionesModel extends Model
         $tabla->agregarColumna("m.descripcion", "descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("u.descripcion", "union", traducir('traductor.union'));
         $tabla->agregarColumna("m.estado", "estado", traducir('traductor.estado'));
-        $tabla->setSelect("m.idmision, m.descripcion, u.descripcion AS union, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("m.idmision, m.descripcion, u.descripcion AS union, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, m.estado AS state");
         $tabla->setFrom("iglesias.mision AS m 
         \nLEFT JOIN iglesias.union AS u ON(m.idunion=u.idunion)");
 

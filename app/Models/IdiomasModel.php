@@ -27,7 +27,7 @@ class IdiomasModel extends Model
         $tabla->agregarColumna("idioma_codigo", "idioma_codigo", traducir('traductor.codigo'));
         $tabla->agregarColumna("idioma_descripcion", "idioma_descripcion", traducir('traductor.descripcion'));
         $tabla->agregarColumna("estado", "estado", traducir('traductor.estado'));
-        $tabla->setSelect("idioma_id, idioma_codigo, idioma_descripcion, CASE WHEN estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("idioma_id, idioma_codigo, idioma_descripcion, CASE WHEN estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, estado AS state");
         $tabla->setFrom("public.idiomas");
 
 

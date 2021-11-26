@@ -29,7 +29,7 @@ class ModulosModel extends Model
 
         CASE WHEN (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id").") IS NULL THEN (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id_defecto").") ELSE (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=p.modulo_id AND idioma_id=".session("idioma_id").") END AS padre, 
         
-        h.modulo_icono, h.modulo_controlador, CASE WHEN h.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        h.modulo_icono, h.modulo_controlador, CASE WHEN h.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, h.estado AS state");
         $tabla->setFrom("seguridad.modulos as p 
         \nINNER JOIN seguridad.modulos as h on(p.modulo_id=h.modulo_padre)
         \nLEFT JOIN seguridad.modulos_idiomas as mi on(mi.modulo_id=h.modulo_id AND mi.idioma_id=".session("idioma_id").")");

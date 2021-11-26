@@ -25,7 +25,7 @@ class UnionesModel extends Model
         $tabla->agregarColumna("u.descripcion", "descripcion", traducir('traductor.descripcion'));
        // $tabla->agregarColumna("p.pais_descripcion", "pais_descripcion", traducir('traductor.pais'));
         $tabla->agregarColumna("u.estado", "estado", traducir('traductor.estado'));
-        $tabla->setSelect("u.idunion, u.descripcion, CASE WHEN u.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        $tabla->setSelect("u.idunion, u.descripcion, CASE WHEN u.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, u.estado AS state");
         $tabla->setFrom("iglesias.union AS u");
 
         return $tabla;

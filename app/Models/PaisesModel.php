@@ -35,7 +35,7 @@ class PaisesModel extends Model
         CASE WHEN di.di_descripcion IS NULL THEN
         (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
         ELSE di.di_descripcion END AS division
-        , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado");
+        , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, p.estado AS state");
         $tabla->setFrom("iglesias.paises AS p
         \nLEFT JOIN public.idiomas AS i ON(p.idioma_id=i.idioma_id)
         \nLEFT JOIN iglesias.division AS d ON(d.iddivision=p.iddivision)

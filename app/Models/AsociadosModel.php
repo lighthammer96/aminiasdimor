@@ -55,7 +55,7 @@ class AsociadosModel extends Model
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
 
-        $tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia".$boton);
+        $tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton);
         $tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
         {$join}");
