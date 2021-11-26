@@ -35,13 +35,15 @@ class ResolucionesController extends Controller
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-resolucion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-resolucion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
+
+        $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-resolucion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
         $data["botones"] = $botones;
 
         $data["tabla_propuestas_temas"] = $this->propuestas_model->tabla("S")->HTML();
         $data["tabla_propuestas_elecciones"] = $this->propuestas_model->tabla_propuestas_elecciones("S")->HTML();
 
 
-        $data["scripts"] = $this->cargar_js(["resoluciones.js?261020210706"]);
+        $data["scripts"] = $this->cargar_js(["resoluciones.js?261120210706"]);
         return parent::init($view, $data);
 
       
@@ -152,7 +154,7 @@ class ResolucionesController extends Controller
         $id = explode("|", $_REQUEST["id"]);
         $resolucion_id = $id[0];
         $idioma_codigo = $id[1];
-        $sql = "SELECT *
+        $sql = "SELECT tr.*, r.*, CASE WHEN tr_idioma IS NULL THEN '".$idioma_codigo."' ELSE tr_idioma END AS tr_idioma 
         FROM asambleas.resoluciones AS r 
         LEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='{$idioma_codigo}')
         WHERE r.resolucion_id=".$resolucion_id;

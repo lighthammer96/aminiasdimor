@@ -22,9 +22,9 @@ class PropuestasModel extends Model
         $where = "1=1";
         $join = "";
         if($con_votacion == "S") {
-            $where = "pt.estado='A'";
-            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pt.pt_id AND vs.tabla='asambleas.propuestas_temas')
-            INNER JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id AND r.resolucion_id IS NULL)";
+            $where = "pt.estado='A' AND r.resolucion_id IS NULL";
+            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pt.pt_id AND vs.tabla='asambleas.propuestas_temas' AND vs.estado='A')
+            LEFT JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id)";
         }
 
         $and = "AND tpt.tpt_idioma='".session("idioma_codigo")."'";
@@ -70,9 +70,9 @@ class PropuestasModel extends Model
         $where = "1=1";
         $join = "";
         if($con_votacion == "S") {
-            $where = "pe.estado='A'";
-            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            INNER JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id AND r.resolucion_id IS NULL)";
+            $where = "pe.estado='A'  AND r.resolucion_id IS NULL";
+            $join = "INNER JOIN asambleas.votaciones AS vs ON(vs.propuesta_id = pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones' AND vs.estado='A')
+            LEFT JOIN asambleas.resultados AS r ON(r.votacion_id=vs.votacion_id)";
         }
 
         $and = "AND tpe.tpe_idioma='".trim(session("idioma_codigo"))."'";

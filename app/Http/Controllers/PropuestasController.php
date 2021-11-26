@@ -38,13 +38,13 @@ class PropuestasController extends Controller
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
 
-        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
+            
 
         $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
         
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?251120211722"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?21120211722"]);
         return parent::init($view, $data);  
 
       
@@ -74,7 +74,7 @@ class PropuestasController extends Controller
         $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?25112021"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?2112021"]);
         return parent::init($view, $data);  
     }
 
@@ -671,11 +671,11 @@ class PropuestasController extends Controller
     }
 
     public function guardar_resultados(Request $request) {
-        $update = array();
-        $update["resultado_id"] = $request->input("resultado_id");
-        $update["resultado_mano_alzada"] = $request->input("resultado_mano_alzada");
+        // $update = array();
+        // $update["resultado_id"] = $request->input("resultado_id");
+        // $update["resultado_mano_alzada"] = $request->input("resultado_mano_alzada");
 
-        $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $update));
+        $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $_REQUEST));
         echo json_encode($result);
  
     }

@@ -692,19 +692,19 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         } 
 
-        if(datos.state == 'I') {
-            BASE_JS.sweet({
-                text: propuesta_inactiva
-            });
-            return false;
-        } 
+        // if(datos.state == 'I') {
+        //     BASE_JS.sweet({
+        //         text: propuesta_inactiva
+        //     });
+        //     return false;
+        // } 
 
-        if(datos.estado_propuesta == 1) {
-            BASE_JS.sweet({
-                text: registro_estado_terminado
-            });
-            return false;
-        } 
+        // if(datos.estado_propuesta == 1) {
+        //     BASE_JS.sweet({
+        //         text: registro_estado_terminado
+        //     });
+        //     return false;
+        // } 
         $("#pt_id_origen").attr("disabled", "disabled");
         propuestas_temas.select({
             name: 'pt_id_origen[]',
@@ -1416,11 +1416,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 // if(response[0].fv_id == 6) {
                     for(let i = 0; i < response.length; i++){
 
-                        var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
+                        // var checked = (response[i].resultado_ganador == "S") ? 'checked="checked"' : "";
                         html += '<tr>';
                         html += '   <td>'+response[i].resultado_descripcion+'</td>';
                         html += '   <td >'+response[i].resultado_votos+'</td>';
-                        html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        if(response[i].resolucion_id == null) {
+                            html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        } else {
+                            html += '   <td>'+response[i].resultado_mano_alzada+'</td>';
+                        }
                         html += '   <td class="total">'+response[i].resultado_total+'</td>';
                         // html += '   <td ><center><input resultado_id="'+response[i].resultado_id+'" type="checkbox" '+checked+' name="ganador[]"/></center></td>';
                         html += '</tr>';
@@ -1447,6 +1451,35 @@ document.addEventListener("DOMContentLoaded", function() {
       
         $("#modal-resultados").modal("hide");
     })
+
+    
+
+    $(document).on("keydown", "input[name='mano_alzada[]']", function(e) {
+        // console.log(e);
+
+        var cont = parseInt($(this).attr("cont"));
+        if($(this).val() != "" && (e.keyCode == 13 || e.keyCode == 9)) {
+            $("input[cont="+(cont+1)+"]").focus();
+            $("input[cont="+(cont+1)+"]").select();
+        }
+    })
+
+    $(document).on("change", "input[name='mano_alzada[]']", function() {
+        // console.log($(this).parent("td").siblings(".total")[0]);
+        var td_total = $(this).parent("td").siblings(".total");
+        var resultado_mano_alzada = parseInt($(this).val());
+        var resultado_id = parseInt($(this).attr("resultado_id"));
+        var resultado_votos = parseInt($(this).attr("resultado_votos"));
+        var total = resultado_votos + resultado_mano_alzada
+        votaciones.ajax({
+            url: '/guardar_resultados',
+            datos: { resultado_id: resultado_id, resultado_mano_alzada: resultado_mano_alzada, resultado_total: total }
+        }).then(function(response) {
+           
+            td_total.text(total);;
+        })
+    })
+
 
     
     document.getElementById("listado-propuesta-tema").addEventListener("click", function(event) {

@@ -663,19 +663,19 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
         
-        if(datos.state == 'I') {
-            BASE_JS.sweet({
-                text: propuesta_inactiva
-            });
-            return false;
-        } 
+        // if(datos.state == 'I') {
+        //     BASE_JS.sweet({
+        //         text: propuesta_inactiva
+        //     });
+        //     return false;
+        // } 
 
-        if(datos.estado_propuesta == 1) {
-            BASE_JS.sweet({
-                text: registro_estado_terminado
-            });
-            return false;
-        } 
+        // if(datos.estado_propuesta == 1) {
+        //     BASE_JS.sweet({
+        //         text: registro_estado_terminado
+        //     });
+        //     return false;
+        // } 
 
         $("#someter-votacion").hide();
         cambiar_row_1("origen");
@@ -1080,9 +1080,25 @@ document.addEventListener("DOMContentLoaded", function() {
                         html += '<tr>';
                         html += '   <td>'+response[i].resultado_descripcion+'</td>';
                         html += '   <td >'+response[i].resultado_votos+'</td>';
-                        html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        if(response[i].resolucion_id == null) {
+
+                            html += '   <td><input resultado_votos="'+response[i].resultado_votos+'" resultado_id="'+response[i].resultado_id+'" cont="'+i+'" type="number" autofocus="autofocus" class="form-control input-sm" name="mano_alzada[]" value="'+response[i].resultado_mano_alzada+'"/></td>';
+                        } else {
+                            html += '   <td>'+response[i].resultado_mano_alzada+'</td>';
+                        }
                         html += '   <td class="total">'+response[i].resultado_total+'</td>';
-                        html += '   <td ><center><input resultado_id="'+response[i].resultado_id+'" type="checkbox" '+checked+' name="ganador[]"/></center></td>';
+                        if(response[i].resolucion_id == null) {
+                            html += '   <td ><center><input resultado_id="'+response[i].resultado_id+'" type="checkbox" '+checked+' name="ganador[]"/></center></td>';
+                        } else {
+                            if(response[i].resultado_ganador == "S") {
+
+                                html += '   <td ><center><button type="button" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button></center></td>';
+                               
+                            } else {
+
+                                html += '   <td ><center><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-close"></i></button></center></td>';
+                            }
+                        }
                         html += '</tr>';
                     }
                 // }
@@ -1127,7 +1143,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var total = resultado_votos + resultado_mano_alzada
         votaciones.ajax({
             url: '/guardar_resultados',
-            datos: { resultado_mano_alzada: resultado_mano_alzada, resultado_id: resultado_id }
+            datos: { resultado_id: resultado_id, resultado_mano_alzada: resultado_mano_alzada, resultado_total: total }
         }).then(function(response) {
            
             td_total.text(total);;

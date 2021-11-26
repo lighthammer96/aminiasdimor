@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 cargar_datos_propuestas_temas(response);
 
             }
-            $("#imprimir").show();
+            $("#imprimir").hide();
             $("#buscar_propuesta").css("visibility", "hidden");
         })
         
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 cargar_datos_propuestas_temas(response);
 
             }
-            $("#imprimir").show();
+            $("#imprimir").hide();
             $("#buscar_propuesta").css("visibility", "hidden");
         });
 
@@ -363,6 +363,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
     })
+
+
+    document.getElementById("ver-resolucion").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        var datos = resoluciones.datatable.row('.selected').data();
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+            return false;
+        } 
+
+    
+
+
+        cambiar_row_1("origen");
+        var idioma = $("#tr_idioma").val();
+        var promise = resoluciones.ver(datos.resolucion_id+'|'+idioma);
+
+        promise.then(function(response) {
+           
+            if(response.tabla == "asambleas.propuestas_elecciones") {
+                cargar_datos_propuestas_elecciones(response);
+            }
+
+            if(response.tabla == "asambleas.propuestas_temas") {
+                cargar_datos_propuestas_temas(response);
+
+            }
+            $("#imprimir").show();
+            $("#tr_idioma").removeAttr("disabled");
+            $("#imprimir").removeAttr("disabled");
+            $("#buscar_propuesta").css("visibility", "hidden");
+
+        })
+        
+
+    })
+
 
 
 
@@ -638,13 +678,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     $(document).on('change', '#tr_idioma', function(event) {
-        var propuesta_id = document.getElementsByName("propuesta_id")[0].value;
-        var tabla = document.getElementsByName("tabla")[0].value;
-        if(propuesta_id == "") {
-            return false;
+        var resolucion_id = document.getElementsByName("resolucion_id")[0].value;
+        if(resolucion_id == "") {
+            var propuesta_id = document.getElementsByName("propuesta_id")[0].value;
+            var tabla = document.getElementsByName("tabla")[0].value;
+            if(propuesta_id == "") {
+                return false;
+            }
+            var tr_idioma = $("#tr_idioma").val();
+            obtener_descripcion_propuestas(propuesta_id, tr_idioma, tabla);
+        } else {
+            var idioma = $(this).val();
+        
+            var promise = resoluciones.get(resolucion_id+'|'+idioma);
+            promise.then(function(response) {
+                obtener_descripcion_propuestas(response.propuesta_id, idioma, response.tabla);
+            })
         }
-        var tr_idioma = $("#tr_idioma").val();
-        obtener_descripcion_propuestas(propuesta_id, tr_idioma, tabla);
+      
+
+        
        
 
         // alert(pt_id_origen);

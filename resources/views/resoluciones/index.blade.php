@@ -135,7 +135,7 @@
                 <div class="modal-footer">
                     <div class="pull-left" id="someter-votacion">
                         
-                        <button type="button" class="btn btn-success btn-sm" id="imprimir">{{ traducir('traductor.imprimir')}}</button>
+                        <button type="button" class="btn btn-default btn-sm" id="imprimir"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/print.png') }}" ><br>{{ traducir('traductor.imprimir')}}</button>
 
                      
                     </div>
