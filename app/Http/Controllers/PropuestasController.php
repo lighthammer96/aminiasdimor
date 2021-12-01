@@ -38,7 +38,7 @@ class PropuestasController extends Controller
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
         $botones[4] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="votacion-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/votacion.png').'"><br>'.traducir("asambleas.votacion").'</button>';
 
-            
+        $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
 
         $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
 

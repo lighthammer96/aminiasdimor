@@ -28,6 +28,7 @@ use App\Http\Controllers\PropuestasController;
 use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\ForosController;
 use App\Http\Controllers\ResolucionesController;
 use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
@@ -475,7 +476,15 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
  Route::post('asistencia/eliminar_asistencia', [AsistenciaController::class, "eliminar_asistencia"]);
 
 
+  // FOROS
+  Route::get('foros/index', [ForosController::class, "index"]);
+  Route::post('foros/buscar_datos', [ForosController::class, "buscar_datos"]);
  
+  Route::post('foros/obtener_foros', [ForosController::class, "obtener_foros"]);
+ 
+  Route::post('foros/guardar_foros', [ForosController::class, "guardar_foros"]);
+  Route::post('foros/get_foros', [ForosController::class, "get_foros"]);
+  Route::post('foros/eliminar_foros', [ForosController::class, "eliminar_asistencia"]);
 
  // API APP
 
