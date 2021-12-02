@@ -18,7 +18,7 @@
 
                 <div class="modal-body">
                     <div class="row">
-                        <input type="hidden" name="asistencia_id" class="input-sm entrada">
+                        <input type="hidden" name="foro_id" class="input-sm entrada">
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
                             <select name="asamblea_id" id="asamblea_id" class="selectizejs entrada">
@@ -26,6 +26,12 @@
                             </select>
 
                           
+
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
+
+                            <input type="text" class="form-control input-sm entrada" name="foro_descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">

@@ -66,6 +66,16 @@ class ApiController extends Controller
         echo json_encode($result["datos"]);
     }
 
+    public function guardar_comentarios() {
+
+        $result = $this->base_model->insertar($this->preparar_datos("asambleas.comentarios", $_REQUEST));
+        $result["datos"][0]["status"] = $result["status"];
+        $result["datos"][0]["type"] = $result["type"];
+        $result["datos"][0]["msg"] = $result["msg"];
+        echo json_encode($result["datos"]);
+
+    }
+
     public function obtener_paises() {
         $sql = "SELECT * FROM iglesias.paises WHERE estado='A' ORDER BY pais_descripcion ASC";
         $result = DB::select($sql);
@@ -74,6 +84,21 @@ class ApiController extends Controller
 
     public function obtener_tipos_documento() {
         $sql = "SELECT * FROM public.tipodoc ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_foros() {
+        $sql = "SELECT * FROM asambleas.foros WHERE estado='A' ORDER BY foro_id DESC";
+        $result = DB::select($sql);
+        echo json_encode($result);
+    }
+
+    public function obtener_comentarios(Request $request) {
+        $sql = "SELECT * FROM asambleas.comentarios AS c 
+        INNER JOIN iglesias.miembro AS m ON(c.idmiembro=m.idmiembro)
+        WHERE c.foro_id={$request->input("foro_id")} AND c.estado='A'
+        ORDER BY c.comentario_id DESC";
         $result = DB::select($sql);
         echo json_encode($result);
     }

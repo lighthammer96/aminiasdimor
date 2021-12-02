@@ -484,7 +484,7 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
  
   Route::post('foros/guardar_foros', [ForosController::class, "guardar_foros"]);
   Route::post('foros/get_foros', [ForosController::class, "get_foros"]);
-  Route::post('foros/eliminar_foros', [ForosController::class, "eliminar_asistencia"]);
+  Route::post('foros/eliminar_foros', [ForosController::class, "eliminar_foros"]);
 
  // API APP
 
@@ -492,6 +492,9 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
  Route::get('api/marcar_asistencia', [ApiController::class, "marcar_asistencia"]);
 
  Route::get('api/guardar_votos', [ApiController::class, "guardar_votos"]);
+ Route::get('api/guardar_comentarios', [ApiController::class, "guardar_comentarios"]);
  Route::get('api/obtener_paises', [ApiController::class, "obtener_paises"]);
  Route::get('api/obtener_tipos_documento', [ApiController::class, "obtener_tipos_documento"]);
+ Route::get('api/obtener_foros', [ApiController::class, "obtener_foros"]);
+ Route::get('api/obtener_comentarios', [ApiController::class, "obtener_comentarios"]);
  

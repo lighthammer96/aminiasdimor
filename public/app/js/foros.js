@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } 
 
 
-        var promise = foros.get(datos.foros_id);
+        var promise = foros.get(datos.foro_id);
 
         promise.then(function(response) {
             
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
-                foros.Operacion(datos.foros_id, "E");
+                foros.Operacion(datos.foro_id, "E");
             }
         });
 
@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
 
         required = required && foros.required("asamblea_id");
+        required = required && foros.required("foro_descripcion");
         required = required && foros.required("estado");
  
         if(required) {
@@ -109,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-
            
                 socket.emit("foros-activada", response);
             })

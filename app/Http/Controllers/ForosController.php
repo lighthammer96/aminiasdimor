@@ -48,24 +48,18 @@ class ForosController extends Controller
         $_POST["asamblea_id"] = $asamblea[1];
         $_POST = $this->toUpper($_POST);
         if ($request->input("foro_id") == '') {
-            $_POST["foros_fecha"] = date("Y-m-d");
-            $_POST["foros_hora"] = date("H:i:s");
+            $_POST["foro_fecha"] = date("Y-m-d");
+            $_POST["foro_hora"] = date("H:i:s");
             $result = $this->base_model->insertar($this->preparar_datos("asambleas.foros", $_POST));
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("asambleas.foros", $_POST));
         }
 
    
-        // DB::table("asambleas.foro_idiomas")->where("foro_id", $result["id"])->delete();
-        // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
-        //     $_POST["foro_id"] = $result["id"];
-           
-        //     $this->base_model->insertar($this->preparar_datos("asambleas.foro_idiomas", $_POST, "D"), "D");
-        // }
-        $sql_asamblea = "SELECT * FROM asambleas.asambleas WHERE asamblea_id={$asamblea[1]}";
-        $asamblea = DB::select($sql_asamblea);
-        $result["datos"][0]["asamblea"] = $asamblea[0]->asamblea_descripcion;
+    
+        // $sql_asamblea = "SELECT * FROM asambleas.asambleas WHERE asamblea_id={$asamblea[1]}";
+        // $asamblea = DB::select($sql_asamblea);
+        // $result["datos"][0]["asamblea"] = $asamblea[0]->asamblea_descripcion;
         echo json_encode($result);
     }
 
@@ -73,12 +67,7 @@ class ForosController extends Controller
        
 
         try {
-            // $sql_usuarios = "SELECT * FROM asambleas.usuarios WHERE foro_id=".$_REQUEST["id"];
-            // $usuarios = DB::select($sql_usuarios);
-
-            // if(count($usuarios) > 0) {
-            //     throw new Exception(traducir("traductor.eliminar_perfil_usuario"));
-            // }
+       
 
             $sql_detalle = "SELECT * FROM asambleas.detalle_foros WHERE foro_id=".$_REQUEST["id"];
             $detalle = DB::select($sql_detalle);
@@ -97,10 +86,10 @@ class ForosController extends Controller
 
     public function get_foros(Request $request) {
 
-        $sql = "SELECT a.*, (tc.tipconv_id  || '|'  || a.asamblea_id) AS asamblea_id FROM asambleas.foros  AS a
-        INNER JOIN asambleas.asambleas AS aa ON(aa.asamblea_id=a.asamblea_id)
-        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=aa.tipconv_id)
-        WHERE a.foro_id=".$request->input("id");
+        $sql = "SELECT f.*, (tc.tipconv_id  || '|'  || f.asamblea_id) AS asamblea_id FROM asambleas.foros  AS f
+        INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=f.asamblea_id)
+        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
+        WHERE f.foro_id=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }

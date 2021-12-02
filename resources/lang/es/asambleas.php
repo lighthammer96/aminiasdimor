@@ -196,6 +196,7 @@ return [
     'revision_envio_2' => 'Para más ayuda con asuntos relacionados con la Asamblea Mundial, por favor contactar a la Asociación General bajo ims@sda1844.org o por teléfono al (+1) 770-748-0077.', 
     'anios' => 'Años (Desde-Hasta)', 
     'listado' => 'Listado', 
+    'foro' => 'Foro', 
     
 
     
@@ -213,6 +214,7 @@ return [
     'listado_propuestas_elecciones' => "Listado de Propuestas de Elecciones",
     'listado_propuestas_temas' => "Listado de Propuestas de Temas",
     'titulo_asistencia' => "Administración de Asistencias",
+    'titulo_foros' => "Administración de Foros",
 
     
 
