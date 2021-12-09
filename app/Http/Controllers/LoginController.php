@@ -41,6 +41,7 @@ class LoginController extends Controller
             $data["response"] = "ok";
             //$request->session()->put('usuario_id', $result[0]->usuario_id);
             $usuario_id = (isset($result[0]->usuario_id)) ? $result[0]->usuario_id : '';
+            $idmiembro = (isset($result[0]->idmiembro)) ? $result[0]->idmiembro : '';
             $usuario_user = (isset($result[0]->usuario_user)) ? $result[0]->usuario_user : '';
             $perfil_id = (isset($result[0]->perfil_id)) ? $result[0]->perfil_id : '';
             $pais_id = (isset($result[0]->pais_id) && !empty($result[0]->pais_id)) ? $result[0]->pais_id : 1;
@@ -58,6 +59,7 @@ class LoginController extends Controller
             // var_dump($pais_id); exit;
            
             session(['usuario_id' => $usuario_id]);
+            session(['idmiembro' => $idmiembro]);
             session(['usuario_user' => $usuario_user]);
             session(['perfil_id' => $perfil_id]);
             session(['pais_id' => $pais_id]);

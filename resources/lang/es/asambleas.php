@@ -220,6 +220,7 @@ return [
     'listado_propuestas_temas' => "Listado de Propuestas de Temas",
     'titulo_asistencia' => "Administración de Asistencias",
     'titulo_foros' => "Administración de Foros",
+    'titulo_comentarios' => "Administración de Comentarios",
 
     
 

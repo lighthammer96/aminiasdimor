@@ -28,6 +28,7 @@ use App\Http\Controllers\PropuestasController;
 use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\ComentariosController;
 use App\Http\Controllers\ForosController;
 use App\Http\Controllers\ResolucionesController;
 use App\Http\Controllers\TiposcargoController;
@@ -487,6 +488,18 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
   Route::post('foros/guardar_foros', [ForosController::class, "guardar_foros"]);
   Route::post('foros/get_foros', [ForosController::class, "get_foros"]);
   Route::post('foros/eliminar_foros', [ForosController::class, "eliminar_foros"]);
+
+  
+  // COMENTARIOS
+  Route::get('comentarios/index', [ComentariosController::class, "index"]);
+  Route::post('comentarios/buscar_datos', [ComentariosController::class, "buscar_datos"]);
+ 
+  Route::post('comentarios/obtener_comentarios', [ComentariosController::class, "obtener_comentarios"]);
+ 
+  Route::post('comentarios/guardar_comentarios', [ComentariosController::class, "guardar_comentarios"]);
+  Route::post('comentarios/get_comentarios', [ComentariosController::class, "get_comentarios"]);
+  Route::post('comentarios/eliminar_comentarios', [ComentariosController::class, "eliminar_comentarios"]);
+
 
  // API APP
 

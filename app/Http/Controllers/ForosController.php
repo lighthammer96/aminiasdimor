@@ -95,13 +95,10 @@ class ForosController extends Controller
     }
 
     public function obtener_foros() {
-        $sql = "SELECT p.foro_id AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
-        (SELECT pi_descripcion FROM asambleas.foro_idiomas WHERE foro_id=p.foro_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM asambleas.foros AS p 
-        LEFT JOIN asambleas.foro_idiomas AS pi ON(pi.foro_id=p.foro_id AND pi.idioma_id=".session("idioma_id").")
-        WHERE p.estado='A'";
+        $sql = "SELECT f.foro_id AS id,  f.foro_descripcion AS descripcion 
+        FROM asambleas.foros AS f 
+       
+        WHERE f.estado='A'";
         // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
