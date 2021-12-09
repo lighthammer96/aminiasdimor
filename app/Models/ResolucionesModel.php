@@ -21,8 +21,43 @@ class ResolucionesModel extends Model
 
     }
 
+    public function FormatoFecha($fecha, $formato) {
+        if($fecha != null) {
+            if($formato == "user") {
+                $date = explode("-", $fecha);
+                if(count($date) == 3) {
+                    return $date[2] . "/" . $date[1] . "/" . $date[0];
+                }
+            }
+
+            if($formato == "server") {
+                $date = explode("/", $fecha);
+                if(count($date) == 3) {
+                    return $date[2] . "-" . $date[1] . "-" . $date[0];
+                }
+            }
+        }
+
+        return $fecha;
+    }
+
     public function tabla() {
         $tabla = new Tabla();
+        $where = "1=1";
+
+        
+        if(isset($_REQUEST["fecha_inicio"]) && isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_fin"])) {
+            $where .= " AND to_char(r.resolucion_fecha, 'YYYY-MM-DD') BETWEEN '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."' AND '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."' ";
+
+        } else if(isset($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_inicio"])) {
+            
+            $where .= " AND to_char(r.resolucion_fecha, 'YYYY-MM-DD') >= '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."'";
+        } else if(isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_fin"])) {
+            
+            $where .= " AND to_char(r.resolucion_fecha, 'YYYY-MM-DD') <= '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."'";
+        }
+
+
         $tabla->asignarID("tabla-resoluciones");
         $tabla->agregarColumna("r.resolucion_id", "resolucion_id", "Id");
         $tabla->agregarColumna("tr.tr_descripcion", "tr_descripcion", traducir("traductor.descripcion"));
@@ -56,6 +91,8 @@ class ResolucionesModel extends Model
         \nLEFT JOIN asambleas.propuestas_elecciones AS pe on(pe.pe_id=r.propuesta_id AND r.tabla='asambleas.propuestas_elecciones')
         \n LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".session("idioma_codigo")."')*/
         \nLEFT JOIN asambleas.traduccion_resoluciones AS tr ON(tr.resolucion_id=r.resolucion_id AND tr.tr_idioma='".session("idioma_codigo")."')");
+        // die($where);
+        $tabla->setWhere($where);
 
         return $tabla;
     }

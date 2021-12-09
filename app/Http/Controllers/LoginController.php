@@ -36,6 +36,7 @@ class LoginController extends Controller
             $data["response"] = "nouser";
         }
         
+        // print_r($result); exit;
         if(isset($result[0]->usuario_pass) && Hash::check($pass, $result[0]->usuario_pass)) {
             $data["response"] = "ok";
             //$request->session()->put('usuario_id', $result[0]->usuario_id);
@@ -47,14 +48,14 @@ class LoginController extends Controller
             $foto = (isset($result[0]->foto)) ? $result[0]->foto : '';
             $responsable = (isset($result[0]) && (!empty($result[0]->apellidos) || !empty($result[0]->nombres))) ? $result[0]->apellidos.", ".$result[0]->nombres : $usuario_user;
             $tipo_acceso = (isset($result[0]->tipo_acceso)) ? $result[0]->tipo_acceso : '';
-            $iddivision = (isset($iddivision)) ? $iddivision : '';
+            $iddivision = (isset($result[0]->iddivision)) ? $result[0]->iddivision : '';
           
             $idunion = (isset($result[0]->idunion)) ? $result[0]->idunion : '';
             $idmision = (isset($result[0]->idmision)) ? $result[0]->idmision : '';
             $iddistritomisionero = (isset($result[0]->iddistritomisionero)) ? $result[0]->iddistritomisionero : '';
             $idiglesia = (isset($result[0]->idiglesia)) ? $result[0]->idiglesia : '';
 
-
+            // var_dump($pais_id); exit;
            
             session(['usuario_id' => $usuario_id]);
             session(['usuario_user' => $usuario_user]);

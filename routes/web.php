@@ -166,6 +166,7 @@ Route::post('uniones/eliminar_uniones', [UnionesController::class, "eliminar_uni
 Route::post('uniones/obtener_uniones', [UnionesController::class, "obtener_uniones"]);
 Route::post('uniones/obtener_paises', [UnionesController::class, "obtener_paises"]);
 Route::post('uniones/obtener_uniones_paises', [UnionesController::class, "obtener_uniones_paises"]);
+Route::post('uniones/obtener_uniones_paises_propuestas', [UnionesController::class, "obtener_uniones_paises_propuestas"]);
 Route::post('uniones/obtener_uniones_paises_all', [UnionesController::class, "obtener_uniones_paises_all"]);
 Route::post('uniones/obtener_uniones_paises_todos', [UnionesController::class, "obtener_uniones_paises_todos"]);
 
@@ -177,6 +178,7 @@ Route::post('misiones/guardar_misiones', [MisionesController::class, "guardar_mi
 Route::post('misiones/get_misiones', [MisionesController::class, "get_misiones"]);
 Route::post('misiones/eliminar_misiones', [MisionesController::class, "eliminar_misiones"]);
 Route::post('misiones/obtener_misiones', [MisionesController::class, "obtener_misiones"]);
+Route::post('misiones/obtener_misiones_propuestas', [MisionesController::class, "obtener_misiones_propuestas"]);
 Route::post('misiones/obtener_misiones_all', [MisionesController::class, "obtener_misiones_all"]);
 Route::post('misiones/obtener_misiones_todos', [MisionesController::class, "obtener_misiones_todos"]);
 
@@ -497,4 +499,5 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
  Route::get('api/obtener_tipos_documento', [ApiController::class, "obtener_tipos_documento"]);
  Route::get('api/obtener_foros', [ApiController::class, "obtener_foros"]);
  Route::get('api/obtener_comentarios', [ApiController::class, "obtener_comentarios"]);
+ Route::get('api/obtener_votacion_activa', [ApiController::class, "obtener_votacion_activa"]);
  

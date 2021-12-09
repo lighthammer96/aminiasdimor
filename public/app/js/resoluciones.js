@@ -712,5 +712,77 @@ document.addEventListener("DOMContentLoaded", function() {
       
         window.open(BaseUrl + "/resoluciones/imprimir_resolucion/"+resolucion_id+"|"+tr_idioma);
     })
+
+    var format = "";
+    if(idioma_codigo == "es") {
+        format = "dd/mm/yyyy";
+      
+        $("input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
+    } else {
+        format = "yyyy-mm-dd";
+  
+        $("input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
+        
+    }
+
+
+    $("input[name=fecha-inicio], input[name=fecha-fin]").inputmask();
+    jQuery("input[name=fecha-inicio], input[name=fecha-fin]").datepicker({
+        format: format,
+        language: "es",
+        todayHighlight: true,
+        todayBtn: "linked",
+        autoclose: true,
+        // endDate: "now()",
+
+    });
+
+    document.getElementById("calendar-fecha-inicio").addEventListener("click", function(e) {
+        e.preventDefault();
+        if($("input[name=fecha-inicio]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fecha-inicio]").blur();
+            $("input[name=fecha-inicio]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fecha-inicio]").focus();
+            $("input[name=fecha-inicio]").addClass("focus-datepicker");
+        }
+    });
+
+    document.getElementById("calendar-fecha-fin").addEventListener("click", function(e) {
+        e.preventDefault();
+        if($("input[name=fecha-fin]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fecha-fin]").blur();
+            $("input[name=fecha-fin]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fecha-fin]").focus();
+            $("input[name=fecha-fin]").addClass("focus-datepicker");
+        }
+    });
+
+
+    
+    document.getElementById("filtrar").addEventListener("click", function(event) {
+        event.preventDefault();
+        if(typeof resoluciones.datatable.length != "undefined") {
+            resoluciones.datatable.destroy();
+        }
+
+        var fecha_inicio = document.getElementsByName("fecha-inicio")[0].value;
+        var fecha_fin = document.getElementsByName("fecha-fin")[0].value;
+       
+       
+        resoluciones.TablaListado({
+            tablaID: '#tabla-resoluciones',
+            url: "/buscar_datos",
+            fecha_inicio: fecha_inicio,
+            fecha_fin: fecha_fin,
+            
+        });
+    })
+
 })
 

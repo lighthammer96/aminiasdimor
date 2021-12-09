@@ -1,7 +1,7 @@
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 
 document.addEventListener("DOMContentLoaded", function() {
-    distritos_misioneros.buscarEnFormulario("descripcion").solo_letras();
+    // distritos_misioneros.buscarEnFormulario("descripcion").solo_letras();
     
     distritos_misioneros.TablaListado({
         tablaID: '#tabla-distritos-misioneros',

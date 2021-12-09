@@ -197,6 +197,11 @@ return [
     'anios' => 'Años (Desde-Hasta)', 
     'listado' => 'Listado', 
     'foro' => 'Foro', 
+    'otros_asuntos' => 'Otros Asuntos', 
+    'documentos_apoyo' => 'Documentos de Apoyo', 
+    'ventajas_desventajas' => 'Ventajas y Desventajas', 
+    'justificacion' => 'Justificación', 
+    'digitar' => 'Digitar', 
     
 
     

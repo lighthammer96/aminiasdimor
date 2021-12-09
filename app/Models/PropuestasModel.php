@@ -18,6 +18,27 @@ class PropuestasModel extends Model
         //$tabla = new Tabla();
     }
 
+    public function FormatoFecha($fecha, $formato) {
+        if($fecha != null) {
+            if($formato == "user") {
+                $date = explode("-", $fecha);
+                if(count($date) == 3) {
+                    return $date[2] . "/" . $date[1] . "/" . $date[0];
+                }
+            }
+
+            if($formato == "server") {
+                $date = explode("/", $fecha);
+                if(count($date) == 3) {
+                    return $date[2] . "-" . $date[1] . "-" . $date[0];
+                }
+            }
+        }
+
+        return $fecha;
+    }
+
+
     public function tabla($con_votacion = "N") {
         $where = "1=1";
         $join = "";
@@ -30,7 +51,25 @@ class PropuestasModel extends Model
         $and = "AND tpt.tpt_idioma='".session("idioma_codigo")."'";
 
         if(isset($_REQUEST["idioma_codigo"])) {
-            $and = "AND tpt.tpt_idioma='".$_REQUEST["idioma_codigo"]."'";
+            $where .= " AND tpt.tpt_idioma='".$_REQUEST["idioma_codigo"]."'";
+        }
+
+        if(isset($_REQUEST["fecha_inicio"]) && isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_fin"])) {
+            $where .= " AND pt.pt_fecha BETWEEN '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."' AND '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."' ";
+
+        } else if(isset($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_inicio"])) {
+            
+            $where .= " AND pt.pt_fecha >= '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."'";
+        } else if(isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_fin"])) {
+            
+            $where .= " AND pt.pt_fecha <= '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."'";
+        }
+
+
+        if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
+            $pais = explode("|", $_REQUEST["pais_id"]);
+            
+            $where .= " AND pt.pais_id = {$pais[0]}";
         }
 
 
@@ -61,6 +100,7 @@ class PropuestasModel extends Model
         \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
         \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id {$and})
         {$join}");
+        // die($where);
         $tabla->setWhere($where);
         return $tabla;
     }
@@ -79,6 +119,17 @@ class PropuestasModel extends Model
 
         if(isset($_REQUEST["idioma_codigo"])) {
             $and = "AND tpe.tpe_idioma='".trim($_REQUEST["idioma_codigo"])."'";
+        }
+
+        if(isset($_REQUEST["fecha_inicio"]) && isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_fin"])) {
+            $where .= " AND pe.pe_fecha BETWEEN '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."' AND '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."' ";
+
+        } else if(isset($_REQUEST["fecha_inicio"]) && !empty($_REQUEST["fecha_inicio"])) {
+            
+            $where .= " AND pe.pe_fecha >= '".$this->FormatoFecha($_REQUEST["fecha_inicio"], "server")."'";
+        } else if(isset($_REQUEST["fecha_fin"]) && !empty($_REQUEST["fecha_fin"])) {
+            
+            $where .= " AND pe.pe_fecha <= '".$this->FormatoFecha($_REQUEST["fecha_fin"], "server")."'";
         }
 
         $tabla = new Tabla();
@@ -106,7 +157,7 @@ class PropuestasModel extends Model
         $tabla->setFrom("asambleas.propuestas_elecciones AS pe
         \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id {$and})
         {$join}");
-
+        // die($where);
         $tabla->setWhere($where);
 
         return $tabla;

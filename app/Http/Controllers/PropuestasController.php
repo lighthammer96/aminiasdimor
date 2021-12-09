@@ -41,6 +41,9 @@ class PropuestasController extends Controller
         $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
 
         $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
+        
+        // $botones[7] = ' ';
+       
 
         $data["botones"] = $botones;
         
@@ -107,7 +110,19 @@ class PropuestasController extends Controller
             DB::beginTransaction();
             // print_r($_REQUEST); 
             // exit;
-            
+            if(isset($_POST["pt_digitar"])) {
+                $_POST["pt_digitar"] = "S";
+                $_POST["idunion"] = -1;
+                $_POST["idmision"] = -1;
+            }  else {
+                $_POST["pt_digitar"] = "N";
+                $_POST["pt_union"] = "-.-";
+                $_POST["pt_mision"] = "-.-";
+            }
+
+
+
+
             $idioma = (isset($_REQUEST["tpt_idioma"])) ? $_REQUEST["tpt_idioma"] : "";
             foreach ($_REQUEST as $key => $value) {
             // $arr = explode("_traduccion", $key);

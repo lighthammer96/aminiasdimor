@@ -103,6 +103,67 @@ class ApiController extends Controller
         echo json_encode($result);
     }
 
+    public function obtener_votacion_activa() {
+        $result = array();
+        $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id, v.tabla
+        FROM asambleas.votaciones AS v
+        INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
+        WHERE v.estado='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre";
+
+
+
+        $result["formas_votacion"] = DB::select($sql_forma_votacion);
+
+        if(count($result["formas_votacion"]) > 0) {
+            
+            $result["formas_votacion"][0]->items = array();
+
+            // print_r($result); exit;
+            if($result["formas_votacion"][0]->tabla == "asambleas.propuestas_temas") {
+
+                $sql_propuestas = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS propuesta, tpt.tpt_idioma AS idioma_codigo FROM asambleas.propuestas_temas AS pt
+                INNER JOIN asambleas.traduccion_propuestas_temas AS tpt ON(pt.pt_id=tpt.pt_id)
+                WHERE pt.pt_id = {$result["formas_votacion"][0]->propuesta_id}";
+                $propuestas = DB::select($sql_propuestas);
+
+            } elseif($result["formas_votacion"][0]->tabla == "asambleas.propuestas_elecciones") {
+
+                $sql_propuestas = "SELECT CASE WHEN tpe.tpe_descripcion IS NULL THEN '' ELSE tpe.tpe_descripcion END AS propuesta, tpe.tpe_idioma AS idioma_codigo FROM asambleas.propuestas_elecciones AS pe
+                INNER JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(pe.pe_id=tpe.pe_id)
+                WHERE pe.pe_id = {$result["formas_votacion"][0]->propuesta_id}";
+
+                $propuestas = DB::select($sql_propuestas);
+            }
+            
+            if($result["formas_votacion"][0]->fv_id == 3) {
+                $sql_asistencia = "SELECT m.idmiembro AS id, (m.apellidos || ', ' || m.nombres) AS descripcion FROM asambleas.asistencia AS a
+                INNER JOIN asambleas.detalle_asistencia AS da ON(a.asistencia_id=da.asistencia_id)
+                INNER JOIN iglesias.miembro AS m ON(m.idmiembro=da.idmiembro)
+                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id}";
+                $result["formas_votacion"][0]->items = DB::select($sql_asistencia);
+            }
+
+            if($result["formas_votacion"][0]->fv_id == 6) {
+                $sql_detalle_propuesta = "SELECT dp.dp_id AS id, dp.dp_descripcion AS descripcion FROM asambleas.propuestas_elecciones AS pe
+                INNER JOIN asambleas.detalle_propuestas AS dp ON(dp.pe_id=pe.pe_id)
+                WHERE pe.estado='A' AND pe.pe_id={$result["formas_votacion"][0]->propuesta_id}";
+                // die($sql_detalle_propuesta);
+                $result["formas_votacion"][0]->items = DB::select($sql_detalle_propuesta);
+            }
+            // print_r($propuestas); exit;
+            $result["formas_votacion"][0]->propuestas = $propuestas;
+            if($result["formas_votacion"][0]->fv_id == 5) {
+                // $sql_detalle_propuesta = "SELECT dp.dp_id AS id, dp.dp_descripcion AS descripcion FROM asambleas.propuestas_elecciones AS pe
+                // INNER JOIN asambleas.detalle_propuestas AS dp ON(dp.pe_id=pe.pe_id)
+                // WHERE pe.estado='A' AND pe.pe_id={$result["formas_votacion"][0]->propuesta_id} AND dp.dp_idioma='".session("idioma_codigo")."'";
+                // $result["formas_votacion"][0]->items = DB::select($sql_detalle_propuesta);
+            }
+        }
+
+        echo json_encode($result);
+
+    }
+
 
     public function buscar_datos() {
         $json_data = $this->distritos_model->tabla()->obtenerDatos();

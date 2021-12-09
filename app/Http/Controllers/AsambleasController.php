@@ -128,7 +128,10 @@ class AsambleasController extends Controller
     }
 
     public function obtener_asambleas() {
-        $sql = "SELECT (tc.tipconv_id  || '|'  || a.asamblea_id) AS id, a.asamblea_descripcion AS descripcion
+
+        
+
+        $sql = "SELECT (tc.tipconv_id  || '|'  || a.asamblea_id) AS id, a.asamblea_descripcion AS descripcion, CASE WHEN NOW() BETWEEN a.asamblea_fecha_inicio AND a.asamblea_fecha_fin THEN 'S' ELSE 'N' END AS defecto
         FROM asambleas.asambleas AS a
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
         WHERE a.estado='A'";

@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = usuarios.get(datos.usuario_id);
         promise.then(function(response) {
             asociados.ajax({
-                url: '/get',
+                url: '/get_asociados',
                 datos: { id: response.idmiembro }
             }).then(function(datos) {
                 datos.idmiembro = datos[0].idmiembro;

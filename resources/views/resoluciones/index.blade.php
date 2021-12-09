@@ -184,6 +184,33 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-   
+
+<div class="row">
+
+    <div class="col-md-2" >
+        <label class="control-label">{{ traducir("traductor.fecha_inicio") }}</label>
+        <div class="input-group">
+            <input type="text" class="form-control input-sm entrada" name="fecha-inicio" data-inputmask="\'alias\': \'dd/mm/yyyy\'" data-mask placeholder="" />
+            <div class="input-group-addon"  id="calendar-fecha-inicio" style="cursor: pointer;">
+                <i class="fa fa-calendar"></i>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-2">
+        <label class="control-label">{{ traducir("traductor.fecha_fin") }}</label>
+        <div class="input-group">
+            <input type="text" class="form-control input-sm entrada" name="fecha-fin" data-inputmask="\'alias\': \'dd/mm/yyyy\'" data-mask placeholder="" />
+            <div class="input-group-addon"  id="calendar-fecha-fin" style="cursor: pointer;">
+                <i class="fa fa-calendar"></i>
+            </div>
+        </div> 
+    </div>
+  
+    <div class="col-md-1 " style="margin-top: 7px;">
+        <!-- <label class="control-label">{{ traducir("asambleas.filtrar") }}</label> -->
+        <button type="button" id="filtrar" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/lupa.png') }}" ><br>[{{ traducir('asambleas.filtrar')}}]</button>
+            
+    </div>
+</div>
 @endsection
 

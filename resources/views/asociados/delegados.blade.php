@@ -90,7 +90,7 @@
 
                     <div class="row">
                     
-                        <div class="col-md-4" style="margin-top: 20px;">
+                        <div class="col-md-4" style="margin-top: 20px; padding-right: 5px;">
                             <label class="control-label">
                                 <!-- <input type="hidden" name="posee_seguro" id="posee_seguro" class="input-sm entrada"> -->
                                 <input class="minimal entrada" type="checkbox" name="posee_seguro" id="posee_seguro">

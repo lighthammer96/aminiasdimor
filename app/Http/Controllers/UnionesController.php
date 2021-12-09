@@ -143,6 +143,38 @@ class UnionesController extends Controller
         echo json_encode($result);
     }
 
+
+    public function obtener_uniones_paises_propuestas(Request $request) {
+
+        $sql = "";
+ 
+        $result = array();
+		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
+	
+			$sql = "SELECT u.idunion AS id, u.descripcion, u.email AS atributo1 ,
+             CASE WHEN u.idunion=".session("idunion")." THEN 'S' ELSE 'N' END AS defecto
+
+            FROM iglesias.union AS u
+            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
+            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id").
+            " ORDER BY u.descripcion ASC";
+		} else {
+            $sql = "SELECT u.idunion AS id, u.descripcion , u.email AS atributo1,
+             CASE WHEN u.idunion=".session("idunion")." THEN 'S' ELSE 'N' END AS defecto
+            FROM iglesias.union AS u
+            WHERE u.estado='1'
+            ORDER BY u.descripcion ASC";
+            
+		}
+
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+        
+     
+        echo json_encode($result);
+    }
+
     public function obtener_uniones_paises_all(Request $request) {
         $array = array("id" => 0, "descripcion" => "Todos");
         $array = (object) $array;

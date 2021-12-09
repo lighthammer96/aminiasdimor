@@ -32,11 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if(idioma_codigo == "es") {
         format = "dd/mm/yyyy";
       
-        $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya], input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
     } else {
         format = "yyyy-mm-dd";
   
-        $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya]").attr("data-inputmask", "'alias': '"+format+"'");
+        $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya], input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
         
     }
     var eventClick = new Event('click');
@@ -55,11 +55,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya]").inputmask();
+    $("input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya], input[name=fecha-inicio], input[name=fecha-fin]").inputmask();
 
   
  
-    jQuery( "input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya]").datepicker({
+    jQuery( "input[name=pt_fecha_reunion_cpag], input[name=pt_fecha_reunion_uya], input[name=fecha-inicio], input[name=fecha-fin]").datepicker({
         format: format,
         language: "es",
         todayHighlight: true,
@@ -114,6 +114,20 @@ document.addEventListener("DOMContentLoaded", function() {
         
     }) 
 
+
+    paises.select({
+        name: 'pais_id_filtro',
+        url: '/obtener_paises_propuestas',
+        placeholder: seleccione
+    }).then(function() {
+        // $("#pais_id").trigger("change", ["", "", ""]);
+        // $("#idunion").trigger("change", ["", ""]);
+        // $("#idmision").trigger("change", ["", ""]);
+        
+        
+        
+    }) 
+
     
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, idmision) {
         // alert(pais_id);
@@ -138,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         uniones.select({
             name: 'idunion',
-            url: '/obtener_uniones_paises',
+            url: '/obtener_uniones_paises_propuestas',
             placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
@@ -166,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             misiones.select({
                 name: 'idmision',
-                url: '/obtener_misiones',
+                url: '/obtener_misiones_propuestas',
                 placeholder: seleccione,
                 selected: selected_mision,
                 datos: { pais_id: d_id }
@@ -204,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // alert(selected);
         misiones.select({
             name: 'idmision',
-            url: '/obtener_misiones',
+            url: '/obtener_misiones_propuestas',
             placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
@@ -415,7 +429,10 @@ document.addEventListener("DOMContentLoaded", function() {
         })
 
         
-       
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
 
 
         propuestas_temas.abrirModal();
@@ -463,7 +480,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       
-
+        $(".nav-tabs").find("li").removeClass("active");
+        $("a[href='#datos-generales']").parent("li").addClass("active");
+        $(".tab-pane").removeClass("active");
+        $("#datos-generales").addClass("active");
 
         $("#someter-votacion").hide();
        
@@ -475,6 +495,9 @@ document.addEventListener("DOMContentLoaded", function() {
             var valor = response.asamblea_id.toString().split("|");
             var tipconv_id = valor[0];
             var asamblea_id = valor[1];
+            // console.log(response.pt_digitar);
+            
+           
 
             asambleas.select({
                 name: 'asamblea_id',
@@ -537,6 +560,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#idmision").val("");
             }
             activar_entradas();
+
+            if(response.pt_digitar == "S") {
+               
+                $(".no-digitar").hide();
+                $(".digitar").show();
+
+            } else {
+                $(".digitar").hide();
+                $(".no-digitar").show();
+            }
+
             
         })
         
@@ -980,19 +1014,36 @@ document.addEventListener("DOMContentLoaded", function() {
  
 
         var required = true;
+        var propuesta = true;
         var pt_id = document.getElementsByName("pt_id")[0].value;
 
         if(pt_id == "") {
             required = required && propuestas_temas.required("asamblea_id");
-        
+           
+            required = required && propuestas_temas.required("tpt_titulo");
+   
             required = required && propuestas_temas.required("tpt_idioma");
-            required = required && propuestas_temas.required("cp_id");
-            required = required && propuestas_temas.required("tpt_propuesta");
+  
+            propuesta = propuesta && propuestas_temas.required("cp_id");
+            propuesta = propuesta && propuestas_temas.required("tpt_propuesta");
     
             required = required && propuestas_temas.required("estado");
+       
         }
+
+     
+
    
+        // alert(propuesta);
+        
         if(required) {
+            if(!propuesta) {
+                $(".nav-tabs").find("li").removeClass("active");
+                $("a[href='#tpropuesta']").parent("li").addClass("active");
+                $(".tab-pane").removeClass("active");
+                $("#tpropuesta").addClass("active");
+                return false;
+            }
             var promise = propuestas_temas.guardar();
             propuestas_temas.CerrarModal();
             promise.then(function(response) {
@@ -1175,6 +1226,34 @@ document.addEventListener("DOMContentLoaded", function() {
             $("input[name=pt_fecha_reunion_uya]").addClass("focus-datepicker");
         }
     });
+
+    document.getElementById("calendar-fecha-inicio").addEventListener("click", function(e) {
+        e.preventDefault();
+        if($("input[name=fecha-inicio]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fecha-inicio]").blur();
+            $("input[name=fecha-inicio]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fecha-inicio]").focus();
+            $("input[name=fecha-inicio]").addClass("focus-datepicker");
+        }
+    });
+
+    document.getElementById("calendar-fecha-fin").addEventListener("click", function(e) {
+        e.preventDefault();
+        if($("input[name=fecha-fin]").hasClass("focus-datepicker")) {
+   
+            $("input[name=fecha-fin]").blur();
+            $("input[name=fecha-fin]").removeClass("focus-datepicker");
+        } else {
+            
+            $("input[name=fecha-fin]").focus();
+            $("input[name=fecha-fin]").addClass("focus-datepicker");
+        }
+    });
+
+
 
 
     document.getElementById("calendar-pt_fecha_reunion_cpag").addEventListener("click", function(e) {
@@ -1486,6 +1565,38 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
       
         window.open(BaseUrl + "/propuestas/imprimir_propuestas_temas/");
+    })
+
+
+    document.getElementById("filtrar").addEventListener("click", function(event) {
+        event.preventDefault();
+        if(typeof propuestas_temas.datatable.length != "undefined") {
+            propuestas_temas.datatable.destroy();
+        }
+
+        var fecha_inicio = document.getElementsByName("fecha-inicio")[0].value;
+        var fecha_fin = document.getElementsByName("fecha-fin")[0].value;
+        var pais_id = document.getElementsByName("pais_id_filtro")[0].value;
+       
+        propuestas_temas.TablaListado({
+            tablaID: '#tabla-propuestas-temas',
+            url: "/buscar_datos",
+            fecha_inicio: fecha_inicio,
+            fecha_fin: fecha_fin,
+            pais_id: pais_id
+        });
+    })
+
+    $("#pt_digitar").on('ifClicked', function(event){
+
+        if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
+            // alert("check");
+            $(".no-digitar").hide();
+            $(".digitar").show();
+        } else {
+            $(".digitar").hide();
+            $(".no-digitar").show();
+        }
     })
 
 

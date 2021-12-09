@@ -104,8 +104,12 @@ class MisionesController extends Controller
             FROM iglesias.mision WHERE estado='1' ".session("where_mision").session("where_union_padre").
             " ORDER BY descripcion ASC";
             $all = true;
-		}
-
+		} else {
+            $sql = "SELECT idmision AS id, descripcion, email AS atributo1
+            FROM iglesias.mision WHERE estado='1' 
+            ORDER BY descripcion ASC";
+        }
+        // var_dump($sql);
         if($sql != "") {
             $result = DB::select($sql);
         }
@@ -114,6 +118,40 @@ class MisionesController extends Controller
             // print_r($result);
             $result[0]->defecto = "S";
         }
+        echo json_encode($result);
+    }
+
+    public function obtener_misiones_propuestas(Request $request) {
+
+        $sql = "";
+       
+        $result = array();
+        if(isset($_REQUEST["pais_id"])) {
+            $sql = "SELECT * FROM iglesias.union AS u 
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
+	
+			$sql = "SELECT idmision AS id, descripcion, email AS atributo1,
+            CASE WHEN idmision=".session("idmision")." THEN 'S' ELSE 'N' END AS defecto
+             FROM iglesias.mision WHERE estado='1' AND idunion=".$_REQUEST["idunion"]. " ".session("where_mision").
+            " ORDER BY descripcion ASC";		
+        
+		} else {
+            $sql = "SELECT idmision AS id, descripcion, email AS atributo1,
+            CASE WHEN idmision=".session("idmision")." THEN 'S' ELSE 'N' END AS defecto
+            FROM iglesias.mision WHERE estado='1' 
+            ORDER BY descripcion ASC";
+        }
+        // var_dump($sql);
+        if($sql != "") {
+            $result = DB::select($sql);
+        }
+       
         echo json_encode($result);
     }
 
