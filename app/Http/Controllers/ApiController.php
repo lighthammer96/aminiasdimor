@@ -105,11 +105,11 @@ class ApiController extends Controller
 
     public function obtener_votacion_activa() {
         $result = array();
-        $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id, v.tabla
+        $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
         FROM asambleas.votaciones AS v
         INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
         WHERE v.estado='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre";
-
+        // echo $sql_forma_votacion; exit;
 
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);

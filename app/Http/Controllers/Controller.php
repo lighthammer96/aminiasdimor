@@ -19,7 +19,7 @@ class Controller extends BaseController
 
     public function __construct() {
         $this->base_model = new BaseModel();    
-       
+        date_default_timezone_set("America/Lima");
        
     }
 
