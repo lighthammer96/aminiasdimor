@@ -32,8 +32,7 @@ return [
     'convocatoria' => 'Convocatoria',
     'de' => 'De',
     'votos' => 'Votos',
-    'si' => 'Si',
-    'no' => 'No',
+   
     'titulo' => 'Título',
     'abstenciones' => 'Abstenciones',
     'fecha_reunion' => 'Fecha Reunión',
@@ -202,6 +201,27 @@ return [
     'ventajas_desventajas' => 'Ventajas y Desventajas', 
     'justificacion' => 'Justificación', 
     'digitar' => 'Digitar', 
+
+    
+    // LABELS APP
+    'votar' => 'Votar',
+    'cerrar_sesion' => 'Cerrar Sesión',
+    'votar_por' => 'Votar por',
+    'abstención' => 'Abstención',
+    'conforme' => 'Conforme',
+    'no_conforme' => 'No Conforme',
+    'elegir_delegado_presente' => 'Elegir Delegado Presente',
+    'proponer_un_número' => 'Proponer un número',
+    'elegir_de_lista_de_integrantes' => 'Elegir de Lista de Integrantes',
+    'elegir_de_lista_de_propuesta' => 'Elegir de Lista de Propuesta',
+    'escribir_nombre' => 'Escribir nombre',
+    'bienvenido' => 'Bienvenido',
+    'foros' => 'Foros',
+    'comentarios' => 'Comentarios',
+    'ingresar_comentario' => 'Ingresar Comentario',
+    'configuracion' => 'Configuración',
+    
+    
     
 
     
