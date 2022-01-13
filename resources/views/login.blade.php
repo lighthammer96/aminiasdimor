@@ -70,8 +70,14 @@
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button type="button" id="btn-login" class="btn btn-primary btn-block btn-flat">Login</button>
+                        
                     </div>
                     <!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <center><a href="{{ URL::asset('apk/imsapp.apk') }}" download="imsapp.apk"><strong>Descargar APK.</strong></a></center>
+                    </div>
                 </div>
             </form>
 

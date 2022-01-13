@@ -22,5 +22,29 @@ TRUNCATE iglesias.miembro RESTART IDENTITY;
 TRUNCATE public.procesos RESTART IDENTITY;
 TRUNCATE seguridad.log_sistema RESTART IDENTITY;
 
+--- gestion de asambleas
+
+delete from asambleas.agenda;
+delete from asambleas.delegados;
+
+delete from asambleas.detalle_asistencia;
+delete from asambleas.asistencia;
+delete from asambleas.comentarios;
+delete from asambleas.detalle_propuestas;
+
+delete from asambleas.foros;
+delete from asambleas.traduccion_propuestas_elecciones;
+delete from asambleas.traduccion_propuestas_temas;
+
+delete from asambleas.propuestas_elecciones;
+delete from asambleas.propuestas_origen;
+delete from asambleas.propuestas_temas;
+delete from asambleas.traduccion_resoluciones;
+delete from asambleas.resoluciones;
+delete from asambleas.resultados;
+delete from asambleas.votos;
+delete from asambleas.votaciones;
+
+delete from asambleas.asambleas;
 
 
