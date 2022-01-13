@@ -35,7 +35,7 @@ class ModulosModel extends Model
         $tabla->setFrom("seguridad.modulos as p 
         \nINNER JOIN seguridad.modulos as h on(p.modulo_id=h.modulo_padre)
         \nLEFT JOIN seguridad.modulos_idiomas as mi on(mi.modulo_id=h.modulo_id AND mi.idioma_id=".session("idioma_id").")");
-        $tabla->setOrderBy("p.modulo_id ASC");
+        // $tabla->setOrderBy("h.modulo_id DESC, p.modulo_id ASC");
         //$tabla->setWhere("h.modulo_id > 1");
 
 
