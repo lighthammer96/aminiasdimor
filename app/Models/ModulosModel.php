@@ -18,7 +18,9 @@ class ModulosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarId("tabla-modulos");
         $tabla->agregarColumna("h.modulo_id", "modulo_id", "ID");
-        $tabla->agregarColumna("mi.mi_descripcion", "mi_descripcion", traducir('traductor.modulo'));
+        $tabla->agregarColumna("CASE WHEN mi.mi_descripcion IS NULL THEN 
+        (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=h.modulo_id AND idioma_id=".session("idioma_id_defecto").")
+        ELSE mi.mi_descripcion END", "mi_descripcion", traducir('traductor.modulo'));
         $tabla->agregarColumna("h.modulo_icono", "modulo_icono", traducir('traductor.icono'));
         $tabla->agregarColumna("h.modulo_controlador", "modulo_controlador", traducir('traductor.controlador'));
         $tabla->agregarColumna("p.modulo_nombre", "padre", traducir('traductor.modulo_padre'));
@@ -33,6 +35,7 @@ class ModulosModel extends Model
         $tabla->setFrom("seguridad.modulos as p 
         \nINNER JOIN seguridad.modulos as h on(p.modulo_id=h.modulo_padre)
         \nLEFT JOIN seguridad.modulos_idiomas as mi on(mi.modulo_id=h.modulo_id AND mi.idioma_id=".session("idioma_id").")");
+        $tabla->setOrderBy("p.modulo_id ASC");
         //$tabla->setWhere("h.modulo_id > 1");
 
 
