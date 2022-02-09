@@ -112,7 +112,7 @@
         <div class="clear"></div>
         <div class="row"  style="">
             <div class="col" style="width: 100%; font-size: 16px !important; text-align: center;">
-                <label for="">{{ traducir("asambleas.delegados_conferencia_reunidos") }} <strong>{{ $propuesta[0]->asamblea_fecha_inicio }} - {{ $propuesta[0]->asamblea_fecha_fin }}</strong>, {{ traducir("asambleas.en") }} <strong> {{ $propuesta[0]->asamblea_ciudad }}, {{ $propuesta[0]->pais }}</strong> </label>
+                <label for="">{{ traducir("asambleas.delegados_conferencia_reunidos") }} <strong>{{ $propuesta[0]->asamblea_anio }}</strong>, {{ traducir("asambleas.en") }} <strong> {{ $propuesta[0]->asamblea_ciudad }}, {{ $propuesta[0]->pais }}</strong> </label>
             </div>
           
         </div>

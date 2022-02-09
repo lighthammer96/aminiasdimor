@@ -31,6 +31,7 @@ return [
     'correlativo' => 'Correlativo',
     'convocatoria' => 'Convocatoria',
     'de' => 'De',
+    'de_' => 'de',
     'votos' => 'Votos',
    
     'titulo' => 'Título',
@@ -60,14 +61,13 @@ return [
 
 
     'no_presentaran_otros_documentos' => 'No se presentarán otros documentos con esta Propuesta.',
-    'si_enviar_documentos_adicionales' => 'Sí, enviaremos documentos adicionales por correo electrónico a ims@sda1844.org en la respuesta al mensaje de confirmación.',
+    'si_enviar_documentos_adicionales' => 'Sí, enviaremos documentos adicionales por correo electrónico junto con la Propuesta.',
     'descripcion_documentos_apoyo' => 'Descripción de los documentos de apoyo a ser presentados',
     'listado_responsables' => 'Listado de Responsables',
     'buscar_asociado' => 'Buscar Asociado',
     'buscar_responsable' => 'Buscar Responsable',
     'correlativo' => 'Correlativo',
     'titulo' => 'Título',
-    'de' => 'De',
     'propuesta' => 'Propuesta',
     'estado_propuesta' => 'Estado Propuesta',
     'proceso_registro' => 'En proceso de registro',
@@ -99,7 +99,7 @@ return [
     'estado_resolucion' => 'Estado Resolución',
     'registro_traduccion_terminado' => 'Ya no se puede modificar, la traducción ha finalizado.',
     'registro_enviado_traduccion' => 'Ya no se puede modificar, el registro se ha enviado para traducción.',
-    'delegados_conferencia_reunidos' => 'para los Delegados de la Conferencia General reunidos del',
+    'delegados_conferencia_reunidos' => 'para los Delegados de la Conferencia General reunidos en',
     'en' => 'en',
     'email_oficial_de_la' => 'Email oficial de la',
     'pais_sede' => 'País donde está la sede',
@@ -201,7 +201,14 @@ return [
     'ventajas_desventajas' => 'Ventajas y Desventajas', 
     'justificacion' => 'Justificación', 
     'digitar' => 'Digitar', 
-
+    'a_esta_asociacion_union' => 'a esta Asociación/Unión.', 
+    'texto_covid_certificado_delegado_1' => 'COVID-19',
+    'texto_covid_certificado_delegado_2' => 'Para ayudar a la Asociación General a estimar si tendremos mayoría total en presencia en la Asamblea Mundial, rogamos a todos los delegados que proporcionen la siguiente información.',
+    'texto_covid_certificado_delegado_3' => 'Presento voluntariamente mi decisión personal relacionada con el estado de vacunación obligatoria COVID-19:',
+    'texto_covid_certificado_delegado_4' => '[  ] Estoy o estaré completamente vacunado/a. Por lo tanto, podré viajar.',
+    'texto_covid_certificado_delegado_5' => '[  ] Estoy oficialmente exento/a de vacunación y las restricciones no se aplican a mi caso. Por lo tanto, podré viajar.',
+    'texto_covid_certificado_delegado_6' => '[  ] No estoy vacunado/a y si este es un requisito para asistir a la Asamblea Mundial, no podré asistir.',
+    
     
     // LABELS APP
     'votar' => 'Votar',

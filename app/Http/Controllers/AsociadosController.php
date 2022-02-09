@@ -572,7 +572,7 @@ class AsociadosController extends Controller
         WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$miembro[0]->idiglesia;
         $secretario = DB::select($sql_secretario);
 
-        $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
+        $datos["nombre_secretario"] = (isset($secretario[0]->nombres)) ? $secretario[0]->nombres : "";
        
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("asociados.ficha_bautizo", $datos);
@@ -1060,11 +1060,11 @@ class AsociadosController extends Controller
         $datos["educacion"] = $educacion;
         $datos["totales"] = $totales;
         $datos["laboral"] = $laboral;
-        $datos["nivel_organizativo"] = $nivel_organizativo
-        ;
+        $datos["nivel_organizativo"] = $nivel_organizativo;
     
         $datos["cargos"] = $cargos; 
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        
         $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);
 
         // return $pdf->save("ficha_asociado.pdf"); // guardar

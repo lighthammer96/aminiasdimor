@@ -108,7 +108,12 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
-                <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} {{ $miembro[0]->asamblea_fecha_inicio }} {{ traducir("asambleas.al") }} {{ $miembro[0]->asamblea_fecha_fin }}</label>
+                <?php 
+                    $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
+                    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                    $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
+                ?>
+                <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} <?php echo $date[0]; ?> {{ traducir("asambleas.al") }} <?php echo $date_fin[0]; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_esta_asociacion_union") }} </label>
             </div>
         
         </div>
@@ -126,7 +131,7 @@
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
-                <label> {{ traducir("asambleas.abajo_firmantes_asociacion_general") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} {{ $miembro[0]->asamblea_fecha_inicio }} {{ traducir("asambleas.al") }} {{ $miembro[0]->asamblea_fecha_fin }}</label>
+                <label> {{ traducir("asambleas.abajo_firmantes_asociacion_general") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }}  <?php echo $date[0]; ?> {{ traducir("asambleas.al") }} <?php echo $date_fin[0]; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }}</label>
             </div>
         
         </div>
@@ -403,13 +408,25 @@
                             <div class="col" style="width: 25%;"">
                                 <label for="">'.$vc->anios.'</label>
                             </div>
-                           
-                        
                         </div>';
             }
         
         ?>
 
+        <div class="clear"></div>
+        <br>
+        <div class="row" style="">
+           <div class="col" style="width: 100%; text-align: justify;">
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_1") }}</label><br>
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_2") }}</label><br>
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_3") }}</label><br>
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_4") }}</label><br>
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_5") }}</label><br>
+               <label>{{ traducir("asambleas.texto_covid_certificado_delegado_6") }}</label><br>
+           </div>
+           
+        </div>  
+        
         <div class="clear"></div>
         <br>
         <div class="row" style="">

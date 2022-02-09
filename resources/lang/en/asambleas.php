@@ -31,6 +31,7 @@ return [
     'correlativo' => 'Correlative',
     'convocatoria' => 'Announcement',
     'de' => 'From',
+    'de_' => 'from',
     'votos' => 'Votes',
    
     'titulo' => 'Qualification',
@@ -60,14 +61,13 @@ return [
 
 
     'no_presentaran_otros_documentos' => 'No other documents will be submitted with this Proposal.',
-    'si_enviar_documentos_adicionales' => 'Yes, we will email additional documents to ims@sda1844.org in response to confirmation message.',
+    'si_enviar_documentos_adicionales' => 'Yes, we will email additional documents along with the Proposal.',
     'descripcion_documentos_apoyo' => 'Description of the supporting documents to be presented',
     'listado_responsables' => 'List of Responsible Parties',
     'buscar_asociado' => 'Find Associate',
     'buscar_responsable' => 'Search Responsible',
     'correlativo' => 'Correlative',
-    'titulo' => 'Qualification',
-    'de' => 'From',
+    'titulo' => 'Qualification',   
     'propuesta' => 'Proposal',
     'estado_propuesta' => 'Proposal Status',
     'proceso_registro' => 'In registration process',
@@ -99,7 +99,7 @@ return [
     'estado_resolucion' => 'Status Resolution',
     'registro_traduccion_terminado' => 'It can no longer be modified, the translation has been completed.',
     'registro_enviado_traduccion' => 'It can no longer be modified, the record has been sent for translation.',
-    'delegados_conferencia_reunidos' => 'for the General Conference Delegates gathered from the',
+    'delegados_conferencia_reunidos' => 'for the General Conference Delegates gathered from in',
     'en' => 'in',
     'email_oficial_de_la' => 'Official email of the',
     'pais_sede' => 'Country where the headquarters is located',
@@ -201,7 +201,13 @@ return [
     'ventajas_desventajas' => 'Advantages and disadvantages', 
     'justificacion' => 'Justification', 
     'digitar' => 'Type', 
-
+    'a_esta_asociacion_union' => 'to this Association/Union.', 
+    'texto_covid_certificado_delegado_1' => 'COVID-19',
+    'texto_covid_certificado_delegado_2' => 'To help the General Conference estimate whether we will have an overall majority in attendance at World Assembly, we ask all delegates to provide the following information.',
+    'texto_covid_certificado_delegado_3' => 'I voluntarily submit my personal decision related to mandatory COVID-19 vaccination status:',
+    'texto_covid_certificado_delegado_4' => '[ ] I am or will be fully vaccinated. Therefore, I will be able to travel.',
+    'texto_covid_certificado_delegado_5' => '[ ] I am officially exempt from vaccination and the restrictions do not apply to me. Therefore, I will be able to travel.',
+    'texto_covid_certificado_delegado_6' => '[ ] I am not vaccinated and if this is a requirement to attend the World Assembly, I will not be able to attend.',
     
     // LABELS APP
     'votar' => 'Vote',
