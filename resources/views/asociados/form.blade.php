@@ -81,14 +81,14 @@
                                                 
                                                 <div class="col-md-2" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.celular") }}</label>
-                                                    <input type="text" class="form-control input-sm entrada" name="celular" placeholder=""  maxlength="11"/>
+                                                    <input type="text" class="form-control input-sm entrada" name="celular" placeholder=""   maxlength="20"/>
                                                 </div>
                                               
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.telefono") }}</label>
-                                                    <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" maxlength="11"/>
+                                                    <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" maxlength="20"/>
                                                 </div>
                                                 <div class="col-md-5" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.email") }}</label>
@@ -665,9 +665,10 @@
                                     <div class="col-md-2">
                         
                                         <label class="control-label">{{ traducir('traductor.anio') }}</label>
-                                        <select class="entrada selectizejs limpiar-capacitacion" name="anio" id="anio">
+                                        <!-- <select class="entrada selectizejs limpiar-capacitacion" name="anio" id="anio">
 
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control input-sm entrada limpiar-capacitacion" name="anio" id="anio" placeholder="" />
                                     
                                     </div>
                                     <div class="col-md-4" style="padding-right: 5px;">

@@ -58,10 +58,15 @@ class UsuariosController extends Controller
             $_POST["usuario_pass"] = Hash::make($request->input("pass1"));
         }
 
+        if (!empty($_POST["nueva_pass_1"])) {
+            
+            $_POST["usuario_pass"] = Hash::make($request->input("nueva_pass_1"));
+        }
+
         $_POST = $this->toUpper($_POST, ["usuario_user", "usuario_pass"]);
 
-        $_POST["usuario_user"] = strtolower($_POST["usuario_user"]);
         if ($request->input("usuario_id") == '') {
+            $_POST["usuario_user"] = strtolower($_POST["usuario_user"]);
             $result = $this->base_model->insertar($this->preparar_datos("seguridad.usuarios", $_POST));
         } else {
 
@@ -122,4 +127,17 @@ class UsuariosController extends Controller
         $data["scripts"] = $this->cargar_js(["usuario_perfil.js"]);
         parent::init($view, $data);
     }
+
+
+    public function cambiar_password($modulo_id = "") {
+
+        $view             = "usuarios.cambiar_password";
+        $data["title"]    = "Reestablecer Contraseña";
+        //$data["acciones"] = $this->getAcciones($modulo_id);
+         //echo $modulo_id; exit;
+        //$data["tabla"] = $this->usuarios_model->tabla()->HTML();
+        $data["scripts"] = $this->cargar_js(["cambiar_password.js"]);
+        return parent::init($view, $data);
+    }
+
 }

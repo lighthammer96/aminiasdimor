@@ -17,9 +17,10 @@ document.addEventListener("DOMContentLoaded", function() {
     asociados.buscarEnFormulario("nombres").solo_letras();
     asociados.buscarEnFormulario("apellidos").solo_letras();
     asociados.buscarEnFormulario("apellido_soltera").solo_letras();
-    asociados.buscarEnFormulario("nrodoc").solo_numeros();
-    asociados.buscarEnFormulario("celular").solo_numeros();
-    asociados.buscarEnFormulario("telefono").solo_numeros();
+    // asociados.buscarEnFormulario("nrodoc").solo_numeros();
+    // asociados.buscarEnFormulario("celular").solo_numeros();
+    // asociados.buscarEnFormulario("telefono").solo_numeros();
+    asociados.buscarEnFormulario("anio").solo_numeros();
     asociados.buscarEnFormulario("idiomas").solo_letras();
 
     document.getElementById("pais_id_change").value = session_pais_id;
@@ -99,11 +100,11 @@ document.addEventListener("DOMContentLoaded", function() {
         
     })
 
-    asociados.select({
-        name: 'anio',
-        url: '/obtener_anios',
-        placeholder: seleccione
-    })
+    // asociados.select({
+    //     name: 'anio',
+    //     url: '/obtener_anios',
+    //     placeholder: seleccione
+    // })
 
     paises.select({
         name: 'pais_id_nacimiento',
@@ -1385,6 +1386,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
+        var idcondicioneclesiastica = document.getElementsByName("idcondicioneclesiastica")[0].value;
         var array_pais = pais_id.split("|");
         // alert(array_pais[1]);
         var required = true;
@@ -1450,14 +1452,16 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".tab-pane").removeClass("active");
             $("#datos-generales").addClass("active");
         }
-        // if(idmiembro == "") {
-        //     condicion = condicion && asociados.required("idcondicioneclesiastica");
-        //     condicion = condicion && asociados.required("fechabautizo");
-        //     condicion = condicion && asociados.required("responsable_bautizo");
-        //     condicion = condicion && asociados.required("idreligion");
-        //     condicion = condicion && asociados.required("texto_bautismal");
-        //     // condicion = condicion && asociados.required("observaciones_bautizo");
-        // }
+
+        //solo si es bautizado
+        if(idcondicioneclesiastica == "1") {
+            condicion = condicion && asociados.required("idcondicioneclesiastica");
+            condicion = condicion && asociados.required("fechabautizo");
+            condicion = condicion && asociados.required("responsable_bautizo");
+            condicion = condicion && asociados.required("idreligion");
+            condicion = condicion && asociados.required("texto_bautismal");
+            // condicion = condicion && asociados.required("observaciones_bautizo");
+        }
        
 
         if(!condicion) {

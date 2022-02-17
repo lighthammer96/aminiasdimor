@@ -170,3 +170,4 @@ N -> NO';
 
 ALTER TABLE "iglesias"."miembro" 
   ADD COLUMN "fecha_emision_pasaporte" date;
+

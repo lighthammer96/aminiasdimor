@@ -58,6 +58,7 @@ Route::get('/', function () {
 Route::post('login/loguearse', [LoginController::class, "loguearse"]);
 Route::get('login/logout', [LoginController::class, "logout"]);
 
+
 //PRINCIPAL
 Route::get('principal/index', [PrincipalController::class, "index"]);
 Route::post('principal/obtener_departamentos', [PrincipalController::class, "obtener_departamentos"]);
@@ -113,7 +114,7 @@ Route::post('usuarios/buscar_datos', [UsuariosController::class, "buscar_datos"]
 Route::post('usuarios/guardar_usuarios', [UsuariosController::class, "guardar_usuarios"]);
 Route::post('usuarios/get_usuarios', [UsuariosController::class, "get_usuarios"]);
 Route::post('usuarios/eliminar_usuarios', [UsuariosController::class, "eliminar_usuarios"]);
-
+Route::get('usuarios/cambiar_password', [UsuariosController::class, "cambiar_password"]);
 
 // PERMISOS
 

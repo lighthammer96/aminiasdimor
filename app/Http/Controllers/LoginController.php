@@ -65,6 +65,15 @@ class LoginController extends Controller
             session(['pais_id' => $pais_id]);
            
             session(['idtipoacceso' => $idtipoacceso]);
+
+            if(empty($foto)) {
+                if($result[0]->sexo == "M") {
+                    $foto = "hombre.png";
+                } else {
+                    $foto = "mujer.png";
+                }
+            }
+
             session(['foto' => $foto]);
             session(['responsable' => $responsable]);
             session(['tipo_acceso' => $tipo_acceso]);

@@ -397,6 +397,8 @@ return [
     'descargar_formato' => 'Descargar Formato de Carga',
     'quitar' => 'Quitar',
     'imprimir_carta_iglesia' => '¿Desea imprimir Carta de Iglesia?',
+    'nueva_password' => 'Nueva Contraseña',
+    'repita_nueva_password' => 'Repita su Nueva Contraseña',
     
 
      // LABELS DATATABLES

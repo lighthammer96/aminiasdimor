@@ -397,7 +397,8 @@ return [
     'descargar_formato' => 'Download Upload Format',
     'quitar' => 'Remove',
     'imprimir_carta_iglesia' => 'Do you want to print a Church Letter?',
-   
+    'nueva_password' => 'New Password',
+    'repita_nueva_password' => 'Repeat your New Password',
 
      // LABELS DATATABLES
     'datatable_next' => 'Next',
