@@ -2387,6 +2387,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if(tipodoc == 1) {
             numdoc.setAttribute("maxlength", 8);
             numdoc.setAttribute("minlength", 8);
+        } else {
+            numdoc.setAttribute("maxlength", 20);
+            numdoc.removeAttr("maxlength");
         }
 
        
