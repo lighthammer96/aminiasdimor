@@ -1,3 +1,31 @@
+
+<?php
+    // echo "<pre>";
+    $data = session()->all();
+    // print_r($data);
+    // exit;
+    echo '<script>var session = [];</script>';
+    foreach ($data as $key => $value) {
+        // print_r($key);
+        // print_r($value);
+        
+        if($key != "parametros") {
+            if(!is_array($value)) {
+
+                echo '<script> session["'.$key.'"] = "'.$value.'"; </script>';
+            } else {
+                // echo '<script> var arr = [];';
+                // foreach ($value as $kv => $vv) {
+                //     echo '<script> arr["'.$kv.'"] = "'.$vv.'";  </script>';
+                // }
+
+                // echo '<script> session["'.$key.'"] = arr; </script>';
+            }
+        }
+
+    }
+    //echo '<script> console.log(session); </script>';
+?>
 <!DOCTYPE html>
 <html>
 

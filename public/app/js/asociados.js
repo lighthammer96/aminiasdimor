@@ -534,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];     
         d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
         var selected = (typeof pais_id != "undefined")  ? pais_id : "";
     
@@ -566,8 +566,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamentodomicilio, pais_id_domicilio) {
         // alert(typeof idunion);
-        var valor = "1|S"; 
-
+        // var valor = "1|S"; 
+        var valor = session['pais_id'] + "|" + session['posee_union']; 
+        // alert(valor);
         if($(this).val() != "" && $(this).val() != null) {
             valor = $(this).val();
         } 
@@ -587,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function() {
         d_id = (pais_id_domicilio != "") ? pais_id_domicilio : d_id;
         var pais_id_change = document.getElementById("pais_id_change").value;
         if(pais_id_change != d_id) {
-            jerarquia(d_id);
+            jerarquia(d_id, idunion, iddepartamentodomicilio, pais_id_domicilio);
         }
        
 
@@ -616,8 +617,8 @@ document.addEventListener("DOMContentLoaded", function() {
         
         })
         // alert(idunion);
-
-        if(typeof idunion == "undefined") {
+        // alert(typeof idunion +"||"+   idunion);
+        if(typeof idunion == "undefined" || idunion == "") {
             // alert("hola");
             if(posee_union == "N") {
                 $(".union").hide();
@@ -668,7 +669,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idunion', function(event, idunion, idmision) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
     
@@ -696,7 +697,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
         d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
         var selected = (typeof iddistritomisionero != "undefined")  ? iddistritomisionero : "";
     
@@ -724,7 +725,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddistritomisionero', function(event, iddistritomisionero, idiglesia) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];     
         d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
         var selected = (typeof idiglesia != "undefined")  ? idiglesia : "";
     
@@ -771,7 +772,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddivisioncargo', function(event, iddivisioncargo, pais_idcargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];     
         d_id = (typeof iddivisioncargo != "undefined" && iddivisioncargo != null) ? iddivisioncargo : d_id;
         var selected = (typeof pais_idcargo != "undefined")  ? pais_idcargo : "";
         
@@ -809,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_idcargo', function(event, pais_idcargo, idunioncargo) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1|N"; 
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union']; 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
     
@@ -878,7 +879,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idunioncargo', function(event, idunioncargo, idmisioncargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
         d_id = (typeof idunioncargo != "undefined" && idunioncargo != null) ? idunioncargo : d_id;
         var selected = (typeof idmisioncargo != "undefined")  ? idmisioncargo : "";
         if(this.options.length > 0) {
@@ -910,7 +911,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idmisioncargo', function(event, idmisioncargo, iddistritomisionerocargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
         d_id = (typeof idmisioncargo != "undefined" && idmisioncargo != null) ? idmisioncargo : d_id;
         var selected = (typeof iddistritomisionerocargo != "undefined")  ? iddistritomisionerocargo : "";
         
@@ -944,7 +945,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddistritomisionerocargo', function(event, iddistritomisionerocargo, idiglesiacargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];     
         d_id = (typeof iddistritomisionerocargo != "undefined" && iddistritomisionerocargo != null) ? iddistritomisionerocargo : d_id;
         var selected = (typeof idiglesiacargo != "undefined")  ? idiglesiacargo : "";
         
@@ -987,8 +988,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    function jerarquia(pais_id) {
-        
+    function jerarquia(pais_id, idunion, iddepartamentodomicilio, pais_id_domicilio) {
+      
         $(".jerarquia").hide();
         var jerarquia = document.getElementsByClassName("jerarquia");
         var promise = paises.ajax({
@@ -996,7 +997,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { pais_id: pais_id }
         }).then(function(response) {
             if(response.length > 0) {
-                $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union, ""]);
+                $("#pais_id").trigger("change", [response[0].pais_id+"|"+response[0].posee_union, idunion, iddepartamentodomicilio, pais_id_domicilio]);
                 for (let index = 0; index < jerarquia.length; index++) {
                     if(typeof response[index] != "undefined") {
                         // console.log($(jerarquia[index]).find("label")[0]);
@@ -1029,7 +1030,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#bajas_altas").hide();
         $("#estado_asociado").hide();
        
-        jerarquia("");
+        jerarquia("", "", "", "");
 
         $(".nav-tabs").find("li").removeClass("active");
         $("a[href='#datos-generales']").parent("li").addClass("active");
@@ -1079,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             // var array_pais = response.pais_id.split("|");
-            jerarquia(response.pais_id_domicilio);
+            jerarquia(response.pais_id_domicilio, response.idunion, response.iddepartamentodomicilio, response.pais_id_domicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -1243,7 +1244,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             // var array_pais = response.pais_id.split("|");
-            jerarquia(response.pais_id_domicilio);
+            jerarquia(response.pais_id_domicilio, response.idunion, response.iddepartamentodomicilio, response.pais_id_domicilio);
             crear_botones_altas_bajas(response.estado);
             if(response.foto != null) {
                 document.getElementById("cargar_foto").setAttribute("src", BaseUrl+"/fotos_asociados/"+response.foto);
@@ -2379,21 +2380,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    $(document).on("change", "#idtipodoc", function(e) {
-        var tipodoc = $(this).val();
+    // $(document).on("change", "#idtipodoc", function(e) {
+    //     var tipodoc = $(this).val();
 
-        var numdoc = document.getElementsByName("nrodoc")[0];
+    //     var numdoc = document.getElementsByName("nrodoc")[0];
        
-        if(tipodoc == 1) {
-            numdoc.setAttribute("maxlength", 8);
-            numdoc.setAttribute("minlength", 8);
-        } else {
-            numdoc.setAttribute("maxlength", 20);
-            numdoc.removeAttr("maxlength");
-        }
+    //     if(tipodoc == 1) {
+    //         numdoc.setAttribute("maxlength", 8);
+    //         numdoc.setAttribute("minlength", 8);
+    //     } else {
+    //         numdoc.setAttribute("maxlength", 20);
+    //         numdoc.removeAttr("maxlength");
+    //     }
 
        
-    })
+    // })
     
     
 

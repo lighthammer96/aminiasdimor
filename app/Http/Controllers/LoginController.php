@@ -27,17 +27,18 @@ class LoginController extends Controller
         WHERE lower(u.usuario_user)='{$user}'";
         // die($sql_login);
         $result = DB::select($sql_login);
-       
+
+     
         if(!isset($result[0]->usuario_user) || !isset($result[0]->idmiembro) || !isset($result[0]->perfil_id)) {
             $data["response"] = "nouser";
         }
 
-        if($result[0]->idmiembro == NULL && $result[0]->perfil_id != 1 && $result[0]->perfil_id != 2) {
+        if(count($result) > 0 && $result[0]->idmiembro == NULL && $result[0]->perfil_id != 1 && $result[0]->perfil_id != 2) {
             $data["response"] = "nouser";
         }
         
         // print_r($result); exit;
-        if(isset($result[0]->usuario_pass) && Hash::check($pass, $result[0]->usuario_pass)) {
+        if(count($result) > 0 && isset($result[0]->usuario_pass) && Hash::check($pass, $result[0]->usuario_pass)) {
             $data["response"] = "ok";
             //$request->session()->put('usuario_id', $result[0]->usuario_id);
             $usuario_id = (isset($result[0]->usuario_id)) ? $result[0]->usuario_id : '';
@@ -229,6 +230,7 @@ class LoginController extends Controller
             // print_r($idioma); exit;
             session(['idioma_id' => $idioma[0]->idioma_id]);
             session(['idioma_codigo' => $idioma[0]->idioma_codigo]);
+            session(['posee_union' => $idioma[0]->posee_union]);
 
             $sql_idioma = "SELECT * FROM public.idiomas WHERE por_defecto='S'";
             $idioma_defecto = DB::select($sql_idioma);

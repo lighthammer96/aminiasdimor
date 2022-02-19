@@ -5,7 +5,7 @@ var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
-
+// console.log(session['iddivision']);
 document.addEventListener("DOMContentLoaded", function() {
     iglesias.buscarEnFormulario("descripcion").solo_letras();
     iglesias.buscarEnFormulario("tipoestructura").solo_letras();
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['iddivision'];     
         d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
         var selected = (typeof pais_id != "undefined")  ? pais_id : "";
     
@@ -224,7 +224,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, iddepartamento) {
         
-        var valor = "1|S"; 
+        // var valor = "1|S"; 
+        var valor = session['pais_id'] + "|" + session['posee_union']; 
 
         if($(this).val() != "" && $(this).val() != null) {
             valor = $(this).val();
@@ -306,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idunion', function(event, idunion, idmision) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
     
@@ -334,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
         d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
         var selected = (typeof iddistritomisionero != "undefined")  ? iddistritomisionero : "";
     

@@ -69,13 +69,13 @@
                                                 <?php if(trim(session("idioma_codigo")) == "es") { ?>
                                                     <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                                                         <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
-                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
+                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" maxlength="20" />
                                                     </div>
                                                 <?php } ?>
                                                 <?php if(trim(session("idioma_codigo")) == "en") { ?>
                                                     <div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
                                                         <label class="control-label">{{ traducir("traductor.nrodoc") }}</label>
-                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" />
+                                                        <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" maxlength="20"/>
                                                     </div>
                                                 <?php } ?>
                                                 
