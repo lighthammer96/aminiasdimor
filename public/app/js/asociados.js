@@ -1385,6 +1385,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-asociado").addEventListener("click", function(event) {
         event.preventDefault();
         var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
+        var email = document.getElementsByName("email")[0].value;
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var idcondicioneclesiastica = document.getElementsByName("idcondicioneclesiastica")[0].value;
@@ -1405,7 +1406,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // required = required && asociados.required("celular");
         // required = required && asociados.required("telefono");
         // required = required && asociados.required("email");
-        required = required && asociados.validar_email("email");
+        if(email != "") {
+            required = required && asociados.validar_email("email");
+            // console.log(required);
+        }
+       
         // console.log(required);
         if(emailalternativo != "") {
             required = required && asociados.validar_email("emailalternativo");

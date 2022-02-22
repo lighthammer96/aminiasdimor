@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     $(document).on('change', '#pais_id', function(event, pais_id, idunion, idmision) {
         // alert(pais_id);
-        var valor = "1|S"; 
+        var valor = session['pais_id'] + "|" + session['posee_union'];
 
         if($(this).val() != "" && $(this).val() != null) {
             valor = $(this).val();
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idunion', function(event, idunion, idmision) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
          

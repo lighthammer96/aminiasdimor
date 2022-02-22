@@ -67,12 +67,18 @@ class Controller extends BaseController
     public function listar_campos($tabla) {
 
         $campos = array();
+        $primary_key = array();
+        $foreign_key = array();
         $tabla = explode(".", $tabla);
         
         $schema = $tabla[0];
         $table = $tabla[1];
 
-        $sql = "SELECT cols.column_name, cols.data_type
+        $sql = "SELECT cols.column_name, cols.data_type, CASE WHEN EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.constraint_column_usage k WHERE cols.table_name = k.table_name and k.column_name = cols.column_name)
+        THEN 1 ELSE 0 END as is_primary_key,
+        CASE WHEN EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.key_column_usage k WHERE cols.table_name = k.table_name and k.column_name = cols.column_name) AND
+        EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.referential_constraints f INNER JOIN INFORMATION_SCHEMA.key_column_usage k ON k.constraint_name = f.constraint_name WHERE k.column_name = cols.column_name)
+        THEN 1 ELSE 0 END as is_foreign_key
         FROM information_schema.columns cols
         WHERE cols.table_schema='{$schema}' AND cols.table_name= '{$table}'";
 
@@ -80,9 +86,24 @@ class Controller extends BaseController
 
         foreach ($result as $key => $value) {
             array_push($campos, $value->column_name);
+            if($value->is_primary_key == 1) {
+
+                array_push($primary_key, $value->column_name);
+            }
+
+            if($value->is_foreign_key == 1) {
+
+                array_push($foreign_key, $value->column_name);
+            }
+           
         }
 
-        return $campos;
+        $data = array();
+        $data["campos"] = $campos;
+        $data["primary_key"] = $primary_key;
+        $data["foreign_key"] = $foreign_key;
+
+        return $data;
     }
 
     public function toUpper($fields, $excluidos = array()) {
@@ -114,12 +135,17 @@ class Controller extends BaseController
         $fields = $this->listar_campos($table);
         // print_r($fields); exit;
         $datos = array();
+
         //ordenamos los campos de acuerdo a la tabla que corresponde
-        for ($i = 0; $i < count($fields); $i++) {
-            if (isset($data[$fields[$i]])) {
-                $datos[$fields[$i]] = $data[$fields[$i]];
+        for ($i = 0; $i < count($fields["campos"]); $i++) {
+            if (isset($data[$fields["campos"][$i]])) {
+                $datos[$fields["campos"][$i]] = $data[$fields["campos"][$i]];
             }
         }
+
+        $primer_key    = array_keys($datos)[0]; // borrar, es momentaneo
+       
+        
         // echo $table."\n";
         // echo gettype(array_values($datos)[1])."\n";
         //PONEMOS EN EL PRIMER ELEMENTO A LA CLAVE SE REPITE EN RESTO DE REGISTRO EN EL CASO DE SER UN DETALLE
@@ -141,7 +167,7 @@ class Controller extends BaseController
                 foreach ($datos as $key => $value) {
                     if ($primer_key != $key) {
                         // para que inserte solo los campos que tiene dicha tabla
-                        if (in_array($key, $fields)) {
+                        if (in_array($key, $fields["campos"])) {
                             // echo $primer_key." ".$key."\n";
                             if(isset($value[$i]) && $value[$i] != "" && $value[$i] != "null") {
                                 //@$parametros["datos"][$i][$key] = NULL;
@@ -158,13 +184,16 @@ class Controller extends BaseController
         } elseif ($tipoTabla == "N") {
            
             foreach ($datos as $key => $value) {
-                if (in_array($key, $fields)) {
+                if (in_array($key, $fields["campos"])) {
                     // var_dump(!empty($value));
                     if ($value != "" && $value != "null") {
                        
                         $parametros["datos"][0][$key] = $value; 
                         // $parametros["datos"][0][$key] = NULL; 
-                    } else {
+                    // } elseif (!in_array($key, $fields["primary_key"])) {
+                    } elseif ($key != $primer_key) { // borrar, es momentaneo
+                       
+                        $parametros["datos"][0][$key] = NULL; 
                         //$parametros["datos"][0][$key] = $value; 
                     }
                 }

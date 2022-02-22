@@ -90,7 +90,7 @@
 
                     <div class="row">
                     
-                        <div class="col-md-4" style="margin-top: 20px; padding-right: 5px;">
+                        <div class="col-md-6" style="margin-top: 20px; padding-right: 5px;">
                             <label class="control-label">
                                 <!-- <input type="hidden" name="posee_seguro" id="posee_seguro" class="input-sm entrada"> -->
                                 <input class="minimal entrada" type="checkbox" name="posee_seguro" id="posee_seguro">
@@ -112,7 +112,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
+                        <div class="col-md-3" style="padding-left: 5px;">
                             <label class="control-label">{{ traducir('asambleas.termina')}}</label>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha_termina_seguro" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />

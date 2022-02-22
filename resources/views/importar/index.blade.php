@@ -26,7 +26,7 @@
             <label for="" class="control-label">{{ traducir("traductor.excel") }}</label>
             <input type="file" name="excel" id="excel" class="form-control">
         </div>
-        <div class="col-md-3" style="margin-top: 27px;">
+        <div class="col-md-3" style="margin-top: 2px;">
             <button type="button" class="btn btn-default"><a id="formato" style="color: #444 !important;" href="{{ URL::asset('formatos_carga/iglesias.xlsx') }}"><img style="width: 25px; height: 25px;" src="{{ URL::asset('images/iconos/archivo.png') }}" ><br>{{ traducir("traductor.descargar_formato") }}</a></button>
         </div>
 
