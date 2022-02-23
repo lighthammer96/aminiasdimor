@@ -39,6 +39,23 @@ class UsuariosModel extends Model
         // $tabla->setupdate("updateusuario");
         // $tabla->setdelete("eliminarusuario");
 
+        $array_where = array();
+        $where = "";
+        // var_dump(session("array_tipos_acceso")); exit;
+        if(session("array_tipos_acceso") != NULL && count(session("array_tipos_acceso")) > 0) {
+            foreach (session("array_tipos_acceso") as $value) {
+                foreach ($value as $k => $v) {
+                    array_push($array_where, " m.".$k." = ".$v);
+                }
+            }
+            $where = implode(' AND ', $array_where);
+        }
+
+        
+
+        $tabla->setWhere($where);
+
+
         return $tabla;
     }
 }
