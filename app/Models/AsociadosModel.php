@@ -23,7 +23,7 @@ class AsociadosModel extends Model
     }
 
     public function tabla($curriculum = "", $delegados = "") {
-        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || (CASE WHEN m.idiglesia IS NULL THEN '0' ELSE m.idiglesia END), ".session("idioma_id").", ".session("idioma_id_defecto").")";
         $tabla = new Tabla();
         $tabla->asignarID("tabla-asociados");
         $tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");

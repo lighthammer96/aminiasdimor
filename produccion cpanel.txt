@@ -51,3 +51,21 @@ RewriteRule ^(.*)$ /imssystem/public/$1
 # followed by / then the main file for your site, index.php, index.html, etc.
 RewriteCond %{HTTP_HOST} ^(www.)?iglesia.solucionesahora.com$
 RewriteRule ^(/)?$ imssystem/public/index.php [L]
+
+
+
+probar si esta activado el mod_rewrite en cpanel
+
+url: https://www.hostinet.com/formacion/hosting-alojamiento/como-saber-si-el-mod_rewrite-esta-activado-en-nuestro-alojamiento-web/
+
+el .htaccess tiene que estar en la raiz de public_html
+
+RewriteEngine On
+RewriteRule phpinfo.php http://www.google.es [R]
+
+# mejorado para el caso del cpanel de produccion de smisystem:
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^smisystem\.org$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.smisystem\.org$
+RewriteRule ^/?$ "https\:\/\/smisystem\.org\/imssystem\/public\/index\.php" [R=301,L]
+
