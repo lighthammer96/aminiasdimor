@@ -31,3 +31,8 @@ clave: tarapoto888
 
 | UserName: smi
 | PassWord: tarapoto888
+
+PRODUCCION
+https://smisystem.org/cpanel/
+user: smisystem
+pass: SVM(@XhvNS6G

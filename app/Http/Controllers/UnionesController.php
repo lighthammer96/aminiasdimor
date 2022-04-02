@@ -75,7 +75,7 @@ class UnionesController extends Controller
             if(count($misiones) > 0) {
                 throw new Exception(traducir("traductor.eliminar_union_mision"));
             }
-
+            $this->base_model->eliminar(["iglesias.union_paises","idunion"]);
             $result = $this->base_model->eliminar(["iglesias.union","idunion"]);
             echo json_encode($result);
         } catch (Exception $e) {

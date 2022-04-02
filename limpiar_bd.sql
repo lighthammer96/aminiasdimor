@@ -24,27 +24,27 @@ TRUNCATE seguridad.log_sistema RESTART IDENTITY;
 
 --- gestion de asambleas
 
-delete from asambleas.agenda;
-delete from asambleas.delegados;
+TRUNCATE asambleas.agenda RESTART IDENTITY;
+TRUNCATE asambleas.delegados RESTART IDENTITY;
 
-delete from asambleas.detalle_asistencia;
-delete from asambleas.asistencia;
-delete from asambleas.comentarios;
-delete from asambleas.detalle_propuestas;
+TRUNCATE asambleas.detalle_asistencia RESTART IDENTITY;
+TRUNCATE asambleas.asistencia RESTART IDENTITY;
+TRUNCATE asambleas.comentarios RESTART IDENTITY;
+TRUNCATE asambleas.detalle_propuestas RESTART IDENTITY;
 
-delete from asambleas.foros;
-delete from asambleas.traduccion_propuestas_elecciones;
-delete from asambleas.traduccion_propuestas_temas;
+TRUNCATE asambleas.foros RESTART IDENTITY;
+TRUNCATE asambleas.traduccion_propuestas_elecciones RESTART IDENTITY;
+TRUNCATE asambleas.traduccion_propuestas_temas RESTART IDENTITY;
 
-delete from asambleas.propuestas_elecciones;
-delete from asambleas.propuestas_origen;
-delete from asambleas.propuestas_temas;
-delete from asambleas.traduccion_resoluciones;
-delete from asambleas.resoluciones;
-delete from asambleas.resultados;
-delete from asambleas.votos;
-delete from asambleas.votaciones;
+TRUNCATE asambleas.propuestas_elecciones RESTART IDENTITY;
+TRUNCATE asambleas.propuestas_origen RESTART IDENTITY;
+TRUNCATE asambleas.propuestas_temas RESTART IDENTITY;
+TRUNCATE asambleas.traduccion_resoluciones RESTART IDENTITY;
+TRUNCATE asambleas.resoluciones RESTART IDENTITY;
+TRUNCATE asambleas.resultados RESTART IDENTITY;
+TRUNCATE asambleas.votos RESTART IDENTITY;
+TRUNCATE asambleas.votaciones RESTART IDENTITY;
 
-delete from asambleas.asambleas;
+TRUNCATE asambleas.asambleas RESTART IDENTITY;
 
 

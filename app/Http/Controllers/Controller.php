@@ -186,6 +186,9 @@ class Controller extends BaseController
             foreach ($datos as $key => $value) {
                 if (in_array($key, $fields["campos"])) {
                     // var_dump(!empty($value));
+                    if($value === 0) {
+                        $value = "0";
+                    }
                     if ($value != "" && $value != "null") {
                        
                         $parametros["datos"][0][$key] = $value; 

@@ -19,18 +19,18 @@ class ImportarController extends Controller
         $this->base_model = new BaseModel();
     }
 
-    public function importar_() {
+    public function importar() {
         ini_set('max_execution_time', 600);
         // $r = $this->SubirArchivo($_FILES["excel"], "./assets/excels/", "");
         $campos =  array();
         $celdas =  array();
 
         $inputFileType = 'Xlsx';
-        $inputFileName = base_path("public/excel/Ubigeos de Paises.xlsx");
+        $inputFileName = base_path("public/excel/Division Politica Venezuela - Adicional.xlsx");
         
 
         $reader = IOFactory::createReader($inputFileType);
-        $reader->setLoadSheetsOnly("Brasil");
+        $reader->setLoadSheetsOnly("Hoja1");
         $spreadsheet = $reader->load($inputFileName);
 
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
@@ -61,7 +61,7 @@ class ImportarController extends Controller
 
                 $data_division1 = array(
                     "descripcion" => $sheetData[$i]["A"],
-                    "pais_id" => 23
+                    "pais_id" => 6
                 );
 
 
@@ -86,20 +86,20 @@ class ImportarController extends Controller
             }
 
 
-            // if(!in_array($sheetData[$i]["C"] , $division3)) {
-            //     array_push($division3, $sheetData[$i]["C"]);
+            if(!in_array($sheetData[$i]["C"] , $division3)) {
+                array_push($division3, $sheetData[$i]["C"]);
 
 
-            //     $data_division3 = array(
-            //         "descripcion" => $sheetData[$i]["C"],
-            //         "idprovincia" => $id2
-            //     );
+                $data_division3 = array(
+                    "descripcion" => $sheetData[$i]["C"],
+                    "idprovincia" => $id2
+                );
 
 
-            //     DB::table('public.distrito')->insert($data_division3);
-            //     $id3 = DB::getPdo()->lastInsertId();
-            //     echo "DIVISION 3: ".$sheetData[$i]["C"]. " INSERTADO ...<br>";
-            // }
+                DB::table('public.distrito')->insert($data_division3);
+                $id3 = DB::getPdo()->lastInsertId();
+                echo "DIVISION 3: ".$sheetData[$i]["C"]. " INSERTADO ...<br>";
+            }
         }
 
 
@@ -108,7 +108,7 @@ class ImportarController extends Controller
     }
 
 
-    public function importar() {
+    public function importar_() {
         ini_set('max_execution_time', 600);
         // $r = $this->SubirArchivo($_FILES["excel"], "./assets/excels/", "");
         $campos =  array();

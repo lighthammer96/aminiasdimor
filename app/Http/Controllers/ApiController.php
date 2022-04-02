@@ -24,9 +24,10 @@ class ApiController extends Controller
         $pais = explode("|", $_REQUEST["pais_id"]);
         $tipodoc = explode("|", $_REQUEST["idtipodoc"]);
 
-        $sql = "SELECT m.*, i.idioma_codigo FROM iglesias.miembro AS m 
+        $sql = "SELECT m.*, i.idioma_codigo, CASE WHEN d.delegado_id IS NULL THEN 0 ELSE d.delegado_id END AS delegado_id, CASE WHEN d.asamblea_id IS NULL THEN 0 ELSE d.asamblea_id END AS asamblea_id FROM iglesias.miembro AS m 
         INNER JOIN iglesias.paises AS p ON(m.pais_id=p.pais_id)
         INNER JOIN public.idiomas AS i ON(i.idioma_id=p.idioma_id)
+        LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
         WHERE m.nrodoc='{$request->input("user")}' AND m.nrodoc='{$request->input("pass")}' AND m.pais_id={$pais[0]} AND m.idtipodoc={$tipodoc[0]}";
         // die($sql);
         $response = DB::select($sql);
