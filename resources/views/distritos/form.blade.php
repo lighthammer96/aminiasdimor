@@ -12,13 +12,19 @@
                     <div class="row">
                         <input type="hidden" name="iddistrito" class="input-sm entrada">
                         <div class="col-md-12">
-                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
+                            <label class="control-label">{{ traducir('traductor.pais')}}</label>
+                            <select name="pais_id" id="pais_id" class="selectizejs entrada"></select>
 
-                            <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
 
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">{{ traducir('traductor.provincia')}}</label>
+                            <label class="control-label">{{ traducir('traductor.division_1')}}</label>
+                            <select name="iddepartamento" id="iddepartamento" class="selectizejs entrada"></select>
+    
+
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.division_2')}}</label>
                             <select name="idprovincia" id="idprovincia" class="selectizejs entrada"></select>
 
                             <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
@@ -31,6 +37,13 @@
                             </div> -->
 
                         </div>   
+                        <div class="col-md-12">
+                            <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
+
+                            <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>
+
+                        </div>
+                        
                     </div>
                     
                 </div>

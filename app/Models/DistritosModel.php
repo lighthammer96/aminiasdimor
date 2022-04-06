@@ -28,9 +28,13 @@ class DistritosModel extends Model
         $tabla->agregarColumna("d.iddistrito", "iddistrito", "iddistrito");
         $tabla->agregarColumna("d.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("p.descripcion", "provincia", traducir("traductor.division_2"));
-        $tabla->setSelect("d.iddistrito, d.descripcion, p.descripcion AS provincia");
+        $tabla->agregarColumna("dd.descripcion", "departamento", traducir("traductor.division_1"));
+        $tabla->agregarColumna("pp.pais_descripcion", "pais", traducir("traductor.pais"));
+        $tabla->setSelect("d.iddistrito, d.descripcion, p.descripcion AS provincia, dd.descripcion AS departamento, pp.pais_descripcion AS pais");
         $tabla->setFrom("public.distrito AS d
-        \nLEFT JOIN public.provincia AS p ON(d.idprovincia=p.idprovincia)");
+        \nLEFT JOIN public.provincia AS p ON(d.idprovincia=p.idprovincia)
+        \nLEFT JOIN public.departamento AS dd ON(dd.iddepartamento=p.iddepartamento)
+        \nLEFT JOIN iglesias.paises AS pp ON(pp.pais_id=dd.pais_id)");
         return $tabla;
     }
 

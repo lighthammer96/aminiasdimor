@@ -437,7 +437,7 @@ return [
     'titulo_reporte_actividad_misionera' => 'Reporte de actividades misioneras',
     'titulo_curriculum' => 'Curriculum',
     'titulo_reporte_general_asociados' => 'Reporte general de asociados',
-    'titulo_cabecera_1' => 'Sociedad misionera internacional',
+    'titulo_cabecera_1' => 'Sociedad Misionera Internacional',
     'titulo_cabecera_2' => 'Iglesia Adventista del Séptimo Día Movimiento de Reforma',
     'titulo_grafico_feligresia' => 'Reporte gráfico de feligresía',
     'titulo_miembros_iglesia' => 'Reporte de miembros de iglesia',

@@ -32,7 +32,7 @@ class ProvinciasController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-provincia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-provincia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "departamentos.js", "provincias.js"]);
+        $data["scripts"] = $this->cargar_js(["provincias.js"]);
         return parent::init($view, $data);
 
       
@@ -95,7 +95,10 @@ class ProvinciasController extends Controller
 
     public function get_provincias(Request $request) {
 
-        $sql = "SELECT * FROM public.provincia WHERE idprovincia=".$request->input("id");
+        $sql = "SELECT p.*, d.pais_id
+        FROM public.provincia AS p 
+        LEFT JOIN public.departamento AS d ON(p.iddepartamento=d.iddepartamento)
+        WHERE p.idprovincia=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }

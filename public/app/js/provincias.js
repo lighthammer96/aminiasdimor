@@ -1,7 +1,37 @@
+var principal = new BASE_JS('principal', 'principal');
+var paises = new BASE_JS('paises', 'paises');
 var provincias = new BASE_JS('provincias', 'provincias');
 
 document.addEventListener("DOMContentLoaded", function() {
     provincias.buscarEnFormulario("descripcion").solo_letras();
+
+    paises.select({
+        name: 'pais_id',
+        url: '/obtener_paises',
+        placeholder: 'Seleccione ...',
+    }).then(function() {
+        $("#pais_id").trigger("change", ["", ""]);
+        $("#iddepartamento").trigger("change", ["", ""]);
+       
+    })
+
+
+    $(document).on('change', '#pais_id', function(event, pais_id, iddepartamento) {
+        var valor = $(this).val();
+     
+        if(pais_id != "" && pais_id != null) {
+            valor = pais_id;
+        } 
+      
+        principal.select({
+            name: 'iddepartamento',
+            url: '/obtener_departamentos',
+            placeholder: 'Seleccione ...',
+            selected: iddepartamento,
+            datos: { pais_id: valor }
+        })
+        // alert(valor);
+    })
 
     provincias.TablaListado({
         tablaID: '#tabla-provincias',
@@ -66,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = provincias.get(datos.idprovincia);
 
         promise.then(function(response) {
-        
+            $("#pais_id").trigger("change", [response.pais_id, response.iddepartamento]);
         })
     }
 

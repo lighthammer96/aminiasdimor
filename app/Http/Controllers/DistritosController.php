@@ -32,7 +32,7 @@ class DistritosController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-distrito"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-distrito"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "departamentos.js", "provincias.js", "distritos.js"]);
+        $data["scripts"] = $this->cargar_js(["distritos.js"]);
         return parent::init($view, $data);
 
       
@@ -89,7 +89,11 @@ class DistritosController extends Controller
 
     public function get_distritos(Request $request) {
 
-        $sql = "SELECT * FROM public.distrito WHERE iddistrito=".$request->input("id");
+        $sql = "SELECT d.*, dd.iddepartamento, dd.pais_id
+        FROM public.distrito AS d
+        LEFT JOIN public.provincia AS p ON(p.idprovincia=d.idprovincia)
+        LEFT JOIN public.departamento AS dd ON(p.iddepartamento=dd.iddepartamento)
+        WHERE d.iddistrito=".$request->input("id");
         $one = DB::select($sql);
         echo json_encode($one);
     }

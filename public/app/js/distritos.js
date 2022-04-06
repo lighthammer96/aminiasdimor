@@ -1,8 +1,56 @@
+var principal = new BASE_JS('principal', 'principal');
+var paises = new BASE_JS('paises', 'paises');
 var distritos = new BASE_JS('distritos', 'distritos');
 
 document.addEventListener("DOMContentLoaded", function() {
-            
+    
     distritos.buscarEnFormulario("descripcion").solo_letras();
+
+    paises.select({
+        name: 'pais_id',
+        url: '/obtener_paises',
+        placeholder: 'Seleccione ...',
+    }).then(function() {
+        $("#pais_id").trigger("change", ["", ""]);
+        $("#iddepartamento").trigger("change", ["", ""]);
+        $("#idprovincia").trigger("change", ["", ""]);
+       
+    })
+
+    $(document).on('change', '#pais_id', function(event, pais_id, iddepartamento) {
+        var valor = $(this).val();
+     
+        if(pais_id != "" && pais_id != null) {
+            valor = pais_id;
+        } 
+      
+        principal.select({
+            name: 'iddepartamento',
+            url: '/obtener_departamentos',
+            placeholder: 'Seleccione ...',
+            selected: iddepartamento,
+            datos: { pais_id: valor }
+        })
+        // alert(valor);
+    })
+
+    $(document).on('change', '#iddepartamento', function(event, iddepartamento, idprovincia) {
+        var valor = $(this).val();
+     
+        if(iddepartamento != "" && iddepartamento != null) {
+            valor = iddepartamento;
+        } 
+      
+        principal.select({
+            name: 'idprovincia',
+            url: '/obtener_provincias',
+            placeholder: 'Seleccione ...',
+            selected: idprovincia,
+            datos: { iddepartamento: valor }
+        })
+        // alert(valor);
+    })
+
 
     distritos.TablaListado({
         tablaID: '#tabla-distritos',
@@ -68,7 +116,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = distritos.get(datos.iddistrito);
 
         promise.then(function(response) {
-        
+            $("#pais_id").trigger("change", [response.pais_id, response.iddepartamento]);
+            $("#iddepartamento").trigger("change", [response.iddepartamento, response.idprovincia]);
         })
     }
 

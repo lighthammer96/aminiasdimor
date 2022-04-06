@@ -1465,7 +1465,7 @@ document.addEventListener("DOMContentLoaded", function() {
             condicion = condicion && asociados.required("fechabautizo");
             condicion = condicion && asociados.required("responsable_bautizo");
             condicion = condicion && asociados.required("idreligion");
-            condicion = condicion && asociados.required("texto_bautismal");
+            // condicion = condicion && asociados.required("texto_bautismal");
             // condicion = condicion && asociados.required("observaciones_bautizo");
         }
        

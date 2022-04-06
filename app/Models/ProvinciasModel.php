@@ -28,9 +28,11 @@ class ProvinciasModel extends Model
         $tabla->agregarColumna("p.idprovincia", "idprovincia", "idprovincia");
         $tabla->agregarColumna("p.descripcion", "descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("d.descripcion", "departamento", traducir("traductor.division_1"));
-        $tabla->setSelect("p.idprovincia, p.descripcion, d.descripcion AS departamento");
+        $tabla->agregarColumna("pp.pais_descripcion", "pais", traducir("traductor.pais"));
+        $tabla->setSelect("p.idprovincia, p.descripcion, d.descripcion AS departamento, pp.pais_descripcion AS pais");
         $tabla->setFrom("public.provincia AS p
-        \nLEFT JOIN public.departamento AS d ON(d.iddepartamento=p.iddepartamento)");
+        \nLEFT JOIN public.departamento AS d ON(d.iddepartamento=p.iddepartamento)
+        \nLEFT JOIN iglesias.paises AS pp ON(pp.pais_id=d.pais_id)");
         return $tabla;
     }
 
