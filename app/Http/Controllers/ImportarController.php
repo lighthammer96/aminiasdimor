@@ -53,53 +53,75 @@ class ImportarController extends Controller
         $id1 = "";
         $id2 = "";
         $id3 = "";
-        for ($i=2; $i < $count ; $i++) { 
+        for ($i=2; $i <= $count ; $i++) { 
            // echo $sheetData[$i]["A"]. " ".$sheetData[$i]["B"]."<br>";
-
-            if(!in_array($sheetData[$i]["A"] , $division1)) {
-                array_push($division1, $sheetData[$i]["A"]);
-
-                $data_division1 = array(
-                    "descripcion" => $sheetData[$i]["A"],
-                    "pais_id" => 6
-                );
-
-
-                DB::table('public.departamento')->insert($data_division1);
-                $id1 = DB::getPdo()->lastInsertId();
-                echo "DIVISION 1: ".$sheetData[$i]["A"]. " INSERTADO ...<br>";
+            $sql_d = "SELECT * FROM public.departamento WHERE descripcion='{$sheetData[$i]["A"]}' AND pais_id=6";
+            $rd = DB::select($sql_d);
+            if(count($rd) <= 0) {
+                if(!in_array($sheetData[$i]["A"] , $division1)) {
+                    array_push($division1, $sheetData[$i]["A"]);
+    
+                    $data_division1 = array(
+                        "descripcion" => $sheetData[$i]["A"],
+                        "pais_id" => 6
+                    );
+    
+    
+                    DB::table('public.departamento')->insert($data_division1);
+                    $id1 = DB::getPdo()->lastInsertId();
+                    echo "DIVISION 1: ".$sheetData[$i]["A"]. " INSERTADO ...<br>";
+                }
+            } else {
+                $id1 = $rd[0]->iddepartamento;
+                echo "DIVISION 1: ".$sheetData[$i]["A"]. " YA EXISTE ...<br>";
+            }
+            
+            $sql_p = "SELECT * FROM public.provincia WHERE descripcion='{$sheetData[$i]["B"]}' AND iddepartamento={$id1}";
+            $rp = DB::select($sql_p);
+            if(count($rp) <= 0) {
+                if(!in_array($sheetData[$i]["B"] , $division2)) {
+                    array_push($division2, $sheetData[$i]["B"]);
+    
+    
+                    $data_division2 = array(
+                        "descripcion" => $sheetData[$i]["B"],
+                        "iddepartamento" => $id1
+                    );
+    
+    
+                    DB::table('public.provincia')->insert($data_division2);
+                    $id2 = DB::getPdo()->lastInsertId();
+                    echo "DIVISION 2: ".$sheetData[$i]["B"]. " INSERTADO ...<br>";
+                }
+            } else {
+                $id2 = $rp[0]->idprovincia;
+                echo "DIVISION 2: ".$sheetData[$i]["A"]. " YA EXISTE ...<br>";
             }
 
-            if(!in_array($sheetData[$i]["B"] , $division2)) {
-                array_push($division2, $sheetData[$i]["B"]);
+            
+            $sql_dd = "SELECT * FROM public.distrito WHERE descripcion='{$sheetData[$i]["C"]}' and idprovincia={$id2}";
+            $rdd = DB::select($sql_dd);
 
-
-                $data_division2 = array(
-                    "descripcion" => $sheetData[$i]["B"],
-                    "iddepartamento" => $id1
-                );
-
-
-                DB::table('public.provincia')->insert($data_division2);
-                $id2 = DB::getPdo()->lastInsertId();
-                echo "DIVISION 2: ".$sheetData[$i]["B"]. " INSERTADO ...<br>";
+            if(count($rdd) <= 0) {
+                if(!in_array($sheetData[$i]["C"] , $division3)) {
+                    array_push($division3, $sheetData[$i]["C"]);
+    
+    
+                    $data_division3 = array(
+                        "descripcion" => $sheetData[$i]["C"],
+                        "idprovincia" => $id2
+                    );
+    
+    
+                    DB::table('public.distrito')->insert($data_division3);
+                    $id3 = DB::getPdo()->lastInsertId();
+                    echo "DIVISION 3: ".$sheetData[$i]["C"]. " INSERTADO ...<br>";
+                }
+            } else{ 
+                echo "DIVISION 3: ".$sheetData[$i]["C"]. " YA EXISTE ...<br>";
             }
 
-
-            if(!in_array($sheetData[$i]["C"] , $division3)) {
-                array_push($division3, $sheetData[$i]["C"]);
-
-
-                $data_division3 = array(
-                    "descripcion" => $sheetData[$i]["C"],
-                    "idprovincia" => $id2
-                );
-
-
-                DB::table('public.distrito')->insert($data_division3);
-                $id3 = DB::getPdo()->lastInsertId();
-                echo "DIVISION 3: ".$sheetData[$i]["C"]. " INSERTADO ...<br>";
-            }
+            
         }
 
 
