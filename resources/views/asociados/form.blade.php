@@ -439,8 +439,10 @@
                                 </div>
 
                                 <div class="row boton-ficha-bautizo" style="margin-top: 20px; text-align: right;">
-                                    <div class="col-md-2 col-md-offset-10">
-                                        <button type="button" class="btn btn-default btn-sm" id="imprimir-ficha-bautizo">{{ traducir('traductor.certificado_bautizo') }}</button>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3 col-md-offset-9" style="padding-right: 0px;">
+                                            <button type="button" class="btn btn-default btn-sm" id="imprimir-ficha-bautizo"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.certificado_bautizo') }}</button>
+                                        </div>
                                     </div>
                                 </div>
                                
@@ -460,7 +462,7 @@
                                     
                                     </div>
 
-                                    <div class="col-md-3 nivel" style="padding-left: 5px; padding-right: 5px;">
+                                    <div class="col-md-2 nivel" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.nivel') }}</label>
                                         <select class="entrada form-control input-sm select limpiar-cargos" name="idnivel" id="idnivel">
@@ -469,7 +471,7 @@
                                     
                                     </div>
 
-                                    <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
+                                    <div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
                         
                                         <label class="control-label">{{ traducir('traductor.cargo') }}</label>
                                         <select class="entrada form-control input-sm select limpiar-cargos" name="idcargo" id="idcargo">

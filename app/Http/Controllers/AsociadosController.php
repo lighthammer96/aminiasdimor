@@ -190,7 +190,14 @@ class AsociadosController extends Controller
             if ($request->input("idmiembro") == '') {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
             }else{ 
-                // print_r($this->preparar_datos("iglesias.miembro", $_POST)); exit;
+                // print_r($this->preparar_datos("iglesias.miembro", $_POST)); exit;git 
+                unset($_POST["iddivision"]);
+                unset($_POST["pais_id"]);
+                unset($_POST["idunion"]);
+                unset($_POST["idmision"]);
+                unset($_POST["iddistritomisionero"]);
+                unset($_POST["idiglesia"]);
+               
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.miembro", $_POST));
                 // print_r($result);
             }
@@ -312,7 +319,7 @@ class AsociadosController extends Controller
 
     public function get_asociados(Request $request) {
 
-        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union,  vr.nombres AS responsable,
+        $sql = "SELECT m.*, (m.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union, vr.nombres AS responsable,
         CASE WHEN di.di_descripcion IS NULL THEN
         (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
         ELSE di.di_descripcion END AS division,

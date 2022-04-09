@@ -465,7 +465,7 @@ class Controller extends BaseController
             FROM asambleas.detalle_propuestas AS dp 
             LEFT JOIN asambleas.propuestas_elecciones AS pe ON(pe.pe_id=dp.pe_id )
             LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND pe.pe_id=v.propuesta_id AND v.dp_id=dp.dp_id AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND vs.propuesta_id=v.propuesta_id /* AND v.dp_id=dp.dp_id*/ AND v.tabla='asambleas.propuestas_elecciones' )
             WHERE vs.votacion_id={$votacion[0]->votacion_id}
             GROUP BY dp.dp_descripcion, vs.votacion_id, dp.idmiembro";
             // die($sql);

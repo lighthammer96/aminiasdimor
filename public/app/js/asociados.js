@@ -810,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     $(document).on('change', '#pais_idcargo', function(event, pais_idcargo, idunioncargo) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union']; 
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|N"; 
         var array = valor.toString().split("|");
         //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
     
@@ -853,6 +853,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // alert(posee_union);
         if(posee_union == "N") {
+           
             $(".union-cargo").hide();
 
             misiones.select({
@@ -862,6 +863,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 datos: { pais_id: d_id }
             })
         } else {
+            // alert("holassss");
             var idnivel = $("#idnivel").val();
             if(idnivel != 3 && idnivel != 10) {
 

@@ -268,8 +268,8 @@
                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-impresion">[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-impresion" class="btn btn-default btn-sm">[F9] [{{ traducir('traductor.imprimir')}}]</button>
+                    <button type="button" class="btn btn-default btn-sm" id="cancelar-impresion"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                    <button type="button" id="guardar-impresion" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>[F9] [{{ traducir('traductor.imprimir')}}]</button>
                 </div>
             </form>
 

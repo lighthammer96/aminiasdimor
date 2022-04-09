@@ -542,14 +542,14 @@ class PropuestasController extends Controller
             // print_r($result); exit;
             if($request->input("tabla") == "asambleas.propuestas_temas") {
 
-                $sql_propuestas = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS propuesta, tpt.tpt_idioma AS idioma_codigo FROM asambleas.propuestas_temas AS pt
+                $sql_propuestas = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS propuesta, tpt.tpt_idioma AS idioma_codigo, tpt.tpt_propuesta AS detalle_propuesta FROM asambleas.propuestas_temas AS pt
                 INNER JOIN asambleas.traduccion_propuestas_temas AS tpt ON(pt.pt_id=tpt.pt_id)
                 WHERE pt.pt_id = {$result["formas_votacion"][0]->propuesta_id}";
                 $propuestas = DB::select($sql_propuestas);
 
             } elseif($request->input("tabla") == "asambleas.propuestas_elecciones") {
 
-                $sql_propuestas = "SELECT CASE WHEN tpe.tpe_descripcion IS NULL THEN '' ELSE tpe.tpe_descripcion END AS propuesta, tpe.tpe_idioma AS idioma_codigo FROM asambleas.propuestas_elecciones AS pe
+                $sql_propuestas = "SELECT CASE WHEN tpe.tpe_descripcion IS NULL THEN '' ELSE tpe.tpe_descripcion END AS propuesta, tpe.tpe_idioma AS idioma_codigo, tpe.tpe_detalle_propuesta AS detalle_propuesta FROM asambleas.propuestas_elecciones AS pe
                 INNER JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(pe.pe_id=tpe.pe_id)
                 WHERE pe.pe_id = {$result["formas_votacion"][0]->propuesta_id}";
 
@@ -560,7 +560,8 @@ class PropuestasController extends Controller
                 $sql_asistencia = "SELECT m.idmiembro AS id, (m.apellidos || ', ' || m.nombres) AS descripcion FROM asambleas.asistencia AS a
                 INNER JOIN asambleas.detalle_asistencia AS da ON(a.asistencia_id=da.asistencia_id)
                 INNER JOIN iglesias.miembro AS m ON(m.idmiembro=da.idmiembro)
-                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id}";
+                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id}
+                GROUP BY m.idmiembro, m.apellidos, m.nombres";
                 $result["formas_votacion"][0]->items = DB::select($sql_asistencia);
             }
 
