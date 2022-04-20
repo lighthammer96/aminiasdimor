@@ -160,6 +160,18 @@ class PrincipalController extends Controller
         echo json_encode($result);
     }
 
+    public function obtener_condicion_eclesiastica_all() {
+        $array = array("id" => -1, "descripcion" => "Todos");
+        $array = (object) $array;
+        $sql = "SELECT idcondicioneclesiastica as id, descripcion FROM iglesias.condicioneclesiastica 
+        ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        $result = DB::select($sql);
+        array_push($result, $array);
+        echo json_encode($result);
+    }
+
+
     public function obtener_religiones() {
         $sql = "SELECT idreligion as id, descripcion FROM iglesias.religion 
         ORDER BY descripcion ASC";

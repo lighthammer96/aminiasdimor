@@ -75,6 +75,7 @@ Route::post('principal/obtener_condicion_inmueble', [PrincipalController::class,
 Route::post('principal/cambiar_idioma', [PrincipalController::class, "cambiar_idioma"]);
 Route::post('principal/obtener_motivos_baja', [PrincipalController::class, "obtener_motivos_baja"]);
 Route::post('principal/obtener_condicion_eclesiastica', [PrincipalController::class, "obtener_condicion_eclesiastica"]);
+Route::post('principal/obtener_condicion_eclesiastica_all', [PrincipalController::class, "obtener_condicion_eclesiastica_all"]);
 Route::post('principal/obtener_religiones', [PrincipalController::class, "obtener_religiones"]);
 Route::post('principal/obtener_tipos_cargo', [PrincipalController::class, "obtener_tipos_cargo"]);
 Route::post('principal/obtener_cargos', [PrincipalController::class, "obtener_cargos"]);

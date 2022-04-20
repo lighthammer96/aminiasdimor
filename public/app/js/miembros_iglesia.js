@@ -5,11 +5,20 @@ var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 var iglesias = new BASE_JS('iglesias', 'iglesias');
-
+var principal = new BASE_JS("principal", "principal");
 
 document.addEventListener("DOMContentLoaded", function() {
    
-   
+    principal.select({
+        name: 'idcondicioneclesiastica',
+        url: '/obtener_condicion_eclesiastica_all',
+        placeholder: seleccione,
+        selected: -1
+    }).then(function() {
+        // asociados.enter("idocupacion","observaciones");
+        
+    }) 
+
     divisiones.select({
         name: 'iddivision',
         url: '/obtener_divisiones',

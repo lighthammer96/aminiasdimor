@@ -550,6 +550,10 @@ class ReportesController extends Controller
             array_push($array_where, 'm.idiglesia='.$request->input("idiglesia"));
         }
 
+        if($request->input("idcondicioneclesiastica") != '' && $request->input("idcondicioneclesiastica") != '-1') {
+            array_push($array_where, 'm.idcondicioneclesiastica='.$request->input("idcondicioneclesiastica"));
+        }
+
         if(count($array_where) > 0 ) {
             $where .= "WHERE ".implode(" AND ", $array_where);
         } 
