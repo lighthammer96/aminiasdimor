@@ -40,6 +40,7 @@ class AsociadosController extends Controller
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nuevo-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F4" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").' [F4]</button>';
+        $botones[3] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["asociados.js?version=021120212027"]);
@@ -312,8 +313,115 @@ class AsociadosController extends Controller
     }
 
     public function eliminar_asociados() {
-        $result = $this->base_model->eliminar(["iglesias.miembro","idmiembro"]);
-        echo json_encode($result);
+        try {
+            $sql_capacitacion_miembro = "SELECT * FROM iglesias.capacitacion_miembro WHERE idmiembro=".$_REQUEST["id"];
+            $capacitacion_miembro = DB::select($sql_capacitacion_miembro);
+
+            if(count($capacitacion_miembro) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_capacitacion_miembro"));
+            }
+
+            $sql_cargo_miembro = "SELECT * FROM iglesias.cargo_miembro WHERE idmiembro=".$_REQUEST["id"];
+            $cargo_miembro = DB::select($sql_cargo_miembro);
+
+            if(count($cargo_miembro) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_cargo_miembro"));
+            }
+
+
+            $sql_control_traslados = "SELECT * FROM iglesias.control_traslados WHERE idmiembro=".$_REQUEST["id"];
+            $control_traslados = DB::select($sql_control_traslados);
+
+            if(count($control_traslados) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_control_traslados"));
+            }
+
+            $sql_educacion_miembro = "SELECT * FROM iglesias.educacion_miembro WHERE idmiembro=".$_REQUEST["id"];
+            $educacion_miembro = DB::select($sql_educacion_miembro);
+
+            if(count($educacion_miembro) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_educacion_miembro"));
+            }
+
+            $sql_historial_altasybajas = "SELECT * FROM iglesias.historial_altasybajas WHERE idmiembro=".$_REQUEST["id"];
+            $historial_altasybajas = DB::select($sql_historial_altasybajas);
+
+            if(count($historial_altasybajas) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_historial_altasybajas"));
+            }
+
+            $sql_historial_traslados = "SELECT * FROM iglesias.historial_traslados WHERE idmiembro=".$_REQUEST["id"];
+            $historial_traslados = DB::select($sql_historial_traslados);
+
+            if(count($historial_traslados) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_historial_traslados"));
+            }
+
+            $sql_laboral_miembro = "SELECT * FROM iglesias.laboral_miembro WHERE idmiembro=".$_REQUEST["id"];
+            $laboral_miembro = DB::select($sql_laboral_miembro);
+
+            if(count($laboral_miembro) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_laboral_miembro"));
+            }
+
+            $sql_parentesco_miembro = "SELECT * FROM iglesias.parentesco_miembro WHERE idmiembro=".$_REQUEST["id"];
+            $parentesco_miembro = DB::select($sql_parentesco_miembro);
+
+            if(count($parentesco_miembro) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_parentesco_miembro"));
+            }
+
+            $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE idmiembro=".$_REQUEST["id"];
+            $usuarios = DB::select($sql_usuarios);
+
+            if(count($usuarios) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_usuarios"));
+            }
+
+            $sql_comentarios = "SELECT * FROM asambleas.comentarios WHERE idmiembro=".$_REQUEST["id"];
+            $comentarios = DB::select($sql_comentarios);
+
+            if(count($comentarios) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_comentarios"));
+            }
+
+            $sql_delegados = "SELECT * FROM asambleas.delegados WHERE idmiembro=".$_REQUEST["id"];
+            $delegados = DB::select($sql_delegados);
+
+            if(count($delegados) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_delegados"));
+            }
+
+
+            $sql_detalle_asistencia = "SELECT * FROM asambleas.detalle_asistencia WHERE idmiembro=".$_REQUEST["id"];
+            $detalle_asistencia = DB::select($sql_detalle_asistencia);
+
+            if(count($detalle_asistencia) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_detalle_asistencia"));
+            }
+
+            $sql_detalle_propuestas = "SELECT * FROM asambleas.detalle_propuestas WHERE idmiembro=".$_REQUEST["id"];
+            $detalle_propuestas = DB::select($sql_detalle_propuestas);
+
+            if(count($detalle_propuestas) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_detalle_propuestas"));
+            }
+
+            
+            $sql_votos = "SELECT * FROM asambleas.votos WHERE idmiembro=".$_REQUEST["id"];
+            $votos = DB::select($sql_votos);
+
+            if(count($votos) > 0) {
+                throw new Exception(traducir("traductor.eliminar_asociado_votos"));
+            }
+
+            $result = $this->base_model->eliminar(["iglesias.miembro","idmiembro"]);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+
+       
     }
 
 

@@ -1360,29 +1360,29 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    // document.getElementById("eliminar-asociado").addEventListener("click", function(event) {
-    //     event.preventDefault();
-    //     var datos = asociados.datatable.row('.selected').data();
-    //     if(typeof datos == "undefined") {
-    //         BASE_JS.sweet({
-    //             text: seleccionar_registro
-    //         });
-    // 		return false;
-    //     } 
+    document.getElementById("eliminar-asociado").addEventListener("click", function(event) {
+        event.preventDefault();
+        var datos = asociados.datatable.row('.selected').data();
+        if(typeof datos == "undefined") {
+            BASE_JS.sweet({
+                text: seleccionar_registro
+            });
+    		return false;
+        } 
         
-    // 	BASE_JS.sweet({
-    // 		confirm: true,
-    // 		text: eliminar_registro,
-    // 		callbackConfirm: function() {
-    // 			asociados.Operacion(datos.idmiembro, 'E');
-    // 			asociados.datatable.destroy();
-    // 			asociados.TablaListado({
-    // 				tablaID: '#tabla-asociados',
-    // 				url: "/buscar_datos",
-    // 			});
-    // 	   }
-    //    });
-    // })
+    	BASE_JS.sweet({
+    		confirm: true,
+    		text: eliminar_registro,
+    		callbackConfirm: function() {
+    			asociados.Operacion(datos.idmiembro, 'E');
+    			asociados.datatable.destroy();
+    			asociados.TablaListado({
+    				tablaID: '#tabla-asociados',
+    				url: "/buscar_datos",
+    			});
+    	   }
+       });
+    })
 
     document.getElementById("guardar-asociado").addEventListener("click", function(event) {
         event.preventDefault();

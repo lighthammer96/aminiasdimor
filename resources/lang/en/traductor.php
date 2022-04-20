@@ -498,4 +498,19 @@ return [
     'elemento_detalle' => 'YOU MUST ENTER AT LEAST ONE ITEM IN DETAIL!',
     'seleccionar_iglesia' => "YOU MUST SELECT A CHURCH!",
 
+    'eliminar_asociado_capacitacion_miembro' => 'It cannot be deleted, this associate already has training',
+    'eliminar_asociado_cargo_miembro' => 'It cannot be deleted, this associate already has charges',
+    'eliminar_asociado_control_traslados' => 'It cannot be deleted, this associate already has transfers',
+    'eliminar_asociado_educacion_miembro' => 'It cannot be deleted, this associate already has education records',
+    'eliminar_asociado_historial_altasybajas' => 'It cannot be deleted, this associate already has a history of registrations and cancellations',
+    'eliminar_asociado_historial_traslados' => 'It cannot be deleted, this associate already has a history of transfers',
+    'eliminar_asociado_laboral_miembro' => 'It cannot be deleted, this associate already has work history',
+    'eliminar_asociado_parentesco_miembro' => 'It cannot be deleted, this associate already has relationships',
+    'eliminar_asociado_usuarios' => 'It cannot be deleted, this associate already has an assigned user',
+    'eliminar_asociado_comentarios' => 'It cannot be deleted, this associate already has comments from forums',
+    'eliminar_asociado_delegados' => 'It cannot be deleted, this associate is already assigned as a delegate',
+    'eliminar_asociado_detalle_asistencia' => 'It cannot be deleted, this associate already has a history of attendance at assemblies',
+    'eliminar_asociado_detalle_propuestas' => 'It cannot be deleted, this associate already has proposals assigned',
+    'eliminar_asociado_votos' => 'It cannot be deleted, this associate already has votes for proposals',
+
 ];

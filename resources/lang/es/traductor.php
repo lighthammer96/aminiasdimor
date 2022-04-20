@@ -501,5 +501,20 @@ return [
     'elemento_detalle' => '¡DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!',
     'seleccionar_iglesia' => "¡DEBE SELECCIONAR UNA IGLESIA!",
 
+    'eliminar_asociado_capacitacion_miembro' => 'No se puede eliminar, este asociado ya tiene capacitaciones',
+    'eliminar_asociado_cargo_miembro' => 'No se puede eliminar, este asociado ya tiene cargos',
+    'eliminar_asociado_control_traslados' => 'No se puede eliminar, este asociado ya tiene traslados',
+    'eliminar_asociado_educacion_miembro' => 'No se puede eliminar, este asociado ya tiene registros de educación',
+    'eliminar_asociado_historial_altasybajas' => 'No se puede eliminar, este asociado ya tiene historial de altas y bajas',
+    'eliminar_asociado_historial_traslados' => 'No se puede eliminar, este asociado ya tiene historial de traslados',
+    'eliminar_asociado_laboral_miembro' => 'No se puede eliminar, este asociado ya tiene historial laboral',
+    'eliminar_asociado_parentesco_miembro' => 'No se puede eliminar, este asociado ya tiene parentescos',
+    'eliminar_asociado_usuarios' => 'No se puede eliminar, este asociado ya tiene un usuario asignado',
+    'eliminar_asociado_comentarios' => 'No se puede eliminar, este asociado ya tiene comentarios de foros',
+    'eliminar_asociado_delegados' => 'No se puede eliminar, este asociado ya esta asignado como delegado',
+    'eliminar_asociado_detalle_asistencia' => 'No se puede eliminar, este asociado ya tiene historial de asistencias a asambleas',
+    'eliminar_asociado_detalle_propuestas' => 'No se puede eliminar, este asociado ya tiene asignado propuestas',
+    'eliminar_asociado_votos' => 'No se puede eliminar, este asociado ya tiene votos de propuestas',
+
 
 ];

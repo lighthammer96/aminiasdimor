@@ -298,6 +298,7 @@ Route::get('asociados/asignacion_delegados', [AsociadosController::class, "asign
 Route::get('asociados/delegados', [AsociadosController::class, "delegados"]);
 Route::post('asociados/buscar_datos', [AsociadosController::class, "buscar_datos"]);
 Route::post('asociados/guardar_asociados', [AsociadosController::class, "guardar_asociados"]);
+Route::post('asociados/eliminar_asociados', [AsociadosController::class, "eliminar_asociados"]);
 Route::post('asociados/get_asociados', [AsociadosController::class, "get_asociados"]);
 Route::post('asociados/filtrar_asociados', [AsociadosController::class, "filtrar_asociados"]);
 Route::post('asociados/obtener_estado_civil', [AsociadosController::class, "obtener_estado_civil"]);

@@ -257,5 +257,5 @@ return [
     'eliminar_propuesta_eleccion_traduccion' => "Cannot be removed, this election proposal already has a translation detail", 
     'eliminar_propuesta_temas_traduccion' => "Cannot be removed, this topic proposal already has a translation detail", 
     'eliminar_propuesta_eleccion_detalle' => "Cannot be removed, this election proposal already has a detail", 
-
+    
 ];
