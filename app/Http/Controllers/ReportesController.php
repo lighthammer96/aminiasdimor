@@ -1133,7 +1133,7 @@ class ReportesController extends Controller
 
             $misiones[$key]->traslados_negativos = (isset($traslados_negativos[0]->traslados_negativos)) ? $traslados_negativos[0]->traslados_negativos : 0;
 
-            $feligresia_actual = DB::select("SELECT COUNT(*) AS miembros FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision}");
+            $feligresia_actual = DB::select("SELECT COUNT(*) AS miembros FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=1"); // feligresia actual es solo bautizados
 
             $misiones[$key]->feligresia_actual = (isset($feligresia_actual[0]->miembros)) ? $feligresia_actual[0]->miembros : 0;
 
