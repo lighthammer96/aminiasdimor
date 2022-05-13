@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     html += '</div>';
 
                     document.getElementById("actividades").innerHTML = html;
-                    $("#boton-reporte").show();
+                    $(".boton-reporte").show();
 
                   
                 }
@@ -492,10 +492,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
 
-    document.getElementById("ver-reporte").addEventListener("click", function(e) {
-        e.preventDefault();
-        
- 
+    function generar_reporte(route) {
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
 
@@ -516,7 +513,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var formulario = document.createElement("form");
             formulario.setAttribute("method", "GET");
-            formulario.setAttribute("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
+            formulario.setAttribute("action", BaseUrl + route);
             formulario.setAttribute("target", "imprimir_actividades_misioneras");
 
             // document.getElementById("formulario-reporte").forEach(function(item) {
@@ -598,6 +595,18 @@ document.addEventListener("DOMContentLoaded", function() {
             // window.open('', 'imprimir_actividades_misioneras');
             // document.getElementById('formulario-reporte').submit();
         }
+    }
+
+    document.getElementById("ver-reporte").addEventListener("click", function(e) {
+        e.preventDefault();
+        generar_reporte("/actividad_misionera/imprimir_actividades_misioneras");
+ 
+        
+    })
+
+    document.getElementById("exportar_excel").addEventListener("click", function(e) {
+        e.preventDefault();
+        generar_reporte("/actividad_misionera/exportar_excel_actividades_misioneras");
     })
   
 

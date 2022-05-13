@@ -226,14 +226,30 @@
         <div class="row" style="height: 100px;">
             <div class="col" style="width: 100%;">
                 <label for="" style="font-size: 20px !important;">{{ traducir("traductor.informe_espiritual") }}</label><br>
-                <label for="">{{ $informe_espiritual }}</label>
+                <label for="">
+                    <?php 
+                        if(count($textos) > 0) {
+                            foreach ($textos as $kie=> $vie) {
+                                echo $vie->informe_espiritual."<br>";
+                            }
+                        }
+                    ?>
+                </label>
             </div>         
         </div>
         <div class="clear"></div>
         <div class="row" style="height: 100px; margin-bottom: 120px; ">
             <div class="col" style="width: 100%;">
                 <label for="" style="font-size: 20px !important;">{{ traducir("traductor.planes") }}</label><br>
-                <label for="">{{ $planes }}</label>
+                <label for="">
+                    <?php 
+                        if(count($textos) > 0) {
+                            foreach ($textos as $kp=> $vp) {
+                                echo $vp->planes."<br>";
+                            }
+                        }
+                    ?>
+                </label>
             </div>         
         </div>
         <div class="clear"></div>

@@ -10,7 +10,7 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     direction: ltr;
-    z-index: 99999999999999;
+    z-index: 99999999999999 !important;
 }
 
 .datepicker-inline {

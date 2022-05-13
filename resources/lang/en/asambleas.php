@@ -208,6 +208,11 @@ return [
     'texto_covid_certificado_delegado_4' => '[ ] I am or will be fully vaccinated. Therefore, I will be able to travel.',
     'texto_covid_certificado_delegado_5' => '[ ] I am officially exempt from vaccination and the restrictions do not apply to me. Therefore, I will be able to travel.',
     'texto_covid_certificado_delegado_6' => '[ ] I am not vaccinated and if this is a requirement to attend the World Assembly, I will not be able to attend.',
+    'abrir_votacion' => 'Open Vote',
+    'cerrar_votacion' => 'Close Vote',
+    'ver_votacion_activa' => 'See active vote',
+    'votacion_cerrada' => 'Closed Vote',
+    'votacion_abierta' => 'Open Vote',
     
     // LABELS APP
     'votar' => 'Vote',

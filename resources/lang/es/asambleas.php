@@ -208,7 +208,11 @@ return [
     'texto_covid_certificado_delegado_4' => '[  ] Estoy o estaré completamente vacunado/a. Por lo tanto, podré viajar.',
     'texto_covid_certificado_delegado_5' => '[  ] Estoy oficialmente exento/a de vacunación y las restricciones no se aplican a mi caso. Por lo tanto, podré viajar.',
     'texto_covid_certificado_delegado_6' => '[  ] No estoy vacunado/a y si este es un requisito para asistir a la Asamblea Mundial, no podré asistir.',
-    
+    'abrir_votacion' => 'Abrir Votación',
+    'cerrar_votacion' => 'Cerrar Votación',
+    'ver_votacion_activa' => 'Ver Votación activa',
+    'votacion_cerrada' => 'Votación Cerrada',
+    'votacion_abierta' => 'Votación Abierta',
     
     // LABELS APP
     'votar' => 'Votar',

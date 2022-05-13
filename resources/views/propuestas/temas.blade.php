@@ -373,11 +373,6 @@
                             </div>
                         </div>
                     </div>
-                    
-
-                  
-                 
-                   
                 </div>
                 <div class="modal-footer">
                     <div class="pull-left" id="someter-votacion">
@@ -387,11 +382,15 @@
                             
                             {{ traducir('asambleas.someter_votacion')}}
                         </label>
-                        &nbsp;&nbsp;
-                        <button type="button" class="btn btn-default btn-sm" id="imprimir"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.imprimir')}}</button>
 
                         &nbsp;&nbsp;
+                        <button type="button" class="btn btn-default btn-sm" id="ver-votacion-activa" style="display: none;"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>[{{ traducir('asambleas.ver_votacion_activa')}}]</button>
+    
+                        &nbsp;&nbsp;
                         <button type="button" class="btn btn-default btn-sm" id="ver-resultados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>[{{ traducir('asambleas.ver_resultados')}}]</button>
+
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-default btn-sm" id="imprimir"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.imprimir')}}</button>
                     </div>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-propuesta-tema"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
@@ -426,7 +425,7 @@
 
 
 <div class="modal fade" id="modal-votaciones" data-backdrop="static" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
@@ -468,7 +467,7 @@
                         </div>
             
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6">
                             
                             <label class="control-label">{{ traducir('asambleas.hora_apertura')}}</label>
@@ -493,13 +492,21 @@
                             
                         </div>
             
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
-                    
+                    <div class="pull-left">
+                        <button style="display: none;" type="button" class="btn btn-default btn-sm" id="abrir-votacion"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/open.png') }}" ><br>[{{ traducir('asambleas.abrir_votacion')}}]</button>
+
+                        <button style="display: none;" type="button" class="btn btn-default btn-sm" id="cerrar-votacion"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cerrar-sesion.png') }}" ><br>[{{ traducir('asambleas.cerrar_votacion')}}]</button>
+                    </div>
+
             
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones">[{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-votaciones" class="btn btn-default btn-sm">[{{ traducir('traductor.guardar')}}]</button>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-votaciones"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[{{ traducir('traductor.cancelar')}}]</button>
+
+                        <button type="button" id="guardar-votaciones" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[{{ traducir('traductor.guardar')}}]</button>
+                    </div>
                 
                         
                 </div>

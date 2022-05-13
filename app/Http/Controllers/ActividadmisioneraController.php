@@ -8,6 +8,9 @@ use App\Models\BaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ActividadmisioneraController extends Controller
 {
     //
@@ -284,36 +287,8 @@ class ActividadmisioneraController extends Controller
         echo json_encode($result);
     }
 
-
-    public function imprimir_actividades_misioneras(Request $request) {
-        // print_r($_GET); exit;
-        $datos = array();
-        $anio = $request->input("anio");
-        // $idtrimestre = $request->input("idtrimestre");
-        // $mes = $request->input("mes");
-        // $semana = $request->input("semana");
-        $idiglesia = $request->input("idiglesia");
-
-        $where = "";
-        $where .= " AND c.anio='".$anio."'";
-
-        switch ($_REQUEST["idtrimestre"]) {
-            case 1:
-                $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-03-31'";
-                break;
-            case 2:
-                $where .=  " AND c.fecha_final BETWEEN '".$anio."-04-01' AND '".$anio."-06-30'";
-                break;
-            case 3:
-                $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-09-30'";
-                break;
-            case 4:
-                $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
-                break;
-        }
-
-        $where .= ' AND c.idiglesia='.$idiglesia;
-
+    public function obtener_data_actividades($where) {
+        
 
         $sql = "SELECT
         ".formato_fecha_idioma("c.fecha_final")." AS fecha_final,
@@ -350,6 +325,41 @@ class ActividadmisioneraController extends Controller
         ORDER BY c.fecha_final ASC";
         // die($sql);
         $actividades = DB::select($sql);
+        return $actividades;
+    }
+
+
+    public function imprimir_actividades_misioneras(Request $request) {
+        // print_r($_GET); exit;
+        $datos = array();
+        $anio = $request->input("anio");
+        // $idtrimestre = $request->input("idtrimestre");
+        // $mes = $request->input("mes");
+        // $semana = $request->input("semana");
+        $idiglesia = $request->input("idiglesia");
+
+        $where = "";
+        $where .= " AND c.anio='".$anio."'";
+
+        switch ($_REQUEST["idtrimestre"]) {
+            case 1:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-03-31'";
+                break;
+            case 2:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-04-01' AND '".$anio."-06-30'";
+                break;
+            case 3:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-09-30'";
+                break;
+            case 4:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
+                break;
+        }
+
+        $where .= ' AND c.idiglesia='.$idiglesia;
+
+        
+        $actividades = $this->obtener_data_actividades($where);
 
         $sql_textos = " SELECT ".formato_fecha_idioma("c.fecha_final")." AS fecha_final, array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
         FROM iglesias.controlactmisionera AS c  
@@ -360,6 +370,13 @@ class ActividadmisioneraController extends Controller
         ";
         // die($sql_textos);
         $textos = DB::select($sql_textos); 
+        // $planes = "";
+        // $informe_espiritual = "";
+
+        // foreach ($textos as $kt => $vt) {
+        //     $planes .= $vt->planes."\n";
+        //     $informe_espiritual .= $vt->informe_espiritual."\n";
+        // }
 
 
         $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
@@ -381,10 +398,11 @@ class ActividadmisioneraController extends Controller
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["anio"] = $_REQUEST["anio"];
         $datos["actividades"] = $actividades;
+        $datos["textos"] = $textos;
         $datos["director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
         $datos["director_obra"] = (isset($director_obra[0]->nombres))  ? $director_obra[0]->nombres : "";
-        $datos["planes"] = (isset($textos[0]->planes)) ? $textos[0]->planes : "";
-        $datos["informe_espiritual"] = (isset($textos[0]->informe_espiritual)) ? $textos[0]->informe_espiritual : "";
+        // $datos["planes"] = $planes;
+        // $datos["informe_espiritual"] = $informe_espiritual;
         
         $datos["trimestre"] = traducir("traductor.trimestre_".$_REQUEST["idtrimestre"]);
 
@@ -395,5 +413,145 @@ class ActividadmisioneraController extends Controller
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("actividades_misioneras.pdf"); // ver
+    }
+
+    public function exportar_excel_actividades_misioneras(Request $request) {
+       
+        $anio = $request->input("anio");
+
+        $idiglesia = $request->input("idiglesia");
+
+        $where = "";
+        $where .= " AND c.anio='".$anio."'";
+
+        switch ($_REQUEST["idtrimestre"]) {
+            case 1:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-03-31'";
+                break;
+            case 2:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-04-01' AND '".$anio."-06-30'";
+                break;
+            case 3:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-09-30'";
+                break;
+            case 4:
+                $where .=  " AND c.fecha_final BETWEEN '".$anio."-10-01' AND '".$anio."-12-31'";
+                break;
+        }
+
+        $where .= ' AND c.idiglesia='.$idiglesia;
+
+        
+        $actividades = $this->obtener_data_actividades($where);
+
+        // echo "<pre>";
+        // print_r($actividades);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $array = range('A', 'L');
+
+        for ($i = 0; $i < count($array); $i++) {
+            $sheet->getColumnDimension($array[$i])->setAutoSize(true);
+            
+        }
+
+        $sheet->setCellValueByColumnAndRow(1, 1, traducir("traductor.para_semana_termina"));
+        $sheet->setCellValueByColumnAndRow(2, 1, traducir("traductor.estudios_biblicos"));
+        $sheet->setCellValueByColumnAndRow(3, 1, traducir("traductor.visitas_misioneras"));
+        $sheet->setCellValueByColumnAndRow(4, 1, traducir("traductor.conferencias_biblicas"));
+        $sheet->setCellValueByColumnAndRow(5, 1, traducir("traductor.seminarios"));
+        $sheet->setCellValueByColumnAndRow(6, 1, traducir("traductor.congresos"));
+        $sheet->setCellValueByColumnAndRow(7, 1, traducir("traductor.libros"));
+        $sheet->setCellValueByColumnAndRow(8, 1, traducir("traductor.revistas"));
+        $sheet->setCellValueByColumnAndRow(9, 1, traducir("traductor.volantes"));
+        $sheet->setCellValueByColumnAndRow(10, 1, traducir("traductor.lecciones_esc_sab"));
+        $sheet->setCellValueByColumnAndRow(11, 1, traducir("traductor.guard_sab"));
+        $sheet->setCellValueByColumnAndRow(12, 1, traducir("traductor.ancla_juvenil"));
+        
+        $fila = 2;
+        $estudios_biblicos = 0;
+        $visitas_misioneras = 0;
+        $conferencias_publicas = 0;
+        $seminarios = 0;
+        $congresos = 0;
+        $libros = 0;
+        $revistas = 0;
+        $volantes = 0;
+        $lecciones = 0;
+        $guard = 0;
+        $ancla_juvenil = 0;
+
+        foreach ($actividades as $key => $value) {
+            $sheet->setCellValueByColumnAndRow(1, $fila, $value->fecha_final);
+            $sheet->setCellValueByColumnAndRow(2, $fila, $value->estudios_biblicos);
+            $sheet->setCellValueByColumnAndRow(3, $fila, $value->visitas_misioneras);
+            $sheet->setCellValueByColumnAndRow(4, $fila, $value->conferencias_publicas);
+            $sheet->setCellValueByColumnAndRow(5, $fila, $value->seminarios);
+            $sheet->setCellValueByColumnAndRow(6, $fila, $value->congresos);
+            $sheet->setCellValueByColumnAndRow(7, $fila, $value->libros);
+            $sheet->setCellValueByColumnAndRow(8, $fila, $value->revistas);
+            $sheet->setCellValueByColumnAndRow(9, $fila, $value->volantes);
+            $sheet->setCellValueByColumnAndRow(10, $fila, $value->lecciones);
+            $sheet->setCellValueByColumnAndRow(11, $fila, $value->guard);
+            $sheet->setCellValueByColumnAndRow(12, $fila, $value->ancla_juvenil);
+
+            $estudios_biblicos += intval($value->estudios_biblicos);
+            $visitas_misioneras += intval($value->visitas_misioneras);
+            $conferencias_publicas += intval($value->conferencias_publicas);
+            $seminarios += intval($value->seminarios);
+            $congresos += intval($value->congresos);
+            $libros += intval($value->libros);
+            $revistas += intval($value->revistas);
+            $volantes += intval($value->volantes);
+            $lecciones += intval($value->lecciones);
+            $guard += intval($value->guard);
+            $ancla_juvenil += intval($value->ancla_juvenil);
+
+            $fila ++;
+        }
+
+        $sheet->setCellValueByColumnAndRow(1, $fila, traducir("traductor.total_trimestre"));
+        $sheet->setCellValueByColumnAndRow(2, $fila, $estudios_biblicos);
+        $sheet->setCellValueByColumnAndRow(3, $fila, $visitas_misioneras);
+        $sheet->setCellValueByColumnAndRow(4, $fila, $conferencias_publicas);
+        $sheet->setCellValueByColumnAndRow(5, $fila, $seminarios);
+        $sheet->setCellValueByColumnAndRow(6, $fila, $congresos);
+        $sheet->setCellValueByColumnAndRow(7, $fila, $libros);
+        $sheet->setCellValueByColumnAndRow(8, $fila, $revistas);
+        $sheet->setCellValueByColumnAndRow(9, $fila, $volantes);
+        $sheet->setCellValueByColumnAndRow(10, $fila, $lecciones);
+        $sheet->setCellValueByColumnAndRow(11, $fila, $guard);
+        $sheet->setCellValueByColumnAndRow(12, $fila, $ancla_juvenil);
+        $fila ++;
+
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+        ];
+        
+      
+        $sheet->getStyle('A1:L' . ($fila - 1))->applyFromArray($styleArray);
+
+        $writer = new Xlsx($spreadsheet);
+
+
+        // $writer->save('hello world.xlsx');
+
+        // redirect output to client browser
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="actividades_misioneras_'.$request->input("idtrimestre").'-'.$request->input("anio").'.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }

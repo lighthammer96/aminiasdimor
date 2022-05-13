@@ -626,12 +626,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
         promise.then(function(response) {
             // alert(typeof response.resolucion_id);
+            // console.log();
             if(response.resolucion_id != null) {
                 // alert("disabled");
                 $('#pe_someter_votacion').iCheck('disable');
             } else {
-                $('#pe_someter_votacion').iCheck('enable');
+                $('#pe_someter_votacion').iCheck('enable'); 
             }
+
+            if(response.pe_someter_votacion == "S") {
+                $("#ver-votacion-activa").show();
+            } else {
+                $("#ver-votacion-activa").hide();
+            }
+
+
             document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
             propuestas_elecciones.ajax({
                 url: '/obtener_detalle_propuesta',
@@ -644,8 +653,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
 
-                
-               
             })
 
             // $("#pe_someter_votacion").removeAttr("disabled");
@@ -665,6 +672,7 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#tipo").val(response.pe_tipo);
             $("#tipo").attr("disabled", "disabled");
             $("#ver-resultados").removeAttr("disabled");
+            $("#ver-votacion-activa").removeAttr("disabled");
         
             // $(".propuestas").hide();
             // $(".asociados").hide();
@@ -723,11 +731,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
 
-                
-               
             })
-
-
 
             // console.log(votaciones.buscarEnFormulario("votacion_id"));
             votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
@@ -756,7 +760,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
  
-
         var required = true;
         var pe_id = document.getElementsByName("pe_id")[0].value;
 
@@ -776,8 +779,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
 
-           
-                
             })
 
         }
@@ -863,8 +864,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
     document.addEventListener("click", function(event) {
-        
-
         // console.log(event.target.classList);
         // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
         if(event.target.classList.value.indexOf("eliminar-propuesta") != -1) {
@@ -892,7 +891,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("guardar-votaciones").addEventListener("click", function(event) {
         event.preventDefault();
- 
 
         var required = true;
         var votacion_id = document.getElementsByName("votacion_id")[0].value;
@@ -900,13 +898,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if(votacion_id == "") {
             required = required && votaciones.required("fv_id");
     
-            required = required && votaciones.required("votacion_hora_apertura");
-            required = required && votaciones.required("votacion_hora_cierre");
+            // required = required && votaciones.required("votacion_hora_apertura");
+            // required = required && votaciones.required("votacion_hora_cierre");
         }
 
-      
-     
-    
         // alert(required);
         if(required) {
             var promise = votaciones.guardar();
@@ -917,30 +912,119 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 $("input[name=votacion_id]").val(response.id);
                 $("#fv_id").val(response.datos[0].fv_id);
-                $("input[name=votacion_hora_apertura]").val(response.datos[0].votacion_hora_apertura);
-                $("input[name=votacion_hora_cierre]").val(response.datos[0].votacion_hora_cierre);
+                // $("input[name=votacion_hora_apertura]").val(response.datos[0].votacion_hora_apertura);
+                // $("input[name=votacion_hora_cierre]").val(response.datos[0].votacion_hora_cierre);
                 $("input[name=estado]").val(response.datos[0].estado);
-
-
-                if(response.datos[0].estado == "A") {
-
-                    socket.emit("votacion-activada", response.formas_votacion);
+                $("#abrir-votacion").show();
+                $("#cerrar-votacion").hide();
+                $("#guardar-votaciones").hide();
+                if($('#modal-votaciones').is(':visible')) {
+                    $("#propuesta").attr("readonly", "readonly");
+                    $("#fv_id").attr("disabled", "disabled");
                 }
+                if(response.pe_someter_votacion == "S") {
+                    $("#ver-votacion-activa").show();
+                } else {    
+                    $("#ver-votacion-activa").hide();
+                }
+
+               
+                // if(response.datos[0].estado == "A") {
+
+                //     socket.emit("votacion-activada", response.formas_votacion);
+                // }
             })
 
         }
     })
 
+    document.getElementById("ver-votacion-activa").addEventListener("click", function(event) {
+        event.preventDefault();
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+        var promise =  votaciones.ver(votacion_id);
+        promise.then(function(response) {
+            if(response.votacion_status == "A") {
+                $("#cerrar-votacion").show();
+                $("#abrir-votacion").hide();
+            } else {
+                $("#cerrar-votacion").hide();
+                $("#abrir-votacion").show();
+            }
+          
+           
+            $("#cerrar-votacion").removeAttr("disabled");
+            $("#abrir-votacion").removeAttr("disabled");
+        })
+    })
+
+    document.getElementById("abrir-votacion").addEventListener("click", function(event) {
+        event.preventDefault();
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+        votaciones.ajax({
+            url: '/abrir_votacion',
+            datos: { votacion_id: votacion_id }
+        }).then(function(response) {
+            if(response.status == "m") {
+                BASE_JS.notificacion({
+                    msg: votacion_abierta,
+                    type: 'success'
+                });
+                $("#abrir-votacion").hide();
+                $("#cerrar-votacion").show();
+
+                socket.emit("votacion-activada", response.formas_votacion);
+            } else {
+                BASE_JS.notificacion({
+                    msg: response.msg,
+                    type: 'warning'
+                });
+            }
+            
+            // console.log(response);
+        })
+        
+    })
+
+    document.getElementById("cerrar-votacion").addEventListener("click", function(event) {
+        event.preventDefault();
+        var votacion_id = document.getElementsByName("votacion_id")[0].value;
+        votaciones.ajax({
+            url: '/cerrar_votacion',
+            datos: { votacion_id: votacion_id }
+        }).then(function(response) {
+           
+            if(response.status == "m") {
+                BASE_JS.notificacion({
+                    msg: votacion_abierta,
+                    type: 'success'
+                });
+                $("#abrir-votacion").show();
+                $("#cerrar-votacion").hide();
+
+                socket.emit("votacion-activada", response.formas_votacion);
+            } else {
+                BASE_JS.notificacion({
+                    msg: response.msg,
+                    type: 'warning'
+                });
+            }
+        })
+    })
+
     
     $("#pe_someter_votacion").on('ifClicked', function(event){
+       
+        $("#fv_id").parent("div").removeClass("has-error");
         var votacion_id = document.getElementsByName("votacion_id")[0].value;
         // alert(votaciones.buscarEnFormulario("asamblea_id").value);
         if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
             // $("#modal-votaciones").modal("show");
-
+           
             var promise =  votaciones.get(votacion_id);
 
             promise.then(function() {
+               
+               
                 votaciones.buscarEnFormulario("estado").value = 'A';
 
                 if(votacion_id != "") {
@@ -952,15 +1036,33 @@ document.addEventListener("DOMContentLoaded", function() {
                     elementos[i].readOnly = false;
                     elementos[i].removeAttribute("readonly");
                 }
+                $("#propuesta").attr("readonly", "readonly");
+                $("#fv_id").parent("div").removeClass("has-error");
+        
+                $("#abrir-votacion").hide();
+                $("#cerrar-votacion").hide();
+                
+               
             })
             // votaciones.abrirModal();
             // $("input[name=posee_seguro]").val("S");
             
         } else {
+            var elementos = document.getElementById(votaciones.formularioID).getElementsByClassName("entrada");
+            for (let i = 0; i < elementos.length; i++) {
+                elementos[i].readOnly = false;
+                elementos[i].disabled = false;
+                elementos[i].removeAttribute("readonly");
+                elementos[i].removeAttribute("disabled");
+            }
+
+            
+
             votaciones.buscarEnFormulario("estado").value = 'I';
             votaciones.buscarEnFormulario("propuesta_id").value = propuestas_elecciones.buscarEnFormulario("pe_id").value;
             votaciones.buscarEnFormulario("tabla").value = "asambleas.propuestas_elecciones";
             document.getElementById("guardar-votaciones").dispatchEvent(eventClick);
+            $("#ver-votacion-activa").hide();
             // $("input[name=posee_seguro]").val("N");
         }
     });
@@ -973,44 +1075,44 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
 
-    document.getElementById("time-votacion_hora_apertura").addEventListener("click", function(e) {
-        e.preventDefault();
+    // document.getElementById("time-votacion_hora_apertura").addEventListener("click", function(e) {
+    //     e.preventDefault();
         
-        if($("input[name=votacion_hora_apertura]").hasClass("focus-time")) {
+    //     if($("input[name=votacion_hora_apertura]").hasClass("focus-time")) {
    
-            $("input[name=votacion_hora_apertura]").blur();
-            $("input[name=votacion_hora_apertura]").removeClass("focus-time");
-        } else {
+    //         $("input[name=votacion_hora_apertura]").blur();
+    //         $("input[name=votacion_hora_apertura]").removeClass("focus-time");
+    //     } else {
             
-            $("input[name=votacion_hora_apertura]").focus();
-            $("input[name=votacion_hora_apertura]").addClass("focus-time");
-        }
+    //         $("input[name=votacion_hora_apertura]").focus();
+    //         $("input[name=votacion_hora_apertura]").addClass("focus-time");
+    //     }
        
-    }); 
+    // }); 
 
 
-    document.getElementById("time-votacion_hora_cierre").addEventListener("click", function(e) {
-        e.preventDefault();
+    // document.getElementById("time-votacion_hora_cierre").addEventListener("click", function(e) {
+    //     e.preventDefault();
         
-        if($("input[name=votacion_hora_cierre]").hasClass("focus-time")) {
+    //     if($("input[name=votacion_hora_cierre]").hasClass("focus-time")) {
    
-            $("input[name=votacion_hora_cierre]").blur();
-            $("input[name=votacion_hora_cierre]").removeClass("focus-time");
-        } else {
+    //         $("input[name=votacion_hora_cierre]").blur();
+    //         $("input[name=votacion_hora_cierre]").removeClass("focus-time");
+    //     } else {
             
-            $("input[name=votacion_hora_cierre]").focus();
-            $("input[name=votacion_hora_cierre]").addClass("focus-time");
-        }
+    //         $("input[name=votacion_hora_cierre]").focus();
+    //         $("input[name=votacion_hora_cierre]").addClass("focus-time");
+    //     }
        
-    }); 
+    // }); 
     
-    $('input[name=votacion_hora_apertura], input[name=votacion_hora_cierre]').inputmask("hh:mm", {
-        placeholder: "HH:MM", 
-        insertMode: false, 
-        showMaskOnHover: false,
-        hourFormat: 12
-      }
-   );
+    // $('input[name=votacion_hora_apertura], input[name=votacion_hora_cierre]').inputmask("hh:mm", {
+    //         placeholder: "HH:MM", 
+    //         insertMode: false, 
+    //         showMaskOnHover: false,
+    //         hourFormat: 12
+    //     }
+    // );
 
     document.getElementById("tipo").addEventListener("change", function(e) {
         e.preventDefault();

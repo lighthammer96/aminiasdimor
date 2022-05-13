@@ -8,7 +8,7 @@
 @section('content')
 
 <div id="modal-asistencia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -19,7 +19,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <input type="hidden" name="asistencia_id" class="input-sm entrada">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
                             <select name="asamblea_id" id="asamblea_id" class="selectizejs entrada">
                                 
@@ -28,7 +28,7 @@
                           
 
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>

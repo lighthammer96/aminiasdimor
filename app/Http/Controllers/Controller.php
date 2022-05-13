@@ -459,21 +459,30 @@ class Controller extends BaseController
             $result = DB::select($sql);
         }
 
-        if($votacion[0]->fv_id == 6) {
+        if($votacion[0]->fv_id == 6 || $votacion[0]->fv_id == 8) {
             //
-            $sql = "SELECT dp.dp_descripcion AS resultado_descripcion, COUNT(v.dp_id) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.dp_id) AS resultado_total, dp.idmiembro
+      
+            $sql = "
+            (SELECT 'Abstenciones' AS resultado_descripcion, 0 AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, 0 AS resultado_total, 0 AS idmiembro
+            FROM asambleas.votos AS v
+            INNER JOIN asambleas.votaciones AS vs ON(vs.votacion_id=v.votacion_id AND vs.propuesta_id=v.propuesta_id AND v.tabla='asambleas.propuestas_elecciones')
+            WHERE vs.votacion_id={$votacion[0]->votacion_id}
+            GROUP BY vs.votacion_id)
+            UNION ALL
+            (SELECT dp.dp_descripcion AS resultado_descripcion, COUNT(v.dp_id) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.dp_id) AS resultado_total, dp.idmiembro
             FROM asambleas.detalle_propuestas AS dp 
             LEFT JOIN asambleas.propuestas_elecciones AS pe ON(pe.pe_id=dp.pe_id )
             LEFT JOIN asambleas.votaciones AS vs ON(vs.propuesta_id=pe.pe_id AND vs.tabla='asambleas.propuestas_elecciones')
-            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND vs.propuesta_id=v.propuesta_id /* AND v.dp_id=dp.dp_id*/ AND v.tabla='asambleas.propuestas_elecciones' )
+            LEFT JOIN asambleas.votos AS v ON(vs.votacion_id=v.votacion_id AND vs.propuesta_id=v.propuesta_id AND v.dp_id=dp.dp_id AND v.tabla='asambleas.propuestas_elecciones' )
             WHERE vs.votacion_id={$votacion[0]->votacion_id}
-            GROUP BY dp.dp_descripcion, vs.votacion_id, dp.idmiembro";
+            GROUP BY dp.dp_id, dp.dp_descripcion, vs.votacion_id, dp.idmiembro
+            ORDER BY dp.dp_id)";
             // die($sql);
             $result = DB::select($sql);
         }
 
 
-        if($votacion[0]->fv_id == 7) {
+        if($votacion[0]->fv_id == 7 ) {
 
             $sql = "SELECT v.voto_miembro AS resultado_descripcion, COUNT(v.voto_miembro) AS resultado_votos, SUM(CASE WHEN v.voto_item = -1 OR v.voto_item IS NULL THEN 0 ELSE 1 END) AS abstenciones, vs.votacion_id, COUNT(v.voto_miembro) AS resultado_total
             FROM asambleas.propuestas_elecciones AS pe
@@ -493,7 +502,16 @@ class Controller extends BaseController
             //MODIFICAMOS
             foreach ($result as $key => $value) {
 
-               DB::update(
+                $abstenciones += (isset($value->abstenciones)) ? $value->abstenciones : 0;
+
+                if(isset($value->resultado_descripcion) && $value->resultado_descripcion == "Abstenciones") {
+                    
+                    continue; // esto es para el caso de formas de votacione de:
+                        // 6 => Elegir de Lista de Propuesta, Abstención
+                        // 8 => Elegir de Lista de Propuesta(multiple), Abstención
+                }
+
+                DB::update(
                     'UPDATE asambleas.resultados set resultado_votos = '.$value->resultado_votos.', resultado_total = resultado_votos + resultado_mano_alzada  where resultado_descripcion = ? AND votacion_id = ?',
                     [$value->resultado_descripcion, $votacion[0]->votacion_id]
                 );
@@ -509,9 +527,17 @@ class Controller extends BaseController
             //INSERTAMOS
             // print_r($sql); exit;
             foreach ($result as $key => $value) {
+                $abstenciones += (isset($value->abstenciones)) ? $value->abstenciones : 0;
+
+                if(isset($value->resultado_descripcion) && $value->resultado_descripcion == "Abstenciones") {
+                    
+                    continue; // esto es para el caso de formas de votacione de:
+                        // 6 => Elegir de Lista de Propuesta, Abstención
+                        // 8 => Elegir de Lista de Propuesta(multiple), Abstención
+                }
                 $this->base_model->insertar($this->preparar_datos("asambleas.resultados", (array)$value));
 
-                $abstenciones += (isset($value->abstenciones)) ? $value->abstenciones : 0;
+             
             }
 
             if(isset($result[0]->abstenciones)) {

@@ -281,7 +281,7 @@ return [
     'trimestre_4' => "1 de octubre al 31 de diciembre",
     'para_semana_termina' => "Para la semana que termina el:",
     'estudios_biblicos' => "Estudios Bíblicos",
-    'visitas_misioneras' => "Visistas Misioneras",
+    'visitas_misioneras' => "Visitas Misioneras",
     'conferencias_biblicas' => "Conferen. Públicas",
     'seminarios' => "Seminarios",
     'congresos' => "Congresos",

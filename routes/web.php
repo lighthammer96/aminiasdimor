@@ -364,6 +364,7 @@ Route::post('actividad_misionera/guardar_actividad', [ActividadmisioneraControll
 Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, "reporte"]);
 Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);
 Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [ActividadmisioneraController::class, "imprimir_actividades_misioneras"]);
+Route::get('actividad_misionera/exportar_excel_actividades_misioneras  ', [ActividadmisioneraController::class, "exportar_excel_actividades_misioneras"]);
 
 // ELECCION
 Route::get('eleccion/index', [AsambleasController::class, "index"]);
@@ -443,6 +444,9 @@ Route::post('propuestas/obtener_formas_votacion', [PropuestasController::class, 
 Route::post('propuestas/obtener_categorias_propuestas', [PropuestasController::class, "obtener_categorias_propuestas"]);
 Route::post('propuestas/get_votaciones', [PropuestasController::class, "get_votaciones"]);
 Route::post('propuestas/guardar_votaciones', [PropuestasController::class, "guardar_votaciones"]);
+Route::post('propuestas/abrir_votacion', [PropuestasController::class, "abrir_votacion"]);
+Route::post('propuestas/cerrar_votacion', [PropuestasController::class, "cerrar_votacion"]);
+
 Route::post('propuestas/obtener_propuestas_temas_origen', [PropuestasController::class, "obtener_propuestas_temas_origen"]);
 Route::post('propuestas/obtener_propuestas_origen', [PropuestasController::class, "obtener_propuestas_origen"]);
 Route::post('propuestas/obtener_descripciones_propuestas_origen', [PropuestasController::class, "obtener_descripciones_propuestas_origen"]);

@@ -1,6 +1,6 @@
 
 <div id="modal-departamentos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <input type="hidden" name="iddepartamento" class="input-sm entrada">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.pais')}}</label>
                             <select name="pais_id" id="pais_id" class="selectizejs entrada"></select>
                             <!-- <div class="input-group m-bot15 col-md-12 sin-padding">
@@ -25,7 +25,7 @@
                             </div> -->
 
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.descripcion')}}</label>
 
                             <input autofocus="autofocus" type="text" class="form-control input-sm entrada" name="descripcion"  placeholder=""/>

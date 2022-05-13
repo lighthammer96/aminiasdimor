@@ -88,9 +88,13 @@
                     
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div> -->
-                <div class="col-md-1" id="boton-reporte" style="display: none; margin-top: 7px;">
+                <div class="col-md-3 boton-reporte" style="display: none; margin-top: 7px;">
                     <button type="button" id="ver-reporte" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/documento.png') }}" ><br>{{ traducir("traductor.ver_reporte") }}</button>
+                    &nbsp;
+                    <button type="button" id="exportar_excel" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/excel.png') }}" ><br>{{ traducir("traductor.exportar_excel") }}</button>
+                   
                 </div>   
+               
             </div>
 
             <div class="row" id="actividades">

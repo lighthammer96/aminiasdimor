@@ -47,19 +47,33 @@ class ApiController extends Controller
     }
 
     public function guardar_votos(Request $request) {
-        $miembro_votado = explode("|", $request->input("idmiembro_votado"));
-        if($request->input("fv_id") == 6) {
-            $_REQUEST["idmiembro_votado"] = "";
-            $_REQUEST["dp_id"] = $miembro_votado[0];
-        } else {
-            $_REQUEST["idmiembro_votado"] = $miembro_votado[0];
-            $_REQUEST["dp_id"] = "";
-        }
+        if($request->input("fv_id") == 8) {
+            $miembros_multiple = explode("|", $_REQUEST["multiples_miembros"]);
+            $data = $_REQUEST;
+            $data["voto_fecha"] = date("Y-m-d");
+            $data["voto_hora"] = date("H:i:s");
+            for ($i=0; $i < count($miembros_multiple); $i++) { 
+                $data["dp_id"] = $miembros_multiple[$i];
+                $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $data));
+            }
 
-      
-        $_REQUEST["voto_fecha"] = date("Y-m-d");
-        $_REQUEST["voto_hora"] = date("H:i:s");
-        $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $_REQUEST));
+
+        } else {
+            $miembro_votado = explode("|", $request->input("idmiembro_votado"));
+            if($request->input("fv_id") == 6) {
+                $_REQUEST["idmiembro_votado"] = "";
+                $_REQUEST["dp_id"] = $miembro_votado[0];
+            } else {
+                $_REQUEST["idmiembro_votado"] = $miembro_votado[0];
+                $_REQUEST["dp_id"] = "";
+            }
+
+        
+            $_REQUEST["voto_fecha"] = date("Y-m-d");
+            $_REQUEST["voto_hora"] = date("H:i:s");
+            $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $_REQUEST));
+        }
+        
         // print_r($result);
         $result["datos"][0]["status"] = $result["status"];
         $result["datos"][0]["type"] = $result["type"];
@@ -107,11 +121,12 @@ class ApiController extends Controller
     public function obtener_votacion_activa() {
         $result = array();
         // print($_REQUEST["idmiembro"]);
+        // votacion_status, A votacion abierta, C votacion cerrada
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
         FROM asambleas.votaciones AS v
         INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
         LEFT JOIN asambleas.votos AS vt ON(vt.votacion_id=v.votacion_id)
-        WHERE v.estado='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre AND (CASE WHEN vt.idmiembro IS NOT NULL THEN vt.idmiembro<>{$_REQUEST["idmiembro"]} ELSE 1=1 END)";
+        WHERE v.estado='A' AND v.votacion_status='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') /*AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre*/ AND (CASE WHEN vt.idmiembro IS NOT NULL THEN vt.idmiembro<>{$_REQUEST["idmiembro"]} ELSE 1=1 END)";
         // echo $sql_forma_votacion; exit;
 
 
@@ -147,7 +162,7 @@ class ApiController extends Controller
                 $result["formas_votacion"][0]->items = DB::select($sql_asistencia);
             }
 
-            if($result["formas_votacion"][0]->fv_id == 6) {
+            if($result["formas_votacion"][0]->fv_id == 6 || $result["formas_votacion"][0]->fv_id == 8) {
                 $sql_detalle_propuesta = "SELECT dp.dp_id AS id, dp.dp_descripcion AS descripcion FROM asambleas.propuestas_elecciones AS pe
                 INNER JOIN asambleas.detalle_propuestas AS dp ON(dp.pe_id=pe.pe_id)
                 WHERE pe.estado='A' AND pe.pe_id={$result["formas_votacion"][0]->propuesta_id}";

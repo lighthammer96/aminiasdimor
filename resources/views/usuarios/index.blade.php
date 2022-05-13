@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="modal fade" id="modal-usuarios" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <h4 class="modal-title"><span class="typeoperacion"></span></h4>
@@ -30,7 +30,7 @@
                             <input type="text" autofocus="autofocus" class="form-control input-sm entrada" name="usuario_nombres" />
 
                         </div> -->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <input type="hidden" name="idmiembro" class="input-sm entrada datos-asociado" >
 
                             <label for="" class="control-label">{{ traducir('traductor.responsable')}}</label>
@@ -44,23 +44,23 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.usuario')}}</label>
                             <input type="text" class="form-control input-sm entrada" name="usuario_user" />
                             <!-- <div class="msg"></div> -->
 
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.clave')}}</label>
                             <input type="password" class="form-control input-sm entrada" name="pass1" />
 
                         </div>
-                        <!-- <div class="col-md-12">
+                        <!-- <div class="col-md-6">
                             <label class="control-label">Confimar Clave</label>
                             <input type="password" class="form-control input-sm entrada" name="pass2" />
 
                         </div> -->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.perfil')}}</label>
                             <select name="perfil_id" id="perfil_id" class="selectizejs entrada">
 
@@ -68,19 +68,19 @@
 
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.tipo_acceso')}}</label>
                             <select name="idtipoacceso" id="idtipoacceso" class="selectizejs entrada">
 
                             </select>
 
                         </div>
-                        <!-- <div class="col-md-12">
+                        <!-- <div class="col-md-6">
                             <label class="control-label">Referencia</label>
                             <textarea name="usuario_referencia" id="usuario_referencia" class="form-control input-sm entrada"></textarea>
 
                         </div> -->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.estado')}}</label>
                             <select name="estado" id="estado" class="form-control input-sm entrada" default-value="A">
                                 <option value="A">ACTIVO</option>
