@@ -128,7 +128,7 @@ class ApiController extends Controller
         LEFT JOIN asambleas.votos AS vt ON(vt.votacion_id=v.votacion_id)
         WHERE v.estado='A' AND v.votacion_status='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') /*AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre*/ AND (CASE WHEN vt.idmiembro IS NOT NULL THEN vt.idmiembro<>{$_REQUEST["idmiembro"]} ELSE 1=1 END)";
         // echo $sql_forma_votacion; exit;
-
+        
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
 

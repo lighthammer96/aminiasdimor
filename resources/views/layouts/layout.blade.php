@@ -333,6 +333,7 @@
         var guardar_resolucion = "<?php echo traducir('asambleas.guardar_resolucion'); ?>";
         var votacion_abierta = "<?php echo traducir('asambleas.votacion_abierta'); ?>";
         var votacion_cerrada = "<?php echo traducir('asambleas.votacion_cerrada'); ?>";
+        var votacion_fuera_de_fecha = "<?php echo traducir('asambleas.votacion_fuera_de_fecha'); ?>";
 
         var img_activos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/cheque.png').'\"><br>'; ?>";
         var img_inactivos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/inactivo.png').'\"><br>'; ?>";

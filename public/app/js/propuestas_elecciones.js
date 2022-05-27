@@ -974,10 +974,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 socket.emit("votacion-activada", response.formas_votacion);
             } else {
-                BASE_JS.notificacion({
-                    msg: response.msg,
-                    type: 'warning'
-                });
+                if(response.length <= 0) {
+                    BASE_JS.sweet({
+                        text: votacion_fuera_de_fecha
+                    });
+                } else {
+                    BASE_JS.notificacion({
+                        msg: response.msg,
+                        type: 'warning'
+                    });
+                }
+                
             }
             
             // console.log(response);

@@ -752,18 +752,30 @@ class PropuestasController extends Controller
         //     echo json_encode($result);
         //     exit;
         // }
-        $data["votacion_status"] = "A"; // votacion abierta
-        $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $data));
-       
+
+        $result = array();
+
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id, v.tabla
         FROM asambleas.votaciones AS v
         INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
-        WHERE v.votacion_id={$result["id"]} AND v.estado='A'";
+        WHERE v.votacion_id={$data["votacion_id"]} AND v.estado='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD')";
 
-        $result["formas_votacion"] = DB::select($sql_forma_votacion);
+        $formas_votacion = DB::select($sql_forma_votacion);
+
+        if(count($formas_votacion) <= 0) {
+            echo json_encode($result);
+            exit;
+        }
+        
+
+        $data["votacion_status"] = "A"; // votacion abierta
+        $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $data));
+       
+       
+        $result["formas_votacion"] = $formas_votacion;
+
         $result["formas_votacion"][0]->items = array();
 
-        // print_r($result); exit;
         if($result["formas_votacion"][0]->tabla == "asambleas.propuestas_temas") {
 
             $sql_propuestas = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS propuesta, tpt.tpt_idioma AS idioma_codigo, tpt.tpt_propuesta AS detalle_propuesta FROM asambleas.propuestas_temas AS pt

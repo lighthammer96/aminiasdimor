@@ -213,6 +213,7 @@ return [
     'ver_votacion_activa' => 'See active vote',
     'votacion_cerrada' => 'Closed Vote',
     'votacion_abierta' => 'Open Vote',
+    'votacion_fuera_de_fecha' => 'The release date of the last vote does not match the current vote',
     
     // LABELS APP
     'votar' => 'Vote',

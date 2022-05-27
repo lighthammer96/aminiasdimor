@@ -213,6 +213,7 @@ return [
     'ver_votacion_activa' => 'Ver Votación activa',
     'votacion_cerrada' => 'Votación Cerrada',
     'votacion_abierta' => 'Votación Abierta',
+    'votacion_fuera_de_fecha' => 'La fecha de lanzamiento de la ultima votación no coincide con la votación actual',
     
     // LABELS APP
     'votar' => 'Votar',
