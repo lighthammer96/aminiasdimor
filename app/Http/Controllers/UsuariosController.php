@@ -88,14 +88,14 @@ class UsuariosController extends Controller
 
     public function eliminar_usuarios() {
         try {
-            $sql_asociados = "SELECT * FROM seguridad.usuarios AS u 
-            INNER JOIN iglesias.miembro AS m ON(m.idmiembro=u.idmiembro)
-            WHERE u.usuario_id=".$_REQUEST["id"];
-            $asociados = DB::select($sql_asociados);
+            // $sql_asociados = "SELECT * FROM seguridad.usuarios AS u 
+            // INNER JOIN iglesias.miembro AS m ON(m.idmiembro=u.idmiembro)
+            // WHERE u.usuario_id=".$_REQUEST["id"];
+            // $asociados = DB::select($sql_asociados);
 
-            if(count($asociados) > 0) {
-                throw new Exception(traducir("traductor.eliminar_usuario_asociado"));
-            }
+            // if(count($asociados) > 0) {
+            //     throw new Exception(traducir("traductor.eliminar_usuario_asociado"));
+            // }
 
             $result = $this->base_model->eliminar(["seguridad.usuarios", "usuario_id"]);
             echo json_encode($result);
