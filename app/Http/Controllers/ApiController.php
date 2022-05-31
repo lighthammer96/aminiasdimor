@@ -132,7 +132,7 @@ class ApiController extends Controller
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
 
 
-        //VALIDAMOS QUE EL CLIENTE LOGUEADO EN LA APP NO HAYA TENIDO NINGUN VOTO
+        //VALIDAMOS QUE EL ASOCIADO LOGUEADO EN LA APP NO HAYA TENIDO NINGUN VOTO
         $sql_validar_voto = "SELECT * FROM asambleas.votos WHERE votacion_id={$_REQUEST["votacion_id"]} AND idmiembro={{$_REQUEST["idmiembro"]}";
 
         $validar_voto = DB::select($sql_validar_voto);
