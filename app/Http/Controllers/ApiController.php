@@ -125,14 +125,20 @@ class ApiController extends Controller
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
         FROM asambleas.votaciones AS v
         INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
-        LEFT JOIN asambleas.votos AS vt ON(vt.votacion_id=v.votacion_id)
-        WHERE v.estado='A' AND v.votacion_status='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') /*AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre*/ AND (CASE WHEN vt.idmiembro IS NOT NULL THEN vt.idmiembro<>{$_REQUEST["idmiembro"]} ELSE 1=1 END) AND v.votacion_id={$_REQUEST["votacion_id"]}";
+        WHERE v.estado='A' AND v.votacion_status='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') /*AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre*/ AND  v.votacion_id={$_REQUEST["votacion_id"]}";
         // echo $sql_forma_votacion; exit;
         
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
 
-        if(count($result["formas_votacion"]) > 0) {
+
+        //VALIDAMOS QUE EL CLIENTE LOGUEADO EN LA APP NO HAYA TENIDO NINGUN VOTO
+        $sql_validar_voto = "SELECT * FROM asambleas.votos WHERE votacion_id={$_REQUEST["votacion_id"]} AND idmiembro={{$_REQUEST["idmiembro"]}";
+
+        $validar_voto = DB::select($sql_validar_voto);
+
+
+        if(count($result["formas_votacion"]) > 0 && count($validar_voto) <= 0) {
             
             $result["formas_votacion"][0]->items = array();
 
