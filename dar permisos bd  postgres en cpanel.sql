@@ -23,17 +23,19 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA seguridad TO smi_user;
 -------------------------
 
 
-
+-- PARA PRODUCCION
 
 GRANT CONNECT ON DATABASE smisystem_bd TO smisystem_user; 
 
 GRANT USAGE ON SCHEMA public TO smisystem_user;
 GRANT USAGE ON SCHEMA iglesias TO smisystem_user;
 GRANT USAGE ON SCHEMA seguridad TO smisystem_user;
+GRANT USAGE ON SCHEMA asambleas TO smisystem_user;
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO smisystem_user;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA iglesias TO smisystem_user;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA seguridad TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA asambleas TO smisystem_user;
 
 
 -- GRANT ALL PRIVILEGES ON DATABASE smisystem_bd TO smisystem_user; -- no funciono
@@ -41,6 +43,7 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA seguridad TO smisystem_user;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO smisystem_user;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA iglesias TO smisystem_user;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA seguridad TO smisystem_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA asambleas TO smisystem_user;
 
 
 

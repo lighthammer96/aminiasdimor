@@ -24,27 +24,26 @@ TRUNCATE seguridad.log_sistema RESTART IDENTITY;
 
 --- gestion de asambleas
 
-TRUNCATE asambleas.agenda RESTART IDENTITY;
-TRUNCATE asambleas.delegados RESTART IDENTITY;
+TRUNCATE asambleas.agenda RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.delegados RESTART IDENTITY CASCADE;
 
-TRUNCATE asambleas.detalle_asistencia RESTART IDENTITY;
-TRUNCATE asambleas.asistencia RESTART IDENTITY;
-TRUNCATE asambleas.comentarios RESTART IDENTITY;
-TRUNCATE asambleas.detalle_propuestas RESTART IDENTITY;
+TRUNCATE asambleas.detalle_asistencia RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.asistencia RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.comentarios RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.detalle_propuestas RESTART IDENTITY CASCADE;
 
-TRUNCATE asambleas.foros RESTART IDENTITY;
-TRUNCATE asambleas.traduccion_propuestas_elecciones RESTART IDENTITY;
-TRUNCATE asambleas.traduccion_propuestas_temas RESTART IDENTITY;
+TRUNCATE asambleas.foros RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.traduccion_propuestas_elecciones RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.traduccion_propuestas_temas RESTART IDENTITY CASCADE;
 
-TRUNCATE asambleas.propuestas_elecciones RESTART IDENTITY;
-TRUNCATE asambleas.propuestas_origen RESTART IDENTITY;
-TRUNCATE asambleas.propuestas_temas RESTART IDENTITY;
-TRUNCATE asambleas.traduccion_resoluciones RESTART IDENTITY;
-TRUNCATE asambleas.resoluciones RESTART IDENTITY;
-TRUNCATE asambleas.resultados RESTART IDENTITY;
-TRUNCATE asambleas.votos RESTART IDENTITY;
-TRUNCATE asambleas.votaciones RESTART IDENTITY;
+TRUNCATE asambleas.propuestas_elecciones RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.propuestas_origen RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.propuestas_temas RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.traduccion_resoluciones RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.resoluciones RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.resultados RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.votos RESTART IDENTITY CASCADE;
+TRUNCATE asambleas.votaciones RESTART IDENTITY CASCADE;
 
-TRUNCATE asambleas.asambleas RESTART IDENTITY;
-
+TRUNCATE asambleas.asambleas RESTART IDENTITY CASCADE;
 
