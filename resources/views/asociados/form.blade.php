@@ -13,9 +13,9 @@
                             <li><a class="modificar" href="#historial-altas-bajas" data-toggle="tab">{{ traducir("traductor.historial_altas_bajas") }}</a></li>
                             <li><a class="modificar" href="#historial-traslados" data-toggle="tab">{{ traducir("traductor.historial_traslados") }}</a></li>
                             <li><a class="modificar" href="#capacitaciones" data-toggle="tab">{{ traducir("traductor.capacitaciones") }}</a></li>
-                            
-                          
-                           
+
+
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="datos-generales">
@@ -38,7 +38,7 @@
                                                     <label class="control-label">{{ traducir("traductor.apellido_soltera") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="apellido_soltera" placeholder="" />
                                                 </div>
-                                                
+
                                             </div>
 
                                             <div class="row">
@@ -57,13 +57,13 @@
                                                         <input type="radio" name="sexo" value="F" class="minimal entrada" >&nbsp;{{ traducir("traductor.femenino") }}
                                                     </div>
                                                 <?php } ?>
-                                                
+
                                                 <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.tipo_documento") }}</label>
                                                     <select class="entrada form-control input-sm select" name="idtipodoc" id="idtipodoc">
 
                                                     </select>
-                                                   
+
                                                 </div>
 
                                                 <?php if(trim(session("idioma_codigo")) == "es") { ?>
@@ -78,12 +78,12 @@
                                                         <input type="text" class="form-control input-sm entrada" name="nrodoc" placeholder="" maxlength="20"/>
                                                     </div>
                                                 <?php } ?>
-                                                
+
                                                 <div class="col-md-2" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.celular") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="celular" placeholder=""   maxlength="20"/>
                                                 </div>
-                                              
+
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2" style="padding-right: 5px;">
@@ -130,7 +130,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                               
+
                                                 <div class="col-md-6" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.direccion") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="direccion" placeholder="" />
@@ -139,7 +139,7 @@
                                                     <label class="control-label">{{ traducir("traductor.referencia") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="referenciadireccion" placeholder="" />
                                                 </div>
-                                                
+
                                             </div>
                                         </fieldset>
                                         <fieldset>
@@ -147,7 +147,7 @@
                                             <div class="row">
                                                 <div class="col-md-4" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.fecha_nacimiento") }}</label>
-                                                    
+
 
                                                     <div class="input-group">
                                                         <input type="text" class="form-control input-sm entrada" name="fechanacimiento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
@@ -193,16 +193,16 @@
 
                                                 <div class="col-md-4" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.ciudad") }}</label>
-                                                 
+
                                                     <input type="text" class="form-control input-sm entrada" name="ciudadnacextranjero" placeholder="" />
                                                 </div>
                                             </div>
                                         </fieldset>
-                                           
 
-                                           
+
+
                                             <div class="row">
-                                               
+
                                                 <div class="col-md-4" style="padding-right: 5px;">
                                                     <label class="control-label">Estado Civil</label>
                                                     <select class="entrada form-control input-sm select" name="idestadocivil" id="idestadocivil">
@@ -233,27 +233,27 @@
                                             </div>
 
                                             <div class="row">
-                                               
+
                                                 <div class="col-md-6" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir('traductor.idiomas') }}</label>
                                                     <textarea class="form-control input-sm entrada" name="idiomas"  cols="30" rows="2"></textarea>
-                                                    
+
                                                 </div>
 
                                                 <div class="col-md-6" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
                                                     <textarea class="form-control input-sm entrada" name="observaciones"  cols="30" rows="2"></textarea>
-                                                    
-                                                </div>
-                                                
-                                            </div>
-                                            
 
-                                       
+                                                </div>
+
+                                            </div>
+
+
+
                                     </div>
                                     <div class="col-md-3" style="padding-left: 5px;">
                                         <div class="row">
-                                            
+
                                             <div class="col-md-12" style="margin-top: 9px;">
                                                 <center>
                                                     <img title="Cargar Foto ..." style="cursor: pointer;height: 105px !important;" src="{{ URL::asset('images/camara.png') }}" class="thumb-lg img-thumbnail usuario_foto" alt="profile-image" id="cargar_foto">
@@ -312,44 +312,44 @@
                                             <div class="col-md-12 jerarquia-iglesias-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.division") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="division" placeholder="" />
-                                               
+
 
                                             </div>
 
                                             <div class="col-md-12 jerarquia-iglesias-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.pais") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="pais" placeholder="" />
-                                               
+
 
                                             </div>
 
                                             <div class="col-md-12 jerarquia-iglesias-descripcion union-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.union") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="union" placeholder="" />
-                                               
+
 
                                             </div>
                                             <div class="col-md-12 jerarquia-iglesias-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="asociacion" placeholder="" />
-                                               
+
 
                                             </div>
                                             <div class="col-md-12 jerarquia-iglesias-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="distrito_misionero" placeholder="" />
-                                               
+
 
                                             </div>
                                             <div class="col-md-12 jerarquia-iglesias-descripcion">
                                                 <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
                                                 <input type="text" readonly="readonly" class="form-control input-sm entrada" name="iglesia" placeholder="" />
-                                               
+
 
                                             </div>
                                             <div class="col-md-12" style="">
                                                 <label class="control-label">{{ traducir("traductor.fecha_ingreso") }}</label>
-                                                
+
 
                                                 <div class="input-group">
                                                     <input type="text" class="form-control input-sm entrada" name="fechaingresoiglesia" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
@@ -371,17 +371,17 @@
                             <div class="tab-pane" id="informacion-eclesiastica">
                                 <div class="row">
                                     <div class="col-md-3">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.condicion_eclesiastica') }}</label>
                                         <select class="entrada form-control input-sm select" name="idcondicioneclesiastica" id="idcondicioneclesiastica">
 
                                         </select>
-                                    
+
                                     </div>
 
                                     <div class="col-md-2" style="padding-right: 5px;">
                                         <label class="control-label">{{ traducir('traductor.fecha_bautizo') }}</label>
-                                        
+
 
                                         <div class="input-group">
                                             <input type="text" class="form-control input-sm entrada" name="fechabautizo" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
@@ -392,50 +392,50 @@
                                     </div>
                                     <div class="col-md-4">
                                         <input type="hidden" name="encargado_bautizo" class="input-sm entrada datos-encargado-bautizo">
-                                        
+
                                         <input type="hidden" name="tabla_encargado_bautizo" class="input-sm entrada datos-encargado-bautizo" >
 
                                         <label for="" class="control-label">{{ traducir('traductor.responsable') }}</label>
-                                        
+
                                         <div class="input-group">
                                             <input readonly="readonly" type="text" class="form-control input-sm entrada datos-encargado-bautizo" name="responsable_bautizo" placeholder="Buscar Responsable...">
                                             <span class="input-group-btn">
                                                 <button type="button" id="buscar-encargado-bautizo" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
-                                            
+
                                             </span>
 
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.procedencia_religiosa') }}</label>
                                         <select class="entrada form-control input-sm select" name="idreligion" id="idreligion">
 
                                         </select>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="row">
-                                                
+
                                     <div class="col-md-6">
-                                    
+
                                         <label class="control-label">{{ traducir("traductor.texto_bautismal") }}</label>
-                                        
+
                                         <input type="text" class="form-control input-sm entrada" name="texto_bautismal" placeholder="" />
-                                    
-                                        
+
+
                                     </div>
-                                    
+
                                 </div>
-                               
+
                                 <div class="row">
-                                               
+
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir("traductor.observaciones") }}</label>
                                         <textarea class="form-control input-sm entrada" name="observaciones_bautizo"  cols="30" rows="4"></textarea>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row boton-ficha-bautizo" style="margin-top: 20px; text-align: right;">
@@ -445,57 +445,57 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
-                            
+
                             <div class="tab-pane" id="registro-administrativo">
                                 <div class="row">
                                     <input type="hidden" name="lugar" id="lugar" class="limpiar-cargos">
                                     <input type="hidden" name="idlugar" id="idlugar" class="limpiar-cargos">
                                     <input type="hidden" name="tabla" id="tabla" class="limpiar-cargos">
                                     <div class="col-md-2" style="padding-right: 5px;">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.tipo_cargo') }}</label>
                                         <select class="entrada form-control input-sm select limpiar-cargos" name="idtipocargo" id="idtipocargo">
 
                                         </select>
-                                    
+
                                     </div>
 
                                     <div class="col-md-2 nivel" style="padding-left: 5px; padding-right: 5px;">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.nivel') }}</label>
                                         <select class="entrada form-control input-sm select limpiar-cargos" name="idnivel" id="idnivel">
 
                                         </select>
-                                    
+
                                     </div>
 
                                     <div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.cargo') }}</label>
                                         <select class="entrada form-control input-sm select limpiar-cargos" name="idcargo" id="idcargo">
 
                                         </select>
-                                    
+
                                     </div>
 
                                     <!-- <div class="col-md-2">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.institucion_iglesia') }}</label>
                                         <select class="entrada selectizejs" name="idinstitucion" id="idinstitucion">g
 
                                         </select>
-                                    
+
                                     </div> -->
 
                                     <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.periodo_ini') }}</label>
                                         <select class="entrada selectizejs limpiar-cargos" name="periodoini" id="periodoini">
 
                                         </select>
- 
+
                                     </div>
                                     <div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
                                         <label class="control-label">{{ traducir('traductor.periodo_fin') }}</label>
@@ -504,12 +504,12 @@
                                         </select>
                                     </div>
                                     <div class="col-md-1" style="margin-top: 7px; text-align: right; padding-left: 5px;">
-                                        <button type="button" class="btn btn-default btn-sm" id="agregar-cargo"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/plus.png') }}" ><br>[{{ traducir("traductor.agregar") }}]</button> 
+                                        <button type="button" class="btn btn-default btn-sm" id="agregar-cargo"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/plus.png') }}" ><br>[{{ traducir("traductor.agregar") }}]</button>
 
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-md-2 division-cargo jerarquia-cargos" style="display:none; padding-right: 5px;">
                                         <label class="control-label">{{ traducir("traductor.division") }}</label>
@@ -543,7 +543,7 @@
                                         </select>
 
                                     </div>
-                                    <div class="col-md-2 distrito-misionero-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;"> 
+                                    <div class="col-md-2 distrito-misionero-cargo jerarquia-cargos" style="display:none; padding-left: 5px; padding-right: 5px;">
                                         <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
 
                                         <select  class="entrada selectizejs limpiar-cargos" name="iddistritomisionerocargo" id="iddistritomisionerocargo">
@@ -565,23 +565,23 @@
                                         <label class="control-label">{{ traducir("traductor.condicion") }}</label><br>
                                         <input type="radio" name="condicion" value="R" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.remunerado") }} &nbsp;&nbsp;&nbsp;
                                         <input type="radio" name="condicion" value="N" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.no_remunerado") }} &nbsp;&nbsp;&nbsp;
-                                       
+
                                     </div>
                                     <div class="col-md-4" style="">
                                         <label class="control-label">{{ traducir("traductor.tiempo") }}</label><br>
-                                       
+
                                         <input type="radio" name="tiempo" value="C" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.tiempo_completo") }} &nbsp;&nbsp;&nbsp;
                                         <input type="radio" name="tiempo" value="P" class="minimal entrada limpiar-cargos" >&nbsp;{{ traducir("traductor.tiempo_parcial") }} &nbsp;&nbsp;&nbsp;
                                     </div>
                                 </div>
                                 <div class="row">
-                                               
+
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
                                         <textarea class="form-control input-sm entrada limpiar-cargos" name="observaciones_cargo"  cols="30" rows="2"></textarea>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row" style="margin-top: 15px;">
@@ -609,7 +609,7 @@
                                         </table>
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <div class="tab-pane" id="historial-altas-bajas">
                                 <div class="row" style="margin-top: 15px;">
@@ -623,7 +623,7 @@
                                                     <th style="width: 200px;">{{ traducir('traductor.fecha') }}</th>
                                                     <th style="width: 300px;">{{ traducir('traductor.observaciones') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.nuevo_bautismo') }}</th>
-                                                
+
                                                 </tr>
 
                                             </thead>
@@ -632,7 +632,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                
+
                                 </div>
 
                             </div>
@@ -647,8 +647,8 @@
                                                     <th style="width: 500px;">{{ traducir('traductor.iglesia_traslado') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.fecha') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.imprimir') }}</th>
-                                                    
-                                                
+
+
                                                 </tr>
 
                                             </thead>
@@ -657,7 +657,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                
+
                                 </div>
 
                             </div>
@@ -665,13 +665,13 @@
                             <div class="tab-pane" id="capacitaciones">
                                 <div class="row">
                                     <div class="col-md-2">
-                        
+
                                         <label class="control-label">{{ traducir('traductor.anio') }}</label>
                                         <!-- <select class="entrada selectizejs limpiar-capacitacion" name="anio" id="anio">
 
                                         </select> -->
                                         <input type="text" class="form-control input-sm entrada limpiar-capacitacion" name="anio" id="anio" placeholder="" />
-                                    
+
                                     </div>
                                     <div class="col-md-4" style="padding-right: 5px;">
                                         <label class="control-label">{{ traducir("traductor.capacitacion") }}</label>
@@ -681,24 +681,24 @@
                                         <label class="control-label">{{ traducir("traductor.centro_estudios") }}</label>
                                         <input type="text" class="form-control input-sm entrada limpiar-capacitacion" name="centro_estudios" placeholder="" />
                                     </div>
-                                    
 
-                                    
+
+
                                     <div class="col-md-2" style="margin-top: 27px;">
-                                        <button type="button" class="btn btn-success btn-sm" id="agregar-capacitacion">[{{ traducir("traductor.agregar") }}]</button> 
+                                        <button type="button" class="btn btn-success btn-sm" id="agregar-capacitacion">[{{ traducir("traductor.agregar") }}]</button>
 
                                     </div>
 
                                 </div>
-                               
+
                                 <div class="row">
-                                               
+
                                     <div class="col-md-12">
                                         <label class="control-label">{{ traducir('traductor.observaciones') }}</label>
                                         <textarea class="form-control input-sm entrada limpiar-capacitacion" name="observaciones_capacitacion"  cols="30" rows="2"></textarea>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row" style="margin-top: 15px;">
@@ -708,10 +708,10 @@
                                                 <tr>
                                                     <th style="width: 200px;">{{ traducir('traductor.anio') }}</th>
                                                     <th style="width: 200px;">{{ traducir('traductor.capacitacion') }}</th>
-                                              
+
                                                     <th style="width: 200px;">{{ traducir('traductor.centro_estudios') }}</th>
                                                     <th style="width: 400px;">{{ traducir('traductor.observaciones') }}</th>
-                                                
+
                                                     <th style="width: 30px;">{{ traducir('traductor.eliminar') }}</th>
                                                 </tr>
 
@@ -722,16 +722,16 @@
                                         </table>
                                     </div>
                                 </div>
-                               
+
                             </div>
 
                     </div>
 
-                    
+
                 </div>
                 <div class="modal-footer">
                     <div class="pull-left" id="bajas_altas">
-                        
+
                     </div>
                     <div class="pull-rigth">
                         <button type="button" class="btn btn-default btn-sm" id="cancelar-asociado"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir("traductor.cancelar") }}]</button>

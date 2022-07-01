@@ -7,9 +7,9 @@ var ruta = partesUrl[partesUrl.length-2] + "/" + partesUrl[partesUrl.length-1];
 var elementos = document.getElementsByClassName("modulosUrl");
 for(let i = 0; i < elementos.length; i++) {
 	if(typeof elementos[i].getAttribute("modulo_controlador") != "undefined" && elementos[i].getAttribute("modulo_controlador") == ruta) {
-		
+
 		// var tipodoc_id = elementos[i].getAttribute("tipodoc_id");
-		
+
 		var modulo_id = elementos[i].getAttribute("modulo_id");
 		var modulo_controlador = elementos[i].getAttribute("modulo_controlador");
 		elementos[i].parentNode.classList.add("active");
@@ -20,7 +20,7 @@ for(let i = 0; i < elementos.length; i++) {
 		$(elementos[i]).find("i").removeClass("fa fa-circle-o");
 		$(elementos[i]).find("i").addClass("fa fa-circle");
 		// console.log();
-		
+
 	}
 
 }
@@ -118,7 +118,7 @@ $(document).on("change", "#idioma_sistema", function(e) {
 				window.location = BaseUrl+"/principal/index";
 			}
 		} else {
-			
+
 		}
 	}).fail(function() {
 		console.log("ERROR 1");
@@ -130,23 +130,23 @@ $(document).on("change", "#idioma_sistema", function(e) {
 
 
 $(document).on("keydown", "#buscador", function(e) {
-	
+
 	// console.log(e);
 	if(e.keyCode == 13) {
-		e.preventDefault();    
+		e.preventDefault();
 	}
 
-	
+
 
 })
 
 
 $(document).on("click", "#search-btn", function(e) {
-	
-	// console.log(e);
-	
 
-	e.preventDefault();    
+	// console.log(e);
+
+
+	e.preventDefault();
 	var buscador = $("#buscador").val();
 	if(buscador != "") {
 		$.ajax({
@@ -170,7 +170,7 @@ $(document).on("click", "#search-btn", function(e) {
 			console.log("ERROR 2");
 			// return false;
 		});
-		
+
 	}
 
 })
@@ -184,7 +184,7 @@ $(document).on("mouseover", ".modulosUrl", function(e) {
 		$(this).find("i").removeClass("fa fa-circle-o");
 		$(this).find("i").addClass("fa fa-circle");
 	}
-	
+
 })
 
 $(document).on("mouseout", ".modulosUrl", function(e) {
@@ -192,7 +192,7 @@ $(document).on("mouseout", ".modulosUrl", function(e) {
 		$(this).find("i").removeClass("fa fa-circle");
 		$(this).find("i").addClass("fa fa-circle-o");
 	}
-	
+
 })
 
 function validarkeys(e, type) {
@@ -248,3 +248,13 @@ HTMLElement.prototype.decimales = function () {
     });
 
 };
+
+
+// $(document).on("focus", "input", function () {
+//     $(this).parent("div").addClass("focus-input");
+// });
+
+// $(document).on("focusout", "input", function () {
+//     $(this).parent("div").removeClass("focus-input");
+// });
+

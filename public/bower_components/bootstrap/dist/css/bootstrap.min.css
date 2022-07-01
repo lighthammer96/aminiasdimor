@@ -2664,7 +2664,8 @@ output {
     line-height: 1.42857143;
     color: #555;
     /* background-color: #fff; */
-    background-color: #dceff7;
+    /* background-color: #dceff7; */
+    background-color: #f4f4f7;
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
