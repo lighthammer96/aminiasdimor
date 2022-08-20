@@ -13,7 +13,7 @@ class ApiController extends Controller
     //
     private $base_model;
     private $distritos_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->distritos_model = new DistritosModel();
@@ -24,7 +24,7 @@ class ApiController extends Controller
         $pais = explode("|", $_REQUEST["pais_id"]);
         $tipodoc = explode("|", $_REQUEST["idtipodoc"]);
 
-        $sql = "SELECT m.*, i.idioma_codigo, CASE WHEN d.delegado_id IS NULL THEN 0 ELSE d.delegado_id END AS delegado_id, CASE WHEN d.asamblea_id IS NULL THEN 0 ELSE d.asamblea_id END AS asamblea_id FROM iglesias.miembro AS m 
+        $sql = "SELECT m.*, i.idioma_codigo, CASE WHEN d.delegado_id IS NULL THEN 0 ELSE d.delegado_id END AS delegado_id, CASE WHEN d.asamblea_id IS NULL THEN 0 ELSE d.asamblea_id END AS asamblea_id FROM iglesias.miembro AS m
         INNER JOIN iglesias.paises AS p ON(m.pais_id=p.pais_id)
         INNER JOIN public.idiomas AS i ON(i.idioma_id=p.idioma_id)
         LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro)
@@ -52,7 +52,7 @@ class ApiController extends Controller
             $data = $_REQUEST;
             $data["voto_fecha"] = date("Y-m-d");
             $data["voto_hora"] = date("H:i:s");
-            for ($i=0; $i < count($miembros_multiple); $i++) { 
+            for ($i=0; $i < count($miembros_multiple); $i++) {
                 $data["dp_id"] = $miembros_multiple[$i];
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $data));
             }
@@ -68,12 +68,12 @@ class ApiController extends Controller
                 $_REQUEST["dp_id"] = "";
             }
 
-        
+
             $_REQUEST["voto_fecha"] = date("Y-m-d");
             $_REQUEST["voto_hora"] = date("H:i:s");
             $result = $this->base_model->insertar($this->preparar_datos("asambleas.votos", $_REQUEST));
         }
-        
+
         // print_r($result);
         $result["datos"][0]["status"] = $result["status"];
         $result["datos"][0]["type"] = $result["type"];
@@ -110,7 +110,7 @@ class ApiController extends Controller
     }
 
     public function obtener_comentarios(Request $request) {
-        $sql = "SELECT * FROM asambleas.comentarios AS c 
+        $sql = "SELECT * FROM asambleas.comentarios AS c
         INNER JOIN iglesias.miembro AS m ON(c.idmiembro=m.idmiembro)
         WHERE c.foro_id={$request->input("foro_id")} AND c.estado='A'
         ORDER BY c.comentario_id DESC";
@@ -124,10 +124,10 @@ class ApiController extends Controller
         // votacion_status, A votacion abierta, C votacion cerrada
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
         FROM asambleas.votaciones AS v
-        INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
+        INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id)
         WHERE v.estado='A' AND v.votacion_status='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD') /*AND '".date("H:i")."' BETWEEN v.votacion_hora_apertura AND v.votacion_hora_cierre*/ AND  v.votacion_id={$_REQUEST["votacion_id"]}";
         // echo $sql_forma_votacion; exit;
-        
+
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
 
@@ -139,7 +139,7 @@ class ApiController extends Controller
 
 
         if(count($result["formas_votacion"]) > 0 && count($validar_voto) <= 0) {
-            
+
             $result["formas_votacion"][0]->items = array();
 
             // print_r($result); exit;
@@ -158,12 +158,12 @@ class ApiController extends Controller
 
                 $propuestas = DB::select($sql_propuestas);
             }
-            
+
             if($result["formas_votacion"][0]->fv_id == 3) {
                 $sql_asistencia = "SELECT m.idmiembro AS id, (m.apellidos || ', ' || m.nombres) AS descripcion FROM asambleas.asistencia AS a
                 INNER JOIN asambleas.detalle_asistencia AS da ON(a.asistencia_id=da.asistencia_id)
                 INNER JOIN iglesias.miembro AS m ON(m.idmiembro=da.idmiembro)
-                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id} 
+                WHERE a.estado='A' AND a.asamblea_id={$result["formas_votacion"][0]->asamblea_id}
                 GROUP BY m.idmiembro, m.apellidos, m.nombres";
                 $result["formas_votacion"][0]->items = DB::select($sql_asistencia);
             }
@@ -197,7 +197,7 @@ class ApiController extends Controller
 
 
     public function guardar_distritos(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("iddistrito") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.distrito", $_POST));
@@ -205,13 +205,13 @@ class ApiController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("public.distrito", $_POST));
         }
 
-   
-        
+
+
         echo json_encode($result);
     }
 
     public function eliminar_distritos() {
-       
+
 
         try {
             $sql_miembros = "SELECT * FROM iglesias.miembro WHERE iddistritodomicilio=".$_REQUEST["id"];
@@ -228,7 +228,7 @@ class ApiController extends Controller
                 throw new Exception(traducir("traductor.eliminar_distrito_iglesia"));
             }
 
-         
+
 
             $result = $this->base_model->eliminar(["public.distrito","iddistrito"]);
             echo json_encode($result);
@@ -251,7 +251,7 @@ class ApiController extends Controller
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia");
 			$result = DB::select($sql);
 		} else {
-            
+
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito";
             $result = DB::select($sql);
             // $result = array();
@@ -261,5 +261,10 @@ class ApiController extends Controller
 	}
 
 
-    
+    public function obtener_url() {
+        $data["url"] = "https://iglesia.solucionesahora.com/";
+        echo json_encode($data);
+    }
+
+
 }
