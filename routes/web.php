@@ -489,20 +489,20 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
   // FOROS
   Route::get('foros/index', [ForosController::class, "index"]);
   Route::post('foros/buscar_datos', [ForosController::class, "buscar_datos"]);
- 
+
   Route::post('foros/obtener_foros', [ForosController::class, "obtener_foros"]);
- 
+
   Route::post('foros/guardar_foros', [ForosController::class, "guardar_foros"]);
   Route::post('foros/get_foros', [ForosController::class, "get_foros"]);
   Route::post('foros/eliminar_foros', [ForosController::class, "eliminar_foros"]);
 
-  
+
   // COMENTARIOS
   Route::get('comentarios/index', [ComentariosController::class, "index"]);
   Route::post('comentarios/buscar_datos', [ComentariosController::class, "buscar_datos"]);
- 
+
   Route::post('comentarios/obtener_comentarios', [ComentariosController::class, "obtener_comentarios"]);
- 
+
   Route::post('comentarios/guardar_comentarios', [ComentariosController::class, "guardar_comentarios"]);
   Route::post('comentarios/get_comentarios', [ComentariosController::class, "get_comentarios"]);
   Route::post('comentarios/eliminar_comentarios', [ComentariosController::class, "eliminar_comentarios"]);
@@ -520,4 +520,4 @@ Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::
  Route::get('api/obtener_foros', [ApiController::class, "obtener_foros"]);
  Route::get('api/obtener_comentarios', [ApiController::class, "obtener_comentarios"]);
  Route::get('api/obtener_votacion_activa', [ApiController::class, "obtener_votacion_activa"]);
- 
+ Route::get('api/obtener_url', [ApiController::class, "obtener_url"]);
