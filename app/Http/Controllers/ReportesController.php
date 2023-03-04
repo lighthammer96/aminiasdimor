@@ -516,8 +516,10 @@ class ReportesController extends Controller
         $datos = array();
         $array_where = array();
         $where = "";
+        $array_where_secretario = array();
         if($request->input("iddivision") != '') {
             array_push($array_where, 'm.iddivision='.$request->input("iddivision"));
+            array_push($array_where_secretario, 'm.iddivision='.$request->input("iddivision"));
         }
 
         if($request->input("pais_id") != '') {
@@ -532,22 +534,27 @@ class ReportesController extends Controller
                 $_REQUEST["idunion"] = $res[0]->idunion;
             }
             array_push($array_where, 'm.pais_id='.$array_pais[0]);
+            array_push($array_where_secretario, 'm.pais_id='.$array_pais[0]);
         }
 
         if(isset($_REQUEST["idunion"]) && $_REQUEST["idunion"] != '') {
             array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
+            array_push($array_where_secretario, 'm.idunion='.$_REQUEST["idunion"]);
         }
 
         if($request->input("idmision") != '') {
             array_push($array_where, 'm.idmision='.$request->input("idmision"));
+            array_push($array_where_secretario, 'm.idmision='.$request->input("idmision"));
         }
 
         if($request->input("iddistritomisionero") != '') {
             array_push($array_where, 'm.iddistritomisionero='.$request->input("iddistritomisionero"));
+            array_push($array_where_secretario, 'm.iddistritomisionero='.$request->input("iddistritomisionero"));
         }
 
         if($request->input("idiglesia") != '') {
             array_push($array_where, 'm.idiglesia='.$request->input("idiglesia"));
+            array_push($array_where_secretario, 'm.idiglesia='.$request->input("idiglesia"));
         }
 
         if($request->input("idcondicioneclesiastica") != '' && $request->input("idcondicioneclesiastica") != '-1') {
@@ -576,11 +583,16 @@ class ReportesController extends Controller
             echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
+        
+        $where_secretario = "";
+        if(count($array_where_secretario) > 0 ) {
+            $where_secretario .= " AND  ".implode(" AND ", $array_where_secretario);
+        } 
 
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
-        WHERE cm.idcargo=6 ";
+        WHERE cm.idcargo=6 ".$where_secretario;
         $secretario = DB::select($sql_secretario);
 
         
