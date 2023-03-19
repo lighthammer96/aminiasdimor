@@ -1,10 +1,19 @@
 var pastores = new BASE_JS('pastores', 'pastores');
 var principal = new BASE_JS('principal', 'principal');
+var paises = new BASE_JS('paises', 'paises');
 
 document.addEventListener("DOMContentLoaded", function() {
     pastores.buscarEnFormulario("nombrecompleto").solo_letras();
     pastores.buscarEnFormulario("nrodoc").solo_numeros();
-    
+
+    paises.select({
+        name: 'idpais',
+        url: '/obtener_todos_paises',
+        placeholder: seleccione,
+    }).then(function() {
+
+    })
+
     pastores.TablaListado({
         tablaID: '#tabla-pastores',
         url: "/buscar_datos",
@@ -43,13 +52,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-pastor':
                 event.preventDefault();
-            
+
                 pastores.abrirModal();
             break;
 
             case 'modificar-pastor':
                 event.preventDefault();
-            
+
                 modificar_pastor();
             break;
 
@@ -74,14 +83,14 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = pastores.get(datos.idotrospastores);
 
         promise.then(function(response) {
-        
+
         })
     }
 
@@ -89,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
         // required = required && pastores.required("perfil_descripcion");
 
-    
+
         if(required) {
             var promise = pastores.guardar();
             pastores.CerrarModal();
@@ -103,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-            
+
             })
 
         }
@@ -116,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -138,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "pastores/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-pastores').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         pastores.abrirModal();
@@ -154,15 +163,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_pastor();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -171,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -179,30 +188,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-pastores').is(':visible')) {
                     guardar_pastor();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-pastor").addEventListener("click", function(event) {

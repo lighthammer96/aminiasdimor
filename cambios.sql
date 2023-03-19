@@ -171,3 +171,7 @@ N -> NO';
 ALTER TABLE "iglesias"."miembro"
   ADD COLUMN "fecha_emision_pasaporte" date;
 
+--- 19/03/2023
+ALTER TABLE "iglesias"."otrospastores"
+  ADD COLUMN "idpais" int2,
+  ADD CONSTRAINT "fk_pais_otrospastores" FOREIGN KEY ("idpais") REFERENCES "public"."pais" ("idpais");

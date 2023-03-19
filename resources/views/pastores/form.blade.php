@@ -13,31 +13,37 @@
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.cargo') }}</label>
                             <select name="idcargo" id="idcargo" class="entrada selectizejs">
-                               
+
                             </select>
                         </div>
-           
+
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.tipo_documento') }}</label>
                             <select name="idtipodoc" id="idtipodoc" class="entrada selectizejs">
-                            
+
                             </select>
-                          
+
                         </div>
 
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.numero_documento') }}</label>
                             <input type="text" class="form-control input-sm entrada" name="nrodoc" />
                         </div>
-                        
+
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <label class="control-label">{{ traducir('traductor.pais') }}</label>
+                            <select name="idpais" id="idpais" class="entrada selectizejs">
+
+                            </select>
+                        </div>
+                        <div class="col-md-6">
                             <label class="control-label">{{ traducir('traductor.vigente')}}</label>
 
-                            &nbsp;&nbsp;    
+                            &nbsp;&nbsp;
                             <input class="minimal entrada" type="checkbox" name="vigente" default-value="1">
 
                         </div>
@@ -46,7 +52,7 @@
                         <div class="col-md-12">
                             <label class="control-label">{{ traducir('traductor.observaciones')}}</label>
 
-                      
+
                             <textarea class="form-control input-sm entrada" name="observaciones" id="" cols="30" rows="4"></textarea>
 
                         </div>
