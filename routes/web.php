@@ -29,6 +29,7 @@ use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\ComentariosController;
+use App\Http\Controllers\EleccionController;
 use App\Http\Controllers\ForosController;
 use App\Http\Controllers\ResolucionesController;
 use App\Http\Controllers\TiposcargoController;
@@ -367,12 +368,12 @@ Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [Actividadmi
 Route::get('actividad_misionera/exportar_excel_actividades_misioneras  ', [ActividadmisioneraController::class, "exportar_excel_actividades_misioneras"]);
 
 // ELECCION
-Route::get('eleccion/index', [AsambleasController::class, "index"]);
-Route::post('eleccion/buscar_datos', [AsambleasController::class, "buscar_datos"]);
-Route::post('eleccion/guardar_eleccion', [AsambleasController::class, "guardar_eleccion"]);
-Route::post('eleccion/get_eleccion', [AsambleasController::class, "get_eleccion"]);
-Route::post('eleccion/eliminar_eleccion', [AsambleasController::class, "eliminar_eleccion"]);
-Route::post('eleccion/obtener_eleccion', [AsambleasController::class, "obtener_eleccion"]);
+Route::get('eleccion/index', [EleccionController::class, "index"]);
+Route::post('eleccion/buscar_datos', [EleccionController::class, "buscar_datos"]);
+Route::post('eleccion/guardar_eleccion', [EleccionController::class, "guardar_eleccion"]);
+Route::post('eleccion/get_eleccion', [EleccionController::class, "get_eleccion"]);
+Route::post('eleccion/eliminar_eleccion', [EleccionController::class, "eliminar_eleccion"]);
+Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_eleccion"]);
 
 /*************
  * MODULO REPORTES*

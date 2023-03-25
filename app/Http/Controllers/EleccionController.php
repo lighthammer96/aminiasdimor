@@ -14,7 +14,7 @@ class EleccionController extends Controller
     //
     private $base_model;
     private $eleccion_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->eleccion_model = new EleccionModel();
@@ -28,15 +28,15 @@ class EleccionController extends Controller
         $data["tabla"] = $this->eleccion_model->tabla()->HTML();
 
         $botones = array();
-        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nueva-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["eleccion.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,12 +46,12 @@ class EleccionController extends Controller
 
 
     public function guardar_eleccion(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST, ["tipo"]);
         $array_pais = explode("|", $_POST["pais_id"]);
         $_POST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_POST["pais_id"]}";
             $res = DB::select($sql);
@@ -64,12 +64,12 @@ class EleccionController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.eleccion", $_POST));
         }
 
-   
+
         echo json_encode($result);
     }
 
     public function eliminar_eleccion() {
-       
+
 
         try {
             // $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE ideleccion=".$_REQUEST["id"];
