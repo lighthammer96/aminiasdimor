@@ -22,3 +22,5 @@ composer.lock
 package-lock.json
 
 /public/error_log
+
+composer.lock
