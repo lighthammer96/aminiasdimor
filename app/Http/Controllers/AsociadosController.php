@@ -125,7 +125,7 @@ class AsociadosController extends Controller
         // print_r($r);
         //  exit;
 
-        $_POST["fecharegistro"] = date("Y-m-d H:i:s");
+
         $response = array();
 
         try {
@@ -189,6 +189,7 @@ class AsociadosController extends Controller
 
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo", "texto_bautismal"]);
             if ($request->input("idmiembro") == '') {
+                $_POST["fecharegistro"] = date("Y-m-d H:i:s");
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
             }else{
                 // print_r($this->preparar_datos("iglesias.miembro", $_POST)); exit;git

@@ -387,11 +387,13 @@ Route::get('reportes/imprimir_miembros_iglesia', [ReportesController::class, "im
 Route::get('reportes/miembros_iglesia', [ReportesController::class, "miembros_iglesia"]);
 Route::get('reportes/oficiales_iglesia', [ReportesController::class, "oficiales_iglesia"]);
 Route::get('reportes/oficiales_union_asociacion', [ReportesController::class, "oficiales_union_asociacion"]);
+Route::get('reportes/oficiales_union', [ReportesController::class, "oficiales_union"]);
 Route::get('reportes/informe_semestral', [ReportesController::class, "informe_semestral"]);
 Route::get('reportes/imprimir_fichas_asociados', [ReportesController::class, "imprimir_fichas_asociados"]);
 Route::get('reportes/imprimir_oficiales_iglesia', [ReportesController::class, "imprimir_oficiales_iglesia"]);
 Route::get('reportes/imprimir_informe_semestral', [ReportesController::class, "imprimir_informe_semestral"]);
 Route::get('reportes/imprimir_oficiales_union_asociacion', [ReportesController::class, "imprimir_oficiales_union_asociacion"]);
+Route::get('reportes/imprimir_oficiales_union', [ReportesController::class, "imprimir_oficiales_union"]);
 Route::get('reportes/exportar_excel_general_asociados', [ReportesController::class, "exportar_excel_general_asociados"]);
 Route::post('reportes/obtener_iglesias', [ReportesController::class, "obtener_iglesias"]);
 Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_feligresia"]);

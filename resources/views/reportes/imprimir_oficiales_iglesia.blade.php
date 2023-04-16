@@ -14,12 +14,12 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 4cm;
+            margin-top: 4.9cm;
             margin-left: 1cm;
             margin-right: 1cm;
             margin-bottom: 2cm;
         }
-            
+
         header {
             position: fixed;
             top: 0.9cm;
@@ -37,17 +37,17 @@
             /* font-weight: bold; */
             font-size: 12px;
         }
-		
+
 
         /* #contenido {
-            
+
             width: 696px; */
             /* border: 1px solid gray */
-					
+
         /* } */
 
         /* #logo img {
-		
+
             width: 100%;
         }
 
@@ -56,8 +56,8 @@
         }
 
         #cliente {
-            border-radius: 5px; 
-            border: 1px solid gray; 
+            border-radius: 5px;
+            border: 1px solid gray;
             padding: 1%;
             height: 70px;
 
@@ -79,27 +79,27 @@
             /* clear: both; */
         }
         .clear {
-            clear: both; 
+            clear: both;
         }
         .col {
             float: left;
             /* border: 1px solid black; */
         }
-        
+
 
         h2, h3, h4, h5 {
             /* text-align: center !important; */
             margin: 2px 0;
             /* padding-botton: 2px; */
-			
+
         }
     </style>
-   
+
 </head>
 <body>
     @include("layouts.cabecera")
     <main>
-        
+
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
@@ -124,17 +124,17 @@
             <div class="col" style="width: 15%;">
                 <label for=""><strong>{{ $anio }}</strong></label>
             </div>
-            
-            
 
-            
+
+
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director[0])
-                            {{ mayusculas($director[0]->cargo) }} 
+                            {{ mayusculas($director[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -226,7 +226,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($secretario[0])
-                            {{ mayusculas($secretario[0]->cargo) }} 
+                            {{ mayusculas($secretario[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -316,7 +316,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($tesorero[0])
-                            {{ mayusculas($tesorero[0]->cargo) }} 
+                            {{ mayusculas($tesorero[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -406,7 +406,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($diacono[0])
-                            {{ mayusculas($diacono[0]->cargo) }} 
+                            {{ mayusculas($diacono[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -495,7 +495,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_escuela_sabatica[0])
-                            {{ mayusculas($director_escuela_sabatica[0]->cargo) }} 
+                            {{ mayusculas($director_escuela_sabatica[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -585,7 +585,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_obra_misionera[0])
-                            {{ mayusculas($director_obra_misionera[0]->cargo) }} 
+                            {{ mayusculas($director_obra_misionera[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -674,7 +674,7 @@
             <div class="col" style="width: 43%;">
                 <label for="" style="font-size: 13px !important; font-weight: bold;">
                         @isset($director_jovenes[0])
-                            {{ mayusculas($director_jovenes[0]->cargo) }} 
+                            {{ mayusculas($director_jovenes[0]->cargo) }}
                         @endisset
                 </label>
             </div>
@@ -768,42 +768,42 @@
                         @endisset
                     </strong>
                 </label>
-               
+
             </div>
-            
+
         </div>
 
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 50%;">
-                <?php 
+                <?php
                     $cant = count($comite);
                     $mitad = round($cant / 2);
-                  
-                    for ($i=0; $i < $mitad; $i++) { 
+
+                    for ($i=0; $i < $mitad; $i++) {
                         if(isset($comite[$i]->nombres)) {
                             echo '<label for="">'.($i+1).". ".$comite[$i]->nombres.'</label>';
                         }
-                        
+
                     }
-                    
-                    
+
+
                 ?>
-                
-               
+
+
             </div>
 
             <div class="col" style="width: 50%;">
-                <?php 
-                   
-                    for ($j=$mitad; $j < $cant; $j++) { 
+                <?php
+
+                    for ($j=$mitad; $j < $cant; $j++) {
                         echo '<label for="">'.($j+1).". ".$comite[$i]->nombres.'</label>';
                     }
                 ?>
-                
-               
+
+
             </div>
-            
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
@@ -811,23 +811,23 @@
                 <label for="">
                     <strong>{{ mayusculas(traducir("traductor.otros_oficiales_iglesia")) }}</strong>
                 </label>
-               
+
             </div>
-            
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 35%;">
                 <label for="" style="border-bottom: 1px solid black;">{{ traducir("traductor.cargo") }}</label>
-                
-               
+
+
             </div>
 
             <div class="col" style="width: 65%;">
                 <label for="" style="border-bottom: 1px solid black;">{{ traducir("traductor.nombre") }}</label>
-               
+
             </div>
-            
+
         </div>
         <div class="clear"></div>
         <?php
@@ -842,7 +842,7 @@
                             </div>
                         </div>';
             }
-        
+
         ?>
 
 
@@ -851,7 +851,7 @@
         <div class="row" style="margin-top: 100px;">
             <div class="col" style="width: 45%; border-top: 1px solid dashed; text-align: center;">
                 <label for="">{{ traducir("traductor.firma_anciano_director_iglesia") }}</label>
-               
+
             </div>
             <div class="col" style="width: 10%;"></div>
             <div class="col" style="width: 45%; border-top: 1px solid dashed; text-align: center;">
@@ -862,21 +862,21 @@
         <div class="row" style="">
             <div class="col" style="width: 90%;">
                 <label for=""></label>
-               
+
             </div>
-         
+
             <div class="col" style="width: 10%; text-align: center">
                 <label for=""><strong>{{ fecha_actual_idioma() }}</strong></label><br>
                 <label for="">{{ traducir("traductor.fecha") }}</label>
             </div>
         </div>
-        
-   
-      
-    
+
+
+
+
 
     </main>
-    
-    
+
+
 </body>
 </html>

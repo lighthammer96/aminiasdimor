@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo mayusculas(traducir("traductor.titulo_oficiales_union_asociacion")); ?></title>
+    <title><?php echo mayusculas(traducir("traductor.titulo_oficiales_union")); ?></title>
     <style>
 
         /* referencia: https://ourcodeworld.co/articulos/leer/687/como-configurar-un-encabezado-y-pie-de-pagina-en-dompdf */
@@ -18,7 +18,6 @@
             margin-left: 1cm;
             margin-right: 1cm;
             margin-bottom: 2cm;
-            /* border: 1px solid blue; */
         }
 
         header {
@@ -30,7 +29,6 @@
             text-align: center;
             line-height: 0.8cm;
             font-family: 'Times New Roman' !important;
-            /* border: 1px solid red; */
         }
 
         * {
@@ -105,7 +103,7 @@
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
-                <h3><?php echo mayusculas(traducir("traductor.eleccion_oficiales_union_asociacion")); ?></h3>
+                <h3><?php echo mayusculas(traducir("traductor.eleccion_oficiales_union")); ?></h3>
             </div>
         </div>
 

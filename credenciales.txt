@@ -1,6 +1,6 @@
 Para subir al sistema
 +===================================+
-| Acceso Cpanel          
+| Acceso Cpanel
 +===================================+
 | Domain: iglesia.solucionesahora.com:2082
 | HasCgi: y

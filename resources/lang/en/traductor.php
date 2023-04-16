@@ -8,7 +8,7 @@ return [
     'desconectar' => 'Disconnect',
     'buscar' => 'Search',
     'online' => 'Online',
-    
+
     // BOTONES
     'nuevo' => 'New',
     'modificar' => 'Modify',
@@ -297,7 +297,8 @@ return [
     "director_obra_misionera" => 'Name of the Director of Missionary Work',
     "eleccion_oficiales_iglesia" => 'Election of Church Officers',
     "oficiales_elegidos" => 'Elected Officers',
-    "eleccion_oficiales_union_asociacion" => 'Election of Union / Association Officers',
+    "eleccion_oficiales_union_asociacion" => 'Election of Association Officers',
+    "eleccion_oficiales_union" => 'Election of Union Officers',
     "fax" => 'Fax',
     "otros_oficiales_iglesia" => 'Other Church Officers',
     "fecha_elecciones_anteriores" => 'Date of previous elections',
@@ -413,7 +414,7 @@ return [
     'datatable_a' => 'to',
     'datatable_from' => 'from',
     'datatable_seleccionado' => 'selected',
-    
+
     // TITULOS MODULOS
     'titulo_asociados' => 'Associate administration',
     'titulo_divisiones' => 'Divisions administration',
@@ -446,7 +447,10 @@ return [
     'titulo_idiomas' => "Language administration",
     'titulo_eleccion' => "Election of Officers",
     'titulo_reporte_oficiales_iglesia' => "Church Official Report",
-    'titulo_reporte_oficiales_union_asociacion' => "Union / Association Officers Report",
+    'titulo_reporte_oficiales_union_asociacion' => "Association Officers Report",
+    'titulo_reporte_oficiales_union' => "Union Officers Report",
+    'titulo_oficiales_union_asociacion' => "Association Officers",
+    'titulo_oficiales_union' => "Union Officers",
     'titulo_informe_semestral' => "Semiannual Secretariat Report",
     'titulo_importar_datos' => "Import Data",
 

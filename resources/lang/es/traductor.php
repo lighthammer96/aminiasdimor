@@ -8,7 +8,7 @@ return [
     'desconectar' => 'Desconectar',
     'buscar' => 'Buscar',
     'online' => 'En Línea',
-    
+
     // BOTONES
     'nuevo' => 'Nuevo',
     'modificar' => 'Modificar',
@@ -297,7 +297,8 @@ return [
     "director_obra_misionera" => 'Nombre del Director de Obra Misionera',
     "eleccion_oficiales_iglesia" => 'Elección de Oficiales de Iglesia',
     "oficiales_elegidos" => 'Oficiales Elegidos',
-    "eleccion_oficiales_union_asociacion" => 'Elección de Oficiales de Unión/Asociación',
+    "eleccion_oficiales_union_asociacion" => 'Elección de Oficiales de Asociación',
+    "eleccion_oficiales_union" => 'Elección de Oficiales de Unión',
     "fax" => 'Fax',
     "otros_oficiales_iglesia" => 'Otros Oficiales de Iglesia',
     "fecha_elecciones_anteriores" => 'Fecha de las elecciones anteriores',
@@ -399,7 +400,7 @@ return [
     'imprimir_carta_iglesia' => '¿Desea imprimir Carta de Iglesia?',
     'nueva_password' => 'Nueva Contraseña',
     'repita_nueva_password' => 'Repita su Nueva Contraseña',
-    
+
 
      // LABELS DATATABLES
     'datatable_next' => 'Siguiente',
@@ -414,7 +415,7 @@ return [
     'datatable_a' => 'a',
     'datatable_from' => 'de',
     'datatable_seleccionado' => 'seleccionado',
-    
+
     // TITULOS MODULOS
     'titulo_asociados' => 'Administración de asociados',
     'titulo_divisiones' => 'Administración de divisiones',
@@ -447,7 +448,10 @@ return [
     'titulo_idiomas' => "Administración de idiomas",
     'titulo_eleccion' => "Elección de Oficiales",
     'titulo_reporte_oficiales_iglesia' => "Reporte de Oficiales de Iglesia",
-    'titulo_reporte_oficiales_union_asociacion' => "Reporte de Oficiales de Unión/Asociación",
+    'titulo_reporte_oficiales_union_asociacion' => "Reporte de Oficiales de Asociación",
+    'titulo_reporte_oficiales_union' => "Reporte de Oficiales de Unión",
+    'titulo_oficiales_union_asociacion' => "Oficiales de Asociación",
+    'titulo_oficiales_union' => "Oficiales de Unión",
     'titulo_informe_semestral' => "Informe Semestral de Secretaría",
     'titulo_importar_datos' => "Importar Datos",
 

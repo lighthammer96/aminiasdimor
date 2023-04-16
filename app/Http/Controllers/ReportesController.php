@@ -16,7 +16,7 @@ class ReportesController extends Controller
     //
     // private $base_model;
     private $ReportesController_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->reportes_model = new ReportesModel();
@@ -46,9 +46,9 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_reporte_general_asociados");
         $data["subtitle"] = "";
-      
 
-  
+
+
         $data["scripts"] = $this->cargar_js(["reporte_general_asociados.js"]);
         return parent::init($view, $data);
     }
@@ -59,9 +59,9 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_grafico_feligresia");
         $data["subtitle"] = "";
-      
 
-  
+
+
         $data["scripts"] = $this->cargar_js(["grafico_feligresia.js"]);
         return parent::init($view, $data);
     }
@@ -72,9 +72,9 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_miembros_iglesia");
         $data["subtitle"] = "";
-      
 
-  
+
+
         $data["scripts"] = $this->cargar_js(["miembros_iglesia.js"]);
         return parent::init($view, $data);
     }
@@ -85,9 +85,9 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_reporte_oficiales_iglesia");
         $data["subtitle"] = "";
-      
 
-  
+
+
         $data["scripts"] = $this->cargar_js(["oficiales_iglesia.js"]);
         return parent::init($view, $data);
     }
@@ -99,10 +99,21 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_reporte_oficiales_union_asociacion");
         $data["subtitle"] = "";
-      
 
-  
         $data["scripts"] = $this->cargar_js(["oficiales_union_asociacion.js?version=090920210947"]);
+        return parent::init($view, $data);
+    }
+
+    public function oficiales_union() {
+        $view = "reportes.oficiales_union";
+        // echo traducir("traductor.titulo_general_asociados");
+        // exit;
+        $data["title"] = traducir("traductor.titulo_reporte_oficiales_union");
+        $data["subtitle"] = "";
+
+
+
+        $data["scripts"] = $this->cargar_js(["oficiales_union.js?version=140420230947"]);
         return parent::init($view, $data);
     }
 
@@ -112,9 +123,9 @@ class ReportesController extends Controller
         // exit;
         $data["title"] = traducir("traductor.titulo_informe_semestral");
         $data["subtitle"] = "";
-      
 
-  
+
+
         $data["scripts"] = $this->cargar_js(["informe_semestral.js"]);
         return parent::init($view, $data);
     }
@@ -123,7 +134,7 @@ class ReportesController extends Controller
         $json_data = $this->ReportesController_model->tabla()->obtenerDatos();
         echo json_encode($json_data);
     }
-   
+
 
 
     // public function get(Request $request) {
@@ -133,20 +144,20 @@ class ReportesController extends Controller
     //     echo json_encode($one);
     // }
 
-     
+
     public function obtener_iglesias(Request $request) {
 
         $sql = "";
         $result = array();
 		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
-	
-			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia 
+
+			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia
             WHERE iddistritomisionero IS NOT NULL AND estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero");
             $result = DB::select($sql);
 		}
         // die($sql);
-        
-      
+
+
         echo json_encode($result);
     }
 
@@ -164,7 +175,7 @@ class ReportesController extends Controller
         if($request->input("idocupacion") != '' && $request->input("idocupacion") != '0') {
             array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
         }
-        
+
 
         // if($request->input("idocupacion") != '') {
         //     array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
@@ -184,7 +195,7 @@ class ReportesController extends Controller
 
             $_REQUEST["pais_id"] = $array_pais[0];
             if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-                $sql = "SELECT * FROM iglesias.union AS u 
+                $sql = "SELECT * FROM iglesias.union AS u
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_REQUEST["pais_id"]}";
                 $res = DB::select($sql);
@@ -192,7 +203,7 @@ class ReportesController extends Controller
             }
         }
 
-      
+
 
         if(isset($_REQUEST["idunion"]) && $_REQUEST["idunion"] != '') {
             array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
@@ -212,8 +223,8 @@ class ReportesController extends Controller
             $select = " m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
             gi.descripcion AS educacion, o.descripcion AS ocupacion, r.descripcion AS religion, ".formato_fecha_idioma("m.fechabautizo")." AS fechabautizo, vr.nombres AS bautizador, ec.descripcion AS estado_civil, CASE WHEN m.sexo='M' THEN '".traducir("traductor.hombre")."' ELSE '".traducir("traductor.mujer")."' END AS sexo, CASE WHEN m.estado='1' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado ";
         }
-        
-       
+
+
 
         $where = implode(" AND ", $array_where);
 
@@ -222,11 +233,11 @@ class ReportesController extends Controller
         }
 
         if($request->input("fechaini") != '' && $request->input("fechafin") ==  '') {
-            $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechaini"], "server")."'"; 
+            $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechaini"], "server")."'";
         }
 
         if($request->input("fechaini") == '' && $request->input("fechafin") !=  '') {
-            $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'"; 
+            $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'";
         }
 
         if(isset($_REQUEST["iglesias"]) && count($_REQUEST["iglesias"]) > 0) {
@@ -258,7 +269,7 @@ class ReportesController extends Controller
         // echo "hola";
         // print_r($request->input("iddivision"));
 
-    
+
 
         // $array_where = array();
         // $where = '';
@@ -273,7 +284,7 @@ class ReportesController extends Controller
         // if($request->input("idocupacion") != '') {
         //     array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
         // }
-        
+
 
         // if($request->input("idocupacion") != '') {
         //     array_push($array_where, 'm.idocupacion='.$request->input("idocupacion"));
@@ -305,7 +316,7 @@ class ReportesController extends Controller
         // }
 
         // $select = implode(", ", $request->input("campos"));
-       
+
 
         // $where = implode(" AND ", $array_where);
 
@@ -314,11 +325,11 @@ class ReportesController extends Controller
         // }
 
         // if($request->input("fechaini") != '' && $request->input("fechafin") ==  '') {
-        //     $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechaini"], "server")."'"; 
+        //     $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechaini"], "server")."'";
         // }
 
         // if($request->input("fechaini") == '' && $request->input("fechafin") !=  '') {
-        //     $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'"; 
+        //     $where .= " AND m.fechabautizo = '".$this->FormatoFecha($_REQUEST["fechafin"], "server")."'";
         // }
 
         // if(isset($_REQUEST["iglesias"]) && count($_REQUEST["iglesias"]) > 0) {
@@ -350,7 +361,7 @@ class ReportesController extends Controller
             exit;
         }
 
-       
+
         $datos["miembros"] = $miembros;
         // print_r($miembros[0]); exit;
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
@@ -358,7 +369,7 @@ class ReportesController extends Controller
         // echo "<pre>";
         // print_r($miembros); exit;
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
-        
+
         // $pdf = PDF::loadView("reportes.imprimir_general_asociados", $datos)->setPaper('A4', $request->input("formato"));
 
         // // return $pdf->save("ficha_asociado.pdf"); // guardar
@@ -369,12 +380,12 @@ class ReportesController extends Controller
     }
 
 
-    
+
     public function imprimir_fichas_asociados(Request $request) {
         // echo "hola";
         // print_r($request->input("iddivision"));
 
-       
+
         $miembros = $this->obtener_miembros($request, "fichas");
 
         if(count($miembros) <= 0) {
@@ -401,34 +412,34 @@ class ReportesController extends Controller
             INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
             WHERE m.idmiembro=".$vm->idmiembro;
 
-            $miembros[$km]->cargos = DB::select($sql_cargos);  
+            $miembros[$km]->cargos = DB::select($sql_cargos);
 
 
             $sql_control = "SELECT ".formato_fecha_idioma("ct.fecha")." AS fecha_aceptacion, ".formato_fecha_idioma("ht.fecha")." AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
             INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
-            WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro." 
+            WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro."
             ORDER BY ct.idcontrol DESC";
             $control = DB::select($sql_control);
             $miembros[$km]->fecha_aceptacion = (isset($control[0]->fecha_aceptacion)) ? $control[0]->fecha_aceptacion : "";
             $miembros[$km]->fecha_aceptacion_local = (isset($control[0]->fecha_aceptacion_local)) ? $control[0]->fecha_aceptacion_local : "";
-            
+
         }
 
-      
-    
+
+
 
         $datos["estado_civil"] = $estado_civil;
         // $datos["baja"] = $baja;
-        // $datos["motivos_baja"] = $motivos_baja; 
+        // $datos["motivos_baja"] = $motivos_baja;
 
         // $datos["cargos"] = $cargos;
         $datos["miembros"] = $miembros;
         // print_r($miembros[0]); exit;
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
-      
-        
+
+
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
-        
+
         $pdf = PDF::loadView("reportes.fichas", $datos)->setPaper('A4', "portrait");
 
         // return $pdf->save("ficha_asociado.pdf"); // guardar
@@ -462,14 +473,14 @@ class ReportesController extends Controller
 
             $_REQUEST["pais_id"] = $array_pais[0];
             if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-                $sql = "SELECT * FROM iglesias.union AS u 
+                $sql = "SELECT * FROM iglesias.union AS u
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_REQUEST["pais_id"]}";
                 $res = DB::select($sql);
                 $_REQUEST["idunion"] = $res[0]->idunion;
             }
         }
-       
+
 
         if($_REQUEST["idunion"] != '0') {
             array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
@@ -489,8 +500,8 @@ class ReportesController extends Controller
 
         if(count($array_where) > 0 ) {
             $where .= " AND ".implode(" AND ", $array_where);
-        } 
-        
+        }
+
 
         $sql = "SELECT *
         FROM iglesias.miembro AS m
@@ -501,10 +512,10 @@ class ReportesController extends Controller
         $total = count($total);
 
 
-        $sql = "SELECT (COUNT(m.idmiembro)* 100 / ".$total.") AS y, (COUNT(m.idmiembro) || '-' || (CASE WHEN ce.descripcion <> 'Bautizado' THEN  'Escuela Sabática' ELSE ce.descripcion  END)) AS name 
+        $sql = "SELECT (COUNT(m.idmiembro)* 100 / ".$total.") AS y, (COUNT(m.idmiembro) || '-' || (CASE WHEN ce.descripcion <> 'Bautizado' THEN  'Escuela Sabática' ELSE ce.descripcion  END)) AS name
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
-        WHERE m.estado='1' ".$where." 
+        WHERE m.estado='1' ".$where."
         GROUP BY ce.descripcion ";
         //die($sql);
         $data = DB::select($sql);
@@ -527,7 +538,7 @@ class ReportesController extends Controller
             $array_pais = explode("|", $_REQUEST["pais_id"]);
             $_REQUEST["pais_id"] = $array_pais[0];
             if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-                $sql = "SELECT * FROM iglesias.union AS u 
+                $sql = "SELECT * FROM iglesias.union AS u
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_REQUEST["pais_id"]}";
                 $res = DB::select($sql);
@@ -563,8 +574,8 @@ class ReportesController extends Controller
 
         if(count($array_where) > 0 ) {
             $where .= "WHERE ".implode(" AND ", $array_where);
-        } 
-        
+        }
+
 
         $datos = array();
         $sql_miembros = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
@@ -583,19 +594,19 @@ class ReportesController extends Controller
             echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
             exit;
         }
-        
+
         $where_secretario = "";
         if(count($array_where_secretario) > 0 ) {
             $where_secretario .= " AND  ".implode(" AND ", $array_where_secretario);
-        } 
+        }
 
-        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=6 ".$where_secretario;
         $secretario = DB::select($sql_secretario);
 
-        
+
         foreach ($miembros as $km => $vm) {
             $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja
             FROM iglesias.historial_altasybajas AS h
@@ -606,18 +617,18 @@ class ReportesController extends Controller
 
             $sql_control = "SELECT ".formato_fecha_idioma("ct.fecha")." AS fecha_aceptacion, ".formato_fecha_idioma("ht.fecha")." AS fecha_aceptacion_local FROM iglesias.control_traslados AS ct
             INNER JOIN iglesias.historial_traslados AS ht ON(ct.idcontrol=ht.idcontrol)
-            WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro." 
+            WHERE estado='0' AND ht.idmiembro=".$vm->idmiembro."
             ORDER BY ct.idcontrol DESC";
 
             $miembros[$km]->control = DB::select($sql_control);
-            
+
         }
 
         $sql_motivos_baja = "SELECT * FROM iglesias.motivobaja";
         $motivos_baja = DB::select($sql_motivos_baja);
 
-        $datos["motivos_baja"] = $motivos_baja; 
-    
+        $datos["motivos_baja"] = $motivos_baja;
+
         $datos["miembros"] = $miembros;
         $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
 
@@ -627,11 +638,11 @@ class ReportesController extends Controller
         $pdf = PDF::loadView("reportes.imprimir_miembros_iglesia", $datos)->setPaper('A4', "portrait");
 
 
-       
+
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("miembros_iglesia.pdf"); // ver
-    
+
     }
 
     public function imprimir_oficiales_iglesia(Request $request) {
@@ -745,14 +756,14 @@ class ReportesController extends Controller
         $array_pais = explode("|", $_REQUEST["pais_id"]);
         $_REQUEST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_REQUEST["pais_id"]}";
             $res = DB::select($sql);
             $_REQUEST["idunion"] = $res[0]->idunion;
         }
 
-       
+
         $idunion = $_REQUEST["idunion"];
         $idmision = $request->input("idmision");
         $idlugar = $idunion;
@@ -987,7 +998,7 @@ class ReportesController extends Controller
         WHERE c.idcargo={$delegado_subs_id}";
         $delegado_subs = DB::select($sql_delegado_subs);
 
-        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e 
+        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
         WHERE e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
 
         $eleccion = DB::select($sql_eleccion);
@@ -998,7 +1009,7 @@ class ReportesController extends Controller
         }
 
 
-        
+
 
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["nombre"] = $nombre;
@@ -1029,10 +1040,283 @@ class ReportesController extends Controller
         $datos["sede"] = $sede;
         $datos["eleccion"] = $eleccion;
         $datos["asociaciones"] = $asociaciones;
-      
+
 
 
         $pdf = PDF::loadView("reportes.imprimir_oficiales_union_asociacion", $datos)->setPaper('A4', "portrait");
+        return $pdf->stream("oficiales_iglesia.pdf"); // ver
+    }
+
+    public function imprimir_oficiales_union(Request $request) {
+        $datos = array();
+
+        $periodoini = $request->input("periodoini");
+        $periodofin = $request->input("periodofin");
+
+        $array_pais = explode("|", $_REQUEST["pais_id"]);
+        $_REQUEST["pais_id"] = $array_pais[0];
+        if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
+            $sql = "SELECT * FROM iglesias.union AS u
+            INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
+            WHERE up.pais_id={$_REQUEST["pais_id"]}";
+            $res = DB::select($sql);
+            $_REQUEST["idunion"] = $res[0]->idunion;
+        }
+
+
+        $idunion = $_REQUEST["idunion"];
+
+        $idlugar = $idunion;
+
+        $presidente_id = 59;
+        $vicepresidente_id = 60;
+        $secretario_id = 61;
+        $tesorero_id = 62;
+        $colportaje_id = 19;
+        $obra_id = 71;
+        $jovenes_id = 26;
+        $director_editorial_id = 73;
+        $nombre_editorial_id = 75;
+        $dorca_id = 77;
+        $salud_id = 21;
+        $educacion_id = 24;
+        $auditor_id_1 = 80;
+        $auditor_id_2 = 97;
+        $comite_union_asociacion_id = 82;
+        $comite_ejecutivo_id = 84;
+        $comite_finanzas_id = 86;
+        $comite_literario_id = 88;
+        $comite_salud_id = 90;
+        $delegado_id = 92;
+        $delegado_subs_id = 94;
+        $tabla = "iglesias.union";
+        $idlugar = $idunion;
+        $nombre = "Unión";
+        $asociaciones = "";
+        $array = array();
+        $sql_misiones = "SELECT * FROM iglesias.mision WHERE idunion={$idunion}";
+        $misiones = DB::select($sql_misiones);
+
+        foreach ($misiones as $key => $value) {
+            array_push($array, $value->descripcion);
+        }
+
+        $asociaciones = implode(", ", $array);
+
+        $sql_sede = "SELECT * FROM iglesias.union WHERE idunion={$idunion}";
+
+
+        $sede = DB::select($sql_sede);
+
+        $sql_presidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$presidente_id}";
+
+        $presidente = DB::select($sql_presidente);
+
+
+        $sql_vicepresidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$vicepresidente_id}";
+        $vicepresidente = DB::select($sql_vicepresidente);
+
+
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$secretario_id}";
+        // die($sql_secretario);
+        $secretario = DB::select($sql_secretario);
+
+        $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$tesorero_id}";
+        $tesorero = DB::select($sql_tesorero);
+
+
+        $sql_colportaje = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$colportaje_id}";
+        $colportaje = DB::select($sql_colportaje);
+
+        $sql_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$obra_id}";
+        $obra = DB::select($sql_obra);
+
+
+        $sql_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$jovenes_id}";
+        $jovenes = DB::select($sql_jovenes);
+
+        $sql_director_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$director_editorial_id}";
+        // die($sql_director_editorial);
+        $director_editorial = DB::select($sql_director_editorial);
+
+
+        $sql_nombre_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$nombre_editorial_id}";
+        $nombre_editorial = DB::select($sql_nombre_editorial);
+
+
+        $sql_dorca = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$dorca_id}";
+        $dorca = DB::select($sql_dorca);
+
+        $sql_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$salud_id}";
+        $salud = DB::select($sql_salud);
+
+
+        $sql_educacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$educacion_id}";
+        $educacion = DB::select($sql_educacion);
+
+
+        $sql_auditor_1 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$auditor_id_1}";
+        // die($sql_auditor_1);
+        $auditor_1 = DB::select($sql_auditor_1);
+
+        $sql_auditor_2 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$auditor_id_2}";
+        $auditor_2 = DB::select($sql_auditor_2);
+
+        $sql_comite_union_asociacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$comite_union_asociacion_id}";
+        $comite_union_asociacion = DB::select($sql_comite_union_asociacion);
+
+
+        $sql_comite_ejecutivo = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$comite_ejecutivo_id}";
+        $comite_ejecutivo = DB::select($sql_comite_ejecutivo);
+
+
+        $sql_comite_finanzas = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$comite_finanzas_id}";
+        $comite_finanzas = DB::select($sql_comite_finanzas);
+
+
+        $sql_comite_literario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$comite_literario_id}";
+        $comite_literario = DB::select($sql_comite_literario);
+
+
+        $sql_comite_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$comite_salud_id}";
+        $comite_salud = DB::select($sql_comite_salud);
+
+        $sql_delegado = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$delegado_id}";
+        $delegado = DB::select($sql_delegado);
+
+        $sql_delegado_subs = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        FROM public.cargo AS c
+	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        WHERE c.idcargo={$delegado_subs_id}";
+        $delegado_subs = DB::select($sql_delegado_subs);
+
+        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
+        WHERE e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
+
+        $eleccion = DB::select($sql_eleccion);
+
+        if(count($eleccion) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+
+
+
+
+        $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
+        $datos["nombre"] = $nombre;
+        $datos["periodoini"] = $periodoini;
+        $datos["periodofin"] = $periodofin;
+        $datos["presidente"] = $presidente;
+        $datos["vicepresidente"] = $vicepresidente;
+        $datos["secretario"] = $secretario;
+        $datos["tesorero"] = $tesorero;
+        $datos["colportaje"] = $colportaje;
+        $datos["obra"] = $obra;
+        $datos["jovenes"] = $jovenes;
+        $datos["director_editorial"] = $director_editorial;
+        $datos["nombre_editorial"] = $nombre_editorial;
+        $datos["dorca"] = $dorca;
+        $datos["salud"] = $salud;
+        $datos["educacion"] = $educacion;
+        $datos["auditor_1"] = $auditor_1;
+        $datos["auditor_2"] = $auditor_2;
+        $datos["comite_union_asociacion"] = $comite_union_asociacion;
+        $datos["comite_ejecutivo"] = $comite_ejecutivo;
+        $datos["comite_finanzas"] = $comite_finanzas;
+        $datos["comite_literario"] = $comite_literario;
+        $datos["comite_salud"] = $comite_salud;
+        $datos["delegado"] = $delegado;
+        $datos["delegado_subs"] = $delegado_subs;
+        $datos["lugar"] = $request->input("lugar");
+        $datos["sede"] = $sede;
+        $datos["eleccion"] = $eleccion;
+        $datos["asociaciones"] = $asociaciones;
+
+
+
+        $pdf = PDF::loadView("reportes.imprimir_oficiales_union", $datos)->setPaper('A4', "portrait");
         return $pdf->stream("oficiales_iglesia.pdf"); // ver
     }
 
@@ -1045,7 +1329,7 @@ class ReportesController extends Controller
         $array_pais = explode("|", $_REQUEST["pais_id"]);
         $_REQUEST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_REQUEST["pais_id"]}";
             $res = DB::select($sql);
@@ -1055,7 +1339,7 @@ class ReportesController extends Controller
         $idunion = $_REQUEST["idunion"];
         $where = "";
 
-      
+
 
 
         switch ($_REQUEST["semestre"]) {
@@ -1063,13 +1347,18 @@ class ReportesController extends Controller
                 $where .=  " AND c.fecha_final BETWEEN '".$anio."-01-01' AND '".$anio."-06-30'";
                 $fecha_inicial = "'".$anio."-01-01'";
                 $fecha_final = "'".$anio."-06-30'";
+                $fecha_inicial_anterior = "'".($anio - 1)."-07-01'";
+                $fecha_final_anterior = "'".($anio - 1)."-12-31'";
                 break;
             case 2:
                 $where .=  " AND c.fecha_final BETWEEN '".$anio."-07-01' AND '".$anio."-12-31'";
                 $fecha_inicial = "'".$anio."-07-01'";
                 $fecha_final = "'".$anio."-12-31'";
+
+                $fecha_inicial_anterior = "'".($anio - 1)."-01-01'";
+                $fecha_final_anterior = "'".($anio - 1)."-06-30'";
                 break;
-         
+
         }
 
         $sql_misiones = "SELECT * FROM iglesias.mision WHERE idunion={$idunion} AND estado='1'";
@@ -1084,20 +1373,20 @@ class ReportesController extends Controller
             $iglesias = DB::select("SELECT COUNT(*) AS iglesias FROM iglesias.iglesia WHERE estado='1' AND idmision={$value->idmision}");
             $misiones[$key]->iglesias = (isset($iglesias[0]->iglesias)) ? $iglesias[0]->iglesias : 0;
 
-            $feligresia_anterior = DB::select("SELECT COUNT(*) AS miembros FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND fechaingresoiglesia<'".$anio."-01-01'");
+            $feligresia_anterior = DB::select("SELECT COUNT(*) AS miembros FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND fechaingresoiglesia BETWEEN {$fecha_inicial_anterior} AND {$fecha_final_anterior}");
 
             $misiones[$key]->feligresia_anterior = (isset($feligresia_anterior[0]->miembros)) ? $feligresia_anterior[0]->miembros : 0;
 
-          
+
 
             $bautismos = DB::select("SELECT COUNT(*) AS bautismos FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=1 AND fechabautizo BETWEEN  {$fecha_inicial} AND {$fecha_final}");
 
             $misiones[$key]->bautismos = (isset($bautismos[0]->bautismos)) ? $bautismos[0]->bautismos : 0;
 
-            $misiones[$key]->recibimientos = 0; 
+            $misiones[$key]->recibimientos = 0;
 
             $traslados_positivos = DB::select("
-            SELECT COUNT(*) AS traslados_positivos 
+            SELECT COUNT(*) AS traslados_positivos
             FROM iglesias.miembro AS m
             INNER JOIN iglesias.historial_traslados AS ht ON(ht.idmiembro=m.idmiembro)
             INNER JOIN iglesias.control_traslados AS ct ON(ct.idcontrol=ht.idcontrol)
@@ -1108,7 +1397,7 @@ class ReportesController extends Controller
 
 
             $muertes = DB::select("
-            SELECT COUNT(*) AS muertes 
+            SELECT COUNT(*) AS muertes
             FROM iglesias.miembro AS m
             INNER JOIN iglesias.historial_altasybajas AS hab ON(hab.idmiembro=m.idmiembro)
 
@@ -1118,7 +1407,7 @@ class ReportesController extends Controller
 
 
             $renuncias = DB::select("
-            SELECT COUNT(*) AS renuncias 
+            SELECT COUNT(*) AS renuncias
             FROM iglesias.miembro AS m
             INNER JOIN iglesias.historial_altasybajas AS hab ON(hab.idmiembro=m.idmiembro)
 
@@ -1128,7 +1417,7 @@ class ReportesController extends Controller
 
 
             $exclusiones = DB::select("
-            SELECT COUNT(*) AS exclusiones 
+            SELECT COUNT(*) AS exclusiones
             FROM iglesias.miembro AS m
             INNER JOIN iglesias.historial_altasybajas AS hab ON(hab.idmiembro=m.idmiembro)
 
@@ -1137,7 +1426,7 @@ class ReportesController extends Controller
             $misiones[$key]->exclusiones = (isset($exclusiones[0]->exclusiones)) ? $exclusiones[0]->exclusiones : 0;
 
             $traslados_negativos = DB::select("
-            SELECT COUNT(*) AS traslados_negativos 
+            SELECT COUNT(*) AS traslados_negativos
             FROM iglesias.miembro AS m
             INNER JOIN iglesias.historial_traslados AS ht ON(ht.idmiembro=m.idmiembro)
             INNER JOIN iglesias.control_traslados AS ct ON(ct.idcontrol=ht.idcontrol)
@@ -1149,7 +1438,7 @@ class ReportesController extends Controller
 
             $misiones[$key]->feligresia_actual = (isset($feligresia_actual[0]->miembros)) ? $feligresia_actual[0]->miembros : 0;
 
-            $almas_interesadas = DB::select("SELECT COUNT(*) AS almas_interesadas FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=0 AND fechaingresoiglesia BETWEEN  {$fecha_inicial} AND {$fecha_final}");
+            $almas_interesadas = DB::select("SELECT COUNT(*) AS almas_interesadas FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=0 AND fecharegistro BETWEEN  {$fecha_inicial} AND {$fecha_final}");
             // die("SELECT COUNT(*) AS almas_interesadas FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=0 AND fechaingresoiglesia BETWEEN  {$fecha_inicial} AND {$fecha_final}");
             $misiones[$key]->almas_interesadas = (isset($almas_interesadas[0]->almas_interesadas)) ? $almas_interesadas[0]->almas_interesadas : 0;
 
@@ -1183,7 +1472,7 @@ class ReportesController extends Controller
             $misiones[$key]->obreros_nr = (isset($obreros_nr[0]->obreros_nr)) ? $obreros_nr[0]->obreros_nr : 0;
 
 
-            
+
             $empleados_r = DB::select("SELECT COUNT(*) AS empleados_r FROM iglesias.miembro AS m
             INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
             WHERE cm.idcargo=103 AND cm.condicion='R' AND m.fecharegistro BETWEEN  {$fecha_inicial} AND {$fecha_final} AND cm.tabla='iglesias.mision' AND cm.idlugar={$value->idmision}");
@@ -1300,7 +1589,7 @@ class ReportesController extends Controller
             $misiones[$key]->miembros_19 = (isset($miembros_19[0]->miembros_19)) ? $miembros_19[0]->miembros_19 : 0;
 
             $miembros_20_30 = DB::select("SELECT COUNT(*) AS miembros_20_30 FROM iglesias.miembro WHERE estado='1' AND idmision={$value->idmision} AND idcondicioneclesiastica=1 AND fechaingresoiglesia BETWEEN  {$fecha_inicial} AND {$fecha_final} AND DATE_PART('year',AGE(fechanacimiento)) between 20 and 30");
-            
+
             $misiones[$key]->miembros_20_30 = (isset($miembros_20_30[0]->miembros_20_30)) ? $miembros_20_30[0]->miembros_20_30 : 0;
 
 
@@ -1334,56 +1623,56 @@ class ReportesController extends Controller
             $misiones[$key]->congresos_juveniles = (isset($congresos_juveniles[0]->congresos_juveniles)) ? $congresos_juveniles[0]->congresos_juveniles : 0;
 
 
-            $oficinas = DB::select("SELECT COUNT(*) AS oficinas 
+            $oficinas = DB::select("SELECT COUNT(*) AS oficinas
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Oficinas'");
 
             $misiones[$key]->oficinas = (isset($oficinas[0]->oficinas)) ? $oficinas[0]->oficinas : 0;
 
-            $casas = DB::select("SELECT COUNT(*) AS casas 
+            $casas = DB::select("SELECT COUNT(*) AS casas
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Casas'");
 
             $misiones[$key]->casas = (isset($casas[0]->casas)) ? $casas[0]->casas : 0;
 
-            $apartamentos = DB::select("SELECT COUNT(*) AS apartamentos 
+            $apartamentos = DB::select("SELECT COUNT(*) AS apartamentos
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Apartamentos'");
 
             $misiones[$key]->apartamentos = (isset($apartamentos[0]->apartamentos)) ? $apartamentos[0]->apartamentos : 0;
 
 
-            $escuelas = DB::select("SELECT COUNT(*) AS escuelas 
+            $escuelas = DB::select("SELECT COUNT(*) AS escuelas
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Escuelas'");
 
             $misiones[$key]->escuelas = (isset($escuelas[0]->escuelas)) ? $escuelas[0]->escuelas : 0;
 
 
-            $centros_salud = DB::select("SELECT COUNT(*) AS centros_salud 
+            $centros_salud = DB::select("SELECT COUNT(*) AS centros_salud
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Centros de Salud'");
 
             $misiones[$key]->centros_salud = (isset($centros_salud[0]->centros_salud)) ? $centros_salud[0]->centros_salud : 0;
 
 
-            $editoriales = DB::select("SELECT COUNT(*) AS editoriales 
+            $editoriales = DB::select("SELECT COUNT(*) AS editoriales
             FROM iglesias.institucion AS i
             WHERE i.idmision={$value->idmision} AND i.tipo='Editoriales'");
 
             $misiones[$key]->editoriales = (isset($editoriales[0]->editoriales)) ? $editoriales[0]->editoriales : 0;
 
 
-           
+
         }
-        
+
 
         $instituciones = DB::select("SELECT i.*, dm.descripcion AS distrito_misionero
         FROM iglesias.institucion AS i
         INNER JOIN iglesias.distritomisionero AS dm ON(i.iddistritomisionero=dm.iddistritomisionero)
         WHERE i.idunion={$idunion}");
 
-    
+
 
 
         $otras = DB::select("SELECT ot.*, dm.descripcion AS distrito_misionero
@@ -1391,7 +1680,7 @@ class ReportesController extends Controller
         INNER JOIN iglesias.distritomisionero AS dm ON(ot.iddistritomisionero=dm.iddistritomisionero)
         WHERE ot.idunion={$idunion}");
 
-       
+
 
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
         $datos["semestre"] = traducir("traductor.semestre_".$_REQUEST["semestre"]);
@@ -1403,4 +1692,4 @@ class ReportesController extends Controller
         $pdf = PDF::loadView("reportes.imprimir_informe_semestral", $datos)->setPaper('A4', "portrait");
         return $pdf->stream("informe_semestral.pdf"); // ver
     }
-}   
+}
