@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\DepartamentosModel;
 use App\Models\DistritosModel;
+use App\Models\PaisesModel;
+use App\Models\ProvinciasModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +17,17 @@ class DistritosController extends Controller
     //
     private $base_model;
     private $distritos_model;
-    
+    private $paises_model;
+    private $departamentos_model;
+    private $provincias_model;
+
     public function __construct() {
         parent:: __construct();
         $this->distritos_model = new DistritosModel();
         $this->base_model = new BaseModel();
+        $this->paises_model = new PaisesModel();
+        $this->departamentos_model = new DepartamentosModel();
+        $this->provincias_model = new ProvinciasModel();
     }
 
     public function index() {
@@ -35,8 +44,8 @@ class DistritosController extends Controller
         $data["scripts"] = $this->cargar_js(["distritos.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +55,7 @@ class DistritosController extends Controller
 
 
     public function guardar_distritos(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("iddistrito") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.distrito", $_POST));
@@ -54,13 +63,13 @@ class DistritosController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("public.distrito", $_POST));
         }
 
-   
-        
+
+
         echo json_encode($result);
     }
 
     public function eliminar_distritos() {
-       
+
 
         try {
             $sql_miembros = "SELECT * FROM iglesias.miembro WHERE iddistritodomicilio=".$_REQUEST["id"];
@@ -77,7 +86,7 @@ class DistritosController extends Controller
                 throw new Exception(traducir("traductor.eliminar_distrito_iglesia"));
             }
 
-         
+
 
             $result = $this->base_model->eliminar(["public.distrito","iddistrito"]);
             echo json_encode($result);
@@ -104,7 +113,7 @@ class DistritosController extends Controller
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito WHERE idprovincia=".$request->input("idprovincia");
 			$result = DB::select($sql);
 		} else {
-            
+
             $sql = "SELECT iddistrito as id, descripcion FROM public.distrito";
             $result = DB::select($sql);
             // $result = array();
@@ -113,6 +122,11 @@ class DistritosController extends Controller
         echo json_encode($result);
 	}
 
+    public function select_init(Request $request) {
+        $data["pais_id"] = $this->paises_model->obtener_paises($request);
+        $data["iddepartamento"] = $this->departamentos_model->obtener_departamentos();
+        $data["idprovincia"] = $this->provincias_model->obtener_provincias($request);
+        echo json_encode($data);
+    }
 
-    
 }

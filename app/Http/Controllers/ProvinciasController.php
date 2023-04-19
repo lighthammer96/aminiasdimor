@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\DepartamentosModel;
+use App\Models\PaisesModel;
 use App\Models\ProvinciasModel;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,11 +16,15 @@ class ProvinciasController extends Controller
     //
     private $base_model;
     private $provincias_model;
-    
+    private $departamentos_model;
+    private $paises_model;
+
     public function __construct() {
         parent:: __construct();
         $this->provincias_model = new ProvinciasModel();
         $this->base_model = new BaseModel();
+        $this->departamentos_model = new DepartamentosModel();
+        $this->paises_model = new PaisesModel();
     }
 
     public function index() {
@@ -35,8 +41,7 @@ class ProvinciasController extends Controller
         $data["scripts"] = $this->cargar_js(["provincias.js"]);
         return parent::init($view, $data);
 
-      
-       
+
     }
 
     public function buscar_datos() {
@@ -46,7 +51,7 @@ class ProvinciasController extends Controller
 
 
     public function guardar_provincias(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("idprovincia") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.provincia", $_POST));
@@ -54,13 +59,13 @@ class ProvinciasController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("public.provincia", $_POST));
         }
 
-   
-      
+
+
         echo json_encode($result);
     }
 
     public function eliminar_provincias() {
-       
+
 
         try {
             $sql_miembros = "SELECT * FROM iglesias.miembro WHERE idprovinciadomicilio=".$_REQUEST["id"];
@@ -96,7 +101,7 @@ class ProvinciasController extends Controller
     public function get_provincias(Request $request) {
 
         $sql = "SELECT p.*, d.pais_id
-        FROM public.provincia AS p 
+        FROM public.provincia AS p
         LEFT JOIN public.departamento AS d ON(p.iddepartamento=d.iddepartamento)
         WHERE p.idprovincia=".$request->input("id");
         $one = DB::select($sql);
@@ -104,20 +109,17 @@ class ProvinciasController extends Controller
     }
 
     public function obtener_provincias(Request $request) {
-        $sql = "";
-		if(isset($_REQUEST["iddepartamento"]) && !empty($_REQUEST["iddepartamento"])) {
-	
-			$sql = "SELECT idprovincia as id,  descripcion FROM public.provincia WHERE iddepartamento=".$request->input("iddepartamento");
-		} else {
-			$sql = "SELECT idprovincia as id, descripcion FROM public.provincia";
-		}
-
-        $result = DB::select($sql);
+        $result = $this->provincias_model->obtener_provincias($request);
         echo json_encode($result);
     }
 
 
-    
+    public function select_init(Request $request) {
+        $data["pais_id"] = $this->paises_model->obtener_paises($request);
+        $data["iddepartamento"] = $this->departamentos_model->obtener_departamentos();
+        echo json_encode($data);
+    }
 
-    
+
+
 }

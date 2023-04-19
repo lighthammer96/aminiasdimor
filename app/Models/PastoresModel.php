@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class PastoresModel extends Model
 {
@@ -43,6 +43,14 @@ class PastoresModel extends Model
         return $tabla;
     }
 
+    public function obtener_cargos() {
+        $sql = "SELECT idcargo as id, descripcion FROM public.cargo
+        WHERE idcargo=1 OR idcargo=4
+        ORDER BY idcargo ASC";
+
+        $result = DB::select($sql);
+        return $result;
+    }
 
 
 }

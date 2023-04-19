@@ -9,48 +9,32 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
-
-
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones_all',
-        placeholder: seleccione,
-        // selected: 0
-    }).then(function () {
-
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
-
-
+    grafico_feligresia.select_init({
+        placeholder: seleccione
     })
 
-    $(document).on('change', '#iddivision', function (event, iddivision, pais_id) {
+    $(document).on('change', '#iddivision_all', function (event, iddivision_all, pais_id_all) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];
-        d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
-        var selected = (typeof pais_id != "undefined") ? pais_id : "";
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision_all"];
+        d_id = (typeof iddivision_all != "undefined" && iddivision_all != null) ? iddivision_all : d_id;
+        var selected = (typeof pais_id_all != "undefined") ? pais_id_all : "";
 
         paises.select({
-            name: 'pais_id',
+            name: 'pais_id_all',
             url: '/obtener_paises_asociados_all',
             placeholder: seleccione,
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function (response) {
 
-            var condicion = typeof iddivision == "undefined";
-            condicion = condicion && typeof pais_id == "undefined";
+            var condicion = typeof iddivision_all == "undefined";
+            condicion = condicion && typeof pais_id_all == "undefined";
 
             if (condicion) {
                 var required = true;
-                required = required && grafico_feligresia.required("iddivision");
+                required = required && grafico_feligresia.required("iddivision_all");
                 if (required) {
-                    $("#pais_id")[0].selectize.focus();
+                    $("#pais_id_all")[0].selectize.focus();
                 }
             }
 
@@ -59,31 +43,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    $(document).on('change', '#pais_id', function (event, pais_id, idunion) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union']; 
+    $(document).on('change', '#pais_id_all', function (event, pais_id_all, idunion_all) {
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id_all'] + "|" + session['posee_union'];
         var array = valor.toString().split("|");
-        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
+        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
 
         var d_id = array[0];
         var posee_union = array[1];
 
-        var selected = (typeof idunion != "undefined") ? idunion : "";
+        var selected = (typeof idunion_all != "undefined") ? idunion_all : "";
         uniones.select({
-            name: 'idunion',
+            name: 'idunion_all',
             url: '/obtener_uniones_paises_all',
             placeholder: seleccione,
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function () {
 
-            var condicion = typeof pais_id == "undefined";
-            condicion = condicion && typeof idunion == "undefined";
+            var condicion = typeof pais_id_all == "undefined";
+            condicion = condicion && typeof idunion_all == "undefined";
 
             if (condicion) {
                 var required = true;
-                required = required && grafico_feligresia.required("pais_id");
+                required = required && grafico_feligresia.required("pais_id_all");
                 if (required) {
-                    $("#idunion")[0].selectize.focus();
+                    $("#idunion_all")[0].selectize.focus();
                 }
             }
 
@@ -92,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $(".union").hide();
 
             misiones.select({
-                name: 'idmision',
+                name: 'idmision_all',
                 url: '/obtener_misiones_all',
                 placeholder: seleccione,
                 datos: { pais_id: d_id }
@@ -105,84 +89,84 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    $(document).on('change', '#idunion', function (event, idunion, idmision) {
+    $(document).on('change', '#idunion_all', function (event, idunion_all, idmision_all) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];
-        d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
-        var selected = (typeof idmision != "undefined") ? idmision : "";
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion_all"];
+        d_id = (typeof idunion_all != "undefined" && idunion_all != null) ? idunion_all : d_id;
+        var selected = (typeof idmision_all != "undefined") ? idmision_all : "";
 
         misiones.select({
-            name: 'idmision',
+            name: 'idmision_all',
             url: '/obtener_misiones_all',
             placeholder: seleccione,
             selected: selected,
             datos: { idunion: d_id }
         }).then(function () {
 
-            var condicion = typeof idunion == "undefined";
-            condicion = condicion && typeof idmision == "undefined";
+            var condicion = typeof idunion_all == "undefined";
+            condicion = condicion && typeof idmision_all == "undefined";
 
             if (condicion) {
                 var required = true;
-                required = required && grafico_feligresia.required("idunion");
+                required = required && grafico_feligresia.required("idunion_all");
                 if (required) {
-                    $("#idmision")[0].selectize.focus();
+                    $("#idmision_all")[0].selectize.focus();
                 }
             }
 
         })
     });
 
-    $(document).on('change', '#idmision', function (event, idmision, iddistritomisionero) {
+    $(document).on('change', '#idmision_all', function (event, idmision_all, iddistritomisionero_all) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];
-        d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
-        var selected = (typeof iddistritomisionero != "undefined") ? iddistritomisionero : "";
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision_all"];
+        d_id = (typeof idmision_all != "undefined" && idmision_all != null) ? idmision_all : d_id;
+        var selected = (typeof iddistritomisionero_all != "undefined") ? iddistritomisionero_all : "";
 
         distritos_misioneros.select({
-            name: 'iddistritomisionero',
+            name: 'iddistritomisionero_all',
             url: '/obtener_distritos_misioneros_all',
             placeholder: seleccione,
             selected: selected,
             datos: { idmision: d_id }
         }).then(function () {
 
-            var condicion = typeof idmision == "undefined";
-            condicion = condicion && typeof iddistritomisionero == "undefined";
+            var condicion = typeof idmision_all == "undefined";
+            condicion = condicion && typeof iddistritomisionero_all == "undefined";
 
             if (condicion) {
                 var required = true;
-                required = required && grafico_feligresia.required("idmision");
+                required = required && grafico_feligresia.required("idmision_all");
                 if (required) {
-                    $("#iddistritomisionero")[0].selectize.focus();
+                    $("#iddistritomisionero_all")[0].selectize.focus();
                 }
             }
 
         })
     });
 
-    $(document).on('change', '#iddistritomisionero', function (event, iddistritomisionero, idiglesia) {
+    $(document).on('change', '#iddistritomisionero_all', function (event, iddistritomisionero_all, idiglesia_all) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];
-        d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
-        var selected = (typeof idiglesia != "undefined") ? idiglesia : "";
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero_all"];
+        d_id = (typeof iddistritomisionero_all != "undefined" && iddistritomisionero_all != null) ? iddistritomisionero_all : d_id;
+        var selected = (typeof idiglesia_all != "undefined") ? idiglesia_all : "";
 
         iglesias.select({
-            name: 'idiglesia',
+            name: 'idiglesia_all',
             url: '/obtener_iglesias_all',
             placeholder: seleccione,
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function () {
 
-            var condicion = typeof iddistritomisionero == "undefined";
-            condicion = condicion && typeof idiglesia == "undefined";
+            var condicion = typeof iddistritomisionero_all == "undefined";
+            condicion = condicion && typeof idiglesia_all == "undefined";
 
             if (condicion) {
                 var required = true;
-                required = required && grafico_feligresia.required("iddistritomisionero");
+                required = required && grafico_feligresia.required("iddistritomisionero_all");
                 if (required) {
-                    $("#idiglesia")[0].selectize.focus();
+                    $("#idiglesia_all")[0].selectize.focus();
                 }
             }
 
@@ -190,58 +174,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    document.addEventListener("click", function (event) {
-        var id = event.srcElement.id;
-        if (id == "" && !event.srcElement.parentNode.disabled) {
-            id = event.srcElement.parentNode.id;
-        }
-        //console.log(event.srcElement);
-        switch (id) {
-            case 'nuevo-perfil':
-                event.preventDefault();
 
-                grafico_feligresia.abrirModal();
-                break;
-
-            case 'modificar-perfil':
-                event.preventDefault();
-
-                //modificar_perfil();
-                break;
-
-            case 'eliminar-perfil':
-                event.preventDefault();
-                //eliminar_perfil();
-                break;
-
-            case 'guardar-perfil':
-                event.preventDefault();
-                //guardar_perfil();
-                break;
-
-        }
-
-    })
 
 
     document.getElementById("ver-reporte").addEventListener("click", function(e) {
         e.preventDefault();
         // Create the chart
-        var iddivision = document.getElementById("iddivision").value
-        var pais_id = document.getElementById("pais_id").value
-        var idunion = document.getElementById("idunion").value
-        var idmision = document.getElementById("idmision").value
-        var iddistritomisionero = document.getElementById("iddistritomisionero").value
-        var idiglesia = document.getElementById("idiglesia").value
+        var iddivision_all = document.getElementById("iddivision_all").value
+        var pais_id_all = document.getElementById("pais_id_all").value
+        var idunion_all = document.getElementById("idunion_all").value
+        var idmision_all = document.getElementById("idmision_all").value
+        var iddistritomisionero_all = document.getElementById("iddistritomisionero_all").value
+        var idiglesia_all = document.getElementById("idiglesia_all").value
         grafico_feligresia.ajax({
             url: '/obtener_feligresia',
-            datos: { 
-                iddivision: iddivision,
-                pais_id: pais_id,
-                idunion: idunion,
-                idmision: idmision,
-                iddistritomisionero: iddistritomisionero,
-                idiglesia: idiglesia
+            datos: {
+                iddivision: iddivision_all,
+                pais_id: pais_id_all,
+                idunion: idunion_all,
+                idmision: idmision_all,
+                iddistritomisionero: iddistritomisionero_all,
+                idiglesia: idiglesia_all
             }
         }).then(function(response) {
             if(response.length <= 0) {
@@ -273,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     title: {
                         text: porcentaje
                     }
-    
+
                 },
                 legend: {
                     enabled: false
@@ -287,282 +240,27 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     }
                 },
-    
+
                 tooltip: {
                     headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                     pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
                 },
-    
+
                 series: [
                     {
                         name: "",
                         colorByPoint: true,
                         data: response
-                        // data: [
-                        //     {
-                        //         name: "Chrome",
-                        //         y: 62.74,
-                        //         drilldown: "Chrome"
-                        //     },
-                        //     {
-                        //         name: "Firefox",
-                        //         y: 10.57,
-                        //         drilldown: "Firefox"
-                        //     },
-                        //     {
-                        //         name: "Internet Explorer",
-                        //         y: 7.23,
-                        //         drilldown: "Internet Explorer"
-                        //     },
-                        //     {
-                        //         name: "Safari",
-                        //         y: 5.58,
-                        //         drilldown: "Safari"
-                        //     },
-                        //     {
-                        //         name: "Edge",
-                        //         y: 4.02,
-                        //         drilldown: "Edge"
-                        //     },
-                        //     {
-                        //         name: "Opera",
-                        //         y: 1.92,
-                        //         drilldown: "Opera"
-                        //     },
-                        //     {
-                        //         name: "Other",
-                        //         y: 7.62,
-                        //         drilldown: null
-                        //     }
-                        // ]
+
                     }
                 ],
-                // drilldown: {
-                //     series: [
-                //         {
-                //             name: "Chrome",
-                //             id: "Chrome",
-                //             data: [
-                //                 [
-                //                     "v65.0",
-                //                     0.1
-                //                 ],
-                //                 [
-                //                     "v64.0",
-                //                     1.3
-                //                 ],
-                //                 [
-                //                     "v63.0",
-                //                     53.02
-                //                 ],
-                //                 [
-                //                     "v62.0",
-                //                     1.4
-                //                 ],
-                //                 [
-                //                     "v61.0",
-                //                     0.88
-                //                 ],
-                //                 [
-                //                     "v60.0",
-                //                     0.56
-                //                 ],
-                //                 [
-                //                     "v59.0",
-                //                     0.45
-                //                 ],
-                //                 [
-                //                     "v58.0",
-                //                     0.49
-                //                 ],
-                //                 [
-                //                     "v57.0",
-                //                     0.32
-                //                 ],
-                //                 [
-                //                     "v56.0",
-                //                     0.29
-                //                 ],
-                //                 [
-                //                     "v55.0",
-                //                     0.79
-                //                 ],
-                //                 [
-                //                     "v54.0",
-                //                     0.18
-                //                 ],
-                //                 [
-                //                     "v51.0",
-                //                     0.13
-                //                 ],
-                //                 [
-                //                     "v49.0",
-                //                     2.16
-                //                 ],
-                //                 [
-                //                     "v48.0",
-                //                     0.13
-                //                 ],
-                //                 [
-                //                     "v47.0",
-                //                     0.11
-                //                 ],
-                //                 [
-                //                     "v43.0",
-                //                     0.17
-                //                 ],
-                //                 [
-                //                     "v29.0",
-                //                     0.26
-                //                 ]
-                //             ]
-                //         },
-                //         {
-                //             name: "Firefox",
-                //             id: "Firefox",
-                //             data: [
-                //                 [
-                //                     "v58.0",
-                //                     1.02
-                //                 ],
-                //                 [
-                //                     "v57.0",
-                //                     7.36
-                //                 ],
-                //                 [
-                //                     "v56.0",
-                //                     0.35
-                //                 ],
-                //                 [
-                //                     "v55.0",
-                //                     0.11
-                //                 ],
-                //                 [
-                //                     "v54.0",
-                //                     0.1
-                //                 ],
-                //                 [
-                //                     "v52.0",
-                //                     0.95
-                //                 ],
-                //                 [
-                //                     "v51.0",
-                //                     0.15
-                //                 ],
-                //                 [
-                //                     "v50.0",
-                //                     0.1
-                //                 ],
-                //                 [
-                //                     "v48.0",
-                //                     0.31
-                //                 ],
-                //                 [
-                //                     "v47.0",
-                //                     0.12
-                //                 ]
-                //             ]
-                //         },
-                //         {
-                //             name: "Internet Explorer",
-                //             id: "Internet Explorer",
-                //             data: [
-                //                 [
-                //                     "v11.0",
-                //                     6.2
-                //                 ],
-                //                 [
-                //                     "v10.0",
-                //                     0.29
-                //                 ],
-                //                 [
-                //                     "v9.0",
-                //                     0.27
-                //                 ],
-                //                 [
-                //                     "v8.0",
-                //                     0.47
-                //                 ]
-                //             ]
-                //         },
-                //         {
-                //             name: "Safari",
-                //             id: "Safari",
-                //             data: [
-                //                 [
-                //                     "v11.0",
-                //                     3.39
-                //                 ],
-                //                 [
-                //                     "v10.1",
-                //                     0.96
-                //                 ],
-                //                 [
-                //                     "v10.0",
-                //                     0.36
-                //                 ],
-                //                 [
-                //                     "v9.1",
-                //                     0.54
-                //                 ],
-                //                 [
-                //                     "v9.0",
-                //                     0.13
-                //                 ],
-                //                 [
-                //                     "v5.1",
-                //                     0.2
-                //                 ]
-                //             ]
-                //         },
-                //         {
-                //             name: "Edge",
-                //             id: "Edge",
-                //             data: [
-                //                 [
-                //                     "v16",
-                //                     2.6
-                //                 ],
-                //                 [
-                //                     "v15",
-                //                     0.92
-                //                 ],
-                //                 [
-                //                     "v14",
-                //                     0.4
-                //                 ],
-                //                 [
-                //                     "v13",
-                //                     0.1
-                //                 ]
-                //             ]
-                //         },
-                //         {
-                //             name: "Opera",
-                //             id: "Opera",
-                //             data: [
-                //                 [
-                //                     "v50.0",
-                //                     0.96
-                //                 ],
-                //                 [
-                //                     "v49.0",
-                //                     0.82
-                //                 ],
-                //                 [
-                //                     "v12.1",
-                //                     0.14
-                //                 ]
-                //             ]
-                //         }
-                //     ]
-                // }
+
             });
         });
-        
+
     })
 
-    
+
 
 
 

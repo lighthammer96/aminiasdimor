@@ -9,7 +9,7 @@ class BASE_JS {
         var self = this;
         // this.controlador = BaseUrl+$controlador;
         this.controladorURL = BaseUrl + "/" + controlador;
-      
+
         // this.tablaBD = tablaBD;
         //this.selectUrl = BaseUrl + "PrincipalController/obtenerSelect";
         this.formularioID = "formulario-" + referencia;
@@ -138,7 +138,7 @@ class BASE_JS {
                     // d.tipodoc_id = self.tipodoc_id
                     d.modulo_id = self.modulo_id
                     d._token = _token
-                    
+
 
                 },
                 error: function() {
@@ -177,7 +177,7 @@ class BASE_JS {
                 // $('.dataTables_filter input').unbind();
                 // $('.dataTables_filter input').bind('keyup', function(e){
                 //     var code = e.keyCode || e.which;
-                //     if (code == 13) { 
+                //     if (code == 13) {
                 //         table.search(this.value).draw();
                 //     }
                 //     if(this.value == "") {
@@ -188,7 +188,7 @@ class BASE_JS {
                 $(parametros.tablaID+'_filter input').unbind();
                 $(parametros.tablaID+'_filter input').bind('keyup', function(e){
                     var code = e.keyCode || e.which;
-                    if (code == 13) { 
+                    if (code == 13) {
                         table.search(this.value).draw();
                     }
                     if(this.value == "") {
@@ -229,16 +229,16 @@ class BASE_JS {
         // $('div.dataTables_filter input').bind('keyup', function(e) {
         //     console.log(e);
         //     if(e.keyCode == 13) {
-        //         table.search(this.value).draw();   
+        //         table.search(this.value).draw();
         //     }
         //     e.preventDefault();
         //     e.stopPropagation();
-        // }); 
+        // });
         //console.log(datatable);
         console.log("TABLA -> " + parametros.tablaID);
         //console.log(datatable);
         this.datatable = table;
-       
+
         //return datatable;
     }
     guardar() {
@@ -295,9 +295,9 @@ class BASE_JS {
             return response;
         });
 
-     
+
         promise.then(function(response) {
-           
+
             if(typeof response.validacion == "undefined" && typeof response.status != "undefined" &&  response.status.indexOf("ee") == -1 && response.status.indexOf("e") == -1) {
                 self.LimpiarFormulario();
                 $("#" + self.modalID).trigger('shown.bs.modal');
@@ -308,9 +308,9 @@ class BASE_JS {
                 self.datatable.ajax.reload();
                 self.datatable.draw();
             }
-        
-        }) 
-       
+
+        })
+
         return promise;
     }
     // evento(selector, evento, funcion) {
@@ -329,7 +329,7 @@ class BASE_JS {
         //var datos = {id: id};
         var datos = new URLSearchParams("id=" + id + "&_token=" + _token);
         var promise = fetch(this.controladorURL + "/get_" + this.referencia, {
-            method: "POST", 
+            method: "POST",
             body: datos,
         }).then(function(response) {
             //console.log(response.json());
@@ -349,9 +349,9 @@ class BASE_JS {
             if (response != null) {
                 for (let i = 0; i < elementos.length; i++) {
                     //alert(response[elementos[i].name]);
-                    
+
                     if (response[elementos[i].name] != null && elementos[i].type != "file" ) {
-                    
+
                         if (elementos[i].classList.contains("selectized")) {
                             // Para el selectizejs anteriormente le ponia asi como esta comentado en lineas abajo, pero mi problema era que el setValue dipara un change y malograba mis trigger de change, se cruzaban por eso opte por hacer la segunda opcion ue es destruir, asignar valor y volver poner el selecticejs
                             // $("#"+elementos[i].name).siblings().find(".selectize-dropdown").find(".selectize-dropdown-content").find(".option").removeClass("selected");
@@ -360,10 +360,10 @@ class BASE_JS {
                             elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user")
                             $("#" + elementos[i].name).selectize();
                         } else {
-                           
+
                             if(elementos[i].type == "radio") {
                                 if(elementos[i].value == response[elementos[i].name]) {
-                                    
+
                                     elementos[i].checked = true;
                                     $("input[name='"+elementos[i].name+"']").attr("checked", "checked");
                                     elementos[i].parentNode.classList.add("checked");
@@ -383,12 +383,12 @@ class BASE_JS {
                                         elementos[i].checked = false;
                                         $("input[name='"+elementos[i].name+"']").removeAttr("checked");
                                         elementos[i].parentNode.classList.remove("checked");
-                                        
+
                                     }
                                 }
                                 elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
                             }
-                           
+
                         }
                     }
                 }
@@ -459,8 +459,8 @@ class BASE_JS {
                 self.datatable.ajax.reload();
                 self.datatable.draw();
             }
-        
-        }) 
+
+        })
         return promise
     }
     ver(id) {
@@ -521,10 +521,10 @@ class BASE_JS {
         } else {
             parametros.datos['_token'] = _token;
         }
-        
+
         parametros.type = (typeof parametros.type == "undefined") ? "POST" : parametros.type;
         parametros.contentType = (typeof parametros.contentType == "undefined") ? "json" : parametros.contentType;
-        
+
         var datos = (typeof parametros.datos == "undefined") ? {} : new URLSearchParams(BASE_JS.serialize(parametros.datos));
         try {
             let response = await fetch(this.controladorURL + parametros.url, {
@@ -570,11 +570,11 @@ class BASE_JS {
             // console.log(inputs[i].name, inputs[i].type);
             if (inputs[i].type == "checkbox" || inputs[i].type == "radio") {
                 inputs[i].checked = false;
-              
+
                 // esto es por el icheck js
                 $("input[name='"+inputs[i].name+"']").removeAttr("checked");
                 elementos[i].parentNode.classList.remove("checked");
-                
+
             }
             if (defaultValue != null) {
                 // alert(defaultValue);
@@ -609,18 +609,18 @@ class BASE_JS {
             if(elementos[i].type != "checkbox" && elementos[i].type != "radio") {
                 elementos[i].value = "";
             }
-           
+
             //elementos[i].innerText = "";
             //console.log(elementos[i]);
            // console.log(elementos[i].classList);
-            
+
             if (elementos[i].type == "checkbox" || elementos[i].type == "radio") {
                 elementos[i].checked = false;
-            
+
                 // esto es por el icheck js
                 $("input[name='"+elementos[i].name+"']").removeAttr("checked");
                 elementos[i].parentNode.classList.remove("checked");
-                
+
             }
 
             if (elementos[i].tagName == "SELECT") {
@@ -689,7 +689,7 @@ class BASE_JS {
         var elementos = document.getElementById(this.formularioID).getElementsByClassName("entrada");
         for (let i = 0; i < elementos.length; i++) {
             elementos[i].disabled = false;
-            
+
             if(elementos[i].type == "radio" && elementos[i].parentNode.classList.contains("iradio_minimal-blue")) {
                 elementos[i].parentNode.classList.remove("disabled");
             }
@@ -698,7 +698,7 @@ class BASE_JS {
         for (let i = 0; i < botones.length; i++) {
             botones[i].style.display = 'inline';
             botones[i].disabled = false;
-           
+
         }
         //alert(this.formularioID);
         // $("#"+this.formularioID).find(".chosen-select").val("").trigger("chosen:updated");;
@@ -773,7 +773,7 @@ class BASE_JS {
                             event.preventDefault();
                             // comentado por manuel 21/06/2021 21:57
                             // self.buscarEnFormulario(nextInput).focus();
-                            
+
                             // if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
                             //     event.preventDefault();
                             // } else {
@@ -834,13 +834,13 @@ class BASE_JS {
                             event.preventDefault();
                             // comentado por manuel 21/06/2021 21:57
                             // self.buscarEnFormulario(nextInput).focus();
-                            
+
                             // if (self.buscarEnFormulario(nextInput).tagName != "SELECT") {
                             //     event.preventDefault();
                             // } else {
                             //     return false;
                             // }
-                            
+
                         }
                         //console.log("evento", event);
                         //return false;
@@ -852,7 +852,7 @@ class BASE_JS {
         // var nextSelector = document.getElementById(this.formularioID).querySelector(nextInput);
     }
     buscarEnFormulario(name) {
-      
+
         let elementos = document.getElementById(this.formularioID);
         for (let i = 0; i < elementos.length; i++) {
             if (elementos[i].name == name) {
@@ -1008,12 +1008,12 @@ class BASE_JS {
         } else {
             parametros.datos['_token'] = _token;
         }
-       
+
         // console.log(parametros);
         var selected = (typeof parametros.selected != "undefined") ? parametros.selected : "";
         var placeholder = (typeof parametros.placeholder != "undefined") ? parametros.placeholder : "";
         var datos = (typeof parametros.datos == "undefined") ? new URLSearchParams("_token="+_token) : new URLSearchParams(BASE_JS.serialize(parametros.datos));
-       
+
         var promise = fetch(this.controladorURL + parametros.url, {
             method: 'POST',
             body: datos
@@ -1029,10 +1029,10 @@ class BASE_JS {
             var prioridadSelected = false;
             if (placeholder != "") {
                 options += '<option value="">' + placeholder + '</option>';
-                
+
             }
             if (response.length > 0) {
-               
+
                 for (let i = 0; i < response.length; i++) {
                     var atributo1 = "";
                     if (typeof response[i].atributo1 != "undefined") {
@@ -1065,7 +1065,7 @@ class BASE_JS {
                 // }
                 //console.log(options);
             }
-          
+
             if (typeof document.getElementsByName(parametros.name)[0] != "undefined" && document.getElementsByName(parametros.name)[0].tagName == "SELECT") {
                 if (document.getElementsByName(parametros.name)[0].classList.contains("selectized")) {
                     // $("#"+document.getElementsByName(parametros.name)[0].id).selectize()[0].selectize.clear();
@@ -1079,7 +1079,7 @@ class BASE_JS {
                     //alert("hola");
                     $("#" + document.getElementsByName(parametros.name)[0].id).selectize();
                     //CUANDO PONGO ESTO SE MALOGRA EN LOS SELECT DE DEPARTAMENTOS, PROVINCIAS Y DISTRITOS DEL MODULO CLIENTES. , PARA QUE NO LO MALOGRE LE PUSE EL IF SOLO EN CASO DE QUE EL SELECTED SEA DIFERENTE DE VACIO
-               
+
                     // comentado por manuel 23/06/2021, porque cuando se da en modificar el combo se focusea solito desplegandose el div de options y eso no me gusta ._.
                     // if (selected != "") {
                     //     $("#" + document.getElementsByName(parametros.name)[0].id)[0].selectize.focus();
@@ -1087,6 +1087,80 @@ class BASE_JS {
                 }
                 //$(".chosen-select").chosen({width: "100%"});
             }
+            return response;
+        });
+        return promise;
+    }
+    select_init(parametros) {
+
+        if(typeof parametros.datos == "undefined") {
+            parametros.datos = {
+                '_token': _token
+            };
+        } else {
+            parametros.datos['_token'] = _token;
+        }
+
+
+        var placeholder = (typeof parametros.placeholder != "undefined") ? parametros.placeholder : "";
+        var datos = (typeof parametros.datos == "undefined") ? new URLSearchParams("_token="+_token) : new URLSearchParams(BASE_JS.serialize(parametros.datos));
+
+        var promise = fetch(this.controladorURL + "/select_init", {
+            method: 'POST',
+            body: datos
+        }).then(function(response) {
+            return response.json();
+        }).catch(function(error) {
+
+            console.log('HUBO UN PROBLEMA CON LA PETICIÓN FETCH -> ' + error.message);
+        }).then(function(response) {
+            // console.log(response);
+            var options = "";
+
+            for (const key in response) {
+                options = "";
+                if (placeholder != "") {
+                    options += '<option value="">' + placeholder + '</option>';
+                }
+                for (let i = 0; i < response[key].length; i++) {
+                    var atributo1 = "";
+                    if (typeof response[key][i].atributo1 != "undefined") {
+                        atributo1 = response[key][i].atributo1;
+                    }
+
+                    if (typeof response[key][i].defecto != "undefined" && response[key][i].defecto == "S") {
+
+                        options += '<option atributo1="' + atributo1 + '" selected="selected" value="' + response[key][i].id + '">' + response[key][i].descripcion + '</option>';
+
+                        if(typeof document.getElementsByName(key)[0] != "undefined" && document.getElementsByName(key)[0].tagName == "SELECT") {
+                            document.getElementsByName(key)[0].setAttribute("default-value", response[key][i].id)
+                        }
+                    } else {
+                        options += '<option atributo1="' + atributo1 + '" value="' + response[key][i].id + '">' + response[key][i].descripcion + '</option>';
+                    }
+
+
+
+
+                }
+
+                // console.log(document.getElementsByName(key));
+                if(typeof document.getElementsByName(key)[0] != "undefined") {
+                    if (document.getElementsByName(key)[0].classList.contains("selectized")) {
+                        $("#" + document.getElementsByName(key)[0].id).selectize()[0].selectize.destroy();
+                    }
+                    document.getElementsByName(key)[0].innerHTML = options;
+                    if (typeof document.getElementsByName(key)[0] != "undefined" && document.getElementsByName(key)[0].tagName == "SELECT" && document.getElementsByName(key)[0].classList.contains("selectizejs")) {
+
+                        $("#" + document.getElementsByName(key)[0].id).selectize();
+
+
+                    }
+                }
+
+            }
+
+
             return response;
         });
         return promise;
@@ -1355,7 +1429,7 @@ class BASE_JS {
             removeModalHandler();
         });
 
-      
+
     }
     static Procesando(proceso_id) {
         var data_proceso = new URLSearchParams(BASE_JS.serialize({proceso_id: proceso_id, _token: _token}));
@@ -1364,6 +1438,7 @@ class BASE_JS {
             cache: "force-cache",
             body: data_proceso,
         }).then(function(response) {
+
             return response.text();
         }).catch(function(error) {
             BASE_JS.sweet({
@@ -1425,14 +1500,14 @@ class BASE_JS {
         var valor = this.buscarEnFormulario(name).value;
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
-               
+
                 if (emailRegex.test(valor)) {
                     this.buscarEnFormulario(name).parentNode.classList.remove('has-error');
                     return true;
                 } else {
-                    
+
                 }
-            } 
+            }
         }
 
         BASE_JS.notificacion({title: advertencia, type: 'warning', msg: email_invalido});

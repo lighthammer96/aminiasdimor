@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class AsambleasModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -38,6 +38,34 @@ class AsambleasModel extends Model
         return $tabla;
     }
 
+    public function obtener_anios() {
+        $result = array();
+        $array = array();
+        for($i=date("Y"); $i < date("Y") + 10; $i++ ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
 
-  
+        return $array;
+    }
+
+    public function obtener_tipo_convocatoria() {
+        $sql = "SELECT  tc.tipconv_id  AS id, tc.tipconv_descripcion AS descripcion
+        FROM asambleas.tipo_convocatoria AS tc";
+        // die($sql);
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_asambleas() {
+        $sql = "SELECT (tc.tipconv_id  || '|'  || a.asamblea_id) AS id, a.asamblea_descripcion AS descripcion, CASE WHEN NOW() BETWEEN a.asamblea_fecha_inicio AND a.asamblea_fecha_fin THEN 'S' ELSE 'N' END AS defecto
+        FROM asambleas.asambleas AS a
+        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
+        WHERE a.estado='A'";
+        // die($sql);
+        $result = DB::select($sql);
+        return $result;
+    }
+
 }

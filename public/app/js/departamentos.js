@@ -1,21 +1,14 @@
 var departamentos = new BASE_JS('departamentos', 'departamentos');
+var paises = new BASE_JS('paises', 'paises');
 
 document.addEventListener("DOMContentLoaded", function() {
     departamentos.buscarEnFormulario("descripcion").solo_letras();
-   
+
     departamentos.TablaListado({
         tablaID: '#tabla-departamentos',
         url: "/buscar_datos",
     });
 
-    departamentos.select({
-        name: 'iddepartamento',
-        url: '/obtener_departamentos',
-        placeholder: 'Seleccione ...'
-    }).then(function() {
-        
-        
-    }) 
 
     document.addEventListener("click", function(event) {
         var id = event.srcElement.id;
@@ -26,13 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-departamento':
                 event.preventDefault();
-            
+
                 departamentos.abrirModal();
             break;
 
             case 'modificar-departamento':
                 event.preventDefault();
-            
+
                 modificar_departamento();
             break;
 
@@ -57,14 +50,14 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = departamentos.get(datos.iddepartamento);
 
         promise.then(function(response) {
-        
+
         })
     }
 
@@ -72,15 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
         // required = required && departamentos.required("perfil_descripcion");
 
-    
+
         if(required) {
             var promise = departamentos.guardar();
             departamentos.CerrarModal();
-            // departamentos.datatable.destroy();
-            // departamentos.TablaListado({
-            //     tablaID: '#tabla-departamentos',
-            //     url: "/buscar_datos",
-            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -105,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -127,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "departamentos/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-departamentos').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         departamentos.abrirModal();
@@ -143,15 +131,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_departamento();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -160,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -168,30 +156,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-departamentos').is(':visible')) {
                     guardar_departamento();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-departamento").addEventListener("click", function(event) {

@@ -1,12 +1,13 @@
 // var perfiles = new BASE_JS("perfiles", 'PerfilesController');
 var permisos = new BASE_JS("permisos", "permisos");
+var perfiles = new BASE_JS("perfiles", "perfiles");
 
 document.addEventListener("DOMContentLoaded", function() {
 
     perfiles.select({
         name: 'perfil_id',
         url: '/obtener_perfiles',
-        placeholder: 'Seleccione Perfil'
+        placeholder: seleccione
     });
 
 
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         checks[i].getElementsByTagName("input")[0].checked = false;
                         checks[i].getElementsByClassName("icheckbox_minimal-blue")[0].classList.remove("checked");
-                        
+
                     }
                 }
 
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }, '2000');
             // recagarPagina();
         });
-        
+
     })
 
     // function recagarPagina() {
@@ -91,11 +92,11 @@ document.addEventListener("DOMContentLoaded", function() {
         padres[i].addEventListener("click", function(event) {
             event.preventDefault();
             var checks = this.parentNode.getElementsByClassName("checkboxes");
-        
+
             if(this.classList.contains('todo')) {
                 for(let j = 0; j < checks.length; j++){
-                
-                
+
+
                     checks[j].getElementsByTagName("input")[0].checked = true;
                     //console.log(checks[j].getElementsByClassName("icheckbox_minimal-blue")[0]);
                     checks[j].getElementsByClassName("icheckbox_minimal-blue")[0].classList.add("checked");
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     for(let j = 0; j < checks.length; j++){
                         // checks[j].click();
                         checks[j].getElementsByTagName("input")[0].checked = false;
-                    
+
                         checks[j].getElementsByClassName("icheckbox_minimal-blue")[0].classList.remove("checked");
                     }
 
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if(this.nextSibling.classList.contains('todo')) {
                     this.getElementsByTagName("input")[0].checked = true;
                     for(let j = 0; j < checks.length; j++){
-                    
+
                         checks[j].getElementsByTagName("input")[0].checked = true;
                     }
                     this.nextSibling.classList.add("ninguno");
@@ -143,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if(this.nextSibling.classList.contains('ninguno')) {
                         this.getElementsByTagName("input")[0].checked = false;
                         for(let j = 0; j < checks.length; j++){
-                        
+
                             checks[j].getElementsByTagName("input")[0].checked = false;
                         }
                         this.nextSibling.classList.add("todo");
@@ -151,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             } else {
-            
+
                 if(this.getElementsByTagName("input")[0].checked) {
                     this.getElementsByTagName("input")[0].checked = false;
                 } else {

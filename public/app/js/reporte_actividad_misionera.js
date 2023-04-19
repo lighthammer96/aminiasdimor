@@ -8,46 +8,18 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    
 
-    reporte.select({
-        name: 'idtrimestre',
-        url: '/obtener_trimestres',
-        // selected: 0
-        placeholder: seleccione,
-        // selected
-    })
-    
-    reporte.select({
-        name: 'anio',
-        url: '/obtener_anios',
+    reporte.select_init({
         placeholder: seleccione
     })
-    
-   
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
-        placeholder: seleccione,
-        // selected: 0
-    }).then(function() {
 
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        // $("#idiglesia").trigger("change", ["", ""]);
-        
-        
-    }) 
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];
         d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
         var selected = (typeof pais_id != "undefined")  ? pais_id : "";
-    
+
         paises.select({
             name: 'pais_id',
             url: '/obtener_paises_asociados',
@@ -55,31 +27,31 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
-            
+
             var condicion = typeof iddivision == "undefined";
             condicion = condicion && typeof pais_id == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && reporte.required("iddivision");
                 if(required) {
                     $("#pais_id")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, idunion) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union']; 
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union'];
         var array = valor.toString().split("|");
-        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
-    
+        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
+
         var d_id = array[0];
         var posee_union = array[1];
-    
+
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         uniones.select({
             name: 'idunion',
@@ -88,18 +60,18 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
-        
+
             var condicion = typeof pais_id == "undefined";
             condicion = condicion && typeof idunion == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && reporte.required("pais_id");
                 if(required) {
                     $("#idunion")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
         if(posee_union == "N") {
             $(".union").hide();
@@ -113,17 +85,17 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             $(".union").show();
         }
-        
+
     });
 
 
 
     $(document).on('change', '#idunion', function(event, idunion, idmision) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
-    
+
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
@@ -131,27 +103,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idunion == "undefined";
             condicion = condicion && typeof idmision == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && reporte.required("idunion");
                 if(required) {
                     $("#idmision")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];
         d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
         var selected = (typeof iddistritomisionero != "undefined")  ? iddistritomisionero : "";
-    
+
         distritos_misioneros.select({
             name: 'iddistritomisionero',
             url: '/obtener_distritos_misioneros',
@@ -159,27 +131,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idmision == "undefined";
             condicion = condicion && typeof iddistritomisionero == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && reporte.required("idmision");
                 if(required) {
                     $("#iddistritomisionero")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#iddistritomisionero', function(event, iddistritomisionero, idiglesia) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];
         d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
         var selected = (typeof idiglesia != "undefined")  ? idiglesia : "";
-    
+
         iglesias.select({
             name: 'idiglesia',
             url: '/obtener_iglesias',
@@ -187,54 +159,23 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function() {
-        
+
             var condicion = typeof iddistritomisionero == "undefined";
             condicion = condicion && typeof idiglesia == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && reporte.required("iddistritomisionero");
                 if(required) {
                     $("#idiglesia")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
 
-    document.addEventListener("click", function(event) {
-        var id = event.srcElement.id;
-        if(id == "" && !event.srcElement.parentNode.disabled) {
-            id = event.srcElement.parentNode.id;
-        }
-        //console.log(event.srcElement);
-        switch (id) {
-            case 'nuevo-perfil':
-                event.preventDefault();
-            
-                reporte.abrirModal();
-            break;
 
-            case 'modificar-perfil':
-                event.preventDefault();
-            
-                //modificar_perfil();
-            break;
-
-            case 'eliminar-perfil':
-                event.preventDefault();
-                //eliminar_perfil();
-            break;
-
-            case 'guardar-perfil':
-                event.preventDefault();
-                //guardar_perfil();
-            break;
-
-        }
-
-    })
 
 
     document.addEventListener("keydown", function(event) {
@@ -242,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "reporte/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-reporte').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         reporte.abrirModal();
@@ -258,15 +199,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_perfil();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -275,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -283,30 +224,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-reporte').is(':visible')) {
                     guardar_perfil();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     $(document).on("change", "#idtrimestre, #anio, #idiglesia", function() {
@@ -420,9 +361,9 @@ document.addEventListener("DOMContentLoaded", function() {
                             actmasiva2 += '<tr class="fila">';
                             actmasiva2 += '    <td>'+response[index].descripcion+'</td>';
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+cantidad+'</td>';
-                            // cont++;  
+                            // cont++;
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+asistentes+'</td>';
-                            // cont++;  
+                            // cont++;
                             actmasiva2 += '    <td class="celda" align="center" style="width: 60px !important;">'+interesados+'</td>';
                             actmasiva2 += '</tr>';
                         }
@@ -484,11 +425,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("actividades").innerHTML = html;
                     $(".boton-reporte").show();
 
-                  
+
                 }
-                
-            })  
-            
+
+            })
+
         }
     })
 
@@ -590,8 +531,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // $("#formulario-reporte").attr("action", BaseUrl + "/actividad_misionera/imprimir_actividades_misioneras");
             // $("#formulario-reporte").attr("method", "GET");
             // $("#formulario-reporte").attr("target", "imprimir_actividades_misioneras");
-    
-            
+
+
             // window.open('', 'imprimir_actividades_misioneras');
             // document.getElementById('formulario-reporte').submit();
         }
@@ -600,15 +541,15 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("ver-reporte").addEventListener("click", function(e) {
         e.preventDefault();
         generar_reporte("/actividad_misionera/imprimir_actividades_misioneras");
- 
-        
+
+
     })
 
     document.getElementById("exportar_excel").addEventListener("click", function(e) {
         e.preventDefault();
         generar_reporte("/actividad_misionera/exportar_excel_actividades_misioneras");
     })
-  
+
 
 
 })

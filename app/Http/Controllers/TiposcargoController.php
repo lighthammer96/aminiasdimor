@@ -13,40 +13,40 @@ class TiposcargoController extends Controller
 {
     //
     private $base_model;
-    private $tipos_cargo;
-    
+    private $tipos_cargo_model;
+
     public function __construct() {
         parent:: __construct();
-        $this->tipos_cargo = new TiposcargoModel();
+        $this->tipos_cargo_model = new TiposcargoModel();
         $this->base_model = new BaseModel();
     }
 
     public function index() {
-        $view = "tipos_cargo.index";
-        $data["title"] = traducir("traductor.titulo_tipos_cargo");
+        $view = "tipos_cargo_model.index";
+        $data["title"] = traducir("traductor.titulo_tipos_cargo_model");
         $data["subtitle"] = "";
-        $data["tabla"] = $this->tipos_cargo->tabla()->HTML();
+        $data["tabla"] = $this->tipos_cargo_model->tabla()->HTML();
 
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nuevo-tipo-cargo"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-tipo-cargo"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-tipo-cargo"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["tipos_cargo.js"]);
+        $data["scripts"] = $this->cargar_js(["tipos_cargo_model.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
-        $json_data = $this->tipos_cargo->tabla()->obtenerDatos();
+        $json_data = $this->tipos_cargo_model->tabla()->obtenerDatos();
         echo json_encode($json_data);
     }
 
 
-    public function guardar_tipos_cargo(Request $request) {
-   
+    public function guardar_tipos_cargo_model(Request $request) {
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("idtipocargo") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.tipocargo", $_POST));
@@ -54,19 +54,19 @@ class TiposcargoController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("public.tipocargo", $_POST));
         }
 
-   
+
         // DB::table("public.tipocargo_idiomas")->where("idtipocargo", $result["id"])->delete();
         // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
+
         //     $_POST["idtipocargo"] = $result["id"];
-           
+
         //     $this->base_model->insertar($this->preparar_datos("public.tipocargo_idiomas", $_POST, "D"), "D");
         // }
         echo json_encode($result);
     }
 
-    public function eliminar_tipos_cargo() {
-       
+    public function eliminar_tipos_cargo_model() {
+
 
         try {
             $sql_cargos = "SELECT * FROM public.cargo WHERE idtipocargo=".$_REQUEST["id"];
@@ -91,7 +91,7 @@ class TiposcargoController extends Controller
     }
 
 
-    public function get_tipos_cargo(Request $request) {
+    public function get_tipos_cargo_model(Request $request) {
 
         $sql = "SELECT * FROM public.tipocargo WHERE idtipocargo=".$request->input("id");
         $one = DB::select($sql);
@@ -99,15 +99,10 @@ class TiposcargoController extends Controller
     }
 
     public function obtener_tipos_cargo() {
-        $sql = "SELECT /*(p.idtipocargo || '|' || p.posee_nivel)*/ p.idtipocargo  AS id, p.descripcion
-        FROM public.tipocargo AS p";
-        // die($sql);
-        $result = DB::select($sql);
+        $result = $this->tipos_cargo_model->obtener_tipos_cargo();
         echo json_encode($result);
     }
 
-
-    
     public function obtener_traducciones(Request $request) {
         $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM public.tipocargo_idiomas AS pi
         INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
@@ -117,5 +112,5 @@ class TiposcargoController extends Controller
        echo json_encode($result);
        //print_r($_REQUEST);
     }
-    
+
 }

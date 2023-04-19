@@ -109,6 +109,7 @@ Route::post('modulos/eliminar_modulos', [ModulosController::class, "eliminar_mod
 Route::post('modulos/obtener_padres', [ModulosController::class, "obtener_padres"]);
 Route::post('modulos/obtener_modulos', [ModulosController::class, "obtener_modulos"]);
 Route::post('modulos/obtener_traducciones', [ModulosController::class, "obtener_traducciones"]);
+Route::post('modulos/select_init', [ModulosController::class, "select_init"]);
 
 //USUARIOS
 Route::get('usuarios/index', [UsuariosController::class, "index"]);
@@ -117,6 +118,7 @@ Route::post('usuarios/guardar_usuarios', [UsuariosController::class, "guardar_us
 Route::post('usuarios/get_usuarios', [UsuariosController::class, "get_usuarios"]);
 Route::post('usuarios/eliminar_usuarios', [UsuariosController::class, "eliminar_usuarios"]);
 Route::get('usuarios/cambiar_password', [UsuariosController::class, "cambiar_password"]);
+Route::post('usuarios/select_init', [UsuariosController::class, "select_init"]);
 
 // PERMISOS
 
@@ -160,6 +162,8 @@ Route::post('paises/obtener_todos_paises', [PaisesController::class, "obtener_to
 Route::post('paises/obtener_paises_asociados_todos', [PaisesController::class, "obtener_paises_asociados_todos"]);
 Route::post('paises/obtener_paises_asociados_all', [PaisesController::class, "obtener_paises_asociados_all"]);
 Route::post('paises/obtener_jerarquia', [PaisesController::class, "obtener_jerarquia"]);
+Route::post('paises/select_init', [PaisesController::class, "select_init"]);
+
 
 // UNIONES
 Route::get('uniones/index', [UnionesController::class, "index"]);
@@ -207,7 +211,7 @@ Route::post('iglesias/obtener_iglesias', [IglesiasController::class, "obtener_ig
 Route::post('iglesias/obtener_iglesias_all', [IglesiasController::class, "obtener_iglesias_all"]);
 Route::get('iglesias/ver_activos/{idiglesia}', [IglesiasController::class, "ver_activos"]);
 Route::get('iglesias/ver_inactivos/{idiglesia}', [IglesiasController::class, "ver_inactivos"]);
-
+Route::post('iglesias/select_init', [IglesiasController::class, "select_init"]);
 
 // PASTORES
 Route::get('pastores/index', [PastoresController::class, "index"]);
@@ -217,6 +221,7 @@ Route::post('pastores/get_pastores', [PastoresController::class, "get_pastores"]
 Route::post('pastores/eliminar_pastores', [PastoresController::class, "eliminar_pastores"]);
 Route::post('pastores/obtener_pastores', [PastoresController::class, "obtener_pastores"]);
 Route::post('pastores/obtener_cargos', [PastoresController::class, "obtener_cargos"]);
+Route::post('pastores/select_init', [PastoresController::class, "select_init"]);
 
 // DEPARTAMENTOS
 Route::get('departamentos/index', [DepartamentosController::class, "index"]);
@@ -234,6 +239,7 @@ Route::post('provincias/guardar_provincias', [ProvinciasController::class, "guar
 Route::post('provincias/get_provincias', [ProvinciasController::class, "get_provincias"]);
 Route::post('provincias/eliminar_provincias', [ProvinciasController::class, "eliminar_provincias"]);
 Route::post('provincias/obtener_provincias', [ProvinciasController::class, "obtener_provincias"]);
+Route::post('provincias/select_init', [ProvinciasController::class, "select_init"]);
 
 
 // DISTRITOS
@@ -243,6 +249,7 @@ Route::post('distritos/guardar_distritos', [DistritosController::class, "guardar
 Route::post('distritos/get_distritos', [DistritosController::class, "get_distritos"]);
 Route::post('distritos/eliminar_distritos', [DistritosController::class, "eliminar_distritos"]);
 Route::post('distritos/obtener_distritos', [DistritosController::class, "obtener_distritos"]);
+Route::post('distritos/select_init', [DistritosController::class, "select_init"]);
 
 
 
@@ -269,6 +276,7 @@ Route::post('cargos/guardar_cargos', [CargosController::class, "guardar_cargos"]
 Route::post('cargos/get_cargos', [CargosController::class, "get_cargos"]);
 Route::post('cargos/eliminar_cargos', [CargosController::class, "eliminar_cargos"]);
 Route::post('cargos/obtener_cargos', [CargosController::class, "obtener_cargos"]);
+Route::post('cargos/select_init', [CargosController::class, "select_init"]);
 
 // INSTITUCIONES
 Route::get('instituciones/index', [InstitucionesController::class, "index"]);
@@ -277,6 +285,7 @@ Route::post('instituciones/guardar_instituciones', [InstitucionesController::cla
 Route::post('instituciones/get_instituciones', [InstitucionesController::class, "get_instituciones"]);
 Route::post('instituciones/eliminar_instituciones', [InstitucionesController::class, "eliminar_instituciones"]);
 Route::post('instituciones/obtener_instituciones', [InstitucionesController::class, "obtener_instituciones"]);
+Route::post('instituciones/select_init', [InstitucionesController::class, "select_init"]);
 
 
 
@@ -287,6 +296,7 @@ Route::post('otras_propiedades/guardar_otras_propiedades', [OtraspropiedadesCont
 Route::post('otras_propiedades/get_otras_propiedades', [OtraspropiedadesController::class, "get_otras_propiedades"]);
 Route::post('otras_propiedades/eliminar_otras_propiedades', [OtraspropiedadesController::class, "eliminar_otras_propiedades"]);
 Route::post('otras_propiedades/obtener_otras_propiedades', [OtraspropiedadesController::class, "obtener_otras_propiedades"]);
+Route::post('otras_propiedades/select_init', [OtraspropiedadesController::class, "select_init"]);
 
 
 /*************
@@ -331,6 +341,7 @@ Route::get('asociados/imprimir_curriculum/{idmiembro}', [AsociadosController::cl
 Route::get('asociados/imprimir_certificado/{idmiembro}', [AsociadosController::class, "imprimir_certificado"]);
 Route::get('asociados/imprimir_listado_delegados', [AsociadosController::class, "imprimir_listado_delegados"]);
 Route::post('asociados/notificar_delegados', [AsociadosController::class, "notificar_delegados"]);
+Route::post('asociados/select_init', [AsociadosController::class, "select_init"]);
 
 
 // TRASLADOS
@@ -352,7 +363,7 @@ Route::post('traslados/buscar_datos_control', [TrasladosController::class, "busc
 Route::post('traslados/guardar_control', [TrasladosController::class, "guardar_control"]);
 Route::get('traslados/imprimir_carta_iglesia/{idmiembro}/{idcontrol}', [TrasladosController::class, "imprimir_carta_iglesia"]);
 Route::get('traslados/imprimir_respuesta_carta_iglesia/{idmiembro}/{idcontrol}', [TrasladosController::class, "imprimir_respuesta_carta_iglesia"]);
-
+Route::post('traslados/select_init', [TrasladosController::class, "select_init"]);
 
 // ACTIVIDAD MISIONERA
 
@@ -366,6 +377,7 @@ Route::get('actividad_misionera/reporte', [ActividadmisioneraController::class, 
 Route::post('actividad_misionera/obtener_trimestres_todos  ', [ActividadmisioneraController::class, "obtener_trimestres_todos"]);
 Route::get('actividad_misionera/imprimir_actividades_misioneras  ', [ActividadmisioneraController::class, "imprimir_actividades_misioneras"]);
 Route::get('actividad_misionera/exportar_excel_actividades_misioneras  ', [ActividadmisioneraController::class, "exportar_excel_actividades_misioneras"]);
+Route::post('actividad_misionera/select_init  ', [ActividadmisioneraController::class, "select_init"]);
 
 // ELECCION
 Route::get('eleccion/index', [EleccionController::class, "index"]);
@@ -374,6 +386,7 @@ Route::post('eleccion/guardar_eleccion', [EleccionController::class, "guardar_el
 Route::post('eleccion/get_eleccion', [EleccionController::class, "get_eleccion"]);
 Route::post('eleccion/eliminar_eleccion', [EleccionController::class, "eliminar_eleccion"]);
 Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_eleccion"]);
+Route::post('eleccion/select_init', [EleccionController::class, "select_init"]);
 
 /*************
  * MODULO REPORTES*
@@ -397,6 +410,7 @@ Route::get('reportes/imprimir_oficiales_union', [ReportesController::class, "imp
 Route::get('reportes/exportar_excel_general_asociados', [ReportesController::class, "exportar_excel_general_asociados"]);
 Route::post('reportes/obtener_iglesias', [ReportesController::class, "obtener_iglesias"]);
 Route::post('reportes/obtener_feligresia', [ReportesController::class, "obtener_feligresia"]);
+Route::post('reportes/select_init', [ReportesController::class, "select_init"]);
 
 
 // IMPORTAR
@@ -423,6 +437,7 @@ Route::post('asambleas/obtener_detalle_agenda', [AsambleasController::class, "ob
 Route::post('asambleas/guardar_asambleas', [AsambleasController::class, "guardar_asambleas"]);
 Route::post('asambleas/get_asambleas', [AsambleasController::class, "get_asambleas"]);
 Route::post('asambleas/eliminar_asambleas', [AsambleasController::class, "eliminar_asambleas"]);
+Route::post('asambleas/select_init', [AsambleasController::class, "select_init"]);
 
 
 
@@ -463,7 +478,7 @@ Route::get('propuestas/imprimir_propuesta_tema/{pt_id}', [PropuestasController::
 
 Route::get('propuestas/imprimir_propuestas_temas/', [PropuestasController::class, "imprimir_propuestas_temas"]);
 Route::get('propuestas/imprimir_propuestas_elecciones/', [PropuestasController::class, "imprimir_propuestas_elecciones"]);
-
+Route::post('propuestas/select_init', [PropuestasController::class, "select_init"]);
 
  // RESOLUCIONES
  Route::get('resoluciones/index', [ResolucionesController::class, "index"]);

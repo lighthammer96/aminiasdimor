@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\AsociadosModel;
 use App\Models\BaseModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
 use App\Models\PropuestasModel;
+use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,12 +18,19 @@ class PropuestasController extends Controller
     //
     private $base_model;
     private $propuestas_model;
-    
+    private $asociados_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+
     public function __construct() {
         parent:: __construct();
         $this->propuestas_model = new PropuestasModel();
         $this->asociados_model = new AsociadosModel();
         $this->base_model = new BaseModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
     }
 
     public function temas() {
@@ -32,7 +42,7 @@ class PropuestasController extends Controller
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
-        
+
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
 
         $botones[3] = '<button disabled="disabled" tecla_rapida="F8" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
@@ -41,17 +51,17 @@ class PropuestasController extends Controller
         $botones[5] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="ver-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/documento.png').'"><br>'.traducir("traductor.ver").'</button>';
 
         $botones[6] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="listado-propuesta-tema"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/listado.png').'"><br>'.traducir("asambleas.listado").'</button>';
-        
+
         // $botones[7] = ' ';
-       
+
 
         $data["botones"] = $botones;
-        
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?21120211722"]);
-        return parent::init($view, $data);  
 
-      
-       
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?21120211722"]);
+        return parent::init($view, $data);
+
+
+
     }
 
 
@@ -65,7 +75,7 @@ class PropuestasController extends Controller
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
-        
+
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
 
         $botones[3] = '<button disabled="disabled" tecla_rapida="F10" style="margin-right: 5px;" class="btn btn-default btn-sm" id="traducir-propuesta-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/traducir.png').'"><br>'.traducir("asambleas.traducir").'</button>';
@@ -78,7 +88,7 @@ class PropuestasController extends Controller
 
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["propuestas_elecciones.js?2112021"]);
-        return parent::init($view, $data);  
+        return parent::init($view, $data);
     }
 
     public function buscar_datos() {
@@ -89,14 +99,14 @@ class PropuestasController extends Controller
 
     public function buscar_datos_elecciones() {
         $con_votacion = (isset($_REQUEST["con_votacion"])) ? $_REQUEST["con_votacion"] : "N";
-      
+
         $json_data = $this->propuestas_model->tabla_propuestas_elecciones($con_votacion)->obtenerDatos();
         echo json_encode($json_data);
     }
 
     public function buscar_datos_elecciones_origen() {
-      
-     
+
+
         $json_data = $this->propuestas_model->tabla_propuestas_elecciones_origen()->obtenerDatos();
         echo json_encode($json_data);
     }
@@ -105,10 +115,10 @@ class PropuestasController extends Controller
     public function guardar_propuestas_temas(Request $request) {
 
         $array_traducciones = array();
-        
+
         try {
             DB::beginTransaction();
-            // print_r($_REQUEST); 
+            // print_r($_REQUEST);
             // exit;
             if(isset($_POST["pt_digitar"])) {
                 $_POST["pt_digitar"] = "S";
@@ -135,15 +145,15 @@ class PropuestasController extends Controller
                             $idioma = $value;
                         }
                     }
-                    
+
                     // echo $key." -> ". $value." ".str_replace("_traduccion","",$key)."\n";
                 }
 
             }
-            // print_r($array_traducciones); 
+            // print_r($array_traducciones);
             // exit;
             $_POST = $this->toUpper($_POST, ["pt_email", "tpt_idioma", "lugar", "tabla"]);
-           
+
             $asamblea = array();
             $pais = array();
             if(isset($_POST["asamblea_id"])) {
@@ -153,10 +163,10 @@ class PropuestasController extends Controller
             if(isset($_POST["pais_id"])) {
                 $pais = explode("|", $_POST["pais_id"]);
             }
-            
+
             $_POST["asamblea_id"] = "";
             $_POST["pais_id"] = "";
-        
+
             $_POST["pt_fecha_reunion_cpag"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_cpag"], "server");
             $_POST["pt_fecha_reunion_uya"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_uya"], "server");
 
@@ -183,7 +193,7 @@ class PropuestasController extends Controller
                 $array_traducciones["pt_id"] = $_POST["pt_id"];
                 $array_traducciones = $this->toUpper($array_traducciones, ["tpt_idioma"]);
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_propuestas_temas", $array_traducciones));
-                
+
             } else {
                 // print_r($this->preparar_datos("asambleas.traduccion_propuestas_temas", $_POST));
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_propuestas_temas", $_POST));
@@ -192,18 +202,18 @@ class PropuestasController extends Controller
             DB::table("asambleas.propuestas_origen")->where("pt_id", $_POST["pt_id"] )->delete();
             if(isset($_REQUEST["pt_id_origen"])) {
                 // $_POST["idunion"] = $result["id"];
-                
+
                 $this->base_model->insertar($this->preparar_datos("asambleas.propuestas_origen", $_POST, "D"), "D");
             }
 
-       
-       
+
+
             DB::commit();
             echo json_encode($result);
         } catch (Exception $e) {
             DB::rollBack();
-            $response["status"] = "ei"; 
-            $response["msg"] = $e->getMessage(); 
+            $response["status"] = "ei";
+            $response["msg"] = $e->getMessage();
             echo json_encode($response);
         }
     }
@@ -213,8 +223,8 @@ class PropuestasController extends Controller
     //    exit;
 
         $array_traducciones = array();
-        
-        
+
+
         try {
             DB::beginTransaction();
 
@@ -223,10 +233,10 @@ class PropuestasController extends Controller
                 if(count($asamblea) > 1) {
 
                     $_POST["asamblea_id"] = $asamblea[1];
-                } 
+                }
             }
-            
-            
+
+
 
             $idioma = (isset($_REQUEST["tpe_idioma"])) ? $_REQUEST["tpe_idioma"] : "";
             foreach ($_REQUEST as $key => $value) {
@@ -240,7 +250,7 @@ class PropuestasController extends Controller
                             $idioma = $value;
                         }
                     }
-                    
+
                     // echo $key." -> ". $value." ".str_replace("_traduccion","",$key)."\n";
                 }
 
@@ -265,10 +275,10 @@ class PropuestasController extends Controller
             // DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->where("dp_idioma", $idioma)->delete();
             if(isset($_REQUEST["dp_descripcion"]) && gettype($_REQUEST["dp_descripcion"]) == "array" && count($_REQUEST["dp_descripcion"]) > 0) {
                 DB::table("asambleas.detalle_propuestas")->where("pe_id", $request->input("pe_id"))->delete();
-            
-                
+
+
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.detalle_propuestas", $_POST, "D"), "D");
-            
+
             }
 
 
@@ -280,7 +290,7 @@ class PropuestasController extends Controller
                 $array_traducciones["pe_id"] = $_POST["pe_id"];
                 $array_traducciones = $this->toUpper($array_traducciones, ["tpe_idioma"]);
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_propuestas_elecciones", $array_traducciones));
-                
+
             } else {
                 // print_r($this->preparar_datos("asambleas.traduccion_propuestas_elecciones", $_POST));
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.traduccion_propuestas_elecciones", $_POST));
@@ -292,14 +302,14 @@ class PropuestasController extends Controller
             echo json_encode($result);
         } catch (Exception $e) {
             DB::rollBack();
-            $response["status"] = "ei"; 
-            $response["msg"] = $e->getMessage(); 
+            $response["status"] = "ei";
+            $response["msg"] = $e->getMessage();
             echo json_encode($response);
         }
     }
 
     public function eliminar_propuestas_temas() {
-       
+
 
         try {
             $sql_detalle_traduccion = "SELECT * FROM asambleas.traduccion_propuestas_temas WHERE pt_id=".$_REQUEST["id"];
@@ -309,7 +319,7 @@ class PropuestasController extends Controller
                 throw new Exception(traducir("asambleas.eliminar_propuesta_temas_traduccion"));
             }
 
-           
+
 
             $result = $this->base_model->eliminar(["asambleas.propuestas_temas","pt_id"]);
             echo json_encode($result);
@@ -319,7 +329,7 @@ class PropuestasController extends Controller
     }
 
     public function eliminar_propuestas_elecciones() {
-       
+
 
         try {
             // $sql_agenda = "SELECT * FROM asambleas.agenda WHERE pt_id=".$_REQUEST["id"];
@@ -345,7 +355,7 @@ class PropuestasController extends Controller
             }
 
 
-           
+
 
             $result = $this->base_model->eliminar(["asambleas.propuestas_elecciones","pe_id"]);
             echo json_encode($result);
@@ -361,7 +371,7 @@ class PropuestasController extends Controller
         $idioma_codigo = $id[1];
 
         $sql = "SELECT pt.*, (pt.pais_id || '|' || p.posee_union) AS pais_id , (m.apellidos || ', ' || m.nombres) AS asociado, tpt.*, pt.pt_id, a.*, v.*, (tc.tipconv_id || '|' || pt.asamblea_id) AS asamblea_id, pt.estado, CASE WHEN tpt.tpt_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpt.tpt_idioma END AS tpt_idioma, pt.tabla, r.resolucion_id , CASE WHEN tpt.tpt_titulo IS NULL THEN '' ELSE tpt.tpt_titulo END AS tpt_titulo
-        FROM asambleas.propuestas_temas AS pt 
+        FROM asambleas.propuestas_temas AS pt
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pt.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN iglesias.miembro AS m ON(m.idmiembro=pt.pt_dirigido_por_uya)
@@ -376,13 +386,13 @@ class PropuestasController extends Controller
     }
 
 
-    
+
     public function get_propuestas_elecciones(Request $request) {
         $id = explode("|", $_REQUEST["id"]);
         $pe_id = $id[0];
         $idioma_codigo = $id[1];
 
-        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma, (tc.tipconv_id || '|' || pe.asamblea_id) AS asamblea_id, r.resolucion_id FROM asambleas.propuestas_elecciones AS pe 
+        $sql = "SELECT v.*, tpe.*, pe.*, CASE WHEN tpe.tpe_idioma IS NULL THEN '".$idioma_codigo."' ELSE tpe.tpe_idioma END AS tpe_idioma, (tc.tipconv_id || '|' || pe.asamblea_id) AS asamblea_id, r.resolucion_id FROM asambleas.propuestas_elecciones AS pe
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=pe.asamblea_id)
         INNER JOIN asambleas.tipo_convocatoria AS tc ON(a.tipconv_id=tc.tipconv_id)
         LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$idioma_codigo}')
@@ -396,15 +406,15 @@ class PropuestasController extends Controller
 
     public function obtener_detalle_propuesta(Request $request) {
         $sql = "SELECT *
-        FROM asambleas.detalle_propuestas AS dp 
-      
+        FROM asambleas.detalle_propuestas AS dp
+
         WHERE dp.pe_id={$request->input("pe_id")} /*AND dp.dp_idioma='{$request->input("idioma")}'*/";
         // die($sql);
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
-    
+
 
     public function obtener_anios() {
         $result = array();
@@ -446,20 +456,14 @@ class PropuestasController extends Controller
     }
 
     public function obtener_categorias_propuestas() {
-        $sql = "SELECT cp_id as id, cp_descripcion AS descripcion FROM asambleas.categorias_propuestas 
-        WHERE estado='A'
-        ORDER BY cp_descripcion ASC";
-        $result = DB::select($sql);
+        $result = $this->propuestas_model->obtener_categorias_propuestas();
         echo json_encode($result);
     }
-    
 
-    
+
+
     public function obtener_formas_votacion(Request $request) {
-        $sql = "SELECT fv_id as id, fv_descripcion AS descripcion FROM asambleas.formas_votacion
-        WHERE estado='A' AND fv_tipo='{$request->input("fv_tipo")}'
-        ORDER BY fv_descripcion ASC";
-        $result = DB::select($sql);
+        $result = $this->propuestas_model->obtener_formas_votacion($request);
         echo json_encode($result);
     }
 
@@ -484,11 +488,11 @@ class PropuestasController extends Controller
                 if(count($asamblea) > 1) {
 
                     $_POST["asamblea_id"] = $asamblea[1];
-                } 
+                }
             }
 
             // exit;
-          
+
             if($request->input("estado") == "A") {
                 if ($request->input("votacion_id") == '') {
                     $_POST["votacion_fecha"] = date("Y-m-d H:i:s");
@@ -496,8 +500,8 @@ class PropuestasController extends Controller
                 }else{
                     $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $_POST));
                 }
-               
-               
+
+
                 // print_R($result); exit;
                 if($request->input("tabla") == "asambleas.propuestas_temas") {
                     $update_propuesta["pt_id"] = $request->input("propuesta_id");
@@ -509,7 +513,7 @@ class PropuestasController extends Controller
                     $result["pe_someter_votacion"] = $update_propuesta["pe_someter_votacion"];
                 }
 
-                
+
             } elseif($request->input("estado") == "I") {
                 $update_votacion["votacion_id"] = $request->input("votacion_id");
                 $update_votacion["estado"] = "I";
@@ -522,28 +526,28 @@ class PropuestasController extends Controller
                     $update_propuesta["pe_id"] = $request->input("propuesta_id");
                     $update_propuesta["pe_someter_votacion"] = "N";
                 }
-                
+
             }
             $r = $this->base_model->modificar($this->preparar_datos($request->input("tabla"), $update_propuesta));
             // print_r($this->preparar_datos($request->input("tabla"), $update_propuesta));     exit;
 
 
             DB::commit();
-            
+
             echo json_encode($result);
         } catch (Exception $e) {
             DB::rollBack();
-            $response["status"] = "ei"; 
-            $response["msg"] = $e->getMessage(); 
+            $response["status"] = "ei";
+            $response["msg"] = $e->getMessage();
             echo json_encode($response);
         }
     }
 
-    
+
     public function imprimir_propuesta_tema($pt_id) {
 
         $sql = "SELECT tpt.*, pt.*, a.*, ".formato_fecha_idioma(" a.asamblea_fecha_inicio")." AS asamblea_fecha_inicio, ".formato_fecha_idioma(" a.asamblea_fecha_fin")." AS asamblea_fecha_fin, p.descripcion AS pais, tc.*, (m.apellidos || ', ' || m.nombres) AS responsable, ".formato_fecha_idioma("pt.pt_fecha_reunion_uya")." AS pt_fecha_reunion_uya
-        
+
         FROM asambleas.propuestas_temas AS pt
         INNER JOIN asambleas.asambleas AS a ON(pt.asamblea_id=a.asamblea_id)
         LEFT JOIN public.pais AS p ON(p.idpais=a.idpais)
@@ -555,12 +559,12 @@ class PropuestasController extends Controller
 
         $sql = "SELECT * FROM asambleas.categorias_propuestas WHERE estado='A'";
         $categorias = DB::select($sql);
-        
+
 
         $datos["propuesta"] = $propuesta;
         $datos["categorias"] = $categorias;
 
-        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("propuestas.imprimir", $datos);
 
@@ -568,10 +572,10 @@ class PropuestasController extends Controller
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("propuesta_tema.pdf"); // ver
     }
-    
+
 
     public function obtener_propuestas_temas_origen() {
-        
+
         $where = (isset($_REQUEST["pt_id"]) && !empty($_REQUEST["pt_id"])) ?  " AND pt.pt_id NOT IN({$_REQUEST["pt_id"]})" : "";
         $sql = "SELECT pt.pt_id AS id, CASE WHEN tpt.tpt_titulo IS NULL THEN
         (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."')
@@ -588,21 +592,21 @@ class PropuestasController extends Controller
     }
 
     public function obtener_propuestas_origen(Request $request) {
-        $sql = "SELECT * FROM asambleas.propuestas_origen 
-        WHERE pt_id={$request->input("pt_id")}"; 
+        $sql = "SELECT * FROM asambleas.propuestas_origen
+        WHERE pt_id={$request->input("pt_id")}";
 
         $result = DB::select($sql);
         echo json_encode($result);
     }
 
     public function obtener_descripciones_propuestas_origen(Request $request) {
-        
+
         $in = "";
 
         if(!empty($_REQUEST["pt_id_origen"])) {
             $in = " AND pt.pt_id IN(".$request->input("pt_id_origen").")";
         }
-      
+
         $sql = "SELECT *
         FROM asambleas.propuestas_temas AS pt
         INNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
@@ -637,27 +641,27 @@ class PropuestasController extends Controller
 
         $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $_REQUEST));
         echo json_encode($result);
- 
+
     }
 
     public function guardar_ganador(Request $request) {
         $update = array();
         $update["resultado_id"] = $request->input("resultado_id");
         $update["resultado_ganador"] = $request->input("resultado_ganador");
-        
+
         $result = $this->base_model->modificar($this->preparar_datos("asambleas.resultados", $update));
         echo json_encode($result);
- 
+
     }
-    
+
 
     public function obtener_descripcion_propuestas(Request $request) {
         if($request->input("tabla") == "asambleas.propuestas_temas") {
             $sql = "SELECT CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END AS tr_titulo_propuesta ,
 
-            CASE WHEN tpt.tpt_propuesta IS NULL THEN (SELECT tpt_propuesta FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_propuesta  END AS tr_propuesta 
+            CASE WHEN tpt.tpt_propuesta IS NULL THEN (SELECT tpt_propuesta FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_propuesta  END AS tr_propuesta
             FROM asambleas.propuestas_temas AS pt
-            
+
             LEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id AND tpt.tpt_idioma='{$request->input("tr_idioma")}')
             WHERE pt.pt_id = {$request->input("propuesta_id")}";
         }
@@ -665,20 +669,20 @@ class PropuestasController extends Controller
 
         if($request->input("tabla") == "asambleas.propuestas_elecciones") {
             $sql = "SELECT  CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS tr_titulo_propuesta ,
-            CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta  END AS tr_propuesta 
-            
+            CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta  END AS tr_propuesta
+
             FROM asambleas.propuestas_elecciones AS pe
             LEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='{$request->input("tr_idioma")}')
             WHERE pe.pe_id = {$request->input("propuesta_id")}";
         }
         $result = DB::select($sql);
-        
+
 
         echo json_encode($result);
     }
 
     public function obtener_ganadores(Request $request) {
-        $sql = "SELECT * FROM asambleas.resultados AS r 
+        $sql = "SELECT * FROM asambleas.resultados AS r
         WHERE r.resolucion_id={$request->input("resolucion_id")} AND r.resultado_ganador='S'";
         $result = DB::select($sql);
         echo json_encode($result);
@@ -687,13 +691,13 @@ class PropuestasController extends Controller
 
     public function imprimir_propuestas_temas() {
 
-        $sql = "SELECT ".formato_fecha_idioma(" pt.pt_fecha")." AS fecha, pt.pt_correlativo AS correlativo, 
-        CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END AS titulo, 
-        p.pais_descripcion AS pais, pt.lugar AS de, CASE 
-        WHEN pt.pt_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
-        WHEN pt.pt_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
-        WHEN pt.pt_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
-        END AS estado_propuesta, 
+        $sql = "SELECT ".formato_fecha_idioma(" pt.pt_fecha")." AS fecha, pt.pt_correlativo AS correlativo,
+        CASE WHEN tpt.tpt_titulo IS NULL THEN (SELECT tpt_titulo FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_titulo  END AS titulo,
+        p.pais_descripcion AS pais, pt.lugar AS de, CASE
+        WHEN pt.pt_estado=1 THEN '".traducir("asambleas.proceso_registro")."'
+        WHEN pt.pt_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."'
+        WHEN pt.pt_estado=3 THEN '".traducir("asambleas.traduccion_completa")."'
+        END AS estado_propuesta,
         CASE WHEN pt.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado
         FROM asambleas.propuestas_temas AS pt
         \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
@@ -701,10 +705,10 @@ class PropuestasController extends Controller
         ORDER BY pt.pt_id DESC";
         $propuestas = DB::select($sql);
 
-    
+
         $datos["propuestas"] = $propuestas;
 
-        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("propuestas.imprimir_propuestas_temas", $datos);
 
@@ -716,26 +720,26 @@ class PropuestasController extends Controller
 
     public function imprimir_propuestas_elecciones() {
 
-        $sql = "SELECT ".formato_fecha_idioma(" pe.pe_fecha")." AS fecha, 
-        CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS descripcion, 
+        $sql = "SELECT ".formato_fecha_idioma(" pe.pe_fecha")." AS fecha,
+        CASE WHEN tpe.tpe_descripcion IS NULL THEN (SELECT tpe_descripcion FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_descripcion  END AS descripcion,
 
-        CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta END  AS detalle_propuesta, 
-        
-        CASE 
-        WHEN pe.pe_estado=1 THEN '".traducir("asambleas.proceso_registro")."' 
-        WHEN pe.pe_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."' 
-        WHEN pe.pe_estado=3 THEN '".traducir("asambleas.traduccion_completa")."' 
-        END AS estado_propuesta, 
+        CASE WHEN tpe.tpe_detalle_propuesta IS NULL THEN (SELECT tpe_detalle_propuesta FROM asambleas.traduccion_propuestas_elecciones WHERE pe_id=pe.pe_id AND tpe_idioma='".trim(session("idioma_defecto"))."') ELSE tpe.tpe_detalle_propuesta END  AS detalle_propuesta,
+
+        CASE
+        WHEN pe.pe_estado=1 THEN '".traducir("asambleas.proceso_registro")."'
+        WHEN pe.pe_estado=2 THEN '".traducir("asambleas.enviado_traduccion")."'
+        WHEN pe.pe_estado=3 THEN '".traducir("asambleas.traduccion_completa")."'
+        END AS estado_propuesta,
         CASE WHEN pe.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado
         FROM asambleas.propuestas_elecciones AS pe
         \nLEFT JOIN asambleas.traduccion_propuestas_elecciones AS tpe ON(tpe.pe_id=pe.pe_id AND tpe.tpe_idioma='".trim(session("idioma_codigo"))."')
         ORDER BY pe.pe_id DESC";
         $propuestas = DB::select($sql);
 
-    
+
         $datos["propuestas"] = $propuestas;
 
-        $datos["nivel_organizativo"] = session("nivel_organizativo"); 
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("propuestas.imprimir_propuestas_elecciones", $datos);
 
@@ -757,7 +761,7 @@ class PropuestasController extends Controller
 
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id, v.tabla
         FROM asambleas.votaciones AS v
-        INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id) 
+        INNER JOIN asambleas.formas_votacion AS fv ON(v.fv_id=fv.fv_id)
         WHERE v.votacion_id={$data["votacion_id"]} AND v.estado='A' AND '".date("Y-m-d"). "' = to_char(v.votacion_fecha, 'YYYY-MM-DD')";
 
         $formas_votacion = DB::select($sql_forma_votacion);
@@ -766,12 +770,12 @@ class PropuestasController extends Controller
             echo json_encode($result);
             exit;
         }
-        
+
 
         $data["votacion_status"] = "A"; // votacion abierta
         $result = $this->base_model->modificar($this->preparar_datos("asambleas.votaciones", $data));
-       
-       
+
+
         $result["formas_votacion"] = $formas_votacion;
 
         $result["formas_votacion"][0]->items = array();
@@ -791,7 +795,7 @@ class PropuestasController extends Controller
 
             $propuestas = DB::select($sql_propuestas);
         }
-       
+
         if($result["formas_votacion"][0]->fv_id == 3) {
             $sql_asistencia = "SELECT m.idmiembro AS id, (m.apellidos || ', ' || m.nombres) AS descripcion FROM asambleas.asistencia AS a
             INNER JOIN asambleas.detalle_asistencia AS da ON(a.asistencia_id=da.asistencia_id)
@@ -827,5 +831,16 @@ class PropuestasController extends Controller
         $result["formas_votacion"][0]["items"] = array();
         echo json_encode($result);
 
+    }
+
+    public function select_init(Request $request) {
+        // $data["fv_id"] = $this->propuestas_model->obtener_formas_votacion($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_propuestas();
+        $data["pais_id_filtro"] = $this->paises_model->obtener_paises_propuestas();
+        $data["cp_id"] = $this->propuestas_model->obtener_categorias_propuestas();
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises_propuestas($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones_propuestas($request);
+
+        echo json_encode($data);
     }
 }

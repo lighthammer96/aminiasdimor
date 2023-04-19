@@ -14,7 +14,7 @@ class NivelesController extends Controller
     //
     private $base_model;
     private $niveles_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->niveles_model = new NivelesModel();
@@ -35,8 +35,8 @@ class NivelesController extends Controller
         $data["scripts"] = $this->cargar_js(["tipos_cargo.js", "niveles.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +46,7 @@ class NivelesController extends Controller
 
 
     public function guardar_niveles(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("idnivel") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.nivel", $_POST));
@@ -54,19 +54,19 @@ class NivelesController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("public.nivel", $_POST));
         }
 
-   
+
         // DB::table("public.nivel_idiomas")->where("idnivel", $result["id"])->delete();
         // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
+
         //     $_POST["idnivel"] = $result["id"];
-           
+
         //     $this->base_model->insertar($this->preparar_datos("public.nivel_idiomas", $_POST, "D"), "D");
         // }
         echo json_encode($result);
     }
 
     public function eliminar_niveles() {
-       
+
 
         try {
             $sql_cargos = "SELECT * FROM public.cargo WHERE idnivel=".$_REQUEST["id"];
@@ -76,7 +76,7 @@ class NivelesController extends Controller
                 throw new Exception(traducir("traductor.eliminar_nivel_cargo"));
             }
 
-     
+
 
             $result = $this->base_model->eliminar(["public.nivel","idnivel"]);
             echo json_encode($result);
@@ -95,32 +95,14 @@ class NivelesController extends Controller
 
     public function obtener_niveles(Request $request) {
 
-        $sql = "";
-        $result = array();
-		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
-            $sql = "SELECT n.idnivel AS id, n.descripcion 
-            FROM public.nivel AS n
-            WHERE n.estado='1' AND n.idtipocargo=".$request->input("idtipocargo")." 
-            ORDER BY n.descripcion ASC";
-		
-        
-        } else {
-            // $sql = "SELECT n.idnivel AS id, n.descripcion FROM public.nivel AS n
-            // WHERE n.estado='1'
-            // ORDER BY n.descripcion ASC";
-        }
+       $result = $this->niveles_model->obtener_niveles($request);
 
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-
-    
         // $result = DB::select($sql);
         echo json_encode($result);
     }
 
 
-    
+
     public function obtener_traducciones(Request $request) {
         $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM public.nivel_idiomas AS pi
         INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
@@ -130,5 +112,5 @@ class NivelesController extends Controller
        echo json_encode($result);
        //print_r($_REQUEST);
     }
-    
+
 }

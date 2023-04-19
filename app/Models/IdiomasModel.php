@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
+use Illuminate\Support\Facades\DB;
 
 class IdiomasModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -31,8 +32,14 @@ class IdiomasModel extends Model
         $tabla->setFrom("public.idiomas");
 
 
-    
-     
+
+
         return $tabla;
+    }
+
+    public function obtener_idiomas() {
+        $sql = "SELECT idioma_id AS id, idioma_descripcion AS descripcion FROM public.idiomas WHERE estado='A'";
+        $result = DB::select($sql);
+        return $result;
     }
 }

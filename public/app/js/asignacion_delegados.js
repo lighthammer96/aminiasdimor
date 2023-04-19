@@ -1,90 +1,32 @@
 var asignacion_delegados = new BASE_JS('asignacion_delegados', 'asociados');
 var niveles = new BASE_JS('niveles', 'niveles');
 var cargos = new BASE_JS('cargos', 'cargos');
-var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
-var asambleas = new BASE_JS('asambleas', 'asambleas');
 
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    asignacion_delegados.select_init({
+        placeholder: seleccione
+    })
+
     $(function() {
         $('input[type="radio"], input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
             radioClass   : 'iradio_minimal-blue'
         })
     })
-    
-    asignacion_delegados.select({
-        name: 'idgradoinstruccion',
-        url: '/obtener_nivel_educativo',
-        placeholder: seleccione
-    }).then(function() {
-        // asignacion_delegados.enter("idgradoinstruccion","idocupacion");
-        
-    }) 
-
-    
-    asambleas.select({
-        name: 'asamblea_id',
-        url: '/obtener_asambleas',
-        placeholder: seleccione
-    }).then(function() {
-        // asignacion_delegados.enter("idocupacion","observaciones");   
-        
-    }) 
-
-    asambleas.select({
-        name: 'asamblea_id_imprimir',
-        url: '/obtener_asambleas',
-        placeholder: seleccione
-    }).then(function() {
-        // asignacion_delegados.enter("idocupacion","observaciones");   
-        
-    }) 
-
-    asambleas.select({
-        name: 'asamblea_id_notificar',
-        url: '/obtener_asambleas',
-        placeholder: seleccione
-    }).then(function() {
-        // asignacion_delegados.enter("idocupacion","observaciones");   
-        
-    }) 
-
-
-    asignacion_delegados.select({
-        name: 'idocupacion',
-        url: '/obtener_profesiones',
-        placeholder: seleccione
-    }).then(function() {
-        // asignacion_delegados.enter("idocupacion","observaciones");   
-        
-    }) 
-
-
-    tipos_cargo.select({
-        name: 'idtipocargo',
-        url: '/obtener_tipos_cargo',
-        placeholder: seleccione
-    }).then(function() {
-        $("#idtipocargo").trigger("change", ["", ""]);
-        $("#idnivel").trigger("change", ["", ""]);
-        //$("#idcargo").trigger("change", ["", ""]);
-    
-    }) 
-
-
 
     $(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
-        //var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1"; 
+        //var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1";
         // var array = valor.toString().split("|");
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
         d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
 
         // var d_id = array[0];
         // var posee_nivel = array[1];
         var selected = (typeof idcargo != "undefined")  ? idcargo : "";
-        
+
 
 
         niveles.select({
@@ -94,10 +36,10 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idtipocargo: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idtipocargo == "undefined" && idtipocargo != "";
             condicion = condicion && typeof idcargo == "undefined" && idcargo != "";
-        
+
             if(condicion) {
                 // var required = true;
                 // required = required && asociados.required("idtipocargo");
@@ -109,12 +51,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     // }
                     $("#idnivel")[0].selectize.focus();
                     // $("#idnivel").focus();
-                    
+
                 // }
-            } 
-        
-        
-            
+            }
+
+
+
         })
 
 
@@ -124,10 +66,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#idnivel', function(event, idnivel, idcargo) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
         d_id = (typeof idnivel != "undefined" && idnivel != null) ? idnivel : d_id;
         var selected = (typeof idcargo != "undefined")  ? idcargo : "";
-       
+
 
         cargos.select({
             name: 'idcargo',
@@ -136,10 +78,10 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idnivel: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idnivel == "undefined" && idnivel != "";
             condicion = condicion && typeof idcargo == "undefined" && idcargo != "";
-        
+
             if(condicion) {
                 // var required = true;
                 // required = required && asociados.required("idtipocargo");
@@ -147,10 +89,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("#idcargo")[0].selectize.focus();
                     // $("#idcargo").focus();
                 // }
-            } 
+            }
         })
 
- 
+
 
     });
 
@@ -186,10 +128,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     html += '   <td><center><input checked="checked" class="minimal entrada" type="checkbox" name="idmiembro[]" value="'+response[index].idmiembro+'" ></center></td>';
 
                     html += '</tr>';
-                    
+
                 }
 
-                document.getElementById("asociados").getElementsByTagName("tbody")[0].innerHTML = html; 
+                document.getElementById("asociados").getElementsByTagName("tbody")[0].innerHTML = html;
                 $("#asociados").show();
                 $("#boton-asignar").show();
             } else {
@@ -214,15 +156,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#todos").removeClass("ninguno");
                 $("#todos").addClass("todos");
             }
-            
+
         // }
-       
+
     })
 
 
     document.getElementById("asignar").addEventListener("click", function(e) {
         e.preventDefault();
-       
+
         // console.log($("input[name='idmiembro[]'").val());
 
         var checkboxs = $("input[name='idmiembro[]'");
@@ -232,9 +174,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 array.push($(checkboxs[index]).val());
             }
-            
+
         }
-        
+
 
         if(array.length == 0) {
             BASE_JS.sweet({
@@ -264,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-asignacion_delegados").addEventListener("click", function(e) {
         e.preventDefault();
 
-       
+
         var required = true;
 
         required = required &&  asignacion_delegados.required("asamblea_id");
@@ -280,20 +222,20 @@ document.addEventListener("DOMContentLoaded", function() {
                         text: imprimir_listado_delegados,
                         callbackConfirm: function() {
                             $(".asamblea-impresion").hide();
-                          
+
                             $("#asamblea_id_impresion").val(response.datos[0].asamblea_id);
                             // alert(response.datos[0].asamblea_id);
                            // $("#asamblea_id_imprimir")[0].selectize.setValue(response.datos[0].asamblea_id);
-                        
+
                             $("#modal-impresion").modal("show");
                         }
                     });
-                }  
-            
+                }
+
             })
 
         }
-       
+
     })
 
     document.getElementById("guardar-impresion").addEventListener("click", function(e) {
@@ -303,14 +245,14 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#formulario-impresion").attr("action", BaseUrl + "/asociados/imprimir_listado_delegados");
         $("#formulario-impresion").attr("method", "GET");
         $("#formulario-impresion").attr("target", "imprimir_listado_delegados");
-   
-        
+
+
         window.open('', 'imprimir_listado_delegados');
         document.getElementById('formulario-impresion').submit();
         $("#miembros").val("");
         $("#delegados").val("");
         $("#asamblea_id_impresion").val("");
-        
+
     })
 
     document.getElementById("imprimir").addEventListener("click", function(e) {
@@ -319,14 +261,14 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#asamblea_id_imprimir")[0].selectize.setValue("");
         // $("#modal-imprimir").modal("show");
         $("#modal-impresion").modal("show");
-    
+
     })
 
     // document.getElementById("cancelar-imprimir").addEventListener("click", function(e) {
     //     e.preventDefault();
 
     //     $("#modal-imprimir").modal("hide");
-    
+
     // })
 
 
@@ -334,14 +276,14 @@ document.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
 
         $("#modal-notificar").modal("show");
-    
+
     })
 
     document.getElementById("cancelar-notificar").addEventListener("click", function(e) {
         e.preventDefault();
 
         $("#modal-notificar").modal("hide");
-    
+
     })
 
 
@@ -355,8 +297,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // $("#formulario-notificar").attr("action", BaseUrl + "/asociados/notificar_delegados");
         // $("#formulario-notificar").attr("method", "GET");
         // $("#formulario-notificar").attr("target", "notificar_delegados");
-   
-        
+
+
         // window.open('', 'notificar_delegados');
         // document.getElementById('formulario-notificar').submit();
         $("#ejecutar-notificacion").attr("disabled", "disabled");
@@ -372,8 +314,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     msg: notifico_correctamente,
                     type: 'success'
                 })
-            }   
-            
+            }
+
             if(response.msg != "") {
                 BASE_JS.sweet({
                     text: response.msg
@@ -384,11 +326,11 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#ejecutar-notificacion").removeAttr("disabled", "disabled");
             $("#cancelar-notificar").removeAttr("disabled", "disabled");
 
-           
+
         })
     })
 
-    
+
 
 
 })

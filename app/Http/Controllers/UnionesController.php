@@ -15,7 +15,7 @@ class UnionesController extends Controller
 
     private $base_model;
     private $uniones_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->uniones_model = new UnionesModel();
@@ -33,11 +33,11 @@ class UnionesController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js?version=231020211647", "uniones.js"]);
+        $data["scripts"] = $this->cargar_js(["uniones.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -47,7 +47,7 @@ class UnionesController extends Controller
 
 
     public function guardar_uniones(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST, ["descripcion"]);
         if ($request->input("idunion") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.union", $_POST));
@@ -58,7 +58,7 @@ class UnionesController extends Controller
         DB::table("iglesias.union_paises")->where("idunion", $result["id"])->delete();
         if(isset($_REQUEST["pais_id"])) {
             $_POST["idunion"] = $result["id"];
-            
+
             $this->base_model->insertar($this->preparar_datos("iglesias.union_paises", $_POST, "D"), "D");
         }
 
@@ -66,7 +66,7 @@ class UnionesController extends Controller
     }
 
     public function eliminar_uniones() {
-       
+
 
         try {
             $sql_misiones = "SELECT * FROM iglesias.mision WHERE idunion=".$_REQUEST["id"];
@@ -93,17 +93,7 @@ class UnionesController extends Controller
 
     public function obtener_uniones(Request $request) {
 
-        $sql = "";
-		if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
-	
-			$sql = "SELECT idunion AS id, descripcion FROM iglesias.union WHERE estado='1' AND idunion=".$request->input("idunion").
-            " ORDER BY descripcion ASC";
-		} else {
-            $sql = "SELECT idunion AS id, descripcion FROM iglesias.union WHERE estado='1'
-            ORDER BY descripcion ASC";
-		}
-
-        $result = DB::select($sql);
+        $result = $this->uniones_model->obtener_uniones($request);
         echo json_encode($result);
     }
 
@@ -115,108 +105,28 @@ class UnionesController extends Controller
 
     public function obtener_uniones_paises(Request $request) {
 
-        $sql = "";
-        $all = false;
-        $result = array();
-		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
-	
-			$sql = "SELECT u.idunion AS id, u.descripcion, u.email AS atributo1 FROM iglesias.union AS u
-            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
-            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id")." ".session("where_union").
-            " ORDER BY u.descripcion ASC";
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            $sql = "SELECT u.idunion AS id, u.descripcion , u.email AS atributo1
-            FROM iglesias.union AS u
-            WHERE u.estado='1' ".session("where_union").session("where_pais_padre").
-            " ORDER BY u.descripcion ASC";
-            $all = true;
-		}
-
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        
-        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2) {
-            // print_r($result);
-            $result[0]->defecto = "S";
-        }
+        $result = $this->uniones_model->obtener_uniones_paises($request);
         echo json_encode($result);
     }
 
 
     public function obtener_uniones_paises_propuestas(Request $request) {
 
-        $sql = "";
- 
-        $result = array();
-		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
-	
-			$sql = "SELECT u.idunion AS id, u.descripcion, u.email AS atributo1 ,
-             CASE WHEN u.idunion=".session("idunion")." THEN 'S' ELSE 'N' END AS defecto
+        $result = $this->uniones_model->obtener_uniones_paises_propuestas($request);
 
-            FROM iglesias.union AS u
-            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
-            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id").
-            " ORDER BY u.descripcion ASC";
-		} else {
-            $sql = "SELECT u.idunion AS id, u.descripcion , u.email AS atributo1,
-             CASE WHEN u.idunion=".session("idunion")." THEN 'S' ELSE 'N' END AS defecto
-            FROM iglesias.union AS u
-            WHERE u.estado='1'
-            ORDER BY u.descripcion ASC";
-            
-		}
-
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        
-     
         echo json_encode($result);
     }
 
     public function obtener_uniones_paises_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-        $result = array();
-		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
-	
-			$sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
-            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
-            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id")." ".session("where_union").
-            " ORDER BY u.descripcion ASC";
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            // $sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
-            // WHERE estado='1' ".session("where_union").
-            // " ORDER BY u.descripcion ASC";
-		}
-
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        array_push($result, $array);
+        $result = $this->uniones_model->obtener_uniones_paises_all($request);
         echo json_encode($result);
     }
 
     public function obtener_uniones_paises_todos(Request $request) {
 
-        $sql = "";
-		if(isset($_REQUEST["pais_id"]) && !empty($_REQUEST["pais_id"])) {
-	
-			$sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
-            INNER JOIN iglesias.union_paises AS up ON(up.idunion=u.idunion)
-            WHERE u.estado='1' AND up.pais_id=".$request->input("pais_id").
-            " ORDER BY u.descripcion ASC";
-		} else {
-            $sql = "SELECT u.idunion AS id, u.descripcion FROM iglesias.union AS u
-            WHERE estado='1'
-            ORDER BY u.descripcion ASC";
-		}
-
-        $result = DB::select($sql);
+        $result = $this->uniones_model->obtener_uniones_paises_todos($request);
         echo json_encode($result);
     }
 
-  
+
 }

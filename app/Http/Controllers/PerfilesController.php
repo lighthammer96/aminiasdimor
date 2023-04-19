@@ -14,7 +14,7 @@ class PerfilesController extends Controller
     //
     private $base_model;
     private $perfiles_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->perfiles_model = new PerfilesModel();
@@ -35,8 +35,8 @@ class PerfilesController extends Controller
         $data["scripts"] = $this->cargar_js(["idiomas.js", "perfiles.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +46,7 @@ class PerfilesController extends Controller
 
 
     public function guardar_perfiles(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("perfil_id") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("seguridad.perfiles", $_POST));
@@ -54,19 +54,19 @@ class PerfilesController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("seguridad.perfiles", $_POST));
         }
 
-   
+
         DB::table("seguridad.perfiles_idiomas")->where("perfil_id", $result["id"])->delete();
         if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
+
             $_POST["perfil_id"] = $result["id"];
-           
+
             $this->base_model->insertar($this->preparar_datos("seguridad.perfiles_idiomas", $_POST, "D"), "D");
         }
         echo json_encode($result);
     }
 
     public function eliminar_perfiles() {
-       
+
 
         try {
             $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE perfil_id=".$_REQUEST["id"];
@@ -99,20 +99,12 @@ class PerfilesController extends Controller
     }
 
     public function obtener_perfiles() {
-        $sql = "SELECT p.perfil_id AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
-        (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM seguridad.perfiles AS p 
-        LEFT JOIN seguridad.perfiles_idiomas AS pi ON(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
-        WHERE p.estado='A'";
-        // die($sql);
-        $result = DB::select($sql);
+        $result = $this->perfiles_model->obtener_perfiles();
         echo json_encode($result);
     }
 
 
-    
+
     public function obtener_traducciones(Request $request) {
         $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM seguridad.perfiles_idiomas AS pi
         INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
@@ -122,5 +114,5 @@ class PerfilesController extends Controller
        echo json_encode($result);
        //print_r($_REQUEST);
     }
-    
+
 }

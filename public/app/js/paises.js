@@ -9,18 +9,10 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-    paises.select({
-        name: 'pais_id[]',
-        url: '/obtener_paises',
+    paises.select_init({
         placeholder: seleccione,
-    
     })
 
-
-    paises.select({
-        name: 'pais_id',
-        url: '/obtener_paises',
-    })
 
     paises.enter("descripcion", "item", function() {
         var item = document.getElementsByName("item")[0];
@@ -34,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         document.getElementById("detalle-jerarquia").getElementsByTagName("tbody")[0].appendChild(html_detalle_jerarquia(objeto));
-    
+
         paises.limpiarDatos("limpiar");
     });
 
@@ -47,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         var tr = document.createElement("tr");
 
-        document.getElementsByName("item")[0].value = parseInt(objeto.item) + 1; 
+        document.getElementsByName("item")[0].value = parseInt(objeto.item) + 1;
 
         html = '  <input type="hidden" name="pj_item[]" value="'+objeto.item+'" >';
         html += '  <input type="hidden" name="pj_descripcion[]" value="'+objeto.descripcion+'" >';
@@ -60,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.addEventListener("click", function(event) {
-       
+
         // console.log(event.target.classList);
         // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
         if(event.target.classList.value.indexOf("eliminar-traduccion") != -1) {
@@ -72,9 +64,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if(event.srcElement.parentNode.classList.value.indexOf("eliminar-traduccion") != -1 && !event.srcElement.parentNode.disabled) {
             event.preventDefault();
             ///console.log(event.srcElement.parentNode);
-            document.getElementsByName("item")[0].value = parseInt(document.getElementsByName("item")[0].value) - 1; 
+            document.getElementsByName("item")[0].value = parseInt(document.getElementsByName("item")[0].value) - 1;
             event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
-            
+
         }
 
     })
@@ -89,13 +81,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-pais':
                 event.preventDefault();
-            
+
                 paises.abrirModal();
             break;
 
             case 'modificar-pais':
                 event.preventDefault();
-            
+
                 modificar_pais();
             break;
 
@@ -120,9 +112,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = paises.get(datos.pais_id);
 
@@ -148,30 +140,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = paises.guardar();
             paises.CerrarModal();
-            // paises.datatable.destroy();
-            // paises.TablaListado({
-            //     tablaID: '#tabla-paises',
-            //     url: "/buscar_datos",
-            // });
+    
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-                // $("select[name=pais_id]").chosen("destroy");
-                paises.select({
-                    name: 'pais_id',
-                    url: '/obtener_paises',
-                    placeholder: 'Seleccione Pais',
-                    selected: response.id
-                })
 
-                paises.select({
-                    name: 'pais_id[]',
-                    url: '/obtener_paises',
-                    placeholder: 'Seleccionar Paises',
-                
-                })
             })
 
         }
@@ -184,17 +159,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
                 paises.Operacion(datos.pais_id, "E");
-                // paises.datatable.destroy();
-                // paises.TablaListado({
-                //     tablaID: '#tabla-paises',
-                //     url: "/buscar_datos",
-                // });
+
             }
         });
     }
@@ -206,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "paises/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-paises').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         paises.abrirModal();
@@ -218,19 +189,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-                    
-                    //     break;
+
                     case 'F7':
                         eliminar_pais();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -239,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -247,30 +213,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-paises').is(':visible')) {
                     guardar_pais();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-pais").addEventListener("click", function(event) {

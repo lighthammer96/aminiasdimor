@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class AsociadosModel extends Model
@@ -12,11 +13,11 @@ class AsociadosModel extends Model
     use HasFactory;
 
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -36,7 +37,7 @@ class AsociadosModel extends Model
         $tabla->agregarColumna($funcion, "iglesia", traducir("traductor.iglesia"));
 
         $boton = "";
-        // print_r($_REQUEST); 
+        // print_r($_REQUEST);
         // var_dump($curriculum);
         if($curriculum == "1") {
             $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
@@ -48,7 +49,7 @@ class AsociadosModel extends Model
             $tabla->agregarColumna("m.idmiembro", "boton", traducir("traductor.imprimir"));
             $boton = ", '<center><button type=\"button\" onclick=\"imprimir_certificado(''' || m.idmiembro || ''')\" class=\"btn btn-xs\" ><img style=\"width: 20px; height: 20px;\" src=\"".URL::asset('images/iconos/print.png')."\"><br></button></center>' AS boton";
         }
-        
+
         $join = "";
         if($delegados == "1") {
             $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
@@ -74,12 +75,12 @@ class AsociadosModel extends Model
             $where = implode(' AND ', $array_where);
         }
 
-        
+
 
         $tabla->setWhere($where);
 
-    
-      
+
+
         return $tabla;
     }
 
@@ -102,5 +103,45 @@ class AsociadosModel extends Model
         }
 
         return $tabla;
+    }
+
+    public function obtener_estado_civil() {
+        $sql = "SELECT idestadocivil as id, descripcion FROM public.estadocivil ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_nivel_educativo() {
+        $sql = "SELECT idgradoinstruccion as id, descripcion FROM public.gradoinstruccion ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_profesiones() {
+        $sql = "SELECT idocupacion as id, descripcion FROM public.ocupacion ORDER BY descripcion ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_periodos_ini() {
+        $result = array();
+        $array = array();
+        for($i=date("Y"); $i>=1900; $i-- ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
+        return $array;
+    }
+
+    public function obtener_periodos_fin() {
+        $result = array();
+        $array = array();
+        for($i=date("Y")+4; $i>=1900; $i-- ) {
+            $result["id"] = $i;
+            $result["descripcion"] = $i;
+            array_push($array, $result);
+        }
+        return $array;
     }
 }

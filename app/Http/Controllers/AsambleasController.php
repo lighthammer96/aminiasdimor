@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\AsambleasModel;
+use App\Models\PaisesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,13 @@ class AsambleasController extends Controller
     //
     private $base_model;
     private $asambleas_model;
-    
+    private $paises_model;
+
     public function __construct() {
         parent:: __construct();
         $this->asambleas_model = new AsambleasModel();
         $this->base_model = new BaseModel();
+        $this->paises_model = new PaisesModel();
     }
 
     public function index() {
@@ -35,8 +38,8 @@ class AsambleasController extends Controller
         $data["scripts"] = $this->cargar_js(["asambleas.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +49,7 @@ class AsambleasController extends Controller
 
 
     public function guardar_asambleas(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         $_POST["asamblea_fecha_inicio"] = $this->FormatoFecha($_REQUEST["asamblea_fecha_inicio"], "server");
         $_POST["asamblea_fecha_fin"] = $this->FormatoFecha($_REQUEST["asamblea_fecha_fin"], "server");
@@ -56,20 +59,20 @@ class AsambleasController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("asambleas.asambleas", $_POST));
         }
 
-       
+
         DB::table("asambleas.agenda")->where("asamblea_id", $result["id"])->delete();
         if(isset($_REQUEST["agenda_descripcion"]) && isset($_REQUEST["agenda_fecha"]) && isset($_REQUEST["agenda_hora"])) {
-     
+
             $_POST["asamblea_id"] = $result["id"];
             // print_r($this->preparar_datos("asambleas.agenda", $_POST, "D")); exit;
-           
+
             $this->base_model->insertar($this->preparar_datos("asambleas.agenda", $_POST, "D"), "D");
         }
         echo json_encode($result);
     }
 
     public function eliminar_asambleas() {
-       
+
 
         try {
             $sql_agenda = "SELECT * FROM asambleas.agenda WHERE asamblea_id=".$_REQUEST["id"];
@@ -79,7 +82,7 @@ class AsambleasController extends Controller
                 throw new Exception(traducir("traductor.eliminar_asamblea_agenda"));
             }
 
-           
+
 
             $result = $this->base_model->eliminar(["asambleas.asambleas","asamblea_id"]);
             echo json_encode($result);
@@ -98,7 +101,7 @@ class AsambleasController extends Controller
 
     public function obtener_detalle_agenda(Request $request) {
         $sql = "SELECT ag.*
-        FROM asambleas.asambleas AS a 
+        FROM asambleas.asambleas AS a
         INNER JOIN asambleas.agenda AS ag ON(ag.asamblea_id=a.asamblea_id)
         WHERE a.estado='A' AND ag.asamblea_id={$request->input("asamblea_id")}";
         // die($sql);
@@ -107,42 +110,32 @@ class AsambleasController extends Controller
     }
 
     public function obtener_anios() {
-        $result = array();
-        $array = array();
-        for($i=date("Y"); $i < date("Y") + 10; $i++ ) {
-            $result["id"] = $i;
-            $result["descripcion"] = $i;
-            array_push($array, $result);
-        }
-
+        $array = $this->asambleas_model->obtener_anios();
         echo json_encode($array);
     }
 
 
     public function obtener_tipo_convocatoria() {
-        $sql = "SELECT  tc.tipconv_id  AS id, tc.tipconv_descripcion AS descripcion
-        FROM asambleas.tipo_convocatoria AS tc";
-        // die($sql);
-        $result = DB::select($sql);
+        $result = $this->asambleas_model->obtener_tipo_convocatoria();
         echo json_encode($result);
     }
 
     public function obtener_asambleas() {
-
-        
-
-        $sql = "SELECT (tc.tipconv_id  || '|'  || a.asamblea_id) AS id, a.asamblea_descripcion AS descripcion, CASE WHEN NOW() BETWEEN a.asamblea_fecha_inicio AND a.asamblea_fecha_fin THEN 'S' ELSE 'N' END AS defecto
-        FROM asambleas.asambleas AS a
-        INNER JOIN asambleas.tipo_convocatoria AS tc ON(tc.tipconv_id=a.tipconv_id)
-        WHERE a.estado='A'";
-        // die($sql);
-        $result = DB::select($sql);
+        $result = $this->asambleas_model->obtener_asambleas();
         echo json_encode($result);
     }
 
-    
+    public function select_init() {
 
-    
+        $data["idpais"] = $this->paises_model->obtener_todos_paises();
+        $data["asamblea_anio"] = $this->asambleas_model->obtener_anios();
+        $data["tipconv_id"] = $this->asambleas_model->obtener_tipo_convocatoria();
 
-    
+
+        echo json_encode($data);
+    }
+
+
+
+
 }

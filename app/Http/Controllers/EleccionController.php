@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AsociadosModel;
 use App\Models\BaseModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
 use App\Models\EleccionModel;
+use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
+use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +21,25 @@ class EleccionController extends Controller
     //
     private $base_model;
     private $eleccion_model;
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+    private $iglesias_model;
+    private $asociados_model;
 
     public function __construct() {
         parent:: __construct();
         $this->eleccion_model = new EleccionModel();
         $this->base_model = new BaseModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
+        $this->iglesias_model = new IglesiasModel();
+        $this->asociados_model = new AsociadosModel();
     }
 
     public function index() {
@@ -104,5 +125,18 @@ class EleccionController extends Controller
         echo json_encode($one);
     }
 
+    public function select_init(Request $request) {
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["periodoini"] = $this->asociados_model->obtener_periodos_ini();
+        $data["periodofin"] = $this->asociados_model->obtener_periodos_fin();
+
+        echo json_encode($data);
+    }
 
 }

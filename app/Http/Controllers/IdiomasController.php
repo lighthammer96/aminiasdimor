@@ -15,7 +15,7 @@ class IdiomasController extends Controller
 
     private $base_model;
     private $idiomas_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->idiomas_model = new IdiomasModel();
@@ -23,7 +23,7 @@ class IdiomasController extends Controller
     }
 
     public function index() {
-       
+
         $view = "idiomas.index";
         $data["title"] = traducir("traductor.titulo_idiomas");
         $data["subtitle"] = "";
@@ -37,8 +37,8 @@ class IdiomasController extends Controller
         $data["scripts"] = $this->cargar_js(["idiomas.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -48,15 +48,15 @@ class IdiomasController extends Controller
 
 
     public function guardar_idiomas(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST, ["idioma_codigo", "idioma_descripcion"]);
         if ($request->input("idioma_id") == '') {
-           
+
 
             $result = $this->base_model->insertar($this->preparar_datos("public.idiomas", $_POST));
         }else{
             if($request->input("por_defecto") == "S") {
-               
+
                 session(['idioma_id_defecto' => $request->input("idioma_id")]);
                 session(['idioma_defecto' => trim($request->input("idioma_codigo"))]);
                ;
@@ -66,13 +66,13 @@ class IdiomasController extends Controller
 
             $result = $this->base_model->modificar($this->preparar_datos("public.idiomas", $_POST));
         }
-        
+
         echo json_encode($result);
     }
 
     public function eliminar_idiomas() {
         try {
-           
+
 
             $sql_divisiones = "SELECT * FROM iglesias.division_idiomas WHERE idioma_id=".$_REQUEST["id"];
             $divisiones = DB::select($sql_divisiones);
@@ -108,7 +108,7 @@ class IdiomasController extends Controller
         } catch (Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
 		}
-		
+
 
     }
 
@@ -121,8 +121,7 @@ class IdiomasController extends Controller
     }
 
     public function obtener_idiomas() {
-        $sql = "SELECT idioma_id AS id, idioma_descripcion AS descripcion FROM public.idiomas WHERE estado='A'";
-        $result = DB::select($sql);
+        $result = $this->idiomas_model->obtener_idiomas();
         echo json_encode($result);
     }
 }

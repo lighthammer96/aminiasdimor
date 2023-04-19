@@ -11,11 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
-        placeholder: 'Seleccione División',
-    
+    divisiones.select_init({
+        placeholder: seleccione,
     })
 
     divisiones.enter("descripcion", "idioma", function() {
@@ -38,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(objeto));
-    
+
         divisiones.limpiarDatos("limpiar");
     });
 
@@ -87,13 +84,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nueva-division':
                 event.preventDefault();
-            
+
                 divisiones.abrirModal();
             break;
 
             case 'modificar-division':
                 event.preventDefault();
-            
+
                 modificar_division();
             break;
 
@@ -118,9 +115,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = divisiones.get(datos.iddivision);
 
@@ -130,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 url: '/obtener_traducciones',
                 datos: { iddivision: response.iddivision }
             }).then(function(response) {
-            
+
                 if(response.length > 0) {
                     for(let i = 0; i < response.length; i++){
                         document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
@@ -176,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -198,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "divisiones/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-divisiones').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         divisiones.abrirModal();
@@ -214,15 +211,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_division();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -231,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -239,30 +236,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-divisiones').is(':visible')) {
                     guardar_division();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-division").addEventListener("click", function(event) {

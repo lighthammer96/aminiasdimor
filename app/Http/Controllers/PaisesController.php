@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\DivisionesModel;
+use App\Models\IdiomasModel;
 use App\Models\PaisesModel;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,11 +16,15 @@ class PaisesController extends Controller
     //
     private $base_model;
     private $paises_model;
-    
+    private $idiomas_model;
+    private $divisiones_model;
+
     public function __construct() {
         parent:: __construct();
         $this->paises_model = new PaisesModel();
         $this->base_model = new BaseModel();
+        $this->idiomas_model = new IdiomasModel();
+        $this->divisiones_model = new DivisionesModel();
     }
 
     public function index() {
@@ -32,11 +38,11 @@ class PaisesController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-pais"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-pais"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js"]);
+        $data["scripts"] = $this->cargar_js(["paises.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +52,7 @@ class PaisesController extends Controller
 
 
     public function guardar_paises(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST, ["pais_descripcion", "direccion"]);
         if ($request->input("pais_id") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.paises", $_POST));
@@ -57,9 +63,9 @@ class PaisesController extends Controller
 
         DB::table("iglesias.paises_jerarquia")->where("pais_id", $result["id"])->delete();
         if(isset($_REQUEST["pj_item"]) && isset($_REQUEST["pj_descripcion"])) {
-     
+
             $_POST["pais_id"] = $result["id"];
-           
+
             $this->base_model->insertar($this->preparar_datos("iglesias.paises_jerarquia", $_POST, "D"), "D");
         }
 
@@ -67,7 +73,7 @@ class PaisesController extends Controller
     }
 
     public function eliminar_paises() {
-        
+
         try {
             $sql_uniones = "SELECT * FROM iglesias.union_paises WHERE pais_id=".$_REQUEST["id"];
             $uniones = DB::select($sql_uniones);
@@ -93,110 +99,41 @@ class PaisesController extends Controller
 
     public function obtener_paises(Request $request) {
 
-        $sql = "";
-		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
-	
-			$sql = "SELECT pais_id  AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
-            " ORDER BY pais_descripcion ASC";;
-		} else {
-            $sql = "SELECT pais_id AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'
-            ORDER BY pais_descripcion ASC";
-		}
-
-        $result = DB::select($sql);
-
+        $result = $this->paises_model->obtener_paises($request);
         echo json_encode($result);
     }
 
 
     public function obtener_paises_propuestas(Request $request) {
 
-        $sql = "";
-        // var_dump(session("where_pais"));
-        $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion,
-        CASE WHEN pais_id=".session("pais_id")." THEN 'S' ELSE 'N' END AS defecto
-         FROM iglesias.paises WHERE estado='A' 
-        ORDER BY pais_descripcion ASC";
-		
-
-        $result = DB::select($sql);
+        $result = $this->paises_model->obtener_paises_propuestas($request);
 
         echo json_encode($result);
     }
 
     public function obtener_paises_asociados(Request $request) {
-       
-        $sql = "";
-        $all = false;
-        $result = array();
-		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
-	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
-            " ORDER BY pais_descripcion ASC";
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion
-            FROM iglesias.paises 
-            WHERE estado='A' ".session("where_pais").session("where_division_padre").
-            " ORDER BY pais_descripcion ASC";
-            $all = true;
-		}
-        // die($sql);
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
-            // print_r($result);
-            $result[0]->defecto = "S";
-        }
+
+        $result = $this->paises_model->obtener_paises_asociados($request);
+
         echo json_encode($result);
     }
 
     public function obtener_paises_asociados_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $result = array();
-        $sql = "";
-		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
-	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision")." ".session("where_pais").
-            " ORDER BY pais_descripcion ASC";;
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            // $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' ".session("where_pais").
-            // " ORDER BY pais_descripcion ASC";;
-		}
-        // die($sql);
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        array_push($result, $array);
+       $result = $this->paises_model->obtener_paises_asociados_all($request);
 
         echo json_encode($result);
     }
 
-    public function obtener_todos_paises(Request $request) {
+    public function obtener_todos_paises() {
 
-      
-        $sql = "SELECT idpais AS id, descripcion FROM public.pais
-        ORDER BY descripcion ASC";
-		
 
-        $result = DB::select($sql);
+        $result = $this->paises_model->obtener_todos_paises();
         echo json_encode($result);
     }
 
     public function obtener_paises_asociados_todos(Request $request) {
 
-        $sql = "";
-		if(isset($_REQUEST["iddivision"]) && !empty($_REQUEST["iddivision"])) {
-	
-			$sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A' AND iddivision=".$request->input("iddivision").
-            " ORDER BY pais_descripcion ASC";
-		} else {
-            $sql = "SELECT pais_id || '|' || posee_union AS id, pais_descripcion AS descripcion FROM iglesias.paises WHERE estado='A'
-            ORDER BY pais_descripcion ASC";
-		}
-        // die($sql);
-        $result = DB::select($sql);
+        $result = $this->paises_model->obtener_paises_asociados_todos($request);
         echo json_encode($result);
     }
 
@@ -208,21 +145,27 @@ class PaisesController extends Controller
             INNER JOIN iglesias.paises AS p ON(p.pais_id=pj.pais_id)
 
             WHERE pj.pais_id=".$request->input("pais_id")."
-            ORDER BY pj_item ASC";  
+            ORDER BY pj_item ASC";
         } else {
             $sql = "SELECT pj.pj_item AS item, pj.pj_descripcion AS descripcion, pj.pais_id, p.posee_union
             FROM iglesias.paises_jerarquia AS pj
             INNER JOIN iglesias.paises AS p ON(p.pais_id=pj.pais_id)
 
             WHERE pj.pais_id=".session("pais_id")."
-            ORDER BY pj_item ASC";  
+            ORDER BY pj_item ASC";
         }
-        
+
         $result = DB::select($sql);
         echo json_encode($result);
        //print_r($_REQUEST);
     }
 
+    public function select_init(Request $request) {
+        $data["idioma_id"] = $this->idiomas_model->obtener_idiomas();
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        echo json_encode($data);
+    }
 
-    
+
+
 }

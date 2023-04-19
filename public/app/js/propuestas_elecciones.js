@@ -7,7 +7,7 @@ var eventClick = new Event('click');
 var eventChange = new Event('change');
 
 document.addEventListener("DOMContentLoaded", function() {
-  
+
 
     asambleas.select({
         name: 'asamblea_id',
@@ -26,13 +26,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var format = "";
     if(idioma_codigo == "es") {
         format = "dd/mm/yyyy";
-      
+
         $("input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
     } else {
         format = "yyyy-mm-dd";
-  
+
         $("input[name=fecha-inicio], input[name=fecha-fin]").attr("data-inputmask", "'alias': '"+format+"'");
-        
+
     }
 
 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     propuestas_elecciones.enter("asamblea_descripcion","tipconv_id");
     propuestas_elecciones.enter("tipconv_id","asamblea_anio");
-  
+
     propuestas_elecciones.enter("asamblea_fecha_inicio","asamblea_fecha_fin");
     propuestas_elecciones.enter("asamblea_fecha_fin","estado");
     propuestas_elecciones.enter("estado","detalle");
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     propuestas_elecciones.enter("propuesta", "propuesta", function() {
         var required = true;
         required = propuestas_elecciones.required("propuesta");
-     
+
 
         if(!required) {
             return false;
@@ -68,16 +68,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var propuesta = document.getElementsByName("propuesta")[0];
         var idioma = document.getElementsByName("tpe_idioma")[0];
-    
+
         var objeto = {
             dp_descripcion: propuesta.value,
             dp_idioma: idioma.value,
-           
+
         }
 
 
         document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(objeto));
-    
+
         propuestas_elecciones.limpiarDatos("limpiar");
     });
 
@@ -98,30 +98,30 @@ document.addEventListener("DOMContentLoaded", function() {
         if(typeof objeto.idmiembro != "undefined") {
             idmiembro = objeto.idmiembro;
         }
-      
+
 
         $("#tipo").attr("disabled", "disabled");
 
         if(!document.getElementsByName("tpe_descripcion")[0].readOnly && !document.getElementsByName("tpe_descripcion")[0].disabled) {
 
-           
+
             html += '  <input type="hidden" name="dp_idioma[]" value="'+objeto.dp_idioma+'" >';
             html += '  <input type="hidden" name="idmiembro[]" value="'+idmiembro+'" >';
-          
+
         }
         // alert(html);
 
         if((document.getElementsByName("tpe_descripcion")[0].readOnly || document.getElementsByName("tpe_descripcion")[0].disabled) && (document.getElementsByName("tpe_descripcion_traduccion")[0].readOnly || document.getElementsByName("tpe_descripcion_traduccion")[0].disabled) || document.getElementById("tipo").value != "I") {
 
-            
-            html += '  <td>'+objeto.dp_descripcion+'</td>';
-            
 
-        } 
-       
+            html += '  <td>'+objeto.dp_descripcion+'</td>';
+
+
+        }
+
 
         if(document.getElementById("tipo").value == "I" && ((!document.getElementsByName("tpe_descripcion")[0].readOnly  && !document.getElementsByName("tpe_descripcion")[0].disabled) || (!document.getElementsByName("tpe_descripcion_traduccion")[0].readOnly  && !document.getElementsByName("tpe_descripcion_traduccion")[0].disabled))) {
-        
+
             html += '  <td><input class="form-control input-sm" type="text" name="dp_descripcion[]" value="'+objeto.dp_descripcion+'" ></td>';
         } else {
             if(!document.getElementsByName("tpe_descripcion")[0].readOnly && !document.getElementsByName("tpe_descripcion")[0].disabled) {
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // propuestas_elecciones.enter("propuesta_traduccion", "propuesta_traduccion", function() {
     //     var required = true;
     //     required = propuestas_elecciones.required("propuesta_traduccion");
-     
+
 
     //     if(!required) {
     //         return false;
@@ -149,16 +149,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //     var propuesta = document.getElementsByName("propuesta_traduccion")[0];
     //     var idioma = document.getElementsByName("tpe_idioma_traduccion")[0];
-    
+
     //     var objeto = {
     //         dp_descripcion: propuesta.value,
     //         dp_idioma: idioma.value,
-           
+
     //     }
 
 
     //     document.getElementById("detalle-propuesta-traduccion").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta_traduccion(objeto));
-    
+
     //     propuestas_elecciones.limpiarDatos("limpiar");
     // });
 
@@ -175,12 +175,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //     var tr = document.createElement("tr");
 
-        
-      
+
+
     //     html = '  <input type="hidden" name="dp_descripcion[]" value="'+objeto.dp_descripcion+'" >';
     //     html += '  <input type="hidden" name="dp_idioma[]" value="'+objeto.dp_idioma+'" >';
-        
-        
+
+
     //     html += '  <td>'+objeto.dp_descripcion+'</td>';
 
     //     html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-propuesta"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
- 
+
     $(function() {
         $('input[type="radio"], input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
@@ -265,20 +265,20 @@ document.addEventListener("DOMContentLoaded", function() {
             $("input[name=propuesta_traduccion]").parent(".traduccion").hide();
             // $("#detalle-propuesta-traduccion").parent(".traduccion").parent(".con-traduccion").hide();
         }
-        
+
         // console.log($(".traduccion").find("select"));
-        // $(".traduccion").find("select").prop("disabled", false);       
+        // $(".traduccion").find("select").prop("disabled", false);
     }
 
     function cambiar_row_1(tipo) {
-       
+
         var html = '';
         if(tipo == "origen") {
             html += '<div class="col-md-6">';
             html += '   <label class="control-label">'+descripcion+'</label>';
             html += '   <input type="text" class="form-control input-sm entrada" name="tpe_descripcion" placeholder="" />';
             html += '</div>';
-        
+
 
             html += '<div class="col-md-3" style="">';
             html += '   <label class="control-label">'+idioma+'</label>';
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
             html += '   <label class="control-label">'+descripcion+'</label>';
             html += '   <input type="text" class="form-control input-sm entrada" name="tpe_descripcion" placeholder="" />';
             html += '</div>';
-        
+
 
             html += '<div class="col-md-3" style="">';
             html += '   <label class="control-label">'+idioma+'</label>';
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             html += '   </select>';
             html += '</div>';
-            
+
             html += '<div class="col-md-3" style="">';
             html += '   <label class="control-label">'+a+':</label>';
             html += '   <select class="entrada form-control input-sm select" name="tpe_idioma_traduccion" id="tpe_idioma_traduccion" default-value="en">';
@@ -352,8 +352,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     var idioma = this.value
                     var pe_id = document.getElementsByName("pe_id")[0].value;
                     var promise = propuestas_elecciones.ver(pe_id+'|'+idioma);
-                    promise.then(function(response) {   
-                       
+                    promise.then(function(response) {
+
                         document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
                         propuestas_elecciones.ajax({
                             url: '/obtener_detalle_propuesta',
@@ -367,17 +367,17 @@ document.addEventListener("DOMContentLoaded", function() {
                             $("#tpe_idioma").removeAttr("disabled");
                         })
                     })
-                   
+
                 }
             })
-        }   
+        }
 
 
         $(document).on("change", "#tpe_idioma_traduccion", function(e) {
             // alert(this.value);
             var idioma = $(this).val();
             var pe_id = document.getElementsByName("pe_id")[0].value;
-            
+
             var promise =  propuestas_elecciones.ajax({
                 url: '/get_propuestas_elecciones',
                 datos: { id: pe_id+'|'+idioma }
@@ -389,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("input[name=tpe_descripcion_traduccion]").val(response[0].tpe_descripcion);
                     $("textarea[name=tpe_detalle_propuesta_traduccion]").val(response[0].tpe_detalle_propuesta);
                 }
-            
+
                 // document.getElementById("detalle-propuesta-traduccion").getElementsByTagName("tbody")[0].innerHTML = "";
                 // propuestas_elecciones.ajax({
                 //     url: '/obtener_detalle_propuesta',
@@ -403,12 +403,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 //     }
                 //     //console.log(response);
                 // })
-                
+
             })
 
         })
-      
-    
+
+
     }
 
     document.getElementById("nueva-propuesta-eleccion").addEventListener("click", function(event) {
@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function() {
         activar_entradas();
         document.getElementById("tipo").dispatchEvent(eventChange);
 
-        
+
     })
 
     document.getElementById("modificar-propuesta-eleccion").addEventListener("click", function(event) {
@@ -431,27 +431,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
 
         if(datos.estado_propuesta == 2) {
             BASE_JS.sweet({
                 text: registro_enviado_traduccion
             });
             return false;
-        } 
+        }
 
-        
+
         if(datos.estado_propuesta == 3) {
             BASE_JS.sweet({
                 text: registro_traduccion_terminado
             });
             return false;
-        } 
+        }
 
         $("#someter-votacion").hide();
         cambiar_row_1("origen");
         var idioma = $("#tpe_idioma").val();
-         
+
         var promise = propuestas_elecciones.get(datos.pe_id+'|'+idioma);
 
         promise.then(function(response) {
@@ -467,28 +467,28 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
                 activar_entradas();
-                
-               
+
+
                 $("#tipo").attr("disabled", "disabled");
-                
+
                 //console.log(response);
             })
-            
+
         })
-        
+
 
     })
 
     document.getElementById("eliminar-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
-      
+
         var datos = propuestas_elecciones.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -497,14 +497,14 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        
+
     })
 
 
-    
+
     document.getElementById("traducir-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
-      
+
         var datos = propuestas_elecciones.datatable.row('.selected').data();
         // console.table(datos);
         if(typeof datos == "undefined") {
@@ -512,38 +512,38 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         // console.log(typeof datos.estado_propuesta);
         if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
                 text: registro_estado_enviado_traduccion
             });
             return false;
-        } 
+        }
 
         if(datos.estado_propuesta == 3) {
             BASE_JS.sweet({
                 text: registro_traduccion_terminado
             });
             return false;
-        } 
+        }
 
 
         // propuestas_elecciones.abrirModal();
 
         // $(".origen").hide();
         // $(".traducir").show();
-       
+
 
         $("#someter-votacion").hide();
         cambiar_row_1("traduccion");
         var idioma = $("#tpe_idioma_origen").val();
-       
+
         var promise = propuestas_elecciones.get(datos.pe_id+'|'+idioma);
 
         promise.then(function(response) {
             $("#tipo").val(response.pe_tipo);
-          
+
             document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
             propuestas_elecciones.ajax({
                 url: '/obtener_detalle_propuesta',
@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             idioma = 'en';
             //  alert(idioma_traduccion);
-        
+
             var promise =  propuestas_elecciones.ajax({
                 url: '/get_propuestas_elecciones',
                 datos: { id: datos.pe_id+'|'+idioma }
@@ -576,18 +576,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     $("input[name=tpe_descripcion_traduccion]").val(response[0].tpe_descripcion);
                     $("textarea[name=tpe_detalle_propuesta_traduccion]").val(response[0].tpe_detalle_propuesta);
                 }
-            
-                
+
+
             })
-            
-            
+
+
         })
 
 
 
 
-        
-        
+
+
     })
 
 
@@ -601,27 +601,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
 
-        
+
         if(datos.state == 'I') {
             BASE_JS.sweet({
                 text: propuesta_inactiva
             });
             return false;
-        } 
+        }
 
         if(datos.estado_propuesta == 1) {
             BASE_JS.sweet({
                 text: registro_estado_terminado
             });
             return false;
-        } 
+        }
 
         $("#someter-votacion").show();
         cambiar_row_1("origen");
         var idioma = $("#tpe_idioma").val();
-         
+
         var promise = propuestas_elecciones.ver(datos.pe_id+'|'+idioma);
 
         promise.then(function(response) {
@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // alert("disabled");
                 $('#pe_someter_votacion').iCheck('disable');
             } else {
-                $('#pe_someter_votacion').iCheck('enable'); 
+                $('#pe_someter_votacion').iCheck('enable');
             }
 
             if(response.pe_someter_votacion == "S") {
@@ -661,30 +661,30 @@ document.addEventListener("DOMContentLoaded", function() {
             votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
             // votaciones.buscarEnFormulario("convocatoria").setAttribute("default-value", response.asamblea_descripcion);
             votaciones.buscarEnFormulario("propuesta").setAttribute("default-value", response.tpe_descripcion);
-           
+
             votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", response.asamblea_id);
             votaciones.buscarEnFormulario("asamblea_id").value = response.asamblea_id;
             votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_elecciones");
             votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pe_id);
-            
+
             $(".traduccion").hide();
             $("#tpe_idioma").removeAttr("disabled");
             $("#tipo").val(response.pe_tipo);
             $("#tipo").attr("disabled", "disabled");
             $("#ver-resultados").removeAttr("disabled");
             $("#ver-votacion-activa").removeAttr("disabled");
-        
+
             // $(".propuestas").hide();
             // $(".asociados").hide();
-            
+
         })
-        
+
 
     })
 
 
 
-    
+
     document.getElementById("ver-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
 
@@ -694,31 +694,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
 
-        
+
         // if(datos.state == 'I') {
         //     BASE_JS.sweet({
         //         text: propuesta_inactiva
         //     });
         //     return false;
-        // } 
+        // }
 
         // if(datos.estado_propuesta == 1) {
         //     BASE_JS.sweet({
         //         text: registro_estado_terminado
         //     });
         //     return false;
-        // } 
+        // }
 
         $("#someter-votacion").hide();
         cambiar_row_1("origen");
         var idioma = $("#tpe_idioma").val();
-         
+
         var promise = propuestas_elecciones.ver(datos.pe_id+'|'+idioma);
 
         promise.then(function(response) {
-            
+
             document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].innerHTML = "";
             propuestas_elecciones.ajax({
                 url: '/obtener_detalle_propuesta',
@@ -737,29 +737,29 @@ document.addEventListener("DOMContentLoaded", function() {
             votaciones.buscarEnFormulario("votacion_id").value = response.votacion_id;
             // votaciones.buscarEnFormulario("convocatoria").setAttribute("default-value", response.asamblea_descripcion);
             votaciones.buscarEnFormulario("propuesta").setAttribute("default-value", response.tpe_descripcion);
-           
+
             votaciones.buscarEnFormulario("asamblea_id").setAttribute("default-value", response.asamblea_id);
             votaciones.buscarEnFormulario("asamblea_id").value = response.asamblea_id;
             votaciones.buscarEnFormulario("tabla").setAttribute("default-value", "asambleas.propuestas_elecciones");
             votaciones.buscarEnFormulario("propuesta_id").setAttribute("default-value", datos.pe_id);
-            
+
             $(".traduccion").hide();
             $("#tpe_idioma").removeAttr("disabled");
             $("#tipo").val(response.pe_tipo);
             $("#tipo").attr("disabled", "disabled");
             $("#ver-resultados").removeAttr("disabled");
-        
+
             // $(".propuestas").hide();
             // $(".asociados").hide();
-            
+
         })
-        
+
 
     })
 
     document.getElementById("guardar-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
- 
+
         var required = true;
         var pe_id = document.getElementsByName("pe_id")[0].value;
 
@@ -767,7 +767,7 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && propuestas_elecciones.required("asamblea_id");
             required = required && propuestas_elecciones.required("tpe_descripcion");
             required = required && propuestas_elecciones.required("tpe_idioma");
-         
+
             required = required && propuestas_elecciones.required("estado");
         }
 
@@ -812,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -820,49 +820,49 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-            
+
                 if($('#modal-propuestas_elecciones').is(':visible')) {
                     document.getElementById('guardar-propuesta-eleccion').dispatchEvent(eventClick);
                 }
-                
-            
+
+
                 event.preventDefault();
                 event.stopPropagation();
             }
-          
-            
-        
-            
-        
-        
-        
+
+
+
+
+
+
+
         }
-    
-        
+
+
     })
 
     document.getElementById("cancelar-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
         propuestas_elecciones.CerrarModal();
     })
-    
+
     document.getElementById("cancelar-votaciones").addEventListener("click", function(event) {
         event.preventDefault();
         votaciones.CerrarModal();
     })
- 
 
-    
+
+
     document.addEventListener("click", function(event) {
         // console.log(event.target.classList);
         // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
@@ -879,13 +879,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         var detalle = document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
+
         if(detalle.length <= 0) {
             $("#tipo").removeAttr("disabled");
         } else {
-            
+
         }
-      
+
     })
 
 
@@ -897,7 +897,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if(votacion_id == "") {
             required = required && votaciones.required("fv_id");
-    
+
             // required = required && votaciones.required("votacion_hora_apertura");
             // required = required && votaciones.required("votacion_hora_cierre");
         }
@@ -924,11 +924,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 if(response.pe_someter_votacion == "S") {
                     $("#ver-votacion-activa").show();
-                } else {    
+                } else {
                     $("#ver-votacion-activa").hide();
                 }
 
-               
+
                 // if(response.datos[0].estado == "A") {
 
                 //     socket.emit("votacion-activada", response.formas_votacion);
@@ -950,8 +950,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 $("#cerrar-votacion").hide();
                 $("#abrir-votacion").show();
             }
-          
-           
+
+
             $("#cerrar-votacion").removeAttr("disabled");
             $("#abrir-votacion").removeAttr("disabled");
         })
@@ -984,12 +984,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         type: 'warning'
                     });
                 }
-                
+
             }
-            
+
             // console.log(response);
         })
-        
+
     })
 
     document.getElementById("cerrar-votacion").addEventListener("click", function(event) {
@@ -999,7 +999,7 @@ document.addEventListener("DOMContentLoaded", function() {
             url: '/cerrar_votacion',
             datos: { votacion_id: votacion_id }
         }).then(function(response) {
-           
+
             if(response.status == "m") {
                 BASE_JS.notificacion({
                     msg: votacion_abierta,
@@ -1018,20 +1018,20 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     })
 
-    
+
     $("#pe_someter_votacion").on('ifClicked', function(event){
-       
+
         $("#fv_id").parent("div").removeClass("has-error");
         var votacion_id = document.getElementsByName("votacion_id")[0].value;
         // alert(votaciones.buscarEnFormulario("asamblea_id").value);
         if(!$(this).parent(".icheckbox_minimal-blue").hasClass("checked")) {
             // $("#modal-votaciones").modal("show");
-           
+
             var promise =  votaciones.get(votacion_id);
 
             promise.then(function() {
-               
-               
+
+
                 votaciones.buscarEnFormulario("estado").value = 'A';
 
                 if(votacion_id != "") {
@@ -1045,15 +1045,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 $("#propuesta").attr("readonly", "readonly");
                 $("#fv_id").parent("div").removeClass("has-error");
-        
+
                 $("#abrir-votacion").hide();
                 $("#cerrar-votacion").hide();
-                
-               
+
+
             })
             // votaciones.abrirModal();
             // $("input[name=posee_seguro]").val("S");
-            
+
         } else {
             var elementos = document.getElementById(votaciones.formularioID).getElementsByClassName("entrada");
             for (let i = 0; i < elementos.length; i++) {
@@ -1063,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 elementos[i].removeAttribute("disabled");
             }
 
-            
+
 
             votaciones.buscarEnFormulario("estado").value = 'I';
             votaciones.buscarEnFormulario("propuesta_id").value = propuestas_elecciones.buscarEnFormulario("pe_id").value;
@@ -1084,38 +1084,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // document.getElementById("time-votacion_hora_apertura").addEventListener("click", function(e) {
     //     e.preventDefault();
-        
+
     //     if($("input[name=votacion_hora_apertura]").hasClass("focus-time")) {
-   
+
     //         $("input[name=votacion_hora_apertura]").blur();
     //         $("input[name=votacion_hora_apertura]").removeClass("focus-time");
     //     } else {
-            
+
     //         $("input[name=votacion_hora_apertura]").focus();
     //         $("input[name=votacion_hora_apertura]").addClass("focus-time");
     //     }
-       
-    // }); 
+
+    // });
 
 
     // document.getElementById("time-votacion_hora_cierre").addEventListener("click", function(e) {
     //     e.preventDefault();
-        
+
     //     if($("input[name=votacion_hora_cierre]").hasClass("focus-time")) {
-   
+
     //         $("input[name=votacion_hora_cierre]").blur();
     //         $("input[name=votacion_hora_cierre]").removeClass("focus-time");
     //     } else {
-            
+
     //         $("input[name=votacion_hora_cierre]").focus();
     //         $("input[name=votacion_hora_cierre]").addClass("focus-time");
     //     }
-       
-    // }); 
-    
+
+    // });
+
     // $('input[name=votacion_hora_apertura], input[name=votacion_hora_cierre]').inputmask("hh:mm", {
-    //         placeholder: "HH:MM", 
-    //         insertMode: false, 
+    //         placeholder: "HH:MM",
+    //         insertMode: false,
     //         showMaskOnHover: false,
     //         hourFormat: 12
     //     }
@@ -1143,7 +1143,7 @@ document.addEventListener("DOMContentLoaded", function() {
             $(".lista-propuestas").show();
         }
 
-    }); 
+    });
 
     asociados.TablaListado({
         tablaID: '#tabla-asociados',
@@ -1163,7 +1163,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // usuarios.asignarDatos({
         //     idmiembro: datos.idmiembro,
         //     asociado: datos.nombres
-            
+
         // });
 
         // console.log(datos);
@@ -1173,12 +1173,12 @@ document.addEventListener("DOMContentLoaded", function() {
             dp_descripcion: datos.nombres,
             dp_idioma: idioma.value,
             idmiembro: datos.idmiembro
-           
+
         }
 
 
         document.getElementById("detalle-propuesta").getElementsByTagName("tbody")[0].appendChild(html_detalle_propuesta(objeto));
-    
+
 
         $("#modal-lista-asociados").modal("hide");
 
@@ -1200,7 +1200,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("ver-resultados").addEventListener("click", function(event) {
         event.preventDefault();
-    
+
         var pe_id = document.getElementsByName("pe_id")[0].value;
         propuestas_elecciones.ajax({
             url: '/obtener_resultados',
@@ -1228,7 +1228,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             if(response[i].resultado_ganador == "S") {
 
                                 html += '   <td ><center><button type="button" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button></center></td>';
-                               
+
                             } else {
 
                                 html += '   <td ><center><button type="button" class="btn btn-danger btn-xs"><i class="fa fa-close"></i></button></center></td>';
@@ -1238,8 +1238,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 // }
 
-               
-                
+
+
                 document.getElementById("detalle-resultados").getElementsByTagName("tbody")[0].innerHTML = html;
                 $("#modal-resultados").modal("show");
             } else {
@@ -1249,12 +1249,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
 
-       
+
     })
 
     document.getElementById("cerrar-resultados").addEventListener("click", function(event) {
         event.preventDefault();
-      
+
         $("#modal-resultados").modal("hide");
     })
 
@@ -1280,7 +1280,7 @@ document.addEventListener("DOMContentLoaded", function() {
             url: '/guardar_resultados',
             datos: { resultado_id: resultado_id, resultado_mano_alzada: resultado_mano_alzada, resultado_total: total }
         }).then(function(response) {
-           
+
             td_total.text(total);;
         })
     })
@@ -1293,21 +1293,21 @@ document.addEventListener("DOMContentLoaded", function() {
             url: '/guardar_ganador',
             datos: { resultado_ganador: resultado_ganador, resultado_id: resultado_id }
         }).then(function(response) {
-           
-           
+
+
         })
     })
-    
+
 
     document.getElementById("buscar-propuesta").addEventListener("click", function(event) {
         event.preventDefault();
-        
-       
+
+
         var required = true;
         var idioma_codigo = $("#tpe_idioma").val();
         // required = required && resoluciones.required("tabla");
         if(required) {
-        
+
             if(typeof propuestas_elecciones_origen.datatable.length != "undefined") {
                 propuestas_elecciones_origen.datatable.destroy();
             }
@@ -1320,13 +1320,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             $("#modal-propuestas-elecciones").modal("show");
-            
+
         }
     })
 
 
     function cargar_datos_resultados_propuesta_origen(datos) {
-        
+
 
         // console.log(datos);
         propuestas_elecciones.limpiarDatos("limpiar");
@@ -1343,12 +1343,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         dp_idioma: idioma.value,
                         idmiembro: response[index].idmiembro,
                     }));
-                    
+
                 }
             }
         })
-    
-      
+
+
 
         $("#modal-propuestas-elecciones").modal("hide");
 
@@ -1367,21 +1367,21 @@ document.addEventListener("DOMContentLoaded", function() {
         cargar_datos_resultados_propuesta_origen(datos);
     });
 
-     
+
     document.getElementById("listado-propuesta-eleccion").addEventListener("click", function(event) {
         event.preventDefault();
-      
+
         window.open(BaseUrl + "/propuestas/imprimir_propuestas_elecciones/");
     })
 
     document.getElementById("calendar-fecha-inicio").addEventListener("click", function(e) {
         e.preventDefault();
         if($("input[name=fecha-inicio]").hasClass("focus-datepicker")) {
-   
+
             $("input[name=fecha-inicio]").blur();
             $("input[name=fecha-inicio]").removeClass("focus-datepicker");
         } else {
-            
+
             $("input[name=fecha-inicio]").focus();
             $("input[name=fecha-inicio]").addClass("focus-datepicker");
         }
@@ -1390,18 +1390,18 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("calendar-fecha-fin").addEventListener("click", function(e) {
         e.preventDefault();
         if($("input[name=fecha-fin]").hasClass("focus-datepicker")) {
-   
+
             $("input[name=fecha-fin]").blur();
             $("input[name=fecha-fin]").removeClass("focus-datepicker");
         } else {
-            
+
             $("input[name=fecha-fin]").focus();
             $("input[name=fecha-fin]").addClass("focus-datepicker");
         }
     });
 
 
-    
+
     document.getElementById("filtrar").addEventListener("click", function(event) {
         event.preventDefault();
         if(typeof propuestas_elecciones.datatable.length != "undefined") {
@@ -1410,14 +1410,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var fecha_inicio = document.getElementsByName("fecha-inicio")[0].value;
         var fecha_fin = document.getElementsByName("fecha-fin")[0].value;
-       
-       
+
+
         propuestas_elecciones.TablaListado({
             tablaID: '#tabla-propuestas-elecciones',
             url: "/buscar_datos_elecciones",
             fecha_inicio: fecha_inicio,
             fecha_fin: fecha_fin,
-            
+
         });
     })
 

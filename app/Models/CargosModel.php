@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class CargosModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -36,11 +36,35 @@ class CargosModel extends Model
         \nLEFT JOIN public.tipocargo AS tc ON(tc.idtipocargo=n.idtipocargo)");
 
 
-    
-     
+
+
         return $tabla;
     }
 
+    public function obtener_cargos($request) {
+        $sql = "";
+		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
+            $sql = "SELECT idcargo as id, descripcion FROM public.cargo
+            WHERE estado='1' AND idtipocargo=".$request->input("idtipocargo")."
+            ORDER BY idcargo ASC";
 
-  
+        } elseif(isset($_REQUEST["idnivel"]) && !empty($_REQUEST["idnivel"])) {
+
+            $sql = "SELECT idcargo as id, descripcion FROM public.cargo
+            WHERE estado='1' AND idnivel=".$request->input("idnivel")."
+            ORDER BY idcargo ASC";
+
+        } else {
+            $sql = "SELECT idcargo as id, descripcion FROM public.cargo
+            WHERE estado='1'
+            ORDER BY idcargo ASC";
+        }
+
+
+        $result = DB::select($sql);
+        return $result;
+    }
+
+
+
 }

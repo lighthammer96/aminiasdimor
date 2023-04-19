@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AsociadosExport;
+use App\Models\ActividadmisioneraModel;
+use App\Models\AsociadosModel;
 use App\Models\BaseModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
+use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
+use App\Models\PrincipalModel;
 use App\Models\ReportesModel;
-
+use App\Models\UnionesModel;
 // use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +24,29 @@ class ReportesController extends Controller
     //
     // private $base_model;
     private $ReportesController_model;
+    private $reportes_model;
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+    private $iglesias_model;
+    private $principal_model;
+    private $asociados_model;
+    private $actividad_misionera_model;
 
     public function __construct() {
         parent:: __construct();
         $this->reportes_model = new ReportesModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
+        $this->iglesias_model = new IglesiasModel();
+        $this->principal_model = new PrincipalModel();
+        $this->asociados_model = new AsociadosModel();
+        $this->actividad_misionera_model = new ActividadmisioneraModel();
         // $this->base_model = new BaseModel();
     }
 
@@ -462,11 +489,11 @@ class ReportesController extends Controller
     public function obtener_feligresia(Request $request) {
         $array_where = array();
         $where = "";
-        if($request->input("iddivision") != '0') {
+        if($request->input("iddivision") != '-1') {
             array_push($array_where, 'm.iddivision='.$request->input("iddivision"));
         }
 
-        if($request->input("pais_id") != '0') {
+        if($request->input("pais_id") != '-1') {
             $array_pais = explode("|", $request->input("pais_id"));
             array_push($array_where, 'm.pais_id='.$array_pais[0]);
 
@@ -482,19 +509,19 @@ class ReportesController extends Controller
         }
 
 
-        if($_REQUEST["idunion"] != '0') {
+        if($_REQUEST["idunion"] != '-1') {
             array_push($array_where, 'm.idunion='.$_REQUEST["idunion"]);
         }
 
-        if($request->input("idmision") != '0') {
+        if($request->input("idmision") != '-1') {
             array_push($array_where, 'm.idmision='.$request->input("idmision"));
         }
 
-        if($request->input("iddistritomisionero") != '0') {
+        if($request->input("iddistritomisionero") != '-1') {
             array_push($array_where, 'm.iddistritomisionero='.$request->input("iddistritomisionero"));
         }
 
-        if($request->input("idiglesia") != '0') {
+        if($request->input("idiglesia") != '-1') {
             array_push($array_where, 'm.idiglesia='.$request->input("idiglesia"));
         }
 
@@ -568,8 +595,8 @@ class ReportesController extends Controller
             array_push($array_where_secretario, 'm.idiglesia='.$request->input("idiglesia"));
         }
 
-        if($request->input("idcondicioneclesiastica") != '' && $request->input("idcondicioneclesiastica") != '-1') {
-            array_push($array_where, 'm.idcondicioneclesiastica='.$request->input("idcondicioneclesiastica"));
+        if($request->input("idcondicioneclesiastica_all") != '' && $request->input("idcondicioneclesiastica_all") != '-1') {
+            array_push($array_where, 'm.idcondicioneclesiastica='.$request->input("idcondicioneclesiastica_all"));
         }
 
         if(count($array_where) > 0 ) {
@@ -1691,5 +1718,32 @@ class ReportesController extends Controller
 
         $pdf = PDF::loadView("reportes.imprimir_informe_semestral", $datos)->setPaper('A4', "portrait");
         return $pdf->stream("informe_semestral.pdf"); // ver
+    }
+
+    public function select_init(Request $request) {
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["idcondicioneclesiastica"] = $this->principal_model->obtener_condicion_eclesiastica();
+        $data["idcondicioneclesiastica_all"] = $this->principal_model->obtener_condicion_eclesiastica_all();
+        $data["idestadocivil"] = $this->asociados_model->obtener_estado_civil();
+        $data["idocupacion"] = $this->asociados_model->obtener_profesiones();
+
+        $data["iddivision_all"] = $this->divisiones_model->obtener_divisiones_all($request);
+        $data["pais_id_all"] = $this->paises_model->obtener_paises_asociados_all($request);
+        $data["idunion_all"] = $this->uniones_model->obtener_uniones_paises_all($request);
+        $data["idmision_all"] = $this->misiones_model->obtener_misiones_all($request);
+        $data["iddistritomisionero_all"] = $this->distritos_misioneros_model->obtener_distritos_misioneros_all($request);
+        $data["idiglesia_all"] = $this->iglesias_model->obtener_iglesias_all($request);
+
+        $data["anio"] = $this->actividad_misionera_model->obtener_anios();
+
+        $data["periodoini"] = $this->asociados_model->obtener_periodos_ini();
+        $data["periodofin"] = $this->asociados_model->obtener_periodos_fin();
+        echo json_encode($data);
     }
 }

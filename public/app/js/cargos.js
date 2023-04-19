@@ -1,47 +1,51 @@
 var cargos = new BASE_JS('cargos', 'cargos');
 var niveles = new BASE_JS('niveles', 'niveles');
-var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
+// var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
 
 document.addEventListener("DOMContentLoaded", function() {
-    
+
     cargos.buscarEnFormulario("descripcion").solo_letras();
-   
+
     cargos.TablaListado({
         tablaID: '#tabla-cargos',
         url: "/buscar_datos",
     });
 
-    niveles.select({
-        name: 'idnivel',
-        url: '/obtener_niveles',
+    cargos.select_init({
         placeholder: seleccione
-      
     })
 
-    tipos_cargo.select({
-        name: 'idtipocargo',
-        url: '/obtener_tipos_cargo',
-        placeholder: seleccione
-    }).then(function() {
-        $("#idtipocargo").trigger("change", ["", ""]);
-        // $("#idnivel").trigger("change", ["", ""]);
-        //$("#idcargo").trigger("change", ["", ""]);
-    
-    }) 
+    // niveles.select({
+    //     name: 'idnivel',
+    //     url: '/obtener_niveles',
+    //     placeholder: seleccione
+
+    // })
+
+    // tipos_cargo.select({
+    //     name: 'idtipocargo',
+    //     url: '/obtener_tipos_cargo',
+    //     placeholder: seleccione
+    // }).then(function() {
+    //     $("#idtipocargo").trigger("change", ["", ""]);
+    //     // $("#idnivel").trigger("change", ["", ""]);
+    //     //$("#idcargo").trigger("change", ["", ""]);
+
+    // })
 
 
 
     $(document).on('change', '#idtipocargo', function(event, idtipocargo, idcargo) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1"; 
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : "1";
         // var array = valor.toString().split("|");
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
         d_id = (typeof idtipocargo != "undefined" && idtipocargo != null) ? idtipocargo : d_id;
 
         // var d_id = array[0];
         // var posee_nivel = array[1];
         var selected = (typeof idcargo != "undefined")  ? idcargo : "";
-        
+
 
 
         niveles.select({
@@ -52,13 +56,13 @@ document.addEventListener("DOMContentLoaded", function() {
             datos: { idtipocargo: d_id }
         }).then(function() {
 
-            
+
         })
 
         // if(posee_nivel == "N") {
         //     $(".nivel").hide();
 
-            
+
         // } else {
         //     $(".nivel").show();
         // }
@@ -89,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     //     document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(objeto));
-    
+
     //     cargos.limpiarDatos("limpiar");
     // });
 
@@ -122,13 +126,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-cargo':
                 event.preventDefault();
-            
+
                 cargos.abrirModal();
             break;
 
             case 'modificar-cargo':
                 event.preventDefault();
-            
+
                 modificar_cargo();
             break;
 
@@ -153,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = cargos.get(datos.idcargo);
 
@@ -187,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // required = required && cargos.required("perfil_descripcion");
 
         // var detalle = document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
+
         // if(detalle.length <= 0) {
         //     BASE_JS.sweet({
         //         text: elemento_detalle
@@ -227,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -249,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "cargos/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-cargos').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         cargos.abrirModal();
@@ -265,15 +269,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_cargo();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -282,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -290,30 +294,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-cargos').is(':visible')) {
                     guardar_cargo();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-cargo").addEventListener("click", function(event) {
