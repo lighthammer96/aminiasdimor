@@ -1,8 +1,5 @@
 
 var curriculum = new BASE_JS('curriculum', 'asociados');
-var principal = new BASE_JS('principal', 'principal');
-var paises = new BASE_JS('paises', 'paises');
-
 
 document.addEventListener("DOMContentLoaded", function() {
     curriculum.buscarEnFormulario("nombre").solo_letras();
@@ -29,55 +26,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
-    curriculum.select({
-        name: 'perini',
-        url: '/obtener_periodos_ini',
-    }).then(function() {
-        
-    }) 
-
-    curriculum.select({
-        name: 'perfin',
-        url: '/obtener_periodos_fin',
-    }).then(function() {
-        
-    }) 
-
-    principal.select({
-        name: 'tipodoc',
-        url: '/obtener_tipos_documento',
-        placeholder: seleccione,
-    }).then(function() {
-        
+    curriculum.select_init({
+        placeholder: seleccione
     })
 
-
-    paises.select({
-        name: 'pais',
-        url: '/obtener_todos_paises',
-        placeholder: seleccione,
-    }).then(function() {
-       
-    })
-
-
-    principal.select({
-        name: 'parentesco',
-        url: '/obtener_parentesco',
-        placeholder: seleccione,
-    }).then(function() {
-        
-    })
-   
     curriculum.TablaListado({
         tablaID: '#tabla-asociados',
         url: "/buscar_datos",
         curriculum: 1,
     });
-
-
-
- 
 
     document.addEventListener("click", function(event) {
         var id = event.srcElement.id;
@@ -86,15 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         //console.log(event.srcElement);
         switch (id) {
-    
+
 
             case 'ingresar-datos':
                 event.preventDefault();
-            
+
                 ingresar_datos();
             break;
 
-    
+
             case 'guardar-curriculum':
                 event.preventDefault();
                 guardar_curriculum();
@@ -117,9 +74,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         curriculum.ajax({
             url: '/get_asociados',
@@ -180,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // var detalle_educacion = document.getElementById("detalle-educacion").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
         // var detalle_laboral = document.getElementById("detalle-laboral").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
+
         // if(detalle_parentesco.length <= 0 || detalle_educacion.length <= 0 || detalle_laboral.length <= 0 ) {
         //     BASE_JS.sweet({
         //         text: elemento_detalle
@@ -198,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // });
 
             promise.then(function(response) {
-               
+
             })
 
         }
@@ -211,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "curriculum/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-curriculum').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         curriculum.abrirModal();
@@ -223,9 +180,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                 
-                  
-                }          
+
+
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -234,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -242,30 +199,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-curriculum').is(':visible')) {
                     guardar_perfil();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-curriculum").addEventListener("click", function(event) {
@@ -277,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("agregar-parentesco").addEventListener("click", function(e) {
         e.preventDefault();
-    
+
         required = true;
         required = required && curriculum.required("parentesco");
         required = required && curriculum.required("nombre");
@@ -309,12 +266,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 nrodoc: numdoc.value,
                 fechanacimiento: fechanac.value,
                 lugarnacimiento: lugarnac.value
-               
+
             }
-        
-        
+
+
             document.getElementById("detalle-parentesco").getElementsByTagName("tbody")[0].appendChild(html_detalle_parentesco(objeto));
-   
+
             curriculum.limpiarDatos("limpiar-parentesco");
         }
     });
@@ -328,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function() {
             attr = 'disabled="disabled"';
         }
         var tr = document.createElement("tr");
-    
+
 
         html += '  <input type="hidden" name="idparentesco[]" value="'+objeto.idparentesco+'" >';
         html += '  <input type="hidden" name="nombres[]" value="'+objeto.nombres+'" >';
@@ -337,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <input type="hidden" name="fechanacimiento[]" value="'+BASE_JS.FormatoFecha(objeto.fechanacimiento, "server")+'" >';
         html += '  <input type="hidden" name="idpais[]" value="'+objeto.idpais+'" >';
         html += '  <input type="hidden" name="lugarnacimiento[]" value="'+objeto.lugarnacimiento+'" >';
-     
+
         html += '  <td>'+objeto.parentesco+'</td>';
         html += '  <td>'+objeto.nombres+'</td>';
         html += '  <td>'+objeto.tipodoc+'</td>';
@@ -346,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function() {
         html += '  <td>'+BASE_JS.FormatoFecha(objeto.fechanacimiento, "user")+'</td>';
         html += '  <td>'+objeto.pais+'</td>';
         html += '  <td>'+objeto.lugarnacimiento+'</td>';
-       
+
         html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-parentesco"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
 
         tr.innerHTML = html;
@@ -354,11 +311,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    
+
 
     document.getElementById("agregar-educacion").addEventListener("click", function(e) {
         e.preventDefault();
-    
+
         required = true;
         required = required && curriculum.required("inst");
         required = required && curriculum.required("nivel");
@@ -374,21 +331,21 @@ document.addEventListener("DOMContentLoaded", function() {
             var prof = document.getElementsByName("prof")[0];
             var est = document.getElementsByName("est")[0];
             var obs = document.getElementsByName("obs")[0];
-          
+
 
             var objeto = {
-               
+
                 institucion: inst.value,
                 nivelestudios: nivel.value,
                 profesion: prof.value,
                 estado: est.value,
                 observacion: obs.value
-               
+
             }
-        
-        
+
+
             document.getElementById("detalle-educacion").getElementsByTagName("tbody")[0].appendChild(html_detalle_educacion(objeto));
-   
+
             curriculum.limpiarDatos("limpiar-educacion");
         }
     });
@@ -402,21 +359,21 @@ document.addEventListener("DOMContentLoaded", function() {
             attr = 'disabled="disabled"';
         }
         var tr = document.createElement("tr");
-    
+
 
         html += '  <input type="hidden" name="institucion[]" value="'+objeto.institucion+'" >';
         html += '  <input type="hidden" name="nivelestudios[]" value="'+objeto.nivelestudios+'" >';
         html += '  <input type="hidden" name="profesion[]" value="'+objeto.profesion+'" >';
         html += '  <input type="hidden" name="estado[]" value="'+objeto.estado+'" >';
         html += '  <input type="hidden" name="observacion[]" value="'+objeto.observacion+'" >';
-     
+
         html += '  <td>'+objeto.institucion+'</td>';
         html += '  <td>'+objeto.nivelestudios+'</td>';
         html += '  <td>'+objeto.profesion+'</td>';
         html += '  <td>'+objeto.estado+'</td>';
         html += '  <td>'+objeto.observacion+'</td>';
-    
-       
+
+
         html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-educacion"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
 
         tr.innerHTML = html;
@@ -426,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("agregar-laboral").addEventListener("click", function(e) {
         e.preventDefault();
-    
+
         required = true;
         required = required && curriculum.required("car");
         required = required && curriculum.required("sec");
@@ -442,21 +399,21 @@ document.addEventListener("DOMContentLoaded", function() {
             var insti = document.getElementsByName("insti")[0];
             var perini = document.getElementsByName("perini")[0];
             var perfin = document.getElementsByName("perfin")[0];
-          
+
 
             var objeto = {
-               
+
                 cargo: car.value,
                 sector: sec.value,
                 institucionlaboral: insti.value,
                 periodoini: perini.value,
                 periodofin: perfin.value
-               
+
             }
-        
-        
+
+
             document.getElementById("detalle-laboral").getElementsByTagName("tbody")[0].appendChild(html_detalle_laboral(objeto));
-   
+
             curriculum.limpiarDatos("limpiar-laboral");
         }
     });
@@ -470,22 +427,22 @@ document.addEventListener("DOMContentLoaded", function() {
             attr = 'disabled="disabled"';
         }
         var tr = document.createElement("tr");
-    
+
 
         html += '  <input type="hidden" name="cargo[]" value="'+objeto.cargo+'" >';
         html += '  <input type="hidden" name="sector[]" value="'+objeto.sector+'" >';
         html += '  <input type="hidden" name="institucionlaboral[]" value="'+objeto.institucionlaboral+'" >';
         html += '  <input type="hidden" name="periodoini[]" value="'+objeto.periodoini+'" >';
         html += '  <input type="hidden" name="periodofin[]" value="'+objeto.periodofin+'" >';
-    
-     
+
+
         html += '  <td>'+objeto.cargo+'</td>';
         html += '  <td>'+objeto.sector+'</td>';
         html += '  <td>'+objeto.institucionlaboral+'</td>';
         html += '  <td>'+objeto.periodoini+'-'+objeto.periodofin+'</td>';
-       
-    
-       
+
+
+
         html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-laboral"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
 
         tr.innerHTML = html;
@@ -539,13 +496,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("calendar-fechanac").addEventListener("click", function(e) {
         e.preventDefault();
-        
+
         if($("#formulario-curriculum").find("input[name=fechanac]").hasClass("focus-datepicker")) {
-   
+
             $("#formulario-curriculum").find("input[name=fechanac]").blur();
             $("#formulario-curriculum").find("input[name=fechanac]").removeClass("focus-datepicker");
         } else {
-            
+
             $("#formulario-curriculum").find("input[name=fechanac]").focus();
             $("#formulario-curriculum").find("input[name=fechanac]").addClass("focus-datepicker");
         }
@@ -555,18 +512,18 @@ document.addEventListener("DOMContentLoaded", function() {
         var tipodoc = $(this).val();
 
         var numdoc = document.getElementsByName("numdoc")[0];
-       
+
         if(tipodoc == 1) {
             numdoc.setAttribute("maxlength", 8);
             numdoc.setAttribute("minlength", 8);
         }
 
-       
+
     })
 })
 
 
 function imprimir_curriculum(idmiembro) {
-    
+
     window.open(BaseUrl + "/asociados/imprimir_curriculum/"+idmiembro);
 }

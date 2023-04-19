@@ -1,4 +1,5 @@
 var misiones = new BASE_JS('misiones', 'misiones');
+var uniones = new BASE_JS('uniones', 'uniones');
 
 document.addEventListener("DOMContentLoaded", function() {
     misiones.buscarEnFormulario("descripcion").solo_letras();
@@ -10,12 +11,15 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-    misiones.select({
-        name: 'idmision',
-        url: '/obtener_misiones',
-        placeholder: 'Seleccione Misión'
+    uniones.select({
+        name: 'idunion',
+        url: '/obtener_uniones',
+        placeholder: 'Seleccione Unión'
 
     })
+
+
+
 
     document.addEventListener("click", function(event) {
         var id = event.srcElement.id;
@@ -26,13 +30,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nueva-mision':
                 event.preventDefault();
-            
+
                 misiones.abrirModal();
             break;
 
             case 'modificar-mision':
                 event.preventDefault();
-            
+
                 modificar_union();
             break;
 
@@ -57,14 +61,14 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = misiones.get(datos.idmision);
 
         promise.then(function(response) {
-            
+
         });
     }
 
@@ -75,23 +79,12 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = misiones.guardar();
             misiones.CerrarModal();
-            // misiones.datatable.destroy();
-            // misiones.TablaListado({
-            //     tablaID: '#tabla-misiones',
-            //     url: "/buscar_datos",
-            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-                // $("select[name=idmision]").chosen("destroy");
-                misiones.select({
-                    name: 'idmision',
-                    url: '/obtener_misiones',
-                    placeholder: 'Seleccione Misión',
-                    selected: response.id
-                })
+
             })
 
         }
@@ -104,17 +97,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
                 misiones.Operacion(datos.idmision, "E");
-                // misiones.datatable.destroy();
-                // misiones.TablaListado({
-                //     tablaID: '#tabla-misiones',
-                //     url: "/buscar_datos",
-                // });
+
             }
         });
     }
@@ -126,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "misiones/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-misiones').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         misiones.abrirModal();
@@ -138,19 +127,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-                    
-                    //     break;
+
                     case 'F7':
                         eliminar_union();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -159,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -167,30 +151,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-misiones').is(':visible')) {
                     guardar_union();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-mision").addEventListener("click", function(event) {

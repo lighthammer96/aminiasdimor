@@ -1,8 +1,13 @@
 var modulos = new BASE_JS('modulos', 'modulos');
 var padres = new BASE_JS('padres', 'modulos');
 
+
 document.addEventListener("DOMContentLoaded", function() {
-            
+
+    modulos.select_init({
+        placeholder: seleccione
+    })
+
     var eventClick = new Event('click');
 
     padres.enter("modulo_nombre|padre","modulo_icono|padre");
@@ -42,9 +47,6 @@ document.addEventListener("DOMContentLoaded", function() {
     modulos.enter("estado", "idioma");
 
 
-    combo_idioma.then(function() {
-        modulos.enter("idioma", "descripcion");
-    })
 
     modulos.enter("descripcion", "idioma", function() {
         var required = true;
@@ -75,17 +77,6 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-    modulos.select({
-        name: 'modulo_padre',
-        url: "/obtener_padres",
-    }).then(function() {
-        modulos.enter("modulo_padre", "estado");
-    });
-
-    // modulos.select({
-    //     name: 'accion',
-    //     url: "/obtener_acciones",
-    // });
 
     document.getElementById("nuevo-modulo").addEventListener("click", function(event) {
         event.preventDefault();
@@ -95,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // document.getElementById("nuevo-padre").addEventListener("click", function(event) {
     //     event.preventDefault();
-    
+
     //     padres.abrirModal();
     // })
 
@@ -135,9 +126,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        
 
-        } 
+
+        }
 
         BASE_JS.sweet({
             confirm: true,
@@ -163,8 +154,8 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             return false;
-            
-        } 
+
+        }
         var promise = modulos.ver(datos.modulo_id);
         promise.then(function(response) {
             // modulos.ajax({
@@ -191,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && modulos.required("modulo_orden");
         required = required && modulos.required("modulo_padre");
         var detalle = document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
+
         if(detalle.length <= 0) {
             BASE_JS.sweet({
                 text: elemento_detalle
@@ -202,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = modulos.guardar();
             modulos.CerrarModal();
-        
+
             // modulos.datatable.destroy();
             // modulos.TablaListado({
             //     tablaID: '#tabla-modulos',
@@ -214,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     url:  '/obtener_padres',
                 });
             })
-            
+
             // if(detalle.length > 0) {
             //     modulos.guardar();
             //     modulos.CerrarModal();
@@ -250,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = padres.guardar();
             padres.CerrarModal();
-        
+
             // modulos.datatable.destroy();
             //     modulos.TablaListado({
             //     tablaID: '#tabla-modulos',
@@ -371,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // var array = icon.split(" ");
             document.getElementsByName("modulo_icono")[0].value = icon;
             document.getElementsByName("modulo_icono|padre")[0].value = icon;
-            
+
             $("#modal-iconos").modal("hide");
             document.getElementsByName("modulo_orden")[0].focus();
             document.getElementsByName("modulo_orden|padre")[0].focus();
@@ -406,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -414,35 +405,35 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-            
+
                 if($('#modal-modulos').is(':visible') && !$("#modal-padres").is(":visible")) {
                     document.getElementById('guardar-modulo').dispatchEvent(eventClick);
                 }
-                
+
                 if($('#modal-modulos').is(':visible') && $("#modal-padres").is(":visible")) {
                     document.getElementById('guardar-moduloPadre').dispatchEvent(eventClick);
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
+
+
             if(event.code == "Escape") {
                 // alert("olas");
                 if($('#modal-modulos').is(':visible') && !$("#modal-padres").is(":visible") && !$("#modal-iconos").is(":visible")) {
                     modulos.CerrarModal();
                 }
-                
+
                 if($('#modal-modulos').is(':visible') && $("#modal-padres").is(":visible") && !$("#modal-iconos").is(":visible")) {
                     // alert("ola");
                     padres.CerrarModal();
@@ -456,12 +447,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 event.stopPropagation();
 
             }
-        
-        
-        
+
+
+
         }
-    
-        
+
+
     })
 
     document.getElementById("cancelar-modulo").addEventListener("click", function(event) {

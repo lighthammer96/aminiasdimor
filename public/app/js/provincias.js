@@ -1,28 +1,21 @@
 var principal = new BASE_JS('principal', 'principal');
-var paises = new BASE_JS('paises', 'paises');
 var provincias = new BASE_JS('provincias', 'provincias');
 
 document.addEventListener("DOMContentLoaded", function() {
     provincias.buscarEnFormulario("descripcion").solo_letras();
 
-    paises.select({
-        name: 'pais_id',
-        url: '/obtener_paises',
-        placeholder: 'Seleccione ...',
-    }).then(function() {
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#iddepartamento").trigger("change", ["", ""]);
-       
+    provincias.select_init({
+        placeholder: seleccione
     })
 
 
     $(document).on('change', '#pais_id', function(event, pais_id, iddepartamento) {
         var valor = $(this).val();
-     
+
         if(pais_id != "" && pais_id != null) {
             valor = pais_id;
-        } 
-      
+        }
+
         principal.select({
             name: 'iddepartamento',
             url: '/obtener_departamentos',
@@ -39,14 +32,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    provincias.select({
-        name: 'idprovincia',
-        url: '/obtener_provincias',
-        placeholder: seleccione
-    }).then(function() {
-        
-        
-    }) 
+    // provincias.select({
+    //     name: 'idprovincia',
+    //     url: '/obtener_provincias',
+    //     placeholder: seleccione
+    // }).then(function() {
+
+
+    // })
 
 
     document.addEventListener("click", function(event) {
@@ -58,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nueva-provincia':
                 event.preventDefault();
-            
+
                 provincias.abrirModal();
             break;
 
             case 'modificar-provincia':
                 event.preventDefault();
-            
+
                 modificar_provincia();
             break;
 
@@ -89,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = provincias.get(datos.idprovincia);
 
@@ -107,23 +100,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = provincias.guardar();
             provincias.CerrarModal();
-            // provincias.datatable.destroy();
-            // provincias.TablaListado({
-            //     tablaID: '#tabla-provincias',
-            //     url: "/buscar_datos",
-            // });
+
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-                // $("select[name=idprovincia]").chosen("destroy");
-                provincias.select({
-                    name: 'idprovincia',
-                    url: '/obtener_provincias',
-                    placeholder: seleccione,
-                    selected: response.id
-                })
+
             })
 
         }
@@ -136,17 +119,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
                 provincias.Operacion(datos.idprovincia, "E");
-                // provincias.datatable.destroy();
-                // provincias.TablaListado({
-                //     tablaID: '#tabla-provincias',
-                //     url: "/buscar_datos",
-                // });
+
             }
         });
     }
@@ -158,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "provincias/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-provincias').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         provincias.abrirModal();
@@ -170,19 +149,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-                    
-                    //     break;
+
                     case 'F7':
                         eliminar_provincia();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -191,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -199,30 +173,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-provincias').is(':visible')) {
                     guardar_provincia();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-provincia").addEventListener("click", function(event) {

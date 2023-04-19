@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BaseModel;
 use App\Models\UsuariosModel;
 use App\Models\AsociadosModel;
+use App\Models\PerfilesModel;
+use App\Models\PrincipalModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,12 +18,17 @@ class UsuariosController extends Controller
     //
     private $usuarios_model;
     private $base_model;
+    private $asociados_model;
+    private $principal_model;
+    private $perfiles_model;
 
     public function __construct() {
         parent::__construct();
         $this->usuarios_model = new UsuariosModel();
         $this->asociados_model = new AsociadosModel();
         $this->base_model = new BaseModel();
+        $this->principal_model = new PrincipalModel();
+        $this->perfiles_model = new PerfilesModel();
     }
 
     public function index() {
@@ -59,7 +66,7 @@ class UsuariosController extends Controller
         }
 
         if (!empty($_POST["nueva_pass_1"])) {
-            
+
             $_POST["usuario_pass"] = Hash::make($request->input("nueva_pass_1"));
         }
 
@@ -88,7 +95,7 @@ class UsuariosController extends Controller
 
     public function eliminar_usuarios() {
         try {
-            // $sql_asociados = "SELECT * FROM seguridad.usuarios AS u 
+            // $sql_asociados = "SELECT * FROM seguridad.usuarios AS u
             // INNER JOIN iglesias.miembro AS m ON(m.idmiembro=u.idmiembro)
             // WHERE u.usuario_id=".$_REQUEST["id"];
             // $asociados = DB::select($sql_asociados);
@@ -138,6 +145,12 @@ class UsuariosController extends Controller
         //$data["tabla"] = $this->usuarios_model->tabla()->HTML();
         $data["scripts"] = $this->cargar_js(["cambiar_password.js"]);
         return parent::init($view, $data);
+    }
+
+    public function select_init() {
+        $data["perfil_id"] = $this->perfiles_model->obtener_perfiles();
+        $data["idtipoacceso"] = $this->principal_model->obtener_tipos_acceso();
+        echo json_encode($data);
     }
 
 }

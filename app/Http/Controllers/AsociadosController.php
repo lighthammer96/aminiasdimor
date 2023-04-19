@@ -2,8 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AsambleasModel;
 use App\Models\AsociadosModel;
 use App\Models\BaseModel;
+use App\Models\CargosModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
+use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\NivelesModel;
+use App\Models\PaisesModel;
+use App\Models\PrincipalModel;
+use App\Models\TiposcargoModel;
+use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,11 +31,33 @@ class AsociadosController extends Controller
 
     private $base_model;
     private $asociados_model;
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+    private $iglesias_model;
+    private $principal_model;
+    private $niveles_model;
+    private $tipos_cargo_model;
+    private $cargos_model;
+    private $asambleas_model;
 
     public function __construct() {
         parent:: __construct();
         $this->asociados_model = new AsociadosModel();
         $this->base_model = new BaseModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
+        $this->iglesias_model = new IglesiasModel();
+        $this->principal_model = new PrincipalModel();
+        $this->niveles_model = new NivelesModel();
+        $this->tipos_cargo_model = new TiposcargoModel();
+        $this->cargos_model = new CargosModel();
+        $this->asambleas_model = new AsambleasModel();
     }
 
     public function index() {
@@ -466,20 +499,17 @@ class AsociadosController extends Controller
     }
 
     public function obtener_estado_civil() {
-        $sql = "SELECT idestadocivil as id, descripcion FROM public.estadocivil ORDER BY descripcion ASC";
-        $result = DB::select($sql);
+        $result = $this->asociados_model->obtener_estado_civil();
         echo json_encode($result);
     }
 
     public function obtener_nivel_educativo() {
-        $sql = "SELECT idgradoinstruccion as id, descripcion FROM public.gradoinstruccion ORDER BY descripcion ASC";
-        $result = DB::select($sql);
+        $result = $this->asociados_model->obtener_nivel_educativo();
         echo json_encode($result);
     }
 
     public function obtener_profesiones() {
-        $sql = "SELECT idocupacion as id, descripcion FROM public.ocupacion ORDER BY descripcion ASC";
-        $result = DB::select($sql);
+        $result = $this->asociados_model->obtener_profesiones();
         echo json_encode($result);
     }
 
@@ -494,26 +524,13 @@ class AsociadosController extends Controller
     }
 
     public function obtener_periodos_ini() {
-        $result = array();
-        $array = array();
-        for($i=date("Y"); $i>=1900; $i-- ) {
-            $result["id"] = $i;
-            $result["descripcion"] = $i;
-            array_push($array, $result);
-        }
+        $array = $this->asociados_model->obtener_periodos_ini();
 
         echo json_encode($array);
     }
 
     public function obtener_periodos_fin() {
-        $result = array();
-        $array = array();
-        for($i=date("Y")+4; $i>=1900; $i-- ) {
-            $result["id"] = $i;
-            $result["descripcion"] = $i;
-            array_push($array, $result);
-        }
-
+        $array = $this->asociados_model->obtener_periodos_fin();
         echo json_encode($array);
     }
 
@@ -1188,5 +1205,52 @@ class AsociadosController extends Controller
         return $pdf->stream("certificado.pdf"); // ver
     }
 
+
+    public function select_init(Request $request) {
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["iddivisioncargo"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_idcargo"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunioncargo"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmisioncargo"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionerocargo"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["idmotivobaja"] = $this->principal_model->obtener_motivos_baja();
+        $data["pais_id_nacimiento"] = $this->paises_model->obtener_todos_paises();
+        $data["pais"] = $this->paises_model->obtener_todos_paises();
+        $data["idtipodoc"] = $this->principal_model->obtener_tipos_documento();
+        $data["tipodoc"] = $this->principal_model->obtener_tipos_documento();
+        $data["idestadocivil"] = $this->asociados_model->obtener_estado_civil();
+        $data["idgradoinstruccion"] = $this->asociados_model->obtener_nivel_educativo();
+        $data["periodoini"] = $this->asociados_model->obtener_periodos_ini();
+        $data["periodofin"] = $this->asociados_model->obtener_periodos_fin();
+        $data["perini"] = $this->asociados_model->obtener_periodos_ini();
+        $data["perfin"] = $this->asociados_model->obtener_periodos_fin();
+        $data["idocupacion"] = $this->asociados_model->obtener_profesiones();
+        $data["idreligion"] = $this->principal_model->obtener_religiones();
+        $data["idcondicioneclesiastica"] = $this->principal_model->obtener_condicion_eclesiastica();
+
+        $data["idnivel"] = $this->niveles_model->obtener_niveles($request);
+        $data["idtipocargo"] = $this->tipos_cargo_model->obtener_tipos_cargo();
+        $data["idcargo"] = $this->cargos_model->obtener_cargos($request);
+
+        $data["iddepartamentodomicilio"] = $this->principal_model->obtener_departamentos($request);
+        $data["idprovinciadomicilio"] = $this->principal_model->obtener_provincias($request);
+        $data["iddistritodomicilio"] = $this->principal_model->obtener_distritos($request);
+        $data["parentesco"] = $this->principal_model->obtener_parentesco();
+        $data["parentesco"] = $this->principal_model->obtener_parentesco();
+
+        $data["asamblea_id"] = $this->asambleas_model->obtener_asambleas();
+        $data["asamblea_id_imprimir"] = $this->asambleas_model->obtener_asambleas();
+        $data["asamblea_id_notificar"] = $this->asambleas_model->obtener_asambleas();
+
+        echo json_encode($data);
+    }
 
 }

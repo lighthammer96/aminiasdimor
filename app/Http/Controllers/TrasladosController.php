@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
+use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
 use App\Models\TrasladosModel;
+use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,13 +19,26 @@ class TrasladosController extends Controller
 {
     //
     private $base_model;
+    private $traslados_model;
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+    private $iglesias_model;
 
-    
+
     public function __construct() {
         parent:: __construct();
-      
+
         $this->base_model = new BaseModel();
         $this->traslados_model = new TrasladosModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
+        $this->iglesias_model = new IglesiasModel();
     }
 
     public function index() {
@@ -37,8 +56,8 @@ class TrasladosController extends Controller
         $data["scripts"] = $this->cargar_js(["traslados.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function control() {
@@ -46,7 +65,7 @@ class TrasladosController extends Controller
         $data["title"] = traducir("traductor.titulo_control_traslados");
         $data["subtitle"] = "";
         $data["tabla"] = $this->traslados_model->tabla_control()->HTML();
-       
+
         $botones = array();
         $botones[0] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="finalizar-traslado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/floppy-disk.png').'"><br>'.traducir("traductor.finalizar_traslado").' [F2]</button>';
         // $botones[1] = '<button tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-success btn-sm" id="modificar-perfil">'.traducir("traductor.modificar").' [F2]</button>';
@@ -72,7 +91,7 @@ class TrasladosController extends Controller
     }
 
     // public function guardar_traslados(Request $request) {
-   
+
     //     $_POST = $this->toUpper($_POST);
     //     if ($request->input("perfil_id") == '') {
     //         $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_traslados", $_POST));
@@ -87,27 +106,27 @@ class TrasladosController extends Controller
     public function guardar_traslados_temp(Request $request) {
         // print_r($_REQUEST); exit;
         try {
-        
+
             $array_pais = explode("|", $_POST["pais_id"]);
             $_POST["pais_id"] = $array_pais[0];
             if($array_pais[1] == "N" && empty($request->input("idunion"))) {
-                $sql = "SELECT * FROM iglesias.union AS u 
+                $sql = "SELECT * FROM iglesias.union AS u
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_POST["pais_id"]}";
                 $res = DB::select($sql);
                 $_POST["idunion"] = $res[0]->idunion;
-         
+
             }
 
             $array_pais_destino = explode("|", $_POST["pais_iddestino"]);
             $_POST["pais_iddestino"] = $array_pais_destino[0];
             if($array_pais_destino[1] == "N" && empty($request->input("iduniondestino"))) {
-                $sql = "SELECT * FROM iglesias.union AS u 
+                $sql = "SELECT * FROM iglesias.union AS u
                 INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
                 WHERE up.pais_id={$_POST["pais_iddestino"]}";
                 $res = DB::select($sql);
                 $_POST["iduniondestino"] = $res[0]->idunion;
-         
+
             }
 
             $sql_destino = "";
@@ -117,14 +136,14 @@ class TrasladosController extends Controller
             $sql_destino .= $_POST["idmisiondestino"]." AS idmisiondestino, ";
             $sql_destino .= $_POST["iddistritomisionerodestino"]." AS iddistritomisionerodestino, ";
             $sql_destino .= $_POST["idiglesiadestino"]." AS idiglesiadestino ";
-            
+
             DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $_REQUEST["tipo_traslado"]))->delete();
 
             $sql = "SELECT vat.*, ".session("usuario_id")." AS usuario_id, ".$_REQUEST["tipo_traslado"]." AS tipo_traslado, ".$sql_destino.",
             CASE WHEN di.di_descripcion IS NULL THEN
             (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
             ELSE di.di_descripcion END AS division
-            
+
             FROM iglesias.vista_asociados_traslados AS vat
             LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
             LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
@@ -136,12 +155,12 @@ class TrasladosController extends Controller
                     $array = (array) $value;
                     $result = $this->base_model->insertar($this->preparar_datos("iglesias.temp_traslados", $array));
                 }
-        
+
             } else {
                 throw new Exception(traducir("traductor.asociados_iglesia_origen"));
             }
-            
-            
+
+
             echo json_encode($_REQUEST);
         } catch(Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
@@ -169,7 +188,7 @@ class TrasladosController extends Controller
         echo json_encode($one);
     }
 
-    
+
     public function trasladar(Request $request) {
         $sql = "SELECT * FROM iglesias.temp_traslados WHERE tipo_traslado=".$request->input("tipo_traslado")." AND usuario_id=".session("usuario_id");
 
@@ -180,7 +199,7 @@ class TrasladosController extends Controller
             $value->idiglesiaactual = $value->idiglesiadestino;
             $value->fecha = date("Y-m-d");
             $array = (array) $value;
-            
+
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_traslados", $array));
 
 
@@ -197,10 +216,10 @@ class TrasladosController extends Controller
         }
 
         DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $request->input("tipo_traslado")))->delete();
-       
+
         echo json_encode($result);
     }
-    
+
     public function guardar_traslados_mi(Request $request) {
         // print_r($_REQUEST);
         // print_r($_FILES);
@@ -209,26 +228,26 @@ class TrasladosController extends Controller
         $array_pais_destino = explode("|", $_POST["pais_iddestino"]);
         $_POST["pais_iddestino"] = $array_pais_destino[0];
         if($array_pais_destino[1] == "N" && empty($request->input("iduniondestino"))) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_POST["pais_iddestino"]}";
             $res = DB::select($sql);
             $_POST["iduniondestino"] = $res[0]->idunion;
-        
+
         }
         $sql = "SELECT * FROM iglesias.temp_traslados WHERE tipo_traslado=".$request->input("tipo_traslado_mi")." AND usuario_id=".session("usuario_id");
 
         $traslados = DB::select($sql);
 
         foreach($traslados as $key => $value) {
-            
+
             $value->idiglesiaanterior = $value->idiglesia;
             $value->idiglesiaactual = $request->input("idiglesiadestino");
             $value->fecha = date("Y-m-d");
             $array = (array) $value;
 
             if($request->input("tipo_traslado_mi") == "2") {
-                
+
                 $_POST["status"] = "t"; // traslado
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.historial_traslados", $array));
 
@@ -257,22 +276,22 @@ class TrasladosController extends Controller
                 $_POST["idcontrol"] = $result["id"];
                 $_POST["idmiembro"] = $value->idmiembro;
                 // if (isset($_FILES["carta"]) && $_FILES["carta"]["error"] == "0") {
-    
+
                 //     $response = $this->SubirArchivo($_FILES["carta"], base_path("public/carta_traslados/"), "carta_traslado_" . $value->idmiembro."_". $_POST["idcontrol"]);
                 //     if ($response["response"] == "ERROR") {
                 //         throw new Exception('Error al subir carta de traslado!');
                 //     }
                 //     $_POST["carta_traslado"] = $response["NombreFile"];
-                
+
                 //     $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $_POST));
                 // }
             }
-            
+
         }
 
         DB::table("iglesias.temp_traslados")->where(array("usuario_id" => session("usuario_id"), "tipo_traslado" => $request->input("tipo_traslado_mi")))->delete();
         $result["tipo_acceso"] = $request->input("tipo_traslado_mi");
-        echo json_encode($_POST);  
+        echo json_encode($_POST);
     }
 
     public function agregar_traslado(Request $request) {
@@ -282,7 +301,7 @@ class TrasladosController extends Controller
         CASE WHEN di.di_descripcion IS NULL THEN
         (SELECT di_descripcion FROM iglesias.division_idiomas WHERE iddivision=d.iddivision AND idioma_id=".session("idioma_id_defecto").")
         ELSE di.di_descripcion END AS division
-        
+
         FROM iglesias.vista_asociados_traslados AS vat
         LEFT JOIN iglesias.division AS d ON(d.iddivision=vat.iddivision)
         LEFT JOIN iglesias.division_idiomas AS di on(di.iddivision=d.iddivision AND di.idioma_id=".session("idioma_id").")
@@ -308,7 +327,7 @@ class TrasladosController extends Controller
         //     }
         //     $update_control["carta_aceptacion"] = $response["NombreFile"];
         //     $update_control["estado"] = "0";
-         
+
         //     $result = $this->base_model->modificar($this->preparar_datos("iglesias.control_traslados", $update_control));
         // }
 
@@ -334,7 +353,7 @@ class TrasladosController extends Controller
     }
 
     public function imprimir_carta_iglesia($idmiembro, $idcontrol) {
-      
+
 
         $datos = array();
         $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
@@ -352,7 +371,7 @@ class TrasladosController extends Controller
 
         // $sql_estado_civil = "SELECT * FROM public.estadocivil";
         // $estado_civil = DB::select($sql_estado_civil);
-        
+
         $datos["miembro"] = $miembro;
         // $datos["estado_civil"] = $estado_civil;
         $datos["nivel_organizativo"] = session("nivel_organizativo");
@@ -366,7 +385,7 @@ class TrasladosController extends Controller
         ct.idiglesiaanterior,
         ct.idiglesiaactual,
         ".formato_fecha_idioma("ct.fecha")." AS fecha,
-        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS 
+        /*(SELECT v.iglesia FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS
         iglesia_origen,
         (SELECT v.iglesia || ' / ' || v.distritomisionero  || ' / ' ||  v.mision || ' / ' || v.union  || ' / ' || v.pais || ' / ' || v.division  FROM iglesias.vista_jerarquia AS v WHERE v.idiglesia=ct.idiglesiaanterior) AS iglesia_origen,*/
 
@@ -380,16 +399,16 @@ class TrasladosController extends Controller
         (SELECT direccion FROM iglesias.iglesia WHERE idiglesia=ct.idiglesiaanterior) AS direccion_origen
         FROM iglesias.control_traslados AS ct
         WHERE ct.idcontrol={$idcontrol}";
-       
+
         $control = DB::select($sql_control);
 
-        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaanterior;
         $secretario = DB::select($sql_secretario);
 
-        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaanterior;
@@ -399,23 +418,23 @@ class TrasladosController extends Controller
 
         // $datos["iglesia_origen"] = $control[0]->iglesia_origen;
         // $datos["iglesia_destino"] = $control[0]->iglesia_destino;
-        
+
         $datos["control"] = $control;
         $datos["nombre_secretario"] = (isset($secretario[0]->nombres))  ? $secretario[0]->nombres : "";
         $datos["nombre_director"] = (isset($director[0]->nombres))  ? $director[0]->nombres : "";
-       
+
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.carta_iglesia", $datos);
 
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("carta_iglesia.pdf"); // ver
-        
+
     }
 
-    
+
     public function imprimir_respuesta_carta_iglesia($idmiembro, $idcontrol) {
-      
+
 
         $datos = array();
         $sql_miembro = "SELECT m.*, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento,
@@ -429,11 +448,11 @@ class TrasladosController extends Controller
         LEFT JOIN public.estadocivil AS ec ON(ec.idestadocivil=m.idestadocivil)
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
-        
-        
+
+
         // $sql_estado_civil = "SELECT * FROM public.estadocivil";
         // $estado_civil = DB::select($sql_estado_civil);
-        
+
         $datos["miembro"] = $miembro;
         // $datos["estado_civil"] = $estado_civil;
 
@@ -461,13 +480,13 @@ class TrasladosController extends Controller
         WHERE ct.idcontrol={$idcontrol}";
         $control = DB::select($sql_control);
 
-        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=6 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaactual;
         $secretario = DB::select($sql_secretario);
 
-        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$control[0]->idiglesiaactual;
@@ -485,15 +504,33 @@ class TrasladosController extends Controller
 
 
 
-        
-       
+
+
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("traslados.respuesta_carta_iglesia", $datos);
 
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("respuesta_carta_iglesia.pdf"); // ver
-        
+
     }
-    
+
+    public function select_init(Request $request) {
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["iddivisiondestino"] = $this->divisiones_model->obtener_divisiones_todos($request);
+        $data["pais_iddestino"] = $this->paises_model->obtener_paises_asociados_todos($request);
+        $data["iduniondestino"] = $this->uniones_model->obtener_uniones_paises_todos($request);
+        $data["idmisiondestino"] = $this->misiones_model->obtener_misiones_todos($request);
+        $data["iddistritomisionerodestino"] = $this->distritos_misioneros_model->obtener_distritos_misioneros_todos($request);
+        $data["idiglesiadestino"] = $this->iglesias_model->obtener_iglesias($request);
+
+        echo json_encode($data);
+    }
+
 }

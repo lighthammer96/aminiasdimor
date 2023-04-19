@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class TiposcargoModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -32,6 +32,12 @@ class TiposcargoModel extends Model
         return $tabla;
     }
 
+    public function obtener_tipos_cargo() {
+        $sql = "SELECT /*(p.idtipocargo || '|' || p.posee_nivel)*/ p.idtipocargo  AS id, p.descripcion
+        FROM public.tipocargo AS p";
+        // die($sql);
+        $result = DB::select($sql);
+        return $result;
+    }
 
-  
 }

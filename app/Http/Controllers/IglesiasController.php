@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
 use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
+use App\Models\PrincipalModel;
+use App\Models\UnionesModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +21,23 @@ class IglesiasController extends Controller
 
     private $base_model;
     private $iglesias_model;
-    
+    private $principal_model;
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+
     public function __construct() {
         parent:: __construct();
         $this->iglesias_model = new IglesiasModel();
+        $this->principal_model = new PrincipalModel();
         $this->base_model = new BaseModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
     }
 
     public function index() {
@@ -37,8 +55,8 @@ class IglesiasController extends Controller
         $data["scripts"] = $this->cargar_js(["iglesias.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -48,13 +66,13 @@ class IglesiasController extends Controller
 
 
     public function guardar_iglesias(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST, ["descripcion", "direccion"]);
 
         $array_pais = explode("|", $_POST["pais_id"]);
         $_POST["pais_id"] = $array_pais[0];
         if($array_pais[1] == "N" && empty($request->input("idunion"))) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_POST["pais_id"]}";
             $res = DB::select($sql);
@@ -72,7 +90,7 @@ class IglesiasController extends Controller
     }
 
     public function eliminar_iglesias() {
-       
+
 
         try {
             $sql_asociados = "SELECT * FROM iglesias.miembro WHERE idiglesia=".$_REQUEST["id"];
@@ -89,6 +107,23 @@ class IglesiasController extends Controller
         }
     }
 
+    public function select_init(Request $request) {
+
+        $data = array();
+
+        $data["idcategoriaiglesia"] = $this->principal_model->obtener_categorias_iglesia();
+        $data["iddepartamento"] = $this->principal_model->obtener_departamentos($request);
+        $data["idprovincia"] = $this->principal_model->obtener_provincias($request);
+        $data["iddistrito"] = $this->principal_model->obtener_distritos($request);
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+
+        echo json_encode($data);
+    }
+
 
     public function get_iglesias(Request $request) {
 
@@ -96,7 +131,7 @@ class IglesiasController extends Controller
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
         WHERE i.idiglesia=".$request->input("id");
         $one = DB::select($sql);
-        
+
         $sql_activos = "SELECT * FROM iglesias.miembro WHERE estado='1' AND idiglesia=".$request->input("id");
         $activos = DB::select($sql_activos);
 
@@ -105,56 +140,18 @@ class IglesiasController extends Controller
 
         $one[0]->activos = count($activos);
         $one[0]->inactivos = count($inactivos);
-       
+
         echo json_encode($one);
     }
 
     public function obtener_iglesias(Request $request) {
 
-        $sql = "";
-        $all = false;
-        $result = array();
-		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
-	
-			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia 
-            WHERE iddistritomisionero IS NOT NULL AND estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
-            " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            $sql = "SELECT idiglesia AS id, descripcion
-            FROM iglesias.iglesia 
-            WHERE iddistritomisionero IS NOT NULL AND estado='1'".session("where_distrito_misionero_padre").
-            " ORDER BY descripcion ASC";
-            $all = true;
-		}
-        // die($sql);
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        if(count($result) == 1 && session("perfil_id") != 1 && session("perfil_id") != 2 && $all) {
-            // print_r($result);
-            $result[0]->defecto = "S";
-        }
+        $result = $this->iglesias_model->obtener_iglesias($request);
         echo json_encode($result);
     }
 
     public function obtener_iglesias_all(Request $request) {
-        $array = array("id" => 0, "descripcion" => "Todos");
-        $array = (object) $array;
-        $sql = "";
-        $result = array();
-		if(isset($_REQUEST["iddistritomisionero"]) && !empty($_REQUEST["iddistritomisionero"])) {
-	
-			$sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1' AND iddistritomisionero=".$request->input("iddistritomisionero").
-            " ORDER BY descripcion ASC";
-		} elseif(session("perfil_id") != 1 && session("perfil_id") != 2) {
-            // $sql = "SELECT idiglesia AS id, descripcion FROM iglesias.iglesia WHERE estado='1'".
-            // " ORDER BY descripcion ASC";
-		}
-
-        if($sql != "") {
-            $result = DB::select($sql);
-        }
-        array_push($result, $array);
+        $result = $this->iglesias_model->obtener_iglesias_all($request);
         echo json_encode($result);
     }
 
@@ -179,8 +176,8 @@ class IglesiasController extends Controller
 
         $iglesias = DB::select($sql);
         return view("iglesias.inactivos", array("iglesias" => $iglesias));
-       
+
     }
 
-    
+
 }

@@ -13,20 +13,20 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-    combo_idiomas = idiomas.select({
-        name: 'idioma_id',
-        url: '/obtener_idiomas',
-        placeholder: 'Seleccione Idioma'
-    });
+    // combo_idiomas = idiomas.select({
+    //     name: 'idioma_id',
+    //     url: '/obtener_idiomas',
+    //     placeholder: 'Seleccione Idioma'
+    // });
 
 
-    combo_idioma = idiomas.select({
-        name: 'idioma',
-        url: '/obtener_idiomas',
-        placeholder: 'Seleccione Idioma'
-    });
+    // combo_idioma = idiomas.select({
+    //     name: 'idioma',
+    //     url: '/obtener_idiomas',
+    //     placeholder: 'Seleccione Idioma'
+    // });
 
-    
+
 
     // var combo_idioma_padre = idiomas.select({
     //     name: 'idioma|padre',
@@ -46,13 +46,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-idioma':
                 event.preventDefault();
-            
+
                 idiomas.abrirModal();
             break;
 
             case 'modificar-idioma':
                 event.preventDefault();
-            
+
                 modificar_idioma();
             break;
 
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         idiomas.get(datos.idioma_id);
     }
@@ -102,19 +102,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 // $("select[name=idioma_id]").chosen("destroy");
 
-                combo_idiomas = idiomas.select({
-                    name: 'idioma_id',
-                    url: '/obtener_idiomas',
-                    placeholder: 'Seleccione Idioma',
-                    selected: response.id
-                });
+                // combo_idiomas = idiomas.select({
+                //     name: 'idioma_id',
+                //     url: '/obtener_idiomas',
+                //     placeholder: 'Seleccione Idioma',
+                //     selected: response.id
+                // });
 
-                combo_idioma = idiomas.select({
-                    name: 'idioma',
-                    url: '/obtener_idiomas',
-                    placeholder: 'Seleccione Idioma',
-                    selected: response.id
-                });
+                // combo_idioma = idiomas.select({
+                //     name: 'idioma',
+                //     url: '/obtener_idiomas',
+                //     placeholder: 'Seleccione Idioma',
+                //     selected: response.id
+                // });
 
             })
 
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "idiomas/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-idiomas').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         idiomas.abrirModal();
@@ -166,15 +166,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_idioma();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -191,30 +191,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-idiomas').is(':visible')) {
                     guardar_idioma();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-idioma").addEventListener("click", function(event) {

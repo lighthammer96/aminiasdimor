@@ -1,29 +1,24 @@
 var principal = new BASE_JS('principal', 'principal');
-var paises = new BASE_JS('paises', 'paises');
+
 var distritos = new BASE_JS('distritos', 'distritos');
 
 document.addEventListener("DOMContentLoaded", function() {
-    
+
     distritos.buscarEnFormulario("descripcion").solo_letras();
 
-    paises.select({
-        name: 'pais_id',
-        url: '/obtener_paises',
-        placeholder: 'Seleccione ...',
-    }).then(function() {
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#iddepartamento").trigger("change", ["", ""]);
-        $("#idprovincia").trigger("change", ["", ""]);
-       
+    distritos.select_init({
+        placeholder: seleccione
     })
+
+
 
     $(document).on('change', '#pais_id', function(event, pais_id, iddepartamento) {
         var valor = $(this).val();
-     
+
         if(pais_id != "" && pais_id != null) {
             valor = pais_id;
-        } 
-      
+        }
+
         principal.select({
             name: 'iddepartamento',
             url: '/obtener_departamentos',
@@ -36,11 +31,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document).on('change', '#iddepartamento', function(event, iddepartamento, idprovincia) {
         var valor = $(this).val();
-     
+
         if(iddepartamento != "" && iddepartamento != null) {
             valor = iddepartamento;
-        } 
-      
+        }
+
         principal.select({
             name: 'idprovincia',
             url: '/obtener_provincias',
@@ -57,14 +52,14 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-    distritos.select({
-        name: 'iddistrito',
-        url: '/obtener_distritos',
-        placeholder: seleccione
-    }).then(function() {
-        
-        
-    }) 
+    // distritos.select({
+    //     name: 'iddistrito',
+    //     url: '/obtener_distritos',
+    //     placeholder: seleccione
+    // }).then(function() {
+
+
+    // })
 
 
 
@@ -78,13 +73,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-distrito':
                 event.preventDefault();
-            
+
                 distritos.abrirModal();
             break;
 
             case 'modificar-distrito':
                 event.preventDefault();
-            
+
                 modificar_distrito();
             break;
 
@@ -109,9 +104,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = distritos.get(datos.iddistrito);
 
@@ -125,27 +120,17 @@ document.addEventListener("DOMContentLoaded", function() {
         var required = true;
         // required = required && distritos.required("perfil_descripcion");
 
-        
+
         if(required) {
             var promise = distritos.guardar();
             distritos.CerrarModal();
-            // distritos.datatable.destroy();
-            // distritos.TablaListado({
-            //     tablaID: '#tabla-distritos',
-            //     url: "/buscar_datos",
-            // });
+
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-                // $("select[name=iddistrito]").chosen("destroy");
-                distritos.select({
-                    name: 'iddistrito',
-                    url: '/obtener_distritos',
-                    placeholder: seleccione,
-                    selected: response.id
-                })
+
             })
 
         }
@@ -158,17 +143,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
             callbackConfirm: function() {
                 distritos.Operacion(datos.iddistrito, "E");
-                // distritos.datatable.destroy();
-                // distritos.TablaListado({
-                //     tablaID: '#tabla-distritos',
-                //     url: "/buscar_datos",
-                // });
+
             }
         });
     }
@@ -180,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "distritos/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-distritos').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         distritos.abrirModal();
@@ -192,19 +173,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-                    
-                    //     break;
                     case 'F7':
                         eliminar_distrito();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -213,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -221,30 +196,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-distritos').is(':visible')) {
                     guardar_distrito();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-distrito").addEventListener("click", function(event) {

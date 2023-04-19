@@ -16,31 +16,32 @@ var eventClick = new Event('click');
 document.addEventListener("DOMContentLoaded", function() {
     // BASE_JS.notificacion({title: "hols", type: 'default', msg:  "hola"});
 
-   
-
-
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
+    traslados.select_init({
         placeholder: seleccione
-    }).then(function() {
+    })
 
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
-        
-        
-    }) 
+    // divisiones.select({
+    //     name: 'iddivision',
+    //     url: '/obtener_divisiones',
+    //     placeholder: seleccione
+    // }).then(function() {
+
+    //     $("#iddivision").trigger("change", ["", ""]);
+    //     $("#pais_id").trigger("change", ["", ""]);
+    //     $("#idunion").trigger("change", ["", ""]);
+    //     $("#idmision").trigger("change", ["", ""]);
+    //     $("#iddistritomisionero").trigger("change", ["", ""]);
+    //     $("#idiglesia").trigger("change", ["", ""]);
+
+
+    // })
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];
         d_id = (typeof iddivision != "undefined" && iddivision != null) ? iddivision : d_id;
         var selected = (typeof pais_id != "undefined")  ? pais_id : "";
-    
+
         paises.select({
             name: 'pais_id',
             url: '/obtener_paises_asociados',
@@ -48,18 +49,18 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
-            
+
             var condicion = typeof iddivision == "undefined";
             condicion = condicion && typeof pais_id == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("iddivision");
                 if(required) {
                     $("#pais_id")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
@@ -68,11 +69,11 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).on('change', '#pais_id', function(event, pais_id, idunion) {
         var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union'];
         var array = valor.toString().split("|");
-        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
-    
+        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
+
         var d_id = array[0];
         var posee_union = array[1];
-    
+
         var selected = (typeof idunion != "undefined")  ? idunion : "";
         uniones.select({
             name: 'idunion',
@@ -81,18 +82,18 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
-        
+
             var condicion = typeof pais_id == "undefined";
             condicion = condicion && typeof idunion == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("pais_id");
                 if(required) {
                     $("#idunion")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
         if(posee_union == "N") {
             $(".union").hide();
@@ -106,17 +107,17 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             $(".union").show();
         }
-        
+
     });
 
 
 
     $(document).on('change', '#idunion', function(event, idunion, idmision) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];
         d_id = (typeof idunion != "undefined" && idunion != null) ? idunion : d_id;
         var selected = (typeof idmision != "undefined")  ? idmision : "";
-    
+
         misiones.select({
             name: 'idmision',
             url: '/obtener_misiones',
@@ -124,27 +125,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idunion == "undefined";
             condicion = condicion && typeof idmision == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("idunion");
                 if(required) {
                     $("#idmision")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#idmision', function(event, idmision, iddistritomisionero) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];
         d_id = (typeof idmision != "undefined" && idmision != null) ? idmision : d_id;
         var selected = (typeof iddistritomisionero != "undefined")  ? iddistritomisionero : "";
-    
+
         distritos_misioneros.select({
             name: 'iddistritomisionero',
             url: '/obtener_distritos_misioneros',
@@ -152,27 +153,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idmision == "undefined";
             condicion = condicion && typeof iddistritomisionero == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("idmision");
                 if(required) {
                     $("#iddistritomisionero")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#iddistritomisionero', function(event, iddistritomisionero, idiglesia) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];
         d_id = (typeof iddistritomisionero != "undefined" && iddistritomisionero != null) ? iddistritomisionero : d_id;
         var selected = (typeof idiglesia != "undefined")  ? idiglesia : "";
-    
+
         iglesias.select({
             name: 'idiglesia',
             url: '/obtener_iglesias',
@@ -180,18 +181,18 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function() {
-        
+
             var condicion = typeof iddistritomisionero == "undefined";
             condicion = condicion && typeof idiglesia == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("iddistritomisionero");
                 if(required) {
                     $("#idiglesia")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
@@ -201,11 +202,11 @@ document.addEventListener("DOMContentLoaded", function() {
      * JERARQUIA DESTINO *
      *********************/
      $(document).on('change', '#iddivisiondestino', function(event, iddivisiondestino, pais_iddestino) {
-    
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];     
+
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddivision"];
         d_id = (typeof iddivisiondestino != "undefined" && iddivisiondestino != null) ? iddivisiondestino : d_id;
         var selected = (typeof pais_iddestino != "undefined")  ? pais_iddestino : "";
-    
+
         paises.select({
             name: 'pais_iddestino',
             url: '/obtener_paises_asociados_todos',
@@ -213,31 +214,31 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddivision: d_id }
         }).then(function(response) {
-            
+
             var condicion = typeof iddivisiondestino == "undefined";
             condicion = condicion && typeof pais_iddestino == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("iddivisiondestino");
                 if(required) {
                     $("#pais_iddestino")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
 
 
     $(document).on('change', '#pais_iddestino', function(event, pais_iddestino, iduniondestino) {
-        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union']; 
+        var valor = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session['pais_id'] + "|" + session['posee_union'];
         var array = valor.toString().split("|");
-        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;   
-    
+        //var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
+
         var d_id = array[0];
         var posee_union = array[1];
-    
+
         var selected = (typeof iduniondestino != "undefined")  ? iduniondestino : "";
         uniones.select({
             name: 'iduniondestino',
@@ -246,18 +247,18 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { pais_id: d_id }
         }).then(function() {
-        
+
             var condicion = typeof pais_iddestino == "undefined";
             condicion = condicion && typeof iduniondestino == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("pais_iddestino");
                 if(required) {
                     $("#iduniondestino")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
         if(posee_union == "N") {
             $(".union-destino").hide();
@@ -271,17 +272,17 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             $(".union-destino").show();
         }
-        
+
     });
 
 
 
     $(document).on('change', '#iduniondestino', function(event, iduniondestino, idmisiondestino) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idunion"];
         d_id = (typeof iduniondestino != "undefined" && iduniondestino != null) ? iduniondestino : d_id;
         var selected = (typeof idmisiondestino != "undefined")  ? idmisiondestino : "";
-    
+
         misiones.select({
             name: 'idmisiondestino',
             url: '/obtener_misiones_todos',
@@ -289,27 +290,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idunion: d_id }
         }).then(function() {
-        
+
             var condicion = typeof iduniondestino == "undefined";
             condicion = condicion && typeof idmisiondestino == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("iduniondestino");
                 if(required) {
                     $("#idmisiondestino")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#idmisiondestino', function(event, idmisiondestino, iddistritomisionerodestino) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["idmision"];
         d_id = (typeof idmisiondestino != "undefined" && idmisiondestino != null) ? idmisiondestino : d_id;
         var selected = (typeof iddistritomisionerodestino != "undefined")  ? iddistritomisionerodestino : "";
-    
+
         distritos_misioneros.select({
             name: 'iddistritomisionerodestino',
             url: '/obtener_distritos_misioneros_todos',
@@ -317,27 +318,27 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { idmision: d_id }
         }).then(function() {
-        
+
             var condicion = typeof idmisiondestino == "undefined";
             condicion = condicion && typeof iddistritomisionerodestino == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("idmisiondestino");
                 if(required) {
                     $("#iddistritomisionerodestino")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
 
     $(document).on('change', '#iddistritomisionerodestino', function(event, iddistritomisionerodestino, idiglesiadestino) {
 
-        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];     
+        var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : session["iddistritomisionero"];
         d_id = (typeof iddistritomisionerodestino != "undefined" && iddistritomisionerodestino != null) ? iddistritomisionerodestino : d_id;
         var selected = (typeof idiglesiadestino != "undefined")  ? idiglesiadestino : "";
-    
+
         iglesias.select({
             name: 'idiglesiadestino',
             url: '/obtener_iglesias',
@@ -345,21 +346,21 @@ document.addEventListener("DOMContentLoaded", function() {
             selected: selected,
             datos: { iddistritomisionero: d_id }
         }).then(function() {
-        
+
             var condicion = typeof iddistritomisionerodestino == "undefined";
             condicion = condicion && typeof idiglesiadestino == "undefined";
-        
+
             if(condicion) {
                 var required = true;
                 required = required && traslados_temp.required("iddistritomisionerodestino");
                 if(required) {
                     $("#idiglesiadestino")[0].selectize.focus();
                 }
-            } 
-        
+            }
+
         })
     });
-    
+
 
     function html_destino(id) {
         document.getElementById("destino-iglesia").innerHTML = "";
@@ -406,28 +407,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         document.getElementById(id).innerHTML = html;
-        
-        divisiones.select({
-            name: 'iddivisiondestino',
-            url: '/obtener_divisiones_todos',
+        traslados.select_init({
             placeholder: seleccione
-        }).then(function() {
-    
-            $("#iddivisiondestino").trigger("change", ["", ""]);
-            $("#pais_iddestino").trigger("change", ["", ""]);
-            $("#iduniondestino").trigger("change", ["", ""]);
-            $("#idmisiondestino").trigger("change", ["", ""]);
-            $("#iddistritomisionerodestino").trigger("change", ["", ""]);
-            $("#idiglesiadestino").trigger("change", ["", ""]);
-            
-            
-        }) 
-    
-        
+        })
+
+        // divisiones.select({
+        //     name: 'iddivisiondestino',
+        //     url: '/obtener_divisiones_todos',
+        //     placeholder: seleccione
+        // }).then(function() {
+
+        //     $("#iddivisiondestino").trigger("change", ["", ""]);
+        //     $("#pais_iddestino").trigger("change", ["", ""]);
+        //     $("#iduniondestino").trigger("change", ["", ""]);
+        //     $("#idmisiondestino").trigger("change", ["", ""]);
+        //     $("#iddistritomisionerodestino").trigger("change", ["", ""]);
+        //     $("#idiglesiadestino").trigger("change", ["", ""]);
+
+
+        // })
+
+
     }
-    
+
     html_destino("destino-iglesia");
-    
+
 
 
     document.getElementById("ver-lista").addEventListener("click", function(e) {
@@ -464,9 +468,9 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && traslados_temp.required("idmisiondestino");
         required = required && traslados_temp.required("iddistritomisionerodestino");
         required = required && traslados_temp.required("idiglesiadestino");
-        
 
-        
+
+
 
         if(required) {
 
@@ -474,10 +478,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 BASE_JS.sweet({
                     text: iglesia_origen_destino
                 })
-    
+
                 return
             }
-        
+
             var promise = traslados_temp.guardar();
             promise.then(function(response) {
                 document.getElementById("trasladar").setAttribute("tipo_traslado", response.tipo_traslado);
@@ -488,13 +492,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 $("input[name=tipo_traslado][value=1]").trigger("click");
                 // document.getElementById("tipo_traslado").dispatchEvent(eventClick);
-               
+
             })
         }
-    
+
     });
 
-   
+
 
     document.getElementById("trasladar").addEventListener("click", function(e) {
         e.preventDefault();
@@ -511,7 +515,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         type: 'success'
                     })
                 }
-    
+
                 // $("#listado-traslados").hide();
                 // $(".iglesia").show();
                 // $(".combo-tipo-traslado").show();
@@ -522,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 document.getElementById("volver").dispatchEvent(eventClick);
 
-            })  
+            })
         }
 
         if(tipo_traslado == "2") {
@@ -546,8 +550,8 @@ document.addEventListener("DOMContentLoaded", function() {
         //     // }
         //     traslados_mi.abrirModal();
         // }
-            
-        
+
+
     })
 
 
@@ -570,12 +574,12 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#combo-tipo-traslado").show();
         $("#combos-origen-destino").show();
         $("#ver-lista").show();
-        
+
         $("input[name=tipo_traslado]").removeAttr("checked");
         $("input[name=tipo_traslado][value=1]").prop("checked", true);
         html_destino("destino-iglesia");
     })
-    
+
 
     //document.getElementsByName("tipo_traslado").addEventListener("click", function(e) {
     $(document).on("click", "input[name=tipo_traslado]", function() {
@@ -585,7 +589,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var tipo_traslado = $(this).val();
         $("input[name=tipo_traslado]").removeAttr("checked");
         $("input[name=tipo_traslado][value="+tipo_traslado+"]").attr("checked", "checked");
-        // console.log($(this));    
+        // console.log($(this));
         if(tipo_traslado == "1") {
             $("#combo-tipo-traslado").hide();
             $("#combos-origen-destino").hide();
@@ -608,12 +612,12 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#tabla-asociados").show();
             $(".volver").show();
             $(".trasladar").show();
-            
+
             html_destino("destino-masivo-individual");
             document.getElementById("tipo_traslado_mi").value = tipo_traslado;
             document.getElementById("trasladar").setAttribute("tipo_traslado", tipo_traslado);
 
-            
+
         }
 
         if(tipo_traslado == "3") {
@@ -621,7 +625,7 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#combos-origen-destino").hide();
             $("#ver-lista").hide();
             $(".trasladar").hide();
-           
+
             $("#tabla-temporal").hide();
             $("#tabla-asociados").show();
             $(".volver").show();
@@ -652,7 +656,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
 
-       
+
     })
 
     document.getElementById("guardar-traslados-mi").addEventListener("click", function(event) {
@@ -662,13 +666,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var  idiglesiadestino = document.getElementById("idiglesiadestino").value;
 
         // var tipo_traslado = document.getElementsByName("tipo_traslado")[0].value;
-   
+
         var tipo_traslado = $("input[name=tipo_traslado]:checked").val();
         var pais_iddestino = document.getElementsByName("pais_iddestino")[0].value;
         var array_pais_destino = pais_iddestino.split("|");
 
         required = true;
-    
+
         required = required && traslados_mi.required("iddivisiondestino");
         required = required && traslados_mi.required("pais_iddestino");
         // required = required && traslados_mi.required("iddivision");
@@ -729,8 +733,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     tipo_traslado: response.tipo_acceso
                 });
 
-               
-                
+
+
                 if(response.tipo_traslado_mi == 3) {
                     BASE_JS.sweet({
                         confirm: true,
@@ -739,10 +743,10 @@ document.addEventListener("DOMContentLoaded", function() {
                             window.open(BaseUrl + "/traslados/imprimir_carta_iglesia/"+response.idmiembro+"/"+response.idcontrol);
                             document.getElementById("volver").dispatchEvent(eventClick);
                         }
-                    }); 
+                    });
                 }
-               
-            }) 
+
+            })
         }
     })
 
@@ -770,11 +774,11 @@ function eliminar_temp_traslado(idtemptraslados, idmiembro) {
         $("button[agregar="+idmiembro+"]").find("i").removeClass("fa-check-circle").addClass("fa-plus");
         $("button[agregar="+idmiembro+"]").attr("onclick", "agregar_temp_traslado("+idmiembro+")");
     })
-   
+
 }
 
 function agregar_temp_traslado(idmiembro) {
-   
+
 
     var tipo_traslado = $("input[name=tipo_traslado]:checked").val();
 
@@ -790,7 +794,7 @@ function agregar_temp_traslado(idmiembro) {
         url: '/agregar_traslado',
         datos: { idmiembro: idmiembro, tipo_traslado: tipo_traslado }
     }).then(function(response) {
-       
+
         if(typeof response.status != "undefined" && response.status == "ei") {
             BASE_JS.notificacion(response);
         }
@@ -812,16 +816,16 @@ function agregar_temp_traslado(idmiembro) {
             $("button[agregar="+idmiembro+"]").removeAttr("onclick");
         }
 
-      
-        
-    })  
+
+
+    })
 }
 
 function trasladar(idmiembro, idiglesia) {
-   
+
     document.getElementById("idmiembro").value = idmiembro;
     document.getElementById("idiglesia_origen").value = idiglesia;
     agregar_temp_traslado(idmiembro);
     traslados_mi.abrirModal();
-    
+
 }

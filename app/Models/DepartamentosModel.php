@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class DepartamentosModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -34,6 +34,10 @@ class DepartamentosModel extends Model
         return $tabla;
     }
 
+    public function obtener_departamentos() {
+        $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento";
+        $result = DB::select($sql);
+        return $result;
+    }
 
-  
 }

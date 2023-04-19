@@ -9,36 +9,11 @@ var iglesias = new BASE_JS('iglesias', 'iglesias');
 var asociados = new BASE_JS('asociados', 'asociados');
 
 document.addEventListener("DOMContentLoaded", function() {
-    asociados.select({
-        name: 'periodoini',
-        url: '/obtener_periodos_ini',
-    }).then(function() {
-        // $("#periodoini").trigger("change");
-    })
 
-    asociados.select({
-        name: 'periodofin',
-        url: '/obtener_periodos_fin',
-    }).then(function() {
-
-    })
-
-
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
+    oficiales_union.select_init({
         placeholder: seleccione
-    }).then(function() {
-
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        // $("#iddistritomisionero").trigger("change", ["", ""]);
-        // $("#idiglesia").trigger("change", ["", ""]);
-
-
     })
+
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
@@ -131,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
-    
+
 
     document.getElementById("ver-reporte").addEventListener("click", function(e) {
         e.preventDefault();

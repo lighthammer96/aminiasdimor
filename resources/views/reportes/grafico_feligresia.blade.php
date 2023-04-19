@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                     <label class="control-label">{{ traducir("traductor.division") }}</label>
 
-                    <select  class="entrada selectizejs" name="iddivision" id="iddivision">
+                    <select  class="entrada selectizejs" name="iddivision_all" id="iddivision_all">
 
                     </select>
 
@@ -31,7 +31,7 @@
                 <div class="col-md-12">
                     <label class="control-label">{{ traducir("traductor.pais") }}</label>
 
-                    <select  class="entrada selectizejs" name="pais_id" id="pais_id">
+                    <select  class="entrada selectizejs" name="pais_id_all" id="pais_id_all">
 
                     </select>
 
@@ -39,7 +39,7 @@
                 <div class="col-md-12 union">
                     <label class="control-label">{{ traducir("traductor.union") }}</label>
 
-                    <select  class="entrada selectizejs" name="idunion" id="idunion">
+                    <select  class="entrada selectizejs" name="idunion_all" id="idunion_all">
 
                     </select>
 
@@ -47,7 +47,7 @@
                 <div class="col-md-12">
                     <label class="control-label">{{ traducir("traductor.asociacion") }}</label>
 
-                    <select  class="entrada selectizejs" name="idmision" id="idmision">
+                    <select  class="entrada selectizejs" name="idmision_all" id="idmision_all">
 
                     </select>
 
@@ -55,7 +55,7 @@
                 <div class="col-md-12">
                     <label class="control-label">{{ traducir("traductor.distrito_misionero") }}</label>
 
-                    <select  class="entrada selectizejs" name="iddistritomisionero" id="iddistritomisionero">
+                    <select  class="entrada selectizejs" name="iddistritomisionero_all" id="iddistritomisionero_all">
 
                     </select>
 
@@ -63,7 +63,7 @@
                 <div class="col-md-12">
                     <label class="control-label">{{ traducir("traductor.iglesia") }}</label>
 
-                    <select  class="entrada selectizejs" name="idiglesia" id="idiglesia">
+                    <select  class="entrada selectizejs" name="idiglesia_all" id="idiglesia_all">
 
                     </select>
 
@@ -78,7 +78,7 @@
         <div class="col-md-10">
         <figure class="highcharts-figure">
             <div id="container"></div>
-           
+
         </figure>
 
         </div>
@@ -86,6 +86,6 @@
 
 </form>
 
-   
+
 @endsection
 

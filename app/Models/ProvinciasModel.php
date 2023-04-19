@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class ProvinciasModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -36,6 +36,18 @@ class ProvinciasModel extends Model
         return $tabla;
     }
 
+    public function obtener_provincias($request) {
+        $sql = "";
+		if(isset($_REQUEST["iddepartamento"]) && !empty($_REQUEST["iddepartamento"])) {
 
-  
+			$sql = "SELECT idprovincia as id,  descripcion FROM public.provincia WHERE iddepartamento=".$request->input("iddepartamento");
+		} else {
+			$sql = "SELECT idprovincia as id, descripcion FROM public.provincia";
+		}
+
+        $result = DB::select($sql);
+        return $result;
+    }
+
+
 }

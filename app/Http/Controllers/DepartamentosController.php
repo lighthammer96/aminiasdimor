@@ -14,7 +14,7 @@ class DepartamentosController extends Controller
     //
     private $base_model;
     private $departamentos_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->departamentos_model = new DepartamentosModel();
@@ -32,11 +32,11 @@ class DepartamentosController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-departamento"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-departamento"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["divisiones.js", "idiomas.js", "paises.js", "departamentos.js"]);
+        $data["scripts"] = $this->cargar_js(["departamentos.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +46,7 @@ class DepartamentosController extends Controller
 
 
     public function guardar_departamentos(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if ($request->input("iddepartamento") == '') {
             $result = $this->base_model->insertar($this->preparar_datos("public.departamento", $_POST));
@@ -57,7 +57,7 @@ class DepartamentosController extends Controller
     }
 
     public function eliminar_departamentos() {
-       
+
 
         try {
             $sql_miembros = "SELECT * FROM iglesias.miembro WHERE iddepartamentodomicilio=".$_REQUEST["id"];
@@ -98,9 +98,8 @@ class DepartamentosController extends Controller
     }
 
     public function obtener_departamentos() {
-        $sql = "SELECT iddepartamento as id, descripcion FROM public.departamento";
-        $result = DB::select($sql);
+        $result = $this->departamentos_model->obtener_departamentos();
         echo json_encode($result);
     }
-    
+
 }

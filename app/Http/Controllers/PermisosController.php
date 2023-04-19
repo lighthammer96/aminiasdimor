@@ -13,7 +13,7 @@ class PermisosController extends Controller
 
     public function __construct() {
         parent:: __construct();
-        $this->base_model = new BaseModel(); 
+        $this->base_model = new BaseModel();
 
     }
 
@@ -24,13 +24,13 @@ class PermisosController extends Controller
         $data["modulos_all"] = $this->base_model->getPermisos();
         // echo "<pre>";
         // print_r($data["modulos"] ); exit;
-        $data["scripts"] = $this->cargar_js(["idiomas.js", "perfiles.js", "permisos.js"]);
+        $data["scripts"] = $this->cargar_js([ "permisos.js"]);
         return parent::init($view, $data);
     }
 
 
     public function guardar_permisos(Request $request) {
-        
+
         // echo "<pre>";
         // print_r($this->prepararDatos("permisos", $_POST, "D")); exit;
         // $this->db->where("perfil_id",$request->input("perfil_id"));
@@ -56,7 +56,7 @@ class PermisosController extends Controller
                 DB::table("seguridad.permisos")->insert(array(
                     "perfil_id" => $request["perfil_id"],
                     "modulo_id" => $request["modulo_id"][$i],
-    
+
                 ));
             // }
 
@@ -64,8 +64,8 @@ class PermisosController extends Controller
 
         // $this->base_model->insertar($this->prepararDatos("permisos", $_POST, "D"), "D");
         $Response = array(
-            "status" => "i", 
-           
+            "status" => "i",
+
             "msg" => traducir("traductor.guardo"),
             "type" => "success"
         );

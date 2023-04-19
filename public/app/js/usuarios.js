@@ -1,12 +1,14 @@
 
 var usuarios = new BASE_JS('usuarios', 'usuarios');
-var perfiles = new BASE_JS('perfiles', 'perfiles');
+
 var asociados = new BASE_JS('asociados', 'asociados');
-var principal = new BASE_JS('principal', 'principal');
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
-
+    usuarios.select_init({
+        placeholder: seleccione
+    })
     var eventClick = new Event('click');
 
     asociados.TablaListado({
@@ -20,23 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-
-    principal.select({
-        name: "idtipoacceso",
-        url: '/obtener_tipos_acceso',
-        placeholder: 'Seleccione Tipo de Acceso'
-    }).then(function() {
-        
-    }) ;
-
-
-    perfiles.select({
-        name: "perfil_id",
-        url: '/obtener_perfiles',
-        placeholder: 'Seleccione Perfil'
-    }).then(function() {
-        usuarios.enter("perfil_id", "usuario_referencia");
-    }) ;
+;
 
     usuarios.enter("usuario_nombres", "usuario_user");
     usuarios.enter("usuario_user", "pass1");
@@ -46,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nuevo-usuario").addEventListener("click", function(event) {
         event.preventDefault();
-    
+
         usuarios.abrirModal();
         document.getElementById("buscar_asociado").disabled = false;
     })
@@ -59,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         var promise = usuarios.get(datos.usuario_id);
         promise.then(function(response) {
             asociados.ajax({
@@ -68,11 +54,11 @@ document.addEventListener("DOMContentLoaded", function() {
             }).then(function(datos) {
                 datos.idmiembro = datos[0].idmiembro;
                 datos.asociado = datos[0].apellidos +", "+ datos[0].nombres;
-                
+
                 usuarios.asignarDatos(datos);
                 document.getElementById("buscar_asociado").disabled = true;
             });
-        
+
         })
     })
 
@@ -84,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         var promise = usuarios.ver(datos.usuario_id);
         promise.then(function(response) {
             asociados.ajax({
@@ -93,10 +79,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }).then(function(datos) {
                 datos.idmiembro = datos.idmiembro;
                 datos.asociado = datos.apellidos +", "+ datos.nombres;
-                
+
                 usuarios.asignarDatos(datos);
             });
-        
+
         })
 
     })
@@ -110,8 +96,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
-        
+        }
+
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -231,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -239,34 +225,34 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-            
+
                 if($('#modal-usuarios').is(':visible')) {
                     document.getElementById('guardar-usuario').dispatchEvent(eventClick);
                 }
-                
-            
+
+
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-            
-        
-        
-        
+
+
+
+
+
+
         }
-    
-        
+
+
     })
 
     document.getElementById("cancelar-usuario").addEventListener("click", function(event) {
@@ -288,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function() {
         usuarios.asignarDatos({
             idmiembro: datos.idmiembro,
             asociado: datos.nombres
-            
+
         });
         $("#modal-lista-asociados").modal("hide");
 

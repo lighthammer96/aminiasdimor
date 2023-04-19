@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActividadmisioneraModel;
+
 use App\Models\BaseModel;
+use App\Models\DistritosmisionerosModel;
+use App\Models\DivisionesModel;
+use App\Models\IglesiasModel;
+use App\Models\MisionesModel;
+use App\Models\PaisesModel;
+use App\Models\UnionesModel;
 // use App\Models\ActividadmisioneraModel;
 // use Exception;
 use Illuminate\Http\Request;
@@ -15,12 +23,28 @@ class ActividadmisioneraController extends Controller
 {
     //
     private $base_model;
-    // private $perfiles_model;
-    
+    private $divisiones_model;
+    private $paises_model;
+    private $uniones_model;
+    private $misiones_model;
+    private $distritos_misioneros_model;
+    private $iglesias_model;
+    private $actividad_misionera_model;
+
+
+
     public function __construct() {
         parent:: __construct();
         // $this->perfiles_model = new ActividadmisioneraModel();
         $this->base_model = new BaseModel();
+        $this->divisiones_model = new DivisionesModel();
+        $this->paises_model = new PaisesModel();
+        $this->uniones_model = new UnionesModel();
+        $this->misiones_model = new MisionesModel();
+        $this->distritos_misioneros_model = new DistritosmisionerosModel();
+        $this->iglesias_model = new IglesiasModel();
+        $this->actividad_misionera_model = new ActividadmisioneraModel();
+       
     }
 
     public function index() {
@@ -37,8 +61,8 @@ class ActividadmisioneraController extends Controller
         $data["scripts"] = $this->cargar_js(["actividad_misionera.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function reporte() {
@@ -50,8 +74,8 @@ class ActividadmisioneraController extends Controller
         $data["scripts"] = $this->cargar_js(["reporte_actividad_misionera.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     // public function buscar_datos() {
@@ -61,14 +85,14 @@ class ActividadmisioneraController extends Controller
 
 
     public function guardar_actividad(Request $request) {
-   
+
         // $_POST = $this->toUpper($_POST);
         // if ($request->input("perfil_id") == '') {
         //     $result = $this->base_model->insertar($this->preparar_datos("seguridad.perfiles", $_POST));
         // }else{
         //     $result = $this->base_model->modificar($this->preparar_datos("seguridad.perfiles", $_POST));
         // }
-        
+
         $accion = $request->input("accion");
         $idactividadmisionera = $request->input("idactividadmisionera");
         $valor = $request->input("valor");
@@ -80,7 +104,7 @@ class ActividadmisioneraController extends Controller
         $array_pais = explode("|", $_POST["pais_id"]);
         $_POST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_POST["idunion"])) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_POST["pais_id"]}";
             $res = DB::select($sql);
@@ -94,7 +118,7 @@ class ActividadmisioneraController extends Controller
         // $_POST["trimestre"] = $idtrimestre;
         $idiglesia = $request->input("idiglesia");
 
-        
+
         $sql_validacion = "SELECT * FROM iglesias.controlactmisionera WHERE idactividadmisionera={$idactividadmisionera} AND anio='{$anio}' AND mes={$mes} AND idiglesia={$idiglesia} AND semana={$semana}";
 
         // die($sql_validacion);
@@ -106,15 +130,15 @@ class ActividadmisioneraController extends Controller
 
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
         }
-        
+
 
         if($accion == "cantidad") {
-            
+
             if(count($validacion) > 0) {
                 $result = $this->base_model->modificar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
             } else {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
-            } 
+            }
         }
 
         if($accion == "asistentes") {
@@ -125,7 +149,7 @@ class ActividadmisioneraController extends Controller
             } else {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
             }
-          
+
         }
 
         if($accion == "interesados") {
@@ -136,9 +160,9 @@ class ActividadmisioneraController extends Controller
             } else {
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.controlactmisionera", $_POST));
             }
-          
+
         }
-    
+
         echo json_encode($result);
     }
 
@@ -150,25 +174,16 @@ class ActividadmisioneraController extends Controller
     //     echo json_encode($one);
     // }
 
- 
+
 
     public function obtener_anios() {
-        $result = array();
-        $array = array();
-        for($i=date("Y"); $i>=2021; $i-- ) {
-            $result["id"] = $i;
-            $result["descripcion"] = $i;
-            array_push($array, $result);
-        }
-
+        $array = $this->actividad_misionera_model->obtener_anios();
         echo json_encode($array);
     }
 
 
     public function obtener_trimestres() {
-        $sql = "SELECT idtrimestre AS id, descripcion FROM public.trimestre
-        ORDER BY idtrimestre ASC";
-        $result = DB::select($sql);
+        $result = $this->actividad_misionera_model->obtener_trimestres();
         echo json_encode($result);
     }
 
@@ -183,7 +198,7 @@ class ActividadmisioneraController extends Controller
         $array_pais = explode("|", $_REQUEST["pais_id"]);
         $_REQUEST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($_REQUEST["idunion"])) {
-            $sql = "SELECT * FROM iglesias.union AS u 
+            $sql = "SELECT * FROM iglesias.union AS u
             INNER JOIN iglesias.union_paises AS up ON(u.idunion=up.idunion)
             WHERE up.pais_id={$_REQUEST["pais_id"]}";
             $res = DB::select($sql);
@@ -210,8 +225,8 @@ class ActividadmisioneraController extends Controller
             if($mes != "0") {
                 $where .= ' AND c.mes='.$mes;
             }
-    
-    
+
+
             if($semana != "0") {
                 $where .= ' AND c.semana='.$semana;
             }
@@ -237,7 +252,7 @@ class ActividadmisioneraController extends Controller
             array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual ";
             $group_by = " GROUP BY am.idactividadmisionera, am.descripcion, am.tipo, c.anio, c.idiglesia ";
         }
-        
+
         if($iddivision != "0" && $iddivision != "") {
             $where .= ' AND c.iddivision='.$iddivision;
         }
@@ -272,10 +287,10 @@ class ActividadmisioneraController extends Controller
 
         echo json_encode($result);
     }
-    
+
 
     public function obtener_trimestres_todos() {
-        
+
         $array = array("id" => 0, "descripcion" => "Todos");
         $array = (object) $array;
 
@@ -288,40 +303,40 @@ class ActividadmisioneraController extends Controller
     }
 
     public function obtener_data_actividades($where) {
-        
+
 
         $sql = "SELECT
         ".formato_fecha_idioma("c.fecha_final")." AS fecha_final,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=1 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=1 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS estudios_biblicos,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=2 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=2 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS visitas_misioneras,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=19 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=19 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS conferencias_publicas,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=20 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=20 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS seminarios,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=22 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=22 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS congresos,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=28 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=28 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS libros,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=29 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=29 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS revistas,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=30 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=30 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS volantes,
-        
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=31 AND 
+
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=31 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS lecciones,
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=32 AND 
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=32 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS guard,
-        
-        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=33 AND 
+
+        (SELECT COALESCE(SUM(valor),0) FROM iglesias.controlactmisionera WHERE idactividadmisionera=33 AND
         anio=c.anio AND fecha_final=c.fecha_final AND idiglesia=c.idiglesia) AS ancla_juvenil
-        
-        
-        FROM iglesias.controlactmisionera AS c  
-        WHERE 1=1 ".$where." 
-            
-        GROUP BY c.fecha_final, c.anio, c.idiglesia, c.semana 
+
+
+        FROM iglesias.controlactmisionera AS c
+        WHERE 1=1 ".$where."
+
+        GROUP BY c.fecha_final, c.anio, c.idiglesia, c.semana
         ORDER BY c.fecha_final ASC";
         // die($sql);
         $actividades = DB::select($sql);
@@ -358,18 +373,18 @@ class ActividadmisioneraController extends Controller
 
         $where .= ' AND c.idiglesia='.$idiglesia;
 
-        
+
         $actividades = $this->obtener_data_actividades($where);
 
         $sql_textos = " SELECT ".formato_fecha_idioma("c.fecha_final")." AS fecha_final, array_to_string(array_agg(c.planes), '\n') AS planes, array_to_string(array_agg(c.informe_espiritual), '\n') AS informe_espiritual
-        FROM iglesias.controlactmisionera AS c  
-        WHERE c.idactividadmisionera=39 ".$where." 
-            
+        FROM iglesias.controlactmisionera AS c
+        WHERE c.idactividadmisionera=39 ".$where."
+
         GROUP BY c.fecha_final
         ORDER BY c.fecha_final ASC
         ";
         // die($sql_textos);
-        $textos = DB::select($sql_textos); 
+        $textos = DB::select($sql_textos);
         // $planes = "";
         // $informe_espiritual = "";
 
@@ -379,7 +394,7 @@ class ActividadmisioneraController extends Controller
         // }
 
 
-        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=5 AND cm.vigente='1' AND  m.idiglesia=".$idiglesia;
@@ -387,7 +402,7 @@ class ActividadmisioneraController extends Controller
         $director = DB::select($sql_director);
 
 
-        $sql_director_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres 
+        $sql_director_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres
         FROM iglesias.miembro AS m
         INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
         WHERE cm.idcargo=20 AND cm.vigente='1' AND  m.idiglesia=".$idiglesia;
@@ -403,20 +418,20 @@ class ActividadmisioneraController extends Controller
         $datos["director_obra"] = (isset($director_obra[0]->nombres))  ? $director_obra[0]->nombres : "";
         // $datos["planes"] = $planes;
         // $datos["informe_espiritual"] = $informe_espiritual;
-        
+
         $datos["trimestre"] = traducir("traductor.trimestre_".$_REQUEST["idtrimestre"]);
 
         $pdf = PDF::loadView("actividad_misionera.imprimir", $datos)->setPaper('A4', "portrait");
 
 
-        
+
         // return $pdf->save("ficha_asociado.pdf"); // guardar
         // return $pdf->download("ficha_asociado.pdf"); // descargar
         return $pdf->stream("actividades_misioneras.pdf"); // ver
     }
 
     public function exportar_excel_actividades_misioneras(Request $request) {
-       
+
         $anio = $request->input("anio");
 
         $idiglesia = $request->input("idiglesia");
@@ -441,7 +456,7 @@ class ActividadmisioneraController extends Controller
 
         $where .= ' AND c.idiglesia='.$idiglesia;
 
-        
+
         $actividades = $this->obtener_data_actividades($where);
 
         // echo "<pre>";
@@ -454,7 +469,7 @@ class ActividadmisioneraController extends Controller
 
         for ($i = 0; $i < count($array); $i++) {
             $sheet->getColumnDimension($array[$i])->setAutoSize(true);
-            
+
         }
 
         $sheet->setCellValueByColumnAndRow(1, 1, traducir("traductor.para_semana_termina"));
@@ -469,7 +484,7 @@ class ActividadmisioneraController extends Controller
         $sheet->setCellValueByColumnAndRow(10, 1, traducir("traductor.lecciones_esc_sab"));
         $sheet->setCellValueByColumnAndRow(11, 1, traducir("traductor.guard_sab"));
         $sheet->setCellValueByColumnAndRow(12, 1, traducir("traductor.ancla_juvenil"));
-        
+
         $fila = 2;
         $estudios_biblicos = 0;
         $visitas_misioneras = 0;
@@ -537,8 +552,8 @@ class ActividadmisioneraController extends Controller
                 'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
             ],
         ];
-        
-      
+
+
         $sheet->getStyle('A1:L' . ($fila - 1))->applyFromArray($styleArray);
 
         $writer = new Xlsx($spreadsheet);
@@ -553,5 +568,21 @@ class ActividadmisioneraController extends Controller
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
+    }
+
+    public function select_init(Request $request) {
+        $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
+        $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
+        $data["idmision"] = $this->misiones_model->obtener_misiones($request);
+        $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
+        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+
+        $data["idtrimestre"] = $this->actividad_misionera_model->obtener_trimestres();
+        $data["anio"] = $this->actividad_misionera_model->obtener_anios();
+
+
+
+        echo json_encode($data);
     }
 }

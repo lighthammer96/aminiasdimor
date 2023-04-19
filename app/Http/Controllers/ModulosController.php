@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\IdiomasModel;
 use App\Models\ModulosModel;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,13 +15,17 @@ class ModulosController extends Controller
 
     private $base_model;
     private $modulos_model;
+    private $idiomas_model;
+
+
 
     public function __construct() {
         parent::__construct();
 
         $this->modulos_model = new ModulosModel();
         $this->base_model = new BaseModel();
-    
+        $this->idiomas_model = new IdiomasModel();
+
     }
 
     public function index() {
@@ -64,14 +69,14 @@ class ModulosController extends Controller
         DB::table("seguridad.modulos_idiomas")->where("modulo_id", $result["id"])->delete();
         if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["mi_descripcion"])) {
         //if(isset($request->input("idioma_id")) && isset($request->input("mi_descripcion"))) {
-           
+
             $_POST["modulo_id"] = $result["id"];
             // print_r($this->preparar_datos("seguridad.modulos_idiomas", $_POST, "D")); exit;
             $this->base_model->insertar($this->preparar_datos("seguridad.modulos_idiomas", $_POST, "D"), "D");
         }
         echo json_encode($result);
 
-        
+
     }
 
     public function guardar_padres() {
@@ -81,15 +86,15 @@ class ModulosController extends Controller
         $_POST["modulo_route"] = "C".date("YmdHis");
         $_POST["modulo_controlador"] = "#";
         $result = $this->base_model->insertar($this->preparar_datos("seguridad.modulos", $_POST));
-        
+
          echo json_encode($result);
      }
 
     public function eliminar_modulos() {
-       
+
 
         try {
-        
+
 
             $sql_permisos = "SELECT * FROM seguridad.permisos WHERE modulo_id=".$_REQUEST["id"];
             $permisos = DB::select($sql_permisos);
@@ -121,13 +126,7 @@ class ModulosController extends Controller
     }
 
     public function obtener_padres() {
-        $sql = "SELECT m.modulo_id AS id, CASE WHEN mi.mi_descripcion IS NULL THEN 
-        (SELECT mi_descripcion FROM seguridad.modulos_idiomas WHERE modulo_id=m.modulo_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE mi.mi_descripcion END AS descripcion
-        FROM seguridad.modulos AS m 
-        LEFT JOIN seguridad.modulos_idiomas AS mi ON(mi.modulo_id=m.modulo_id AND mi.idioma_id=".session("idioma_id").")
-        WHERE m.modulo_padre=1 AND m.estado='A'";
-        $result = DB::select($sql);
+        $result = $this->modulos_model->obtener_padres();
         echo json_encode($result);
     }
 
@@ -158,5 +157,11 @@ class ModulosController extends Controller
     public function obtener_modulos() {
         $r = $this->db->query("SELECT modulo_id AS id, modulo_nombre AS descripcion FROM seguridad.modulos WHERE estado='A' AND modulo_padre<>1")->result();
         echo json_encode($r);
+    }
+
+    public function select_init() {
+        $data["modulo_padre"] = $this->modulos_model->obtener_padres();
+        $data["idioma"] = $this->idiomas_model->obtener_idiomas();
+        echo json_encode($data);
     }
 }

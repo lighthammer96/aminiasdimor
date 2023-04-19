@@ -3,7 +3,6 @@ var bajas = new BASE_JS('bajas', 'asociados');
 var altas = new BASE_JS('altas', 'asociados');
 var responsables = new BASE_JS('responsables', 'asociados');
 var principal = new BASE_JS('principal', 'principal');
-var divisiones = new BASE_JS('divisiones', 'divisiones');
 var paises = new BASE_JS('paises', 'paises');
 var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
@@ -11,9 +10,14 @@ var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_mision
 var iglesias = new BASE_JS('iglesias', 'iglesias');
 var niveles = new BASE_JS('niveles', 'niveles');
 var cargos = new BASE_JS('cargos', 'cargos');
-var tipos_cargo = new BASE_JS('tipos_cargo', 'tipos_cargo');
+
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    asociados.select_init({
+        placeholder: seleccione
+    })
+
     asociados.buscarEnFormulario("nombres").solo_letras();
     asociados.buscarEnFormulario("apellidos").solo_letras();
     asociados.buscarEnFormulario("apellido_soltera").solo_letras();
@@ -78,50 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     })
 
-    // paises.select({
-    //     name: 'pais_id',
-    //     url: '/obtener_paises',
-    //     placeholder: seleccione,
-    // })
 
-    // paises.select({
-    //     name: 'pais_id_nacionalidad',
-    //     url: '/obtener_paises',
-    //     placeholder: seleccione,
-    // }).then(function() {
-    //     asociados.enter("pais_id_nacionalidad","fecharegistro");
-    // });
-
-    principal.select({
-        name: 'idmotivobaja',
-        url: '/obtener_motivos_baja',
-        placeholder: seleccione,
-    }).then(function() {
-
-    })
-
-    // asociados.select({
-    //     name: 'anio',
-    //     url: '/obtener_anios',
-    //     placeholder: seleccione
-    // })
-
-    paises.select({
-        name: 'pais_id_nacimiento',
-        url: '/obtener_todos_paises',
-        placeholder: seleccione,
-    }).then(function() {
-        asociados.enter("pais_id_nacimiento","ciudadnacextranjero");
-    })
-
-
-    principal.select({
-        name: 'idtipodoc',
-        url: '/obtener_tipos_documento',
-        placeholder: seleccione,
-    }).then(function() {
-        asociados.enter("idtipodoc","nrodoc");
-    })
 
     asociados.TablaListado({
         tablaID: '#tabla-asociados',
@@ -131,86 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    asociados.select({
-        name: 'idestadocivil',
-        url: '/obtener_estado_civil',
-        placeholder: seleccione
-    }).then(function() {
-        asociados.enter("idestadocivil","idgradoinstruccion");
 
-    })
-
-    asociados.select({
-        name: 'idgradoinstruccion',
-        url: '/obtener_nivel_educativo',
-        placeholder: seleccione
-    }).then(function() {
-        asociados.enter("idgradoinstruccion","idocupacion");
-
-    })
-
-    asociados.select({
-        name: 'idocupacion',
-        url: '/obtener_profesiones',
-        placeholder: seleccione
-    }).then(function() {
-        asociados.enter("idocupacion","observaciones");
-
-    })
-
-    asociados.select({
-        name: 'periodoini',
-        url: '/obtener_periodos_ini',
-    }).then(function() {
-
-    })
-
-    asociados.select({
-        name: 'periodofin',
-        url: '/obtener_periodos_fin',
-    }).then(function() {
-
-    })
-
-    principal.select({
-        name: 'idcondicioneclesiastica',
-        url: '/obtener_condicion_eclesiastica',
-        placeholder: seleccione
-    }).then(function() {
-        // asociados.enter("idocupacion","observaciones");
-
-    })
-
-
-    principal.select({
-        name: 'idreligion',
-        url: '/obtener_religiones',
-        placeholder: seleccione
-    }).then(function() {
-        // asociados.enter("idocupacion","observaciones");
-
-    })
-
-
-    // principal.select({
-    //     name: 'idinstitucion',
-    //     url: '/obtener_instituciones',
-    //     placeholder: seleccione
-    // }).then(function() {
-    //     // asociados.enter("idocupacion","observaciones");
-
-    // })
-
-    tipos_cargo.select({
-        name: 'idtipocargo',
-        url: '/obtener_tipos_cargo',
-        placeholder: seleccione
-    }).then(function() {
-        $("#idtipocargo").trigger("change", ["", ""]);
-        $("#idnivel").trigger("change", ["", ""]);
-        //$("#idcargo").trigger("change", ["", ""]);
-
-    })
 
 
 
@@ -357,20 +239,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-
-    principal.select({
-        name: 'iddepartamentodomicilio',
-        url: '/obtener_departamentos',
-        placeholder: seleccione
-    }).then(function() {
-
-        $("#iddepartamentodomicilio").trigger("change", ["", ""]);
-        $("#idprovinciadomicilio").trigger("change", ["", ""]);
-
-    })
-
-
-
     $(document).on('change', '#iddepartamentodomicilio', function(event, iddepartamentodomicilio, idprovinciadomicilio) {
 
         var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
@@ -437,100 +305,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     });
 
-
-    // principal.select({
-    //     name: 'iddepartamentonacimiento',
-    //     url: '/obtener_departamentos',
-    //     placeholder: 'Departamento ...'
-    // }).then(function() {
-
-    //     $("#iddepartamentonacimiento").trigger("change", ["", ""]);
-    //     $("#idprovincianacimiento").trigger("change", ["", ""]);
-    // })
-
-
-
-    // $(document).on('change', '#iddepartamentonacimiento', function(event, iddepartamentonacimiento, idprovincianacimiento) {
-
-    //     var d_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
-    //     d_id = (typeof iddepartamentonacimiento != "undefined" && iddepartamentonacimiento != null) ? iddepartamentonacimiento : d_id;
-    //     var selected = (typeof idprovincianacimiento != "undefined")  ? idprovincianacimiento : "";
-
-    //     principal.select({
-    //         name: 'idprovincianacimiento',
-    //         url: '/obtener_provincias',
-    //         placeholder: 'Provincia ...',
-    //         selected: selected,
-    //         datos: { iddepartamentonacimiento: d_id }
-    //     }).then(function() {
-
-    //         var condicion = typeof iddepartamentonacimiento == "undefined";
-    //         condicion = condicion && typeof idprovincianacimiento == "undefined";
-
-    //         if(condicion) {
-    //             var required = true;
-    //             required = required && asociados.required("iddepartamentonacimiento");
-    //             if(required) {
-    //                 $("#idprovincianacimiento")[0].selectize.focus();
-    //             }
-    //         }
-
-
-
-    //     })
-
-    // });
-
-
-    // $(document).on('change', '#idprovincianacimiento', function(event, idprovincianacimiento, iddistritonacimiento) {
-
-    //     var p_id = ($(this).val() != "" && $(this).val() != null) ? $(this).val() : 1;
-    //     p_id = (typeof idprovincianacimiento != "undefined") ? idprovincianacimiento : p_id;
-    //     var selected = (typeof iddistritonacimiento != "undefined")  ? iddistritonacimiento : "";
-
-
-    //     principal.select({
-    //         name: 'iddistritonacimiento',
-    //         url: '/obtener_distritos',
-    //         placeholder: 'Distrito ...',
-    //         selected: selected,
-    //         datos: { idprovincianacimiento:  p_id }
-    //     }).then(function() {
-    //         asociados.enter("iddistritonacimiento","idestadocivil");
-
-    //         var condicion = typeof idprovincianacimiento == "undefined";
-    //         condicion = condicion && typeof iddistritonacimiento == "undefined";
-
-    //         if(condicion) {
-    //             var required = true;
-    //             required = required && asociados.required("idprovincianacimiento");
-    //             if(required) {
-    //                 $("#iddistritonacimiento")[0].selectize.focus();
-    //             }
-
-    //         }
-    //     })
-
-
-    // });
-
-
-
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
-        placeholder: seleccione
-    }).then(function() {
-
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", "", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
-
-
-    })
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
@@ -754,21 +528,6 @@ document.addEventListener("DOMContentLoaded", function() {
     /***************
      * PARA CARGOS *
      ***************/
-     divisiones.select({
-        name: 'iddivisioncargo',
-        url: '/obtener_divisiones',
-        placeholder: seleccione
-    }).then(function() {
-
-        $("#iddivisioncargo").trigger("change", ["", ""]);
-        $("#pais_idcargo").trigger("change", ["", "", ""]);
-        $("#idunioncargo").trigger("change", ["", ""]);
-        $("#idmisioncargo").trigger("change", ["", ""]);
-        $("#iddistritomisionerocargo").trigger("change", ["", ""]);
-        $("#idiglesiacargo").trigger("change", ["", ""]);
-
-
-    })
 
     $(document).on('change', '#iddivisioncargo', function(event, iddivisioncargo, pais_idcargo) {
 

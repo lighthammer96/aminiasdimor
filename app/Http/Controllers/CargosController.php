@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\CargosModel;
+use App\Models\NivelesModel;
+use App\Models\TiposcargoModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +16,15 @@ class CargosController extends Controller
     //
     private $base_model;
     private $cargos_model;
-    
+    private $niveles_model;
+    private $tipos_cargo_model;
+
     public function __construct() {
         parent:: __construct();
         $this->cargos_model = new CargosModel();
         $this->base_model = new BaseModel();
+        $this->niveles_model = new NivelesModel();
+        $this->tipos_cargo_model = new TiposcargoModel();
     }
 
     public function index() {
@@ -35,8 +41,8 @@ class CargosController extends Controller
         $data["scripts"] = $this->cargar_js(["cargos.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,9 +52,9 @@ class CargosController extends Controller
 
 
     public function guardar_cargos(Request $request) {
-        
+
         $_POST = $this->toUpper($_POST, ["descripcion"]);
-       
+
         // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
         // $_POST["idtipocargo"] = $array_tipo_cargo[0];
         if ($request->input("idcargo") == '') {
@@ -63,19 +69,19 @@ class CargosController extends Controller
         //     ->where("idcargo", $result["id"])
         //     ->update(array("idnivel" => null));
         // }
-   
+
         // DB::table("public.cargo_idiomas")->where("idcargo", $result["id"])->delete();
         // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
+
         //     $_POST["idcargo"] = $result["id"];
-           
+
         //     $this->base_model->insertar($this->preparar_datos("public.cargo_idiomas", $_POST, "D"), "D");
         // }
         echo json_encode($result);
     }
 
     public function eliminar_cargos() {
-       
+
 
         try {
             $sql_cargos_miembro = "SELECT * FROM iglesias.cargo_miembro WHERE idcargo=".$_REQUEST["id"];
@@ -93,7 +99,7 @@ class CargosController extends Controller
                 throw new Exception(traducir("traductor.eliminar_cargo_pastor"));
             }
 
-           
+
 
             $result = $this->base_model->eliminar(["public.cargo","idcargo"]);
             echo json_encode($result);
@@ -115,31 +121,12 @@ class CargosController extends Controller
 
 
     public function obtener_cargos(Request $request) {
-        $sql = "";
-		if(isset($_REQUEST["idtipocargo"]) && !empty($_REQUEST["idtipocargo"])) {
-            $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
-            WHERE estado='1' AND idtipocargo=".$request->input("idtipocargo")." 
-            ORDER BY idcargo ASC";
-		
-        } elseif(isset($_REQUEST["idnivel"]) && !empty($_REQUEST["idnivel"])) {
-            
-            $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
-            WHERE estado='1' AND idnivel=".$request->input("idnivel")." 
-            ORDER BY idcargo ASC";
-		
-        } else {
-            $sql = "SELECT idcargo as id, descripcion FROM public.cargo 
-            WHERE estado='1'
-            ORDER BY idcargo ASC";
-        }
-
-        
-        $result = DB::select($sql);
+        $result = $this->cargos_model->obtener_cargos($request);
         echo json_encode($result);
     }
 
 
-    
+
     public function obtener_traducciones(Request $request) {
         $sql = "SELECT pi.idioma_id, pi.pi_descripcion AS descripcion, i.idioma_descripcion FROM public.cargo_idiomas AS pi
         INNER JOIN public.idiomas AS i ON(i.idioma_id=pi.idioma_id)
@@ -149,5 +136,11 @@ class CargosController extends Controller
        echo json_encode($result);
        //print_r($_REQUEST);
     }
-    
+
+
+    public function select_init(Request $request) {
+        $data["idnivel"] = $this->niveles_model->obtener_niveles($request);
+        $data["idtipocargo"] = $this->tipos_cargo_model->obtener_tipos_cargo();
+        echo json_encode($data);
+    }
 }

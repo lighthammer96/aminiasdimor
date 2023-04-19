@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tabla;
-
+use Illuminate\Support\Facades\DB;
 
 class PerfilesModel extends Model
 {
     use HasFactory;
 
-    
+
 
     public function __construct() {
         parent::__construct();
-        
+
         //$tabla = new Tabla();
 
 
@@ -27,18 +27,30 @@ class PerfilesModel extends Model
         $tabla->agregarColumna("p.perfil_id", "perfil_id", "Id");
         $tabla->agregarColumna("pi.pi_descripcion", "pi_descripcion", traducir("traductor.descripcion"));
         $tabla->agregarColumna("p.estado", "estado", traducir("traductor.estado"));
-        $tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN 
+        $tabla->setSelect("p.perfil_id, CASE WHEN pi.pi_descripcion IS NULL THEN
         (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
         ELSE pi.pi_descripcion END AS pi_descripcion , CASE WHEN p.estado='A' THEN 'ACTIVO' ELSE 'INACTIVO' END AS estado, p.estado AS state");
         $tabla->setFrom("seguridad.perfiles AS p
         \nLEFT JOIN seguridad.perfiles_idiomas AS pi on(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")");
 
 
-    
-     
+
+
         return $tabla;
     }
 
+    public function obtener_perfiles() {
+        $sql = "SELECT p.perfil_id AS id,
+        CASE WHEN pi.pi_descripcion IS NULL THEN
+        (SELECT pi_descripcion FROM seguridad.perfiles_idiomas WHERE perfil_id=p.perfil_id AND idioma_id=".session("idioma_id_defecto").")
+        ELSE pi.pi_descripcion END AS descripcion
+        FROM seguridad.perfiles AS p
+        LEFT JOIN seguridad.perfiles_idiomas AS pi ON(pi.perfil_id=p.perfil_id AND pi.idioma_id=".session("idioma_id").")
+        WHERE p.estado='A'";
+        // die($sql);
+        $result = DB::select($sql);
+        return $result;
+    }
 
-  
+
 }

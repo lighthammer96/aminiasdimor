@@ -16,65 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/buscar_datos",
     });
 
-
-    principal.select({
-        name: 'idcategoriaiglesia',
-        url: '/obtener_categorias_iglesia',
+    iglesias.select_init({
         placeholder: seleccione,
-
     })
-
-    // principal.select({
-    //     name: 'idtipoconstruccion',
-    //     url: '/obtener_tipos_construccion',
-    //     placeholder: seleccione,
-
-    // })
-
-
-    // principal.select({
-    //     name: 'idtipodocumentacion',
-    //     url: '/obtener_tipos_documentacion',
-    //     placeholder: seleccione,
-
-    // })
-
-    // principal.select({
-    //     name: 'idtipoinmueble',
-    //     url: '/obtener_tipos_inmueble',
-    //     placeholder: seleccione,
-
-    // })
-
-
-    // principal.select({
-    //     name: 'idcondicioninmueble',
-    //     url: '/obtener_condicion_inmueble',
-    //     placeholder: seleccione,
-
-    // })
-
-    iglesias.select({
-        name: 'idiglesia',
-        url: '/obtener_iglesias',
-        placeholder: seleccione,
-
-    })
-
-
-
-
-    principal.select({
-        name: 'iddepartamento',
-        url: '/obtener_departamentos',
-        placeholder: seleccione
-    }).then(function() {
-
-        $("#iddepartamento").trigger("change", ["", ""]);
-        $("#idprovincia").trigger("change", ["", ""]);
-    })
-
-
 
     $(document).on('change', '#iddepartamento', function(event, iddepartamento, idprovincia) {
 
@@ -147,8 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var jerarquia = document.getElementsByClassName("jerarquia");
         var promise = paises.ajax({
             url: '/obtener_jerarquia',
-            datos: { pais_id: pais_id
-             }
+            datos: { pais_id: pais_id }
         }).then(function(response) {
             if(response.length > 0) {
                 //  $("#pais_id").trigger("change", [response[0].pais_id]);
@@ -176,21 +119,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    divisiones.select({
-        name: 'iddivision',
-        url: '/obtener_divisiones',
-        placeholder: seleccione
-    }).then(function() {
-
-        $("#iddivision").trigger("change", ["", ""]);
-        $("#pais_id").trigger("change", ["", "", ""]);
-        $("#idunion").trigger("change", ["", ""]);
-        $("#idmision").trigger("change", ["", ""]);
-        $("#iddistritomisionero").trigger("change", ["", ""]);
-        $("#idiglesia").trigger("change", ["", ""]);
-
-
-    })
 
     $(document).on('change', '#iddivision', function(event, iddivision, pais_id) {
 
@@ -296,8 +224,8 @@ document.addEventListener("DOMContentLoaded", function() {
             condicion = condicion && typeof iddepartamento == "undefined" && iddepartamento != "";
 
             if(condicion) {
-                $("#iddepartamento").trigger("change", ["", ""]);
-                $("#idprovincia").trigger("change", ["", ""]);
+                // $("#iddepartamento").trigger("change", ["", ""]);
+                // $("#idprovincia").trigger("change", ["", ""]);
             }
         })
 
@@ -403,7 +331,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         botones += '<button id="inactivos" cont="'+inactivos+'" idiglesia="'+idiglesia+'" type="button" class="btn btn-default btn-sm" id="dar-alta">'+img_inactivos+'[ Ver Asociados Inactivos ('+inactivos+') ]</button>';
 
-
         document.getElementById("botones_iglesia").innerHTML = botones;
     }
 
@@ -420,22 +347,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var promise = iglesias.get(datos.idiglesia);
         promise.then(function(response) {
-            if(response.pais_id != null ) {
-                var array_pais = response.pais_id.split("|");
-                jerarquia(array_pais[0]);
-            }
+            // if(response.pais_id != null ) {
+            //     var array_pais = response.pais_id.split("|");
+            //     jerarquia(array_pais[0]);
+            // }
 
-            // principal.select({
-            //     name: 'iddepartamento',
-            //     url: '/obtener_departamentos',
-            //     placeholder: seleccione,
-            //     selected: response.iddepartamento,
-            //     datos: { pais_id: array_pais[0] }
-            // }).then(function() {
-
-            //     $("#iddepartamento").trigger("change", [response.iddepartamento, response.idprovincia]);
-            //     $("#idprovincia").trigger("change", [response.idprovincia, response.iddistrito]);
-            // })
 
             if(response.posee_union == "N") {
                 $(".union").hide();
@@ -477,27 +393,15 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && iglesias.required("iddepartamento");
         }
         // alert(array_pais[1]);
-       
+
         if(required) {
             var promise = iglesias.guardar();
             iglesias.CerrarModal();
-            // iglesias.datatable.destroy();
-            // iglesias.TablaListado({
-            //     tablaID: '#tabla-iglesias',
-            //     url: "/buscar_datos",
-            // });
-
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
                     return false;
                 }
-                // $("select[name=idiglesia]").chosen("destroy");
-                iglesias.select({
-                    name: 'idiglesia',
-                    url: '/obtener_iglesias',
-                    placeholder: seleccione,
-                    selected: response.id
-                })
+
             })
 
         }

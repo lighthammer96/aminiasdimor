@@ -1,37 +1,16 @@
 var pastores = new BASE_JS('pastores', 'pastores');
-var principal = new BASE_JS('principal', 'principal');
-var paises = new BASE_JS('paises', 'paises');
 
 document.addEventListener("DOMContentLoaded", function() {
     pastores.buscarEnFormulario("nombrecompleto").solo_letras();
     pastores.buscarEnFormulario("nrodoc").solo_numeros();
-
-    paises.select({
-        name: 'idpais',
-        url: '/obtener_todos_paises',
-        placeholder: seleccione,
-    }).then(function() {
-
-    })
 
     pastores.TablaListado({
         tablaID: '#tabla-pastores',
         url: "/buscar_datos",
     });
 
-    principal.select({
-        name: 'idtipodoc',
-        url: '/obtener_tipos_documento',
+    pastores.select_init({
         placeholder: seleccione,
-    }).then(function() {
-        pastores.enter("idtipodoc","nrodoc");
-    })
-
-    pastores.select({
-        name: 'idcargo',
-        url: '/obtener_cargos',
-        placeholder: seleccione,
-    }).then(function() {
     })
 
     $(function() {
@@ -102,11 +81,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if(required) {
             var promise = pastores.guardar();
             pastores.CerrarModal();
-            // pastores.datatable.destroy();
-            // pastores.TablaListado({
-            //     tablaID: '#tabla-pastores',
-            //     url: "/buscar_datos",
-            // });
 
             promise.then(function(response) {
                 if(typeof response.status == "undefined" || response.status.indexOf("e") != -1) {
@@ -131,12 +105,8 @@ document.addEventListener("DOMContentLoaded", function() {
             text: eliminar_registro,
             callbackConfirm: function() {
                 pastores.Operacion(datos.idotrospastores, "E");
-                // pastores.datatable.destroy();
-                // pastores.TablaListado({
-                //     tablaID: '#tabla-pastores',
-                //     url: "/buscar_datos",
-                // });
-            }
+
+
         });
     }
 
@@ -159,12 +129,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         event.preventDefault();
                         event.stopPropagation();
                         break;
-                    // case 'F4':
-                    // 	VerPrecio();
-                    // 	event.preventDefault();
-                    // 	event.stopPropagation();
-
-                    //     break;
                     case 'F7':
                         eliminar_pastor();
                         event.preventDefault();

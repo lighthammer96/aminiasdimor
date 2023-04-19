@@ -1,16 +1,22 @@
 var perfiles = new BASE_JS('perfiles', 'perfiles');
+var idiomas = new BASE_JS('idiomas', 'idiomas');
 
 document.addEventListener("DOMContentLoaded", function() {
-        
-   
+
+    idiomas.select({
+        name: 'idioma',
+        url: '/obtener_idiomas',
+        placeholder: seleccione
+    });
+
     perfiles.TablaListado({
         tablaID: '#tabla-perfiles',
         url: "/buscar_datos",
     });
 
-    combo_idioma.then(function() {
-        perfiles.enter("idioma", "descripcion");
-    })
+    // combo_idioma.then(function() {
+    //     perfiles.enter("idioma", "descripcion");
+    // })
 
     perfiles.enter("descripcion", "idioma", function() {
         var required = true;
@@ -32,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(objeto));
-    
+
         perfiles.limpiarDatos("limpiar");
     });
 
@@ -65,13 +71,13 @@ document.addEventListener("DOMContentLoaded", function() {
         switch (id) {
             case 'nuevo-perfil':
                 event.preventDefault();
-            
+
                 perfiles.abrirModal();
             break;
 
             case 'modificar-perfil':
                 event.preventDefault();
-            
+
                 modificar_perfil();
             break;
 
@@ -96,9 +102,9 @@ document.addEventListener("DOMContentLoaded", function() {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
-            
+
             return false;
-        } 
+        }
 
         var promise = perfiles.get(datos.perfil_id);
 
@@ -122,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // required = required && perfiles.required("perfil_descripcion");
 
         var detalle = document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-    
+
         if(detalle.length <= 0) {
             BASE_JS.sweet({
                 text: elemento_detalle
@@ -162,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -184,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(modulo_controlador == "perfiles/index") {
             //ESTOS EVENTOS SE ACTIVAN SUS TECLAS RAPIDAS CUANDO EL MODAL DEL FORMULARIO ESTE CERRADO
             if(!$('#modal-perfiles').is(':visible')) {
-            
+
                 switch (event.code) {
                     case 'F1':
                         perfiles.abrirModal();
@@ -200,15 +206,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 	VerPrecio();
                     // 	event.preventDefault();
                     // 	event.stopPropagation();
-                    
+
                     //     break;
                     case 'F7':
                         eliminar_perfil();
                         event.preventDefault();
                         event.stopPropagation();
-                    
+
                         break;
-                }          
+                }
 
             } else {
                 //NO HACER NADA EN CASO DE LAS TECLAS F4 ES QUE USUALMENTE ES PARA CERRAR EL NAVEGADOR Y EL F5 QUE ES PARA RECARGAR
@@ -217,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     event.stopPropagation();
                 }
             }
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -225,30 +231,30 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-                
+
                 if($('#modal-perfiles').is(':visible')) {
                     guardar_perfil();
                 }
                 event.preventDefault();
                 event.stopPropagation();
             }
-            
-        
-        
-        
+
+
+
+
         }
         // alert("ola");
-        
+
     })
 
     document.getElementById("cancelar-perfil").addEventListener("click", function(event) {

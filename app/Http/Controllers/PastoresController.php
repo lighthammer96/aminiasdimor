@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
+use App\Models\PaisesModel;
 use App\Models\PastoresModel;
+use App\Models\PrincipalModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +16,15 @@ class PastoresController extends Controller
     //
     private $base_model;
     private $pastores_model;
-    
+    private $paises_model;
+    private $principal_model;
+
     public function __construct() {
         parent:: __construct();
         $this->pastores_model = new PastoresModel();
         $this->base_model = new BaseModel();
+        $this->paises_model = new PaisesModel();
+        $this->principal_model = new PrincipalModel();
     }
 
     public function index() {
@@ -35,8 +41,8 @@ class PastoresController extends Controller
         $data["scripts"] = $this->cargar_js(["pastores.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -46,7 +52,7 @@ class PastoresController extends Controller
 
 
     public function guardar_pastores(Request $request) {
-   
+
         $_POST = $this->toUpper($_POST);
         if(!isset($_POST["vigente"])) {
             $_POST["vigente"] = "0";
@@ -61,7 +67,7 @@ class PastoresController extends Controller
     }
 
     public function eliminar_pastores() {
-       
+
 
         try {
             $sql_bautizo = "SELECT * FROM iglesias.miembro WHERE tabla_encargado_bautizo='iglesias.otrospastores' AND encargado_bautizo=".$_REQUEST["id"];
@@ -93,20 +99,25 @@ class PastoresController extends Controller
         echo json_encode($one);
     }
 
-    public function obtener_cargos(Request $request) {
-    
-		$sql = "SELECT idcargo as id, descripcion FROM public.cargo
-        WHERE idcargo=1 OR idcargo=4
-        ORDER BY idcargo ASC";
-        
-        $result = DB::select($sql);
+    public function obtener_cargos() {
+
+		$result = $this->pastores_model->obtener_cargos();
         echo json_encode($result);
     }
 
-   
+    public function select_init() {
+        $data["idpais"] = $this->paises_model->obtener_todos_paises();
+        $data["idtipodoc"] = $this->principal_model->obtener_tipos_documento();
+        $data["idcargo"] = $this->pastores_model->obtener_cargos();
+
+        echo json_encode($data);
+
+    }
 
 
-    
- 
-    
+
+
+
+
+
 }
