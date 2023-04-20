@@ -55,9 +55,36 @@ class EleccionController extends Controller
         $data["botones"] = $botones;
         $data["scripts"] = $this->cargar_js(["eleccion.js"]);
         return parent::init($view, $data);
+    }
 
+    public function union() {
+        $view = "eleccion_union.index";
+        $data["title"] = traducir("traductor.titulo_eleccion_union");
+        $data["subtitle"] = "";
+        $data["tabla"] = $this->eleccion_model->tabla_union()->HTML();
 
+        $botones = array();
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion_union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-eleccion_union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-eleccion_union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
+        $data["botones"] = $botones;
+        $data["scripts"] = $this->cargar_js(["eleccion_union.js"]);
+        return parent::init($view, $data);
+    }
 
+    public function iglesia() {
+        $view = "eleccion_iglesia.index";
+        $data["title"] = traducir("traductor.titulo_eleccion_iglesia");
+        $data["subtitle"] = "";
+        $data["tabla"] = $this->eleccion_model->tabla_iglesia()->HTML();
+
+        $botones = array();
+        $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion_iglesia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
+        $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-eleccion_iglesia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
+        $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-eleccion_iglesia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
+        $data["botones"] = $botones;
+        $data["scripts"] = $this->cargar_js(["eleccion_iglesia.js"]);
+        return parent::init($view, $data);
     }
 
     public function buscar_datos() {
@@ -65,9 +92,17 @@ class EleccionController extends Controller
         echo json_encode($json_data);
     }
 
+    public function buscar_datos_union() {
+        $json_data = $this->eleccion_model->tabla_union()->obtenerDatos();
+        echo json_encode($json_data);
+    }
 
-    public function guardar_eleccion(Request $request) {
+    public function buscar_datos_iglesia() {
+        $json_data = $this->eleccion_model->tabla_iglesia()->obtenerDatos();
+        echo json_encode($json_data);
+    }
 
+    public function guardar($request) {
         $_POST = $this->toUpper($_POST, ["tipo"]);
         $array_pais = explode("|", $_POST["pais_id"]);
         $_POST["pais_id"] = $array_pais[0];
@@ -85,43 +120,92 @@ class EleccionController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.eleccion", $_POST));
         }
 
+        return $result;
+    }
+
+    public function guardar_eleccion(Request $request) {
+
+        $result = $this->guardar($request);
 
         echo json_encode($result);
     }
 
+    public function guardar_eleccion_union(Request $request) {
+
+        $result = $this->guardar($request);
+
+        echo json_encode($result);
+    }
+
+    public function guardar_eleccion_iglesia(Request $request) {
+
+        $result = $this->guardar($request);
+
+        echo json_encode($result);
+    }
+
+    public function eliminar() {
+        $result = $this->base_model->eliminar(["iglesias.eleccion","ideleccion"]);
+        return $result;
+    }
+
     public function eliminar_eleccion() {
 
-
         try {
-            // $sql_usuarios = "SELECT * FROM seguridad.usuarios WHERE ideleccion=".$_REQUEST["id"];
-            // $usuarios = DB::select($sql_usuarios);
 
-            // if(count($usuarios) > 0) {
-            //     throw new Exception(traducir("traductor.eliminar_perfil_usuario"));
-            // }
-
-            // $sql_permisos = "SELECT * FROM seguridad.permisos WHERE ideleccion=".$_REQUEST["id"];
-            // $permisos = DB::select($sql_permisos);
-
-            // if(count($permisos) > 0) {
-            //     throw new Exception(traducir("traductor.eliminar_perfil_permisos"));
-            // }
-
-            $result = $this->base_model->eliminar(["iglesias.eleccion","ideleccion"]);
+            $result = $this->eliminar();
             echo json_encode($result);
         } catch (Exception $e) {
             echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
         }
     }
 
+    public function eliminar_eleccion_union() {
 
-    public function get_eleccion(Request $request) {
+        try {
 
+            $result = $this->eliminar();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+    }
+
+    public function eliminar_eleccion_iglesia() {
+
+        try {
+
+            $result = $this->eliminar();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(array("status" => "ee", "msg" => $e->getMessage()));
+        }
+    }
+
+    public function get($request) {
         $sql = "SELECT i.*, (i.pais_id || '|' || p.posee_union) AS pais_id, p.posee_union
         FROM iglesias.eleccion AS i
         LEFT JOIN iglesias.paises AS p ON(p.pais_id=i.pais_id)
         WHERE i.ideleccion=".$request->input("id");
         $one = DB::select($sql);
+        return $one;
+    }
+
+    public function get_eleccion(Request $request) {
+
+        $one = $this->get($request);
+        echo json_encode($one);
+    }
+
+    public function get_eleccion_union(Request $request) {
+
+        $one = $this->get($request);
+        echo json_encode($one);
+    }
+
+    public function get_eleccion_iglesia(Request $request) {
+
+        $one = $this->get($request);
         echo json_encode($one);
     }
 

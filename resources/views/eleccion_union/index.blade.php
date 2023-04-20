@@ -7,7 +7,8 @@
 
 @section('content')
 
-    @include('eleccion.form')
+    @include('eleccion_union.form')
+
 
 
 

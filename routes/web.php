@@ -381,11 +381,23 @@ Route::post('actividad_misionera/select_init  ', [ActividadmisioneraController::
 
 // ELECCION
 Route::get('eleccion/index', [EleccionController::class, "index"]);
+Route::get('eleccion/union', [EleccionController::class, "union"]);
+Route::get('eleccion/iglesia', [EleccionController::class, "iglesia"]);
 Route::post('eleccion/buscar_datos', [EleccionController::class, "buscar_datos"]);
+Route::post('eleccion/buscar_datos_union', [EleccionController::class, "buscar_datos_union"]);
+Route::post('eleccion/buscar_datos_iglesia', [EleccionController::class, "buscar_datos_iglesia"]);
 Route::post('eleccion/guardar_eleccion', [EleccionController::class, "guardar_eleccion"]);
+Route::post('eleccion/guardar_eleccion_union', [EleccionController::class, "guardar_eleccion"]);
+Route::post('eleccion/guardar_eleccion_iglesia', [EleccionController::class, "guardar_eleccion"]);
 Route::post('eleccion/get_eleccion', [EleccionController::class, "get_eleccion"]);
+Route::post('eleccion/get_eleccion_union', [EleccionController::class, "get_eleccion"]);
+Route::post('eleccion/get_eleccion_iglesia', [EleccionController::class, "get_eleccion"]);
 Route::post('eleccion/eliminar_eleccion', [EleccionController::class, "eliminar_eleccion"]);
+Route::post('eleccion/eliminar_eleccion_union', [EleccionController::class, "eliminar_eleccion"]);
+Route::post('eleccion/eliminar_eleccion_iglesia', [EleccionController::class, "eliminar_eleccion"]);
 Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_eleccion"]);
+Route::post('eleccion/obtener_eleccion_union', [EleccionController::class, "obtener_eleccion"]);
+Route::post('eleccion/obtener_eleccion_iglesia', [EleccionController::class, "obtener_eleccion"]);
 Route::post('eleccion/select_init', [EleccionController::class, "select_init"]);
 
 /*************

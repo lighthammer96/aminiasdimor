@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // CargarMenu();
             setTimeout(function () {
                 window.location = permisos.controladorURL+"/index   ";
-            }, '2000');
+            }, '1000');
             // recagarPagina();
         });
 

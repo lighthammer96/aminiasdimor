@@ -1,6 +1,6 @@
 /*!
  * AdminLTE v2.4.17
- * 
+ *
  *   Author:  Colorlib
  *   Support: <https://github.com/ColorlibHQ/AdminLTE/issues>
  *   Repository: git://github.com/ColorlibHQ/AdminLTE.git
@@ -1241,17 +1241,26 @@
      }
  }
  .form-control {
-     border-radius: 0;
-     box-shadow: none;
-     /* border-color: #d2d6de; */
-     /* border-color: silver; */
-     border-color: gray;
-   
+    /* border-radius: 0; */
+    box-shadow: none;
+    /* border-color: #d2d6de; */
+    /* border-color: silver; */
+    border-radius: 4px;
+    border-width: 1px;
+    /* border-color: gray; */
+
  }
  .form-control:focus {
-     border-color: #367fa9;
-     box-shadow: none;
+     /* border-color: #367fa9;
+     box-shadow: none; */
+
+    border-color: #b8bdc9;
+    box-shadow: 0 0 0 3px rgba(184, 189, 201, 0.25);
  }
+.focus-input {
+     background-color: #F1F5FF;
+}
+
  .form-control::-moz-placeholder,
  .form-control:-ms-input-placeholder,
  .form-control::-webkit-input-placeholder {
@@ -5393,8 +5402,19 @@
          white-space: normal !important;
      }
  }
- 
+
 
  .select {
-    background-color: #ffffcc;
+    /* background-color: #ffffcc; */
+    background-color: #ffffff;
+
  }
+ .select:focus {
+    /* background-color: #ffffcc; */
+    /* border-color: #b8bdc9 !important;
+    border-color: rgba(46, 105, 255, 1); */
+    box-shadow: 0 0 0 3px rgb(46 105 255 / 25%);
+
+ };
+
+
