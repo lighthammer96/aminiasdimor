@@ -677,16 +677,30 @@ class ReportesController extends Controller
 
         // echo round(9 / 2); exit;
         $where = "";
+        // if(isset($_REQUEST["idiglesia"]) && !empty($_REQUEST["idiglesia"])) {
+        //     $where = " AND cm.idlugar=".$request->input("idiglesia");
+        // }
+
         if(isset($_REQUEST["idiglesia"]) && !empty($_REQUEST["idiglesia"])) {
-            $where = " AND cm.idlugar=".$request->input("idiglesia");
+            $where = " AND e.idiglesia=".$request->input("idiglesia");
         }
         $anio = $request->input("anio");
 
-        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
+        $sql_eleccion = "SELECT * FROM iglesias.eleccion AS e
+        INNER JOIN iglesias.eleccion_oficiales AS eo ON(e.ideleccion=eo.ideleccion)
+        WHERE e.tipo='I' AND {$anio} BETWEEN e.periodoini AND e.periodofin {$where}";
+        $eleccion = DB::select($sql_eleccion);
 
+        if(count($eleccion) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+        $ideleccion = $eleccion[0]->ideleccion;
+
+        $sql_director = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=5 ";
         // die($sql_director);
         $director = DB::select($sql_director);
@@ -694,62 +708,62 @@ class ReportesController extends Controller
 
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=6 ";
         $secretario = DB::select($sql_secretario);
 
 
         $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=7 ";
         // die($sql_tesorero);
         $tesorero = DB::select($sql_tesorero);
 
         $sql_diacono = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=64 ";
         $diacono = DB::select($sql_diacono);
 
 
         $sql_director_escuela_sabatica = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=65 ";
         $director_escuela_sabatica = DB::select($sql_director_escuela_sabatica);
 
 
         $sql_director_obra_misionera = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=20 ";
         $director_obra_misionera = DB::select($sql_director_obra_misionera);
 
         $sql_director_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=66 ";
         $director_jovenes = DB::select($sql_director_jovenes);
 
 
         $sql_comite = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo=67 ";
         $comite = DB::select($sql_comite);
 
         $sql_otros = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    INNER JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    INNER JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND {$anio} BETWEEN cm.periodoini AND cm.periodofin ".$where." AND cm.tabla='iglesias.iglesia')
+	    INNER JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    INNER JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo NOT IN(5, 6, 7, 20, 64, 65, 66, 67) ";
         // die($sql_otros);
         $otros = DB::select($sql_otros);
@@ -779,6 +793,18 @@ class ReportesController extends Controller
         // echo round(9 / 2); exit;
         $periodoini = $request->input("periodoini");
         $periodofin = $request->input("periodofin");
+
+        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
+        INNER JOIN iglesias.eleccion_oficiales AS eo ON(e.ideleccion=eo.ideleccion)
+        WHERE e.tipo='A' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
+        // die($sql_eleccion);
+        $eleccion = DB::select($sql_eleccion);
+
+        if(count($eleccion) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+        $ideleccion = $eleccion[0]->ideleccion;
 
         $array_pais = explode("|", $_REQUEST["pais_id"]);
         $_REQUEST["pais_id"] = $array_pais[0];
@@ -864,8 +890,8 @@ class ReportesController extends Controller
 
         $sql_presidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$presidente_id}";
 
         $presidente = DB::select($sql_presidente);
@@ -873,54 +899,54 @@ class ReportesController extends Controller
 
         $sql_vicepresidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$vicepresidente_id}";
         $vicepresidente = DB::select($sql_vicepresidente);
 
 
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$secretario_id}";
         // die($sql_secretario);
         $secretario = DB::select($sql_secretario);
 
         $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$tesorero_id}";
         $tesorero = DB::select($sql_tesorero);
 
 
         $sql_colportaje = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$colportaje_id}";
         $colportaje = DB::select($sql_colportaje);
 
         $sql_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$obra_id}";
         $obra = DB::select($sql_obra);
 
 
         $sql_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$jovenes_id}";
         $jovenes = DB::select($sql_jovenes);
 
         $sql_director_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$director_editorial_id}";
         // die($sql_director_editorial);
         $director_editorial = DB::select($sql_director_editorial);
@@ -928,114 +954,102 @@ class ReportesController extends Controller
 
         $sql_nombre_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$nombre_editorial_id}";
         $nombre_editorial = DB::select($sql_nombre_editorial);
 
 
         $sql_dorca = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$dorca_id}";
         $dorca = DB::select($sql_dorca);
 
         $sql_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$salud_id}";
         $salud = DB::select($sql_salud);
 
 
         $sql_educacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$educacion_id}";
         $educacion = DB::select($sql_educacion);
 
 
         $sql_auditor_1 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$auditor_id_1}";
         // die($sql_auditor_1);
         $auditor_1 = DB::select($sql_auditor_1);
 
         $sql_auditor_2 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$auditor_id_2}";
         $auditor_2 = DB::select($sql_auditor_2);
 
         $sql_comite_union_asociacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_union_asociacion_id}";
         $comite_union_asociacion = DB::select($sql_comite_union_asociacion);
 
 
         $sql_comite_ejecutivo = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_ejecutivo_id}";
         $comite_ejecutivo = DB::select($sql_comite_ejecutivo);
 
 
         $sql_comite_finanzas = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_finanzas_id}";
         $comite_finanzas = DB::select($sql_comite_finanzas);
 
 
         $sql_comite_literario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_literario_id}";
         $comite_literario = DB::select($sql_comite_literario);
 
 
         $sql_comite_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_salud_id}";
         $comite_salud = DB::select($sql_comite_salud);
 
         $sql_delegado = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$delegado_id}";
         $delegado = DB::select($sql_delegado);
 
         $sql_delegado_subs = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+	    LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$delegado_subs_id}";
         $delegado_subs = DB::select($sql_delegado_subs);
-
-        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
-        WHERE e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
-
-        $eleccion = DB::select($sql_eleccion);
-
-        if(count($eleccion) <= 0) {
-            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
-            exit;
-        }
-
-
 
 
         $datos["nivel_organizativo"] = $this->obtener_nivel_organizativo($_REQUEST);
@@ -1079,6 +1093,19 @@ class ReportesController extends Controller
 
         $periodoini = $request->input("periodoini");
         $periodofin = $request->input("periodofin");
+
+
+        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
+        INNER JOIN iglesias.eleccion_oficiales AS eo ON(e.ideleccion=eo.ideleccion)
+        WHERE e.tipo='U' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
+        // die($sql_eleccion);
+        $eleccion = DB::select($sql_eleccion);
+
+        if(count($eleccion) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+        $ideleccion = $eleccion[0]->ideleccion;
 
         $array_pais = explode("|", $_REQUEST["pais_id"]);
         $_REQUEST["pais_id"] = $array_pais[0];
@@ -1137,63 +1164,65 @@ class ReportesController extends Controller
 
         $sql_presidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
+
         WHERE c.idcargo={$presidente_id}";
+
 
         $presidente = DB::select($sql_presidente);
 
 
         $sql_vicepresidente = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$vicepresidente_id}";
         $vicepresidente = DB::select($sql_vicepresidente);
 
 
         $sql_secretario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$secretario_id}";
         // die($sql_secretario);
         $secretario = DB::select($sql_secretario);
 
         $sql_tesorero = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$tesorero_id}";
         $tesorero = DB::select($sql_tesorero);
 
 
         $sql_colportaje = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$colportaje_id}";
         $colportaje = DB::select($sql_colportaje);
 
         $sql_obra = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$obra_id}";
         $obra = DB::select($sql_obra);
 
 
         $sql_jovenes = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$jovenes_id}";
         $jovenes = DB::select($sql_jovenes);
 
         $sql_director_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$director_editorial_id}";
         // die($sql_director_editorial);
         $director_editorial = DB::select($sql_director_editorial);
@@ -1201,112 +1230,103 @@ class ReportesController extends Controller
 
         $sql_nombre_editorial = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$nombre_editorial_id}";
         $nombre_editorial = DB::select($sql_nombre_editorial);
 
 
         $sql_dorca = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$dorca_id}";
         $dorca = DB::select($sql_dorca);
 
         $sql_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$salud_id}";
         $salud = DB::select($sql_salud);
 
 
         $sql_educacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$educacion_id}";
         $educacion = DB::select($sql_educacion);
 
 
         $sql_auditor_1 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$auditor_id_1}";
         // die($sql_auditor_1);
         $auditor_1 = DB::select($sql_auditor_1);
 
         $sql_auditor_2 = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$auditor_id_2}";
         $auditor_2 = DB::select($sql_auditor_2);
 
         $sql_comite_union_asociacion = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_union_asociacion_id}";
         $comite_union_asociacion = DB::select($sql_comite_union_asociacion);
 
 
         $sql_comite_ejecutivo = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_ejecutivo_id}";
         $comite_ejecutivo = DB::select($sql_comite_ejecutivo);
 
 
         $sql_comite_finanzas = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_finanzas_id}";
         $comite_finanzas = DB::select($sql_comite_finanzas);
 
 
         $sql_comite_literario = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_literario_id}";
         $comite_literario = DB::select($sql_comite_literario);
 
 
         $sql_comite_salud = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$comite_salud_id}";
         $comite_salud = DB::select($sql_comite_salud);
 
         $sql_delegado = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$delegado_id}";
         $delegado = DB::select($sql_delegado);
 
         $sql_delegado_subs = "SELECT (m.apellidos || ', ' || m.nombres) AS nombres, m.direccion, ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, m.celular, m.telefono, m.email, c.descripcion AS cargo
         FROM public.cargo AS c
-	    LEFT JOIN iglesias.cargo_miembro AS cm ON ( c.idcargo = cm.idcargo )
-	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = cm.idmiembro AND cm.periodoini <= {$periodoini} AND cm.periodofin <= {$periodofin} AND cm.idlugar={$idlugar} AND cm.tabla='{$tabla}')
+        LEFT JOIN iglesias.eleccion_oficiales AS eo ON(c.idcargo=eo.idcargo AND eo.ideleccion={$ideleccion})
+	    LEFT JOIN iglesias.miembro AS m ON (m.idmiembro = eo.idmiembro)
         WHERE c.idcargo={$delegado_subs_id}";
         $delegado_subs = DB::select($sql_delegado_subs);
 
-        $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
-        WHERE e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
-
-        $eleccion = DB::select($sql_eleccion);
-
-        if(count($eleccion) <= 0) {
-            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
-            exit;
-        }
 
 
 

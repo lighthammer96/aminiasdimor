@@ -5,7 +5,7 @@ var uniones = new BASE_JS('uniones', 'uniones');
 var misiones = new BASE_JS('misiones', 'misiones');
 var distritos_misioneros = new BASE_JS('distritos_misioneros', 'distritos_misioneros');
 var iglesias = new BASE_JS('iglesias', 'iglesias');
-
+var asociados = new BASE_JS('asociados', 'asociados');
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -41,13 +41,23 @@ document.addEventListener("DOMContentLoaded", function() {
     $("input[name=fecha], input[name=fechaanterior]").inputmask();
 
 
-    jQuery( "input[name=fecha], input[name=fechaanterior]" ).datepicker({
+    jQuery( "input[name=fechaanterior]" ).datepicker({
         format: format,
         language: "es",
         todayHighlight: true,
         todayBtn: "linked",
         autoclose: true,
         endDate: "now()",
+
+    });
+
+    jQuery( "input[name=fecha]" ).datepicker({
+        format: format,
+        language: "es",
+        todayHighlight: true,
+        todayBtn: "linked",
+        autoclose: true,
+        // endDate: "now()",
 
     });
 
@@ -303,17 +313,20 @@ document.addEventListener("DOMContentLoaded", function() {
         var promise = eleccion.get(datos.ideleccion);
 
         promise.then(function(response) {
-            // eleccion.ajax({
-            //     url: '/obtener_traducciones',
-            //     datos: { ideleccion: response.ideleccion }
-            // }).then(function(response) {
-            //     if(response.length > 0) {
-            //         for(let i = 0; i < response.length; i++){
-            //             document.getElementById("detalle-traducciones").getElementsByTagName("tbody")[0].appendChild(html_detalle_traducciones(response[i]));
-            //         }
-            //     }
-            //     //console.log(response);
-            // })
+            document.getElementById("detalle-oficiales").getElementsByTagName("tbody")[0].innerHTML = "";
+            eleccion.ajax({
+                url: '/obtener_oficiales',
+                datos: { ideleccion: response.ideleccion }
+            }).then(function(response) {
+                if(response.length > 0) {
+                    for(let i = 0; i < response.length; i++){
+                        document.getElementById("detalle-oficiales").getElementsByTagName("tbody")[0].appendChild(html_detalle_oficiales(response[i]));
+                    }
+                }
+                //console.log(response);
+            })
+
+
 
             if(response.posee_union == "N") {
                 $(".union").hide();
@@ -333,6 +346,16 @@ document.addEventListener("DOMContentLoaded", function() {
         var pais_id = document.getElementsByName("pais_id")[0].value;
         var array_pais = pais_id.split("|");
         var required = true;
+
+        var detalle = document.getElementById("detalle-oficiales").getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        if(detalle.length <= 0) {
+            BASE_JS.sweet({
+                text: elemento_detalle
+            });
+
+            return false;
+        }
         // required = required && eleccion.required("perfil_descripcion");
 
         required = required && eleccion.required("iddivision");
@@ -490,6 +513,164 @@ document.addEventListener("DOMContentLoaded", function() {
         $("input[name=fechaanterior]").focus();
     });
 
+    /*************
+     * ASOCIADOS *
+     *************/
+    asociados.TablaListado({
+        tablaID: '#tabla-asociados',
+        url: "/buscar_datos",
+    });
 
+    document.getElementById("buscar_asociado").addEventListener("click", function(event) {
+        event.preventDefault();
+        $("#modal-lista-asociados").modal("show");
+    })
+
+    function cargar_datos_asociado(datos) {
+        eleccion.limpiarDatos("datos-asociado");
+        //console.log(datos);
+        eleccion.asignarDatos({
+            idmiembro: datos.idmiembro,
+            asociado: datos.nombres,
+            fechanacimiento: datos.fechanacimiento,
+            direccion: datos.direccion,
+            telefono: datos.telefono,
+            fax: datos.fax,
+            email: datos.email,
+
+        });
+        $("#modal-lista-asociados").modal("hide");
+
+
+    }
+
+    $("#tabla-asociados").on('key.dt', function(e, datatable, key, cell, originalEvent){
+        if(key === 13){
+            var datos = asociados.datatable.row(cell.index().row).data();
+
+            cargar_datos_asociado(datos);
+        }
+    });
+
+    $('#tabla-asociados').on('dblclick', 'tr', function () {
+        var datos = asociados.datatable.row( this ).data();
+        // console.log(datos);
+        cargar_datos_asociado(datos);
+    });
+
+    document.getElementById("agregar-oficial").addEventListener("click", function(e) {
+        e.preventDefault();
+        required = true;
+        required = required && eleccion.required("asociado");
+        required = required && eleccion.required("idcargo_asociacion");
+
+        if(required) {
+            var asociado = document.getElementsByName("asociado")[0];
+            var idcargo = document.getElementsByName("idcargo_asociacion")[0];
+            var idmiembro = document.getElementsByName("idmiembro")[0];
+            var fechanacimiento = document.getElementsByName("fechanacimiento")[0];
+            var direccion = document.getElementsByName("direccion")[0];
+            var telefono = document.getElementsByName("telefono")[0];
+            var fax = document.getElementsByName("fax")[0];
+            var email = document.getElementsByName("email")[0];
+
+            var objeto = {
+                asociado: asociado.value,
+                idcargo: idcargo.value,
+                cargo: idcargo.options[idcargo.selectedIndex].text,
+                idmiembro: idmiembro.value,
+                fechanacimiento: fechanacimiento.value,
+                direccion: direccion.value,
+                telefono: telefono.value,
+                fax: fax.value,
+                email: email.value,
+            }
+
+            var miembros = document.getElementsByName("idmiembro[]");
+
+            for (let m = 0; m < miembros.length; m++) {
+                if(idmiembro.value == miembros[m].value) {
+                    BASE_JS.sweet({
+                        text: miembro_agregado
+                    });
+                    return false;
+                }
+
+
+            }
+            // var cargos = document.getElementsByName("idcargo[]");
+            // for (let c = 0; c < cargos.length; c++) {
+            //     if(idcargo.value == cargos[c].value) {
+            //         BASE_JS.sweet({
+            //             text: cargo_agregado
+            //         });
+
+            //         return false;
+            //     }
+
+
+            // }
+
+
+            // console.log(miembros);
+            // console.log(cargos);
+
+
+            document.getElementById("detalle-oficiales").getElementsByTagName("tbody")[0].appendChild(html_detalle_oficiales(objeto));
+            eleccion.limpiarDatos("limpiar-oficiales");
+
+        }
+
+
+
+    })
+
+    function html_detalle_oficiales(objeto, disabled) {
+        // alert(disabled)
+        var attr = '';
+        var html = '';
+        if(document.getElementsByName("idcargo_asociacion")[0].disabled) {
+            attr = 'disabled="disabled"';
+        }
+        var tr = document.createElement("tr");
+
+
+
+
+        html = '  <input type="hidden" name="idtipocargo[]" value="2" >';
+        html += '  <input type="hidden" name="idnivel[]" value="5" >';
+        html += '  <input type="hidden" name="idcargo[]" value="'+objeto.idcargo+'" >';
+        html += '  <input type="hidden" name="idmiembro[]" value="'+objeto.idmiembro+'" >';
+
+        html += '  <td>'+objeto.asociado+'</td>';
+        html += '  <td>'+objeto.fechanacimiento+'</td>';
+        html += '  <td>'+objeto.direccion+'</td>';
+        html += '  <td>'+objeto.telefono+'</td>';
+        html += '  <td>'+objeto.fax+'</td>';
+        html += '  <td>'+objeto.email+'</td>';
+        html += '  <td>'+objeto.cargo+'</td>';
+
+        html += '  <td><center><button '+attr+' type="button" class="btn btn-danger btn-xs eliminar-oficial"><i class="fa fa-trash-o" aria-hidden="true"></i></button></center></td>';
+
+        tr.innerHTML = html;
+        return tr;
+    }
+
+    document.addEventListener("click", function(event) {
+
+        // console.log(event.target.classList);
+        // console.log(event.srcElement.parentNode.parentNode.parentNode.parentNode);
+        if(event.target.classList.value.indexOf("eliminar-oficial") != -1) {
+            event.preventDefault();
+            event.srcElement.parentNode.parentNode.parentNode.remove();
+
+        }
+
+        if(event.srcElement.parentNode.classList.value.indexOf("eliminar-oficial") != -1 && !event.srcElement.parentNode.disabled) {
+            event.preventDefault();
+            ///console.log(event.srcElement.parentNode);
+            event.srcElement.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    })
 
 })

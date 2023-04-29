@@ -14,10 +14,11 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 4.9cm;
+            margin-top: 4.7cm;
             margin-left: 1cm;
             margin-right: 1cm;
             margin-bottom: 2cm;
+            /* border: 1px solid blue; */
         }
 
         header {
@@ -25,10 +26,11 @@
             top: 0.9cm;
             left: 2cm;
             right: 2cm;
-            height: 4cm;
+            height: 3.8cm;
             text-align: center;
             line-height: 0.8cm;
             font-family: 'Times New Roman' !important;
+            /* border: 1px solid red; */
         }
 
         * {

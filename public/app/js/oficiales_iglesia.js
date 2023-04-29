@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         required = required && oficiales_iglesia.required("idmision");
         required = required && oficiales_iglesia.required("iddistritomisionero");
-        // required = required && oficiales_iglesia.required("idiglesia");
+        required = required && oficiales_iglesia.required("idiglesia");
         required = required && oficiales_iglesia.required("anio");
 
         if(required) {

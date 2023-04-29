@@ -8,7 +8,7 @@
     foreach ($data as $key => $value) {
         // print_r($key);
         // print_r($value);
-        
+
         if($key != "parametros") {
             if(!is_array($value)) {
 
@@ -39,7 +39,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ URL::asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
-    
+
     <!-- <link rel="stylesheet" href="{{ URL::asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}"> -->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ URL::asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
@@ -51,7 +51,7 @@
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ URL::asset('dist/css/skins/_all-skins.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('dist/css/jquery.dataTables.min.css') }}">
-   
+
     <link rel="stylesheet" href="{{ URL::asset('sweetalert/dist/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('notifications/notification.css') }}">
 
@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="{{ URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="{{ URL::asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
- 
+
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="{{ URL::asset('plugins/timepicker/bootstrap-timepicker.min.css') }}">
 
@@ -91,6 +91,9 @@
         textarea {
             resize: none;
         }
+        table {
+            font-size: 13px;
+        }
     </style>
 </head>
 
@@ -111,12 +114,12 @@
                 <h1>
                     {{ $title }}
                     <small>
-                        <?php 
+                        <?php
                             if(isset($subtitle)) {
                                 echo $subtitle;
                             }
 
-                          
+
                         ?>
                     </small>
                 </h1>
@@ -129,12 +132,12 @@
 
             <!-- Main content -->
             <section class="content">
-                
+
                 <!-- Default box -->
                 <div class="box">
                     <!-- <div class="box-header with-border">
                         <h3 class="box-title">{{ $title }}</h3>
-                      
+
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i></button>
@@ -149,32 +152,32 @@
 
                                     if(isset($botones) && count($botones) > 0) {
                                         echo '<table><tr>';
-                                        for ($i=0; $i < count($botones); $i++) { 
+                                        for ($i=0; $i < count($botones); $i++) {
                                             echo '<td>'.$botones[$i].'</td>';
                                         }
-                                        
+
                                         echo '</tr></table>';
                                     }
                                 ?>
                             </div>
                         </div>
-                        
-                        <?php 
+
+                        <?php
                             if(isset($tabla)) {
                                 echo $tabla;
                             }
-                            
-                            
+
+
                         ?>
 
-                        
+
                         @yield('content')
                     </div>
-                    
+
                     <!-- <div class="box-footer">
                         Footer
                     </div> -->
-              
+
                 </div>
                 <!-- /.box -->
 
@@ -187,7 +190,7 @@
 
         {{-- @yield('aside') --}}
         @include('layouts.aside')
-       
+
         <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
@@ -334,6 +337,8 @@
         var votacion_abierta = "<?php echo traducir('asambleas.votacion_abierta'); ?>";
         var votacion_cerrada = "<?php echo traducir('asambleas.votacion_cerrada'); ?>";
         var votacion_fuera_de_fecha = "<?php echo traducir('asambleas.votacion_fuera_de_fecha'); ?>";
+        var miembro_agregado = "<?php echo traducir('traductor.miembro_agregado'); ?>";
+        var cargo_agregado = "<?php echo traducir('traductor.cargo_agregado'); ?>";
 
         var img_activos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/cheque.png').'\"><br>'; ?>";
         var img_inactivos = "<?php echo '<img style=\'width: 19px; height: 20px;\' src=\"'.URL::asset('images/iconos/inactivo.png').'\"><br>'; ?>";
@@ -353,21 +358,21 @@
     <!-- AdminLTE App -->
     <script src="{{ URL::asset('dist/js/adminlte.min.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    
+
     <script src="{{ URL::asset('dist/js/demo.js') }}"></script>
      <script src="{{ URL::asset('dist/js/jquery.dataTables.min.js') }}"></script>
     <!-- <script src="{{ URL::asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script> -->
     <script src="{{ URL::asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 
     <script src="{{ URL::asset('sweetalert/dist/sweetalert.min.js') }}"></script>
-    
+
     <script src="{{ URL::asset('notifyjs/dist/notify.min.js') }}"></script>
     <script src="{{ URL::asset('notifications/notify-metro.js') }}"></script>
     <script src="{{ URL::asset('notifications/notifications.js') }}"></script>
-    
-    
+
+
     <script src="{{ URL::asset('selectize/selectize.js') }}"></script>
-    
+
 
     <script src="{{ URL::asset('plugins/iCheck/icheck.min.js') }}"></script>
 
@@ -387,16 +392,16 @@
     <script src="{{ URL::asset('app/js/layout.js') }}"></script>
     <!-- libreria para los sockets -->
     <script src="{{ URL::asset('dist/js/socket.io-2.3.0.js') }}"></script>
- 
+
     <script src="{{ URL::asset('app/js/BASE_JS.js?version=051020210813') }}"></script>
-    
-    <script>                
+
+    <script>
         // funciona con la libreria: public\dist\js\socket.io.js
         // que se descargo de la siguiente ruta: https://github.com/socketio/socket.io-client/tree/master/dist
         // referencia: https://www.npmjs.com/package/socket.io =>
         // Características
-        // Socket.IO permite la comunicación bidireccional basada en eventos en tiempo real. Consiste en: 
-        // 1) un servidor Node.js (este repositorio) 
+        // Socket.IO permite la comunicación bidireccional basada en eventos en tiempo real. Consiste en:
+        // 1) un servidor Node.js (este repositorio)
         // 2) una biblioteca cliente Javascript para el navegador (o un cliente Node.js)
 
         // docs: https://socket.io/docs/v4/
@@ -434,8 +439,8 @@
         // });
 
 
-    </script>                         
-   
+    </script>
+
     @isset($scripts)
 
         @foreach ($scripts as $script)

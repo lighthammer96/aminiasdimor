@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $("#ejecutar-notificacion").attr("disabled", "disabled");
         $("#cancelar-notificar").attr("disabled", "disabled");
         var promise = asignacion_delegados.ajax({
-            url: '/notificar_delegados',
+            url: '/vv',
             datos: { asamblea_id: $("#asamblea_id_notificar").val() }
         }).then(function(response) {
             console.log(response);

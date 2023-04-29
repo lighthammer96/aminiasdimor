@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(array_pais[1] == "S") {
             required = required && oficiales_union_asociacion.required("idunion");
         }
-        // required = required && oficiales_union_asociacion.required("idmision");
+        required = required && oficiales_union_asociacion.required("idmision");
         // required = required && oficiales_union_asociacion.required("iddistritomisionero");
         // required = required && oficiales_union_asociacion.required("idiglesia");
         required = required && oficiales_union_asociacion.required("periodoini");

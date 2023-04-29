@@ -38,7 +38,7 @@ class EleccionModel extends Model
         $tabla->setSelect("e.ideleccion, e.fecha, e.supervisor, CASE WHEN e.tiporeunion ='O' THEN 'Reunion Ordinaria' ELSE 'Reunión Extraordinaria' END AS tiporeunion, e.comentarios, m.descripcion AS mision");
         $tabla->setFrom("iglesias.eleccion AS e
         \nINNER JOIN iglesias.mision AS m ON(e.idmision=m.idmision)");
-
+        $tabla->setWhere("e.tipo='A'");
 
 
 
@@ -63,6 +63,7 @@ class EleccionModel extends Model
         $tabla->setSelect("e.ideleccion, e.fecha, e.supervisor, CASE WHEN e.tiporeunion ='O' THEN 'Reunion Ordinaria' ELSE 'Reunión Extraordinaria' END AS tiporeunion, e.comentarios, u.descripcion AS union");
         $tabla->setFrom("iglesias.eleccion AS e
         \nINNER JOIN iglesias.union AS u ON(e.idunion=u.idunion)");
+        $tabla->setWhere("e.tipo='U'");
 
 
 
@@ -86,6 +87,7 @@ class EleccionModel extends Model
         $tabla->setSelect("e.ideleccion, e.fecha, e.supervisor, CASE WHEN e.tiporeunion ='O' THEN 'Reunion Ordinaria' ELSE 'Reunión Extraordinaria' END AS tiporeunion, e.comentarios, i.descripcion AS iglesia");
         $tabla->setFrom("iglesias.eleccion AS e
         \nINNER JOIN iglesias.iglesia AS i ON(e.idiglesia=i.idiglesia)");
+        $tabla->setWhere("e.tipo='I'");
 
         return $tabla;
     }

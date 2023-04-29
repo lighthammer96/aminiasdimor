@@ -87,14 +87,18 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-2" style="padding-right: 5px;">
+                                                    <label class="control-label">{{ traducir("traductor.fax") }}</label>
+                                                    <input type="text" class="form-control input-sm entrada" name="fax" placeholder="" maxlength="20"/>
+                                                </div>
+                                                <div class="col-md-2" style="padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.telefono") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="telefono" placeholder="" maxlength="20"/>
                                                 </div>
-                                                <div class="col-md-5" style="padding-left: 5px; padding-right: 5px;">
+                                                <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.email") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="email" placeholder="" />
                                                 </div>
-                                                <div class="col-md-5" style="padding-left: 5px;">
+                                                <div class="col-md-4" style="padding-left: 5px;">
                                                     <label class="control-label">{{ traducir("traductor.email_alternativo") }}</label>
                                                     <input type="text" class="form-control input-sm entrada" name="emailalternativo" placeholder="" />
                                                 </div>

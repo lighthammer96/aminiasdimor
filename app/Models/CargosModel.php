@@ -65,6 +65,23 @@ class CargosModel extends Model
         return $result;
     }
 
+    public function obtener_cargos_para_eleccion_oficiales_union() {
+        $sql = "SELECT idcargo as id, descripcion FROM public.cargo c WHERE idtipocargo=2 AND idnivel=4 AND estado='1' ORDER BY idcargo ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_cargos_para_eleccion_oficiales_asociacion() {
+        $sql = "SELECT idcargo as id, descripcion FROM public.cargo c WHERE idtipocargo=2 AND idnivel=5 AND estado='1' ORDER BY idcargo ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function obtener_cargos_para_eleccion_oficiales_iglesia() {
+        $sql = "SELECT idcargo as id, descripcion FROM public.cargo c WHERE idtipocargo=2 AND idnivel=7 AND estado='1' ORDER BY idcargo ASC";
+        $result = DB::select($sql);
+        return $result;
+    }
 
 
 }

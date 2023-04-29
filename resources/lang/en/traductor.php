@@ -503,6 +503,8 @@ return [
     'eliminar_registro' => "SURE YOU WANT TO DELETE THIS REGISTRATION?",
     'elemento_detalle' => 'YOU MUST ENTER AT LEAST ONE ITEM IN DETAIL!',
     'seleccionar_iglesia' => "YOU MUST SELECT A CHURCH!",
+    'miembro_agregado' => "THE MEMBER HAS ALREADY BEEN ADDED TO THE DETAIL!",
+    'cargo_agregado' => "THE CHARGE HAS ALREADY BEEN ADDED TO THE DETAIL!",
 
     'eliminar_asociado_capacitacion_miembro' => 'It cannot be deleted, this associate already has training',
     'eliminar_asociado_cargo_miembro' => 'It cannot be deleted, this associate already has charges',

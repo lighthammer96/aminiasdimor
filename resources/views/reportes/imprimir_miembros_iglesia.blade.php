@@ -14,23 +14,23 @@
 
         /** Defina ahora los márgenes reales de cada página en el PDF **/
         body {
-            margin-top: 4cm;
+            margin-top: 4.6cm;
             margin-left: 2cm;
             margin-right: 2cm;
             margin-bottom: 2cm;
-            /*border: 1px solid red;*/
+            /* border: 1px solid red; */
         }
-            
+
         header {
             position: fixed;
             top: 0.9cm;
             left: 2cm;
             right: 2cm;
-            height: 3.1cm;
+            height: 3.7cm;
             text-align: center;
             line-height: 0.8cm;
             font-family: 'Times New Roman' !important;
-            /*border: 1px solid black;*/
+            /* border: 1px solid black; */
         }
 
         * {
@@ -39,17 +39,17 @@
             /* font-weight: bold; */
             font-size: 11px;
         }
-		
+
 
         /* #contenido {
-            
+
             width: 696px; */
             /* border: 1px solid gray */
-					
+
         /* } */
 
         /* #logo img {
-		
+
             width: 100%;
         }
 
@@ -58,8 +58,8 @@
         }
 
         #cliente {
-            border-radius: 5px; 
-            border: 1px solid gray; 
+            border-radius: 5px;
+            border: 1px solid gray;
             padding: 1%;
             height: 70px;
 
@@ -81,27 +81,27 @@
             /* clear: both; */
         }
         .clear {
-            clear: both; 
+            clear: both;
         }
         .col {
             float: left;
             /* border: 1px solid black; */
         }
-        
+
 
         h2, h3, h4, h5 {
             /* text-align: center !important; */
             margin: 2px 0;
             /* padding-botton: 2px; */
-			
+
         }
     </style>
-   
+
 </head>
 <body>
     @include("layouts.cabecera")
     <main>
-        
+
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
@@ -119,7 +119,7 @@
                 <label for="">
                     <strong>
                         @isset($miembros[0]->iglesia)
-                            {{ $miembros[0]->iglesia }} 
+                            {{ $miembros[0]->iglesia }}
                         @endisset
 
                     </strong>
@@ -133,10 +133,10 @@
             <div class="col" style="width: 15%;">
                 <label for=""><strong>{{ fecha_actual_idioma() }}</strong></label>
             </div>
-            
-            
 
-            
+
+
+
         </div>
 
         <div class="clear"></div>
@@ -154,7 +154,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                        <?php
                             $i = 1;
                             foreach ($miembros as $key => $value) {
                                 $fecha_baja = "-.-";
@@ -172,7 +172,7 @@
                                 }
 
 
-                                // $checked_1 = ($value->idcondicioneclesiastica == 1) ? 'checked="checked"' : ''; 
+                                // $checked_1 = ($value->idcondicioneclesiastica == 1) ? 'checked="checked"' : '';
                                 // $checked_2 = ($value->idcondicioneclesiastica == 0) ? 'checked="checked"' : '';
                                 // $checkbox = '<input '.$checked_1.' type="checkbox" /> Bautismo <br> <input '.$checked_2.' type="checkbox" /> Recibimiento';
 
@@ -180,7 +180,7 @@
                                 echo '<td>'.$i.'</td>';
                                 echo '<td style="line-height: 15px;">'.$value->apellidos.', '.$value->nombres.'<br>'.  $value->direccion.'<br>'.$value->telefono.'</td>';
                                 echo '<td align="center">'.$value->fechanacimiento.'</td>';
-                                
+
                                 echo '<td align="center">'.$fecha_aceptacion.'<br>'.$value->condicion.'</td>';
                                 echo '<td align="center">'.$fecha_baja.'</td>';
                                 echo '<td align="center">'.$motivo_baja.'</td>';
@@ -191,14 +191,14 @@
                                     //     } else {
                                     //         echo '<input  type="radio" >&nbsp;&nbsp;'.$vmb->descripcion."<br>";
                                     //     }
-                                    
+
                                     // }
-                            
-                         
-                                
+
+
+
                                 // echo '</td>';
                                 echo '</tr>';
-                              
+
 
                                 $i++;
                             }
@@ -207,10 +207,10 @@
                 </table>
             </div>
 
-           
-            
 
-            
+
+
+
         </div>
 
         <div class="clear"></div>
@@ -239,19 +239,19 @@
                     <label for="">{{ traducir("traductor.firma") }}</label>
                 </center>
             </div>
-            
-            
-            
 
-            
+
+
+
+
         </div>
-        
-   
-      
-    
+
+
+
+
 
     </main>
-    
-    
+
+
 </body>
 </html>

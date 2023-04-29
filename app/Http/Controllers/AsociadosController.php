@@ -816,7 +816,7 @@ class AsociadosController extends Controller
         $cargos = DB::select($sql_cargos);
 
 
-        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, ".formato_fecha_idioma("pm.fechanacimiento")." AS fechanacimiento
+        $sql_parentesco = "SELECT pm.*, p.descripcion AS parentesco, td.descripcion AS tipodoc, pp.descripcion AS pais, gua
         FROM iglesias.parentesco_miembro AS pm
         INNER JOIN public.parentesco AS p ON(p.idparentesco=pm.idparentesco)
         INNER JOIN public.tipodoc AS td ON(td.idtipodoc=pm.idtipodoc)

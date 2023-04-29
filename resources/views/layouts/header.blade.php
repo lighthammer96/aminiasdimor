@@ -3,7 +3,7 @@
     <!-- Logo -->
     <a href="{{ URL::to('principal/index') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>MI</span>
+        <span class="logo-mini"><b>I</b>MS</span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>IMS System</b></span>
     </a>
@@ -18,21 +18,21 @@
         </a>
 
         <div class="navbar-custom-menu">
-           
+
             <ul class="nav navbar-nav">
                 <li>
                     <select style="margin-top: 8px;" name="idioma_sistema" class="form-control" id="idioma_sistema">
-                        <?php 
+                        <?php
                             foreach ($idiomas as $key => $value) {
-                              
+
                                 if(trim(session("idioma_codigo")) == trim($value->idioma_codigo)) {
                                     echo '<option selected="selected" value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
                                 } else {
                                     echo '<option value="'.$value->idioma_id."|".trim($value->idioma_codigo).'">'.$value->idioma_descripcion.'</option>';
                                 }
-                              
+
                             }
-                        
+
                         ?>
                     </select>
                 </li>
@@ -44,27 +44,27 @@
                     <ul class="dropdown-menu">
                         <li class="header">Choose language</li>
                         <li>
-                           
+
                             <ul class="menu">
                                 <li>
-                                  
+
                                     <a  href="#">
                                         <div class="pull-left">
                                             <img src="{{ URL::asset('flags/Poland.png') }}" class="img-flag" alt="Polish" height="24">
                                         </div>
-                                       
+
                                         <h4>
                                             Polish
                                             <small><i class="fa fa-clock-o"></i> 5 mins</small>
                                         </h4>
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
-                                   
+
                                 </li>
-                              
+
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </li> -->
                 <!-- Messages: style can be found in dropdown.less-->
@@ -76,10 +76,10 @@
                     <ul class="dropdown-menu">
                         <li class="header">You have 4 messages</li>
                         <li>
-                           
+
                             <ul class="menu">
                                 <li>
-                                
+
                                     <a href="#">
                                         <div class="pull-left">
                                             <img src="{{ URL::asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
@@ -91,13 +91,13 @@
                                         <p>Why not buy a new awesome theme?</p>
                                     </a>
                                 </li>
-                               
+
                             </ul>
                         </li>
                         <li class="footer"><a href="#">See All Messages</a></li>
                     </ul>
                 </li>
-               
+
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
@@ -106,7 +106,7 @@
                     <ul class="dropdown-menu">
                         <li class="header">You have 10 notifications</li>
                         <li>
-                            
+
                             <ul class="menu">
                                 <li>
                                     <a href="#">
@@ -118,7 +118,7 @@
                         <li class="footer"><a href="#">View all</a></li>
                     </ul>
                 </li>
-                
+
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
@@ -127,10 +127,10 @@
                     <ul class="dropdown-menu">
                         <li class="header">You have 9 tasks</li>
                         <li>
-                            
+
                             <ul class="menu">
                                 <li>
-                                    
+
                                     <a href="#">
                                         <h3>
                                             Design some buttons
@@ -143,7 +143,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                
+
                             </ul>
                         </li>
                         <li class="footer">
@@ -154,7 +154,7 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php 
+                        <?php
                         // var_dump(file_exists(public_path('fotos_asociados/'.trim(session("foto")))));
                         if(!empty(session("foto")) && file_exists(public_path('fotos_asociados/'.trim(session("foto"))))) { ?>
                             <img src="{{ URL::asset('fotos_asociados/'.session("foto"))}}" class="user-image" alt="User Image">
@@ -172,7 +172,7 @@
                                 <img src="{{ URL::asset('images/usuario.png') }}" class="img-circle" alt="User Image">
                             <?php } ?>
 
-                           
+
 
                             <p style="margin-top: 0px;">
                                 {{ session("responsable") }} <br> {{ session("perfil_descripcion") }}
@@ -193,7 +193,7 @@
                                     <a href="#">Friends</a>
                                 </div>
                             </div>
-                            
+
                         </li> -->
                         <!-- Menu Footer-->
                         <li class="user-footer">

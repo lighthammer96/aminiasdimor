@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
             callbackConfirm: function() {
                 pastores.Operacion(datos.idotrospastores, "E");
 
-
+            }
         });
     }
 

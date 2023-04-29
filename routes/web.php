@@ -399,6 +399,7 @@ Route::post('eleccion/obtener_eleccion', [EleccionController::class, "obtener_el
 Route::post('eleccion/obtener_eleccion_union', [EleccionController::class, "obtener_eleccion"]);
 Route::post('eleccion/obtener_eleccion_iglesia', [EleccionController::class, "obtener_eleccion"]);
 Route::post('eleccion/select_init', [EleccionController::class, "select_init"]);
+Route::post('eleccion/obtener_oficiales', [EleccionController::class, "obtener_oficiales"]);
 
 /*************
  * MODULO REPORTES*

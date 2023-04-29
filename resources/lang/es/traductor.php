@@ -506,6 +506,8 @@ return [
     'eliminar_registro' => "¿SEGURO QUE DESEA ELIMINAR ESTE REGISTRO?",
     'elemento_detalle' => '¡DEBE INGRESAR AL MENOS UN ELEMENTO AL DETALLE!',
     'seleccionar_iglesia' => "¡DEBE SELECCIONAR UNA IGLESIA!",
+    'miembro_agregado' => "¡EL MIEMBRO YA HA SIDO AGREGADO AL DETALLE!",
+    'cargo_agregado' => "¡EL CARGO YA HA SIDO AGREGADO AL DETALLE!",
 
     'eliminar_asociado_capacitacion_miembro' => 'No se puede eliminar, este asociado ya tiene capacitaciones',
     'eliminar_asociado_cargo_miembro' => 'No se puede eliminar, este asociado ya tiene cargos',

@@ -175,3 +175,23 @@ ALTER TABLE "iglesias"."miembro"
 ALTER TABLE "iglesias"."otrospastores"
   ADD COLUMN "idpais" int2,
   ADD CONSTRAINT "fk_pais_otrospastores" FOREIGN KEY ("idpais") REFERENCES "public"."pais" ("idpais");
+
+
+
+--- 19/04/2023
+ALTER TABLE seguridad.usuarios ADD CONSTRAINT fk_perfiles_usuarios FOREIGN KEY (perfil_id) REFERENCES seguridad.perfiles(perfil_id);
+
+ALTER TABLE seguridad.log_sistema ADD CONSTRAINT fk_perfiles_log_sistema FOREIGN KEY (idperfil) REFERENCES seguridad.perfiles(perfil_id);
+
+ALTER TABLE seguridad.usuarios ADD CONSTRAINT fk_tipoacceso_usuarios FOREIGN KEY (idtipoacceso) REFERENCES seguridad.tipoacceso(idtipoacceso);
+
+ALTER TABLE seguridad.permisos ADD CONSTRAINT fk_perfiles_permisos FOREIGN KEY (perfil_id) REFERENCES seguridad.perfiles(perfil_id);
+ALTER TABLE seguridad.permisos ADD CONSTRAINT fk_modulos_permisos FOREIGN KEY (modulo_id) REFERENCES seguridad.modulos(modulo_id);
+
+
+ALTER TABLE seguridad.modulos_idiomas ADD CONSTRAINT fk_modulos_modulos_idiomas FOREIGN KEY (modulo_id) REFERENCES seguridad.modulos(modulo_id);
+ALTER TABLE seguridad.modulos_idiomas ADD CONSTRAINT fk_idiomas_modulos_idiomas FOREIGN KEY (idioma_id) REFERENCES public.idiomas(idioma_id);
+
+
+ALTER TABLE seguridad.perfiles_idiomas ADD CONSTRAINT fk_perfiles_perfiles_idiomas FOREIGN KEY (perfil_id) REFERENCES seguridad.perfiles(perfil_id);
+ALTER TABLE seguridad.perfiles_idiomas ADD CONSTRAINT fk_idiomas_perfiles_idiomas FOREIGN KEY (idioma_id) REFERENCES public.idiomas(idioma_id);

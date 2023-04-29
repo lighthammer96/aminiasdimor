@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AsociadosModel;
 use App\Models\BaseModel;
+use App\Models\CargosModel;
 use App\Models\DistritosmisionerosModel;
 use App\Models\DivisionesModel;
 use App\Models\EleccionModel;
@@ -28,6 +29,7 @@ class EleccionController extends Controller
     private $distritos_misioneros_model;
     private $iglesias_model;
     private $asociados_model;
+    private $cargos_model;
 
     public function __construct() {
         parent:: __construct();
@@ -40,6 +42,7 @@ class EleccionController extends Controller
         $this->distritos_misioneros_model = new DistritosmisionerosModel();
         $this->iglesias_model = new IglesiasModel();
         $this->asociados_model = new AsociadosModel();
+        $this->cargos_model = new CargosModel();
     }
 
     public function index() {
@@ -47,6 +50,8 @@ class EleccionController extends Controller
         $data["title"] = traducir("traductor.titulo_eleccion");
         $data["subtitle"] = "";
         $data["tabla"] = $this->eleccion_model->tabla()->HTML();
+        $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
+
 
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
@@ -62,6 +67,7 @@ class EleccionController extends Controller
         $data["title"] = traducir("traductor.titulo_eleccion_union");
         $data["subtitle"] = "";
         $data["tabla"] = $this->eleccion_model->tabla_union()->HTML();
+        $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
 
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion_union"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
@@ -77,6 +83,8 @@ class EleccionController extends Controller
         $data["title"] = traducir("traductor.titulo_eleccion_iglesia");
         $data["subtitle"] = "";
         $data["tabla"] = $this->eleccion_model->tabla_iglesia()->HTML();
+        $data["tabla_asociados"] = $this->asociados_model->tabla()->HTML();
+
 
         $botones = array();
         $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-default btn-sm" id="nueva-eleccion_iglesia"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/agregar-archivo.png').'"><br>'.traducir("traductor.nuevo").' [F1]</button>';
@@ -118,6 +126,14 @@ class EleccionController extends Controller
             $result = $this->base_model->insertar($this->preparar_datos("iglesias.eleccion", $_POST));
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.eleccion", $_POST));
+        }
+        $_POST["ideleccion"] = $result["id"];
+
+        DB::table("iglesias.eleccion_oficiales")->where("ideleccion", $request->input("ideleccion"))->delete();
+        if(isset($_REQUEST["idcargo"]) && gettype($_REQUEST["idcargo"]) == "array" && count($_REQUEST["idcargo"]) > 0) {
+
+            $this->base_model->insertar($this->preparar_datos("iglesias.eleccion_oficiales", $_POST, "D"), "D");
+
         }
 
         return $result;
@@ -219,8 +235,20 @@ class EleccionController extends Controller
 
         $data["periodoini"] = $this->asociados_model->obtener_periodos_ini();
         $data["periodofin"] = $this->asociados_model->obtener_periodos_fin();
+        $data["idcargo_union"] = $this->cargos_model->obtener_cargos_para_eleccion_oficiales_union();
+        $data["idcargo_asociacion"] = $this->cargos_model->obtener_cargos_para_eleccion_oficiales_asociacion();
+        $data["idcargo_iglesia"] = $this->cargos_model->obtener_cargos_para_eleccion_oficiales_iglesia();
 
         echo json_encode($data);
+    }
+
+    public function obtener_oficiales(Request $request) {
+        $sql = "SELECT eo.*, m.*, (m.apellidos || ', ' || m.nombres) AS asociado, c.descripcion AS cargo FROM iglesias.eleccion_oficiales AS eo
+        INNER JOIN iglesias.miembro AS m ON(eo.idmiembro=m.idmiembro)
+        INNER JOIN public.cargo AS c ON(eo.idcargo=c.idcargo)
+        WHERE eo.ideleccion=".$request->input("ideleccion");
+        $one = DB::select($sql);
+        echo json_encode($one);
     }
 
 }

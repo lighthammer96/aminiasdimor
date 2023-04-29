@@ -116,7 +116,7 @@ class IglesiasController extends Controller
         $data["idprovincia"] = $this->principal_model->obtener_provincias($request);
         $data["iddistrito"] = $this->principal_model->obtener_distritos($request);
         $data["iddivision"] = $this->divisiones_model->obtener_divisiones($request);
-        $data["pais_id"] = $this->divisiones_model->obtener_divisiones($request);
+        $data["pais_id"] = $this->paises_model->obtener_paises_asociados($request);
         $data["idunion"] = $this->uniones_model->obtener_uniones_paises($request);
         $data["idmision"] = $this->misiones_model->obtener_misiones($request);
         $data["iddistritomisionero"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
