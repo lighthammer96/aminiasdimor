@@ -272,7 +272,9 @@ class ReportesController extends Controller
             $where .= ' AND m.idiglesia IN('.$iglesias.')';
         }
         // die($select);
-
+        if(!empty($where)) {
+            $where = " WHERE ".$where;
+        }
         $sql_miembros = "SELECT ".$select."
         FROM iglesias.miembro AS m
         LEFT JOIN public.gradoinstruccion AS gi ON(gi.idgradoinstruccion=m.idgradoinstruccion)
@@ -287,7 +289,7 @@ class ReportesController extends Controller
         LEFT JOIN iglesias.distritomisionero AS dm ON(dm.iddistritomisionero=m.iddistritomisionero)
         LEFT JOIN iglesias.iglesia AS i ON(i.idiglesia=m.idiglesia)
         LEFT JOIN iglesias.condicioneclesiastica AS ce ON(ce.idcondicioneclesiastica=m.idcondicioneclesiastica)
-        WHERE ".$where;
+        ".$where;
         // die($sql_miembros);
         return DB::select($sql_miembros);
     }

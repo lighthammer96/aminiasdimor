@@ -112,6 +112,9 @@ class EleccionController extends Controller
 
     public function guardar($request) {
         $_POST = $this->toUpper($_POST, ["tipo"]);
+        $_POST["fecha"] = (isset($_REQUEST["fecha"])) ? $this->FormatoFecha($_REQUEST["fecha"], "server") : "";
+        $_POST["fechaanterior"] = (isset($_REQUEST["fechaanterior"])) ? $this->FormatoFecha($_REQUEST["fechaanterior"], "server") : "";
+
         $array_pais = explode("|", $_POST["pais_id"]);
         $_POST["pais_id"] = $array_pais[0];
         if(isset($array_pais[1]) && $array_pais[1] == "N" && empty($request->input("idunion"))) {
