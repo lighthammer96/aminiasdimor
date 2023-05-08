@@ -112,6 +112,7 @@ class EleccionController extends Controller
 
     public function guardar($request) {
         $_POST = $this->toUpper($_POST, ["tipo"]);
+
         $_POST["fecha"] = (isset($_REQUEST["fecha"])) ? $this->FormatoFecha($_REQUEST["fecha"], "server") : "";
         $_POST["fechaanterior"] = (isset($_REQUEST["fechaanterior"])) ? $this->FormatoFecha($_REQUEST["fechaanterior"], "server") : "";
 
@@ -130,6 +131,7 @@ class EleccionController extends Controller
         }else{
             $result = $this->base_model->modificar($this->preparar_datos("iglesias.eleccion", $_POST));
         }
+        
         $_POST["ideleccion"] = $result["id"];
 
         DB::table("iglesias.eleccion_oficiales")->where("ideleccion", $request->input("ideleccion"))->delete();
