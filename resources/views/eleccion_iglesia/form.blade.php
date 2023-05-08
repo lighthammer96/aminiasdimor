@@ -158,7 +158,7 @@
                             <input type="hidden" name="fax" class="input-sm entrada datos-asociado limpiar-oficiales" >
                             <input type="hidden" name="email" class="input-sm entrada datos-asociado limpiar-oficiales" >
 
-                            <label for="" class="control-label">{{ traducir('traductor.responsable')}}</label>
+                            <label for="" class="control-label">{{ traducir('traductor.asociado')}}</label>
 
                             <div class="input-group">
                                 <input readonly="readonly" type="text" class="form-control input-sm entrada datos-asociado limpiar-oficiales" name="asociado" placeholder="{{ traducir('asambleas.buscar_asociado') }}...">
