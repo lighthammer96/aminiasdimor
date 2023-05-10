@@ -2664,8 +2664,7 @@ output {
     line-height: 1.42857143;
     color: #555;
     /* background-color: #fff; */
-    /* background-color: #dceff7; */
-    background-color: #f4f4f7;
+    background-color: #dceff7;
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -2984,15 +2983,12 @@ textarea.input-lg {
 .has-error.radio label,
 .has-error.radio-inline label {
     /*color: #a94442;*/
-    /* color: red; */
-    color: #f23a3c;
+    color: red;
 }
 .has-error .form-control {
     /*border-color: #a94442;*/
-    /* border-color: red; */
-    border: 1px solid #f23a3c;
-    box-shadow: 0 0 3px #f23a3c;
-    color: #f23a3c;
+    border-color: red;
+    color: red;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
