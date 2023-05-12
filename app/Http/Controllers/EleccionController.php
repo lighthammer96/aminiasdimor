@@ -164,6 +164,7 @@ class EleccionController extends Controller
     }
 
     public function eliminar() {
+        $this->base_model->eliminar(["iglesias.eleccion_oficiales","ideleccion"]);
         $result = $this->base_model->eliminar(["iglesias.eleccion","ideleccion"]);
         return $result;
     }
