@@ -306,7 +306,7 @@ class BASE_JS {
             if(typeof self.datatable.ajax != "undefined") {
                 self.datatable.clear();
                 self.datatable.ajax.reload();
-                self.datatable.draw();
+                // self.datatable.draw();
             }
 
         })
@@ -457,7 +457,7 @@ class BASE_JS {
             if(typeof self.datatable.ajax != "undefined") {
                 self.datatable.clear();
                 self.datatable.ajax.reload();
-                self.datatable.draw();
+                // self.datatable.draw();
             }
 
         })

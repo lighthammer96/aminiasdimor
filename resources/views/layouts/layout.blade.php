@@ -393,7 +393,7 @@
     <!-- libreria para los sockets -->
     <script src="{{ URL::asset('dist/js/socket.io-2.3.0.js') }}"></script>
 
-    <script src="{{ URL::asset('app/js/BASE_JS.js?version=051020210813') }}"></script>
+    <script src="{{ URL::asset('app/js/BASE_JS.js?version=110520232041') }}"></script>
 
     <script>
         // funciona con la libreria: public\dist\js\socket.io.js

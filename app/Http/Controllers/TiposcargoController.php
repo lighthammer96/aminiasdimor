@@ -22,8 +22,8 @@ class TiposcargoController extends Controller
     }
 
     public function index() {
-        $view = "tipos_cargo_model.index";
-        $data["title"] = traducir("traductor.titulo_tipos_cargo_model");
+        $view = "tipos_cargo.index";
+        $data["title"] = traducir("traductor.titulo_tipos_cargo");
         $data["subtitle"] = "";
         $data["tabla"] = $this->tipos_cargo_model->tabla()->HTML();
 
@@ -32,7 +32,7 @@ class TiposcargoController extends Controller
         $botones[1] = '<button disabled="disabled" tecla_rapida="F2" style="margin-right: 5px;" class="btn btn-default btn-sm" id="modificar-tipo-cargo"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/editar-documento.png').'"><br>'.traducir("traductor.modificar").' [F2]</button>';
         $botones[2] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-tipo-cargo"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["tipos_cargo_model.js"]);
+        $data["scripts"] = $this->cargar_js(["tipos_cargo.js"]);
         return parent::init($view, $data);
 
 
@@ -45,7 +45,7 @@ class TiposcargoController extends Controller
     }
 
 
-    public function guardar_tipos_cargo_model(Request $request) {
+    public function guardar_tipos_cargo(Request $request) {
 
         $_POST = $this->toUpper($_POST);
         if ($request->input("idtipocargo") == '') {
@@ -65,7 +65,7 @@ class TiposcargoController extends Controller
         echo json_encode($result);
     }
 
-    public function eliminar_tipos_cargo_model() {
+    public function eliminar_tipos_cargo() {
 
 
         try {
@@ -91,7 +91,7 @@ class TiposcargoController extends Controller
     }
 
 
-    public function get_tipos_cargo_model(Request $request) {
+    public function get_tipos_cargo(Request $request) {
 
         $sql = "SELECT * FROM public.tipocargo WHERE idtipocargo=".$request->input("id");
         $one = DB::select($sql);

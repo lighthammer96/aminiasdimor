@@ -28,7 +28,7 @@ class AsociadosModel extends Model
         $tabla = new Tabla();
         $tabla->asignarID("tabla-asociados");
         $tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");
-        $tabla->agregarColumna("(m.apellidos || ', ' || m.nombres)", "nombres", traducir("traductor.nombres"));
+        $tabla->agregarColumna("(m.nombres || ' ' || m.apellidos)", "nombres", traducir("traductor.nombres"));
         $tabla->agregarColumna("td.descripcion", "descripcion", traducir("traductor.documento"));
         $tabla->agregarColumna("m.nrodoc", "nrodoc", traducir("traductor.numero"));
         $tabla->agregarColumna("m.email", "email", traducir("traductor.email"));
@@ -56,7 +56,7 @@ class AsociadosModel extends Model
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
 
-        $tabla->setSelect("m.idmiembro, (m.apellidos || ', ' || m.nombres) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
+        $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
         $tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
         {$join}");
