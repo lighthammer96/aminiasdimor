@@ -157,6 +157,11 @@
                         <?php
                             $i = 1;
                             foreach ($miembros as $key => $value) {
+                                if(isset($value->bajas[0]->idmotivobaja) && $value->bajas[0]->idmotivobaja == "4") {
+                                    continue; // no debe mostrar miembros dados de baja por muerte
+                                }
+
+
                                 $fecha_baja = "-.-";
                                 if(isset($value->bajas[0]->fecha)) {
                                     $fecha_baja = $value->bajas[0]->fecha;
@@ -167,6 +172,9 @@
                                 }
 
                                 $motivo_baja = "-.-";
+
+
+
                                 if(isset($value->bajas[0]->motivo_baja)) {
                                     $motivo_baja = $value->bajas[0]->motivo_baja;
                                 }

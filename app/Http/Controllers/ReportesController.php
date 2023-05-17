@@ -603,6 +603,8 @@ class ReportesController extends Controller
 
         if(count($array_where) > 0 ) {
             $where .= "WHERE ".implode(" AND ", $array_where);
+        } else {
+            $where .= "";
         }
 
 
@@ -637,7 +639,7 @@ class ReportesController extends Controller
 
 
         foreach ($miembros as $km => $vm) {
-            $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja
+            $sql_baja = "SELECT h.*, ".formato_fecha_idioma("h.fecha")." AS fecha, mb.descripcion AS motivo_baja, mb.idmotivobaja
             FROM iglesias.historial_altasybajas AS h
             INNER JOIN iglesias.motivobaja AS mb ON(mb.idmotivobaja=h.idmotivobaja)
             WHERE h.idmiembro=".$vm->idmiembro."
