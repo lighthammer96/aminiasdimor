@@ -1145,7 +1145,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("guardar-asociado").addEventListener("click", function(event) {
         event.preventDefault();
+
         var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
+        var fechanacimiento = document.getElementsByName("fechanacimiento")[0].value;
         var email = document.getElementsByName("email")[0].value;
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
@@ -1180,6 +1182,11 @@ document.addEventListener("DOMContentLoaded", function() {
         required = required && asociados.required("direccion");
         //   console.log(required);
         required = required && asociados.required("fechanacimiento");
+
+        if(fechanacimiento != "") {
+            required = required && asociados.validar_fecha("fechanacimiento", format);
+            // console.log(required);
+        }
         // console.log(required);
         required = required && asociados.required("pais_id_nacimiento");
         // console.log(required);

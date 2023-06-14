@@ -1495,6 +1495,52 @@ class BASE_JS {
 
     }
 
+    // referencia: https://w3.unpocodetodo.info/utiles/regex-ejemplos.php?type=fechas
+    validar_fecha(name, formato) {
+        var regex = "";
+        var valor = this.buscarEnFormulario(name).value;
+        // Fecha dd-mm-aaaa
+        if(formato == "dd/mm/yyyy") {
+
+            regex = /^(?:3[01]|[12][0-9]|0?[1-9])([\-/.])(0?[1-9]|1[1-2])\1\d{4}$/;
+        }
+
+        // Ejemplos:
+        // 31.12.3013
+        // 01/01/2013
+        // 5-3-2013
+        // 15.03.2013
+
+        //Fecha aaaa-mm-dd
+        if(formato == "yyyy-mm-dd") {
+
+            regex = /^\d{4}([\-/.])(0?[1-9]|1[1-2])\1(3[01]|[12][0-9]|0?[1-9])$/;
+        }
+
+        // Ejemplos:
+        // 2013-12-14
+        // 2013-07-08
+        // 2013-7-14
+        // 2013/11/8
+        // 2013.11.8
+
+        if (this.buscarEnFormulario(name)) {
+            if (valor != "") {
+
+                if (regex.test(valor)) {
+                    this.buscarEnFormulario(name).parentNode.classList.remove('has-error');
+                    return true;
+                } else {
+
+                }
+            }
+        }
+
+        BASE_JS.notificacion({title: advertencia, type: 'warning', msg: "Fecha inválida"});
+        this.buscarEnFormulario(name).parentNode.classList.add('has-error');
+        return false;
+    }
+
     validar_email(name) {
         var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
         var valor = this.buscarEnFormulario(name).value;
