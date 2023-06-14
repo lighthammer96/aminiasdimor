@@ -1221,10 +1221,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log(required);
         }
 
-        if(fechabautizo != "") {
-            required = required && asociados.validar_fecha("fechabautizo", format);
-            // console.log(required);
-        }
+
 
         if(!required) {
             $(".nav-tabs").find("li").removeClass("active");
@@ -1237,6 +1234,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if(idcondicioneclesiastica == "1") {
             condicion = condicion && asociados.required("idcondicioneclesiastica");
             condicion = condicion && asociados.required("fechabautizo");
+            if(fechabautizo != "") {
+                condicion = condicion && asociados.validar_fecha("fechabautizo", format);
+                // console.log(required);
+            }
             condicion = condicion && asociados.required("responsable_bautizo");
             condicion = condicion && asociados.required("idreligion");
             // condicion = condicion && asociados.required("texto_bautismal");
