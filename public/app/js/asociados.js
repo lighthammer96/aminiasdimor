@@ -1148,6 +1148,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var emailalternativo = document.getElementsByName("emailalternativo")[0].value;
         var fechanacimiento = document.getElementsByName("fechanacimiento")[0].value;
+        var fechabautizo = document.getElementsByName("fechabautizo")[0].value;
         var email = document.getElementsByName("email")[0].value;
         var idmiembro = document.getElementsByName("idmiembro")[0].value;
         var pais_id = document.getElementsByName("pais_id")[0].value;
@@ -1217,6 +1218,11 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && asociados.required("iddistritomisionero");
             // console.log(required);
             required = required && asociados.required("idiglesia");
+            // console.log(required);
+        }
+
+        if(fechabautizo != "") {
+            required = required && asociados.validar_fecha("fechabautizo", format);
             // console.log(required);
         }
 

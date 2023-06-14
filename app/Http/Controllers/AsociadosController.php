@@ -76,7 +76,7 @@ class AsociadosController extends Controller
         $botones[3] = '<button disabled="disabled" tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-default btn-sm" id="eliminar-asociado"><img style="width: 19px; height: 20px;" src="'.URL::asset('images/iconos/delete.png').'"><br>'.traducir("traductor.eliminar").' [F7]</button>';
         // $botones[3] = '<button tecla_rapida="F7" style="margin-right: 5px;" class="btn btn-danger btn-sm" id="eliminar-asociado">'.traducir("traductor.eliminar").' [F7]</button>';
         $data["botones"] = $botones;
-        $data["scripts"] = $this->cargar_js(["asociados.js?version=140620231547"]);
+        $data["scripts"] = $this->cargar_js(["asociados.js?version=140620231555"]);
         return parent::init($view, $data);
     }
 
