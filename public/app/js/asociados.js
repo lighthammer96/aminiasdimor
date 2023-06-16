@@ -2189,3 +2189,5 @@ function imprimir_carta_iglesia(idmiembro, idcontrol) {
 function imprimir_respuesta_carta_iglesia(idmiembro, idcontrol) {
     window.open(BaseUrl + "/traslados/imprimir_respuesta_carta_iglesia/"+idmiembro+"/"+idcontrol);
 }
+
+console.log("holaaaaaaa");
