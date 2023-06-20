@@ -386,7 +386,13 @@ class BASE_JS {
 
                                     }
                                 }
-                                elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
+                                // console.log(idioma_codigo);
+                                if(idioma_codigo == "es") {
+                                    elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "user");
+                                } else {
+                                    elementos[i].value = BASE_JS.FormatoFecha(response[elementos[i].name], "server");
+                                }
+
                             }
 
                         }
