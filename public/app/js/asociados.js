@@ -1184,10 +1184,10 @@ document.addEventListener("DOMContentLoaded", function() {
         //   console.log(required);
         required = required && asociados.required("fechanacimiento");
 
-        if(fechanacimiento != "") {
-            required = required && asociados.validar_fecha("fechanacimiento", format);
-            // console.log(required);
-        }
+        // if(fechanacimiento != "") {
+        //     required = required && asociados.validar_fecha("fechanacimiento", format);
+        //     // console.log(required);
+        // }
         // console.log(required);
         required = required && asociados.required("pais_id_nacimiento");
         // console.log(required);
@@ -1234,10 +1234,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if(idcondicioneclesiastica == "1") {
             condicion = condicion && asociados.required("idcondicioneclesiastica");
             condicion = condicion && asociados.required("fechabautizo");
-            if(fechabautizo != "") {
-                condicion = condicion && asociados.validar_fecha("fechabautizo", format);
-                // console.log(required);
-            }
+            // if(fechabautizo != "") {
+            //     condicion = condicion && asociados.validar_fecha("fechabautizo", format);
+            //     // console.log(required);
+            // }
             condicion = condicion && asociados.required("responsable_bautizo");
             condicion = condicion && asociados.required("idreligion");
             // condicion = condicion && asociados.required("texto_bautismal");

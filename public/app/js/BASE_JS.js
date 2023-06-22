@@ -1535,9 +1535,12 @@ class BASE_JS {
         console.log(regex.test(valor));
         console.log(regex);
         console.log(regex.test(valor));
+        console.log(regex.test("14/12/2012"));
+        console.log(regex.test("02/10/1987"));
+
         console.log(regex.test("2013-12-14"));
         console.log(regex.test("1987-10-02"));
-        console.log(regex.test("1987-10-2"));
+
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
 
