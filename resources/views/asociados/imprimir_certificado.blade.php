@@ -112,28 +112,26 @@
 
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
-                    echo $miembro[0]->asamblea_fecha_inicio." ".$miembro[0]->asamblea_fecha_fin;
-                    if(session("idioma_codigo") == "en") {
+                    $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
+                    $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
+                    $dia_inicio = $date[0];
+                    $dia_fin = $date_fin[0];
+
+
+                    if(trim(session("idioma_codigo")) == "en") {
                         $date = explode("-", $miembro[0]->asamblea_fecha_inicio);
                         $date_fin = explode("-", $miembro[0]->asamblea_fecha_fin);
                         $dia_inicio = $date[count($date) - 1];
                         $dia_fin = $date_fin[count($date_fin) - 1];
-                        echo "olaaaa en ";
-                    } else {
-                        $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
-                        $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
-                        $dia_inicio = $date[0];
-                        $dia_fin = $date_fin[0];
-                        echo "olaaaa es ";
-                    }
 
+                    } 
                     echo "<pre>";
                     print_r(session("idioma_codigo"));
                     print_r($date);
                     print_r($date_fin);
-                    // print_r($dia_inicio);
-                    // print_r($dia_fin);
-                    // print_r($miembro);
+                    print_r($dia_inicio);
+                    print_r($dia_fin);
+                    print_r($miembro);
                      exit;
                 ?>
                 <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} <?php echo $dia_inicio; ?> {{ traducir("asambleas.al") }} <?php echo $dia_fin; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_esta_asociacion_union") }} </label>
