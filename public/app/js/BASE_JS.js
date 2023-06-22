@@ -1530,6 +1530,9 @@ class BASE_JS {
         // 2013/11/8
         // 2013.11.8
         console.log(formato);
+        console.log(this.buscarEnFormulario(name));
+        console.log(valor);
+        console.log(regex.test(valor));
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
 
