@@ -1533,6 +1533,7 @@ class BASE_JS {
         console.log(this.buscarEnFormulario(name));
         console.log(valor);
         console.log(regex.test(valor));
+        console.log(regex);
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
 
