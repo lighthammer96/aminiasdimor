@@ -113,7 +113,7 @@
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                     $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
                     $dia_inicio = $date[0];
-                    $dia_fin = date_fin[0];
+                    $dia_fin = $date_fin[0];
 
                     if(session("idioma_codigo") == "en") {
                         $date = explode("-", $miembro[0]->asamblea_fecha_inicio);
