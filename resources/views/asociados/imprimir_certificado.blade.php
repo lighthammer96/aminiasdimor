@@ -109,20 +109,24 @@
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
                 <?php
-                    $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
+
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                    $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
-                    $dia_inicio = $date[0];
-                    $dia_fin = $date_fin[0];
+
 
                     if(session("idioma_codigo") == "en") {
                         $date = explode("-", $miembro[0]->asamblea_fecha_inicio);
                         $date_fin = explode("-", $miembro[0]->asamblea_fecha_fin);
                         $dia_inicio = $date[count($date) - 1];
                         $dia_fin = $date_fin[count($date_fin) - 1];
+                    } else {
+                        $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
+                        $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
+                        $dia_inicio = $date[0];
+                        $dia_fin = $date_fin[0];
                     }
-                    print_r(session("idioma_codigo"));
+
                     echo "<pre>";
+                    print_r(session("idioma_codigo"));
                     print_r($date);
                     print_r($date_fin);
                     print_r($dia_inicio);
