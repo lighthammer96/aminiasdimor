@@ -1201,9 +1201,7 @@ class AsociadosController extends Controller
         $datos["nivel_organizativo"] = $nivel_organizativo;
 
         $datos["cargos"] = $cargos;
-        // echo "<pre>";
-        // print_r($datos);
-        // exit;
+      
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
         $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);
