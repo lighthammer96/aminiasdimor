@@ -121,6 +121,10 @@
                         $dia_inicio = $date[count($date) - 1];
                         $dia_fin = $date_fin[count($date_fin) - 1];
                     }
+                    echo "<pre>";
+                    prin_r($date);
+                    prin_r($date_fin);
+                     exit;
                 ?>
                 <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} <?php echo $dia_inicio; ?> {{ traducir("asambleas.al") }} <?php echo $dia_fin; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_esta_asociacion_union") }} </label>
             </div>
