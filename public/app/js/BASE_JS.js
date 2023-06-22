@@ -1529,7 +1529,7 @@ class BASE_JS {
         // 2013-7-14
         // 2013/11/8
         // 2013.11.8
-
+        console.log(formato);
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
 
