@@ -1202,7 +1202,7 @@ class AsociadosController extends Controller
 
         $datos["cargos"] = $cargos;
         echo "<pre>";
-        print_r($datos["miembro"]);
+        print_r($datos);
         exit;
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
