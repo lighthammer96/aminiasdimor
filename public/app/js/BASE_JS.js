@@ -1537,10 +1537,11 @@ class BASE_JS {
             if (valor != "") {
 
                 if (regex.test(valor)) {
+                    console.log("verdad");
                     this.buscarEnFormulario(name).parentNode.classList.remove('has-error');
                     return true;
                 } else {
-
+                    console.log("falso");
                 }
             }
         }
