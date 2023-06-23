@@ -1529,15 +1529,27 @@ class BASE_JS {
         // 2013-7-14
         // 2013/11/8
         // 2013.11.8
+        console.log(formato);
+        console.log(this.buscarEnFormulario(name));
+        console.log(valor);
+        console.log(regex.test(valor));
+        console.log(regex);
+        console.log(regex.test(valor));
+        console.log(regex.test("14/12/2012"));
+        console.log(regex.test("02/10/1987"));
+
+        console.log(regex.test("2013-12-14"));
+        console.log(regex.test("1987-10-02"));
 
         if (this.buscarEnFormulario(name)) {
             if (valor != "") {
 
                 if (regex.test(valor)) {
+                    console.log("verdad");
                     this.buscarEnFormulario(name).parentNode.classList.remove('has-error');
                     return true;
                 } else {
-
+                    console.log("falso");
                 }
             }
         }

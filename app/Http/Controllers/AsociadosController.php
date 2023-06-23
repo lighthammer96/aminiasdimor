@@ -1147,6 +1147,11 @@ class AsociadosController extends Controller
         WHERE m.idmiembro={$idmiembro}";
         $miembro = DB::select($sql_miembro);
 
+        if(count($miembro) <= 0) {
+            echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
+            exit;
+        }
+
         $sql_totales = "SELECT delegado_tipo, COUNT(idmiembro) AS total FROM asambleas.delegados
         WHERE asamblea_id = {$miembro[0]->asamblea_id} AND estado='A'
         GROUP BY delegado_tipo";
@@ -1196,6 +1201,7 @@ class AsociadosController extends Controller
         $datos["nivel_organizativo"] = $nivel_organizativo;
 
         $datos["cargos"] = $cargos;
+      
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
         $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);

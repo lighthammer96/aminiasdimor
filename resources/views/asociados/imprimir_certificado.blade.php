@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado</title>
     <style>
-        
+
         /* referencia: https://ourcodeworld.co/articulos/leer/687/como-configurar-un-encabezado-y-pie-de-pagina-en-dompdf */
         @page {
             margin: 0cm 0cm;
@@ -19,7 +19,7 @@
             margin-right: 2cm;
             margin-bottom: 2cm;
         }
-            
+
         header {
             position: fixed;
             top: 0.9cm;
@@ -39,13 +39,13 @@
             /* font-weight: bold; */
             font-size: 14px;
         }
-        
-    
+
+
         /* #contenido {
-            
+
             width: 696px; */
             /* border: 1px solid gray */
-					
+
         /* } */
 
         .row {
@@ -62,22 +62,22 @@
             /* clear: both; */
         }
         .clear {
-            clear: both; 
+            clear: both;
         }
         .col {
             float: left;
             /* border: 1px solid black; */
         }
-        
+
 
         h2, h3, h4, h5 {
             /* text-align: center !important; */
             margin: 2px 0;
             /* padding-botton: 2px; */
-			
+
         }
     </style>
-   
+
 </head>
 <body>
 
@@ -86,46 +86,59 @@
         <div class="row" style="margin-top: 0px; margin-bottom: 10px; text-align: center; font-size: 20px !important;">
             <div class="col" style="width: 100%;">
                 <h3><?php echo mayusculas(traducir("asambleas.certificacion_delegado")); ?></h3>
-               
+
             </div>
         </div>
         <div class="clear"></div>
         <div class="row" style="margin-top: 0px; margin-bottom: 10px; text-align: center; font-size: 16px !important;">
             <div class="col" style="width: 100%;">
-              
+
                 <h4>{{ $miembro[0]->asamblea_descripcion }}</h4>
             </div>
         </div>
-    
+
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important;">
                 <label> {{ mayusculas(traducir("asambleas.para_delegados_asociaciones_uniones")) }}</label>
             </div>
-        
+
         </div>
 
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
-                <?php 
-                    $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
+                <?php
+
                     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+                    $date = explode("/", $miembro[0]->asamblea_fecha_inicio);
                     $date_fin = explode("/", $miembro[0]->asamblea_fecha_fin);
+                    $dia_inicio = $date[0];
+                    $dia_fin = $date_fin[0];
+
+                    if(trim(session("idioma_codigo")) == "en") {
+                        $date = explode("-", $miembro[0]->asamblea_fecha_inicio);
+                        $date_fin = explode("-", $miembro[0]->asamblea_fecha_fin);
+                        $dia_inicio = $date[count($date) - 1];
+                        $dia_fin = $date_fin[count($date_fin) - 1];
+
+                    }
+
                 ?>
-                <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} <?php echo $date[0]; ?> {{ traducir("asambleas.al") }} <?php echo $date_fin[0]; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_esta_asociacion_union") }} </label>
+                <label> {{ traducir("asambleas.abajo_firmantes_asociaciones_uniones") }} _________________ {{ traducir("asambleas.por_la_presente") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }} <?php echo $dia_inicio; ?> {{ traducir("asambleas.al") }} <?php echo $dia_fin; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_esta_asociacion_union") }} </label>
             </div>
-        
+
         </div>
 
-       
+
         <div class="clear"></div>
         <br>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important;">
                 <label> {{ mayusculas(traducir("asambleas.para_delegados_asociacion_general")) }}</label>
             </div>
-        
+
         </div>
 
         <div class="clear"></div>
@@ -133,7 +146,7 @@
             <div class="col" style="width: 100%; text-align: justify;">
                 <label> {{ traducir("asambleas.abajo_firmantes_asociacion_general") }} {{ $miembro[0]->asamblea_descripcion }} {{ traducir("asambleas.del_anio") }} {{ $miembro[0]->asamblea_anio }} {{ traducir("asambleas.a_realizarse_en") }} {{ $miembro[0]->asamblea_ciudad }}, {{ $miembro[0]->pais }} {{ traducir("asambleas.del") }}  <?php echo $date[0]; ?> {{ traducir("asambleas.al") }} <?php echo $date_fin[0]; ?> {{ traducir("asambleas.de_") }} <?php echo $meses[$date_fin[1]-1]; ?> {{ traducir("asambleas.de_") }} {{ $miembro[0]->asamblea_anio }}</label>
             </div>
-        
+
         </div>
 
 
@@ -143,15 +156,15 @@
             <div class="col" style="width: 100%; text-align: justify;">
                 <label> {{ traducir("asambleas.nombre_representante_asociacion_general") }} ________________________________</label>
             </div>
-        
+
         </div>
         <div class="clear"></div>
-       
+
         <div class="row" style="">
             <div class="col" style="width: 100%; text-align: justify;">
                 <label> {{ traducir("asambleas.fecha_eleccion") }} ________________________________{{ traducir("asambleas.lugar_eleccion") }} ________________________________</label>
             </div>
-        
+
         </div>
 
 
@@ -161,14 +174,14 @@
            <div class="col" style="width: 100%; text-align: justify;">
                <label> {{ traducir("asambleas.apellidos_delegado") }} {{ $miembro[0]->apellidos }}</label>
            </div>
-       
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
                <label> {{ traducir("asambleas.nombres_delegado") }} {{ $miembro[0]->nombres }}</label>
            </div>
-       
+
         </div>
 
         <div class="clear"></div>
@@ -178,7 +191,7 @@
            </div>
         </div>
 
-        <?php  
+        <?php
             $suplentes = 0;
             $total = 0;
             foreach ($totales as $key => $value) {
@@ -224,7 +237,7 @@
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.direccion_delegado") }}: {{ $miembro[0]->direccion }}</label>
            </div>
-           
+
         </div>
 
         <div class="clear"></div>
@@ -261,19 +274,19 @@
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.expedido_por") }}: {{ $miembro[0]->pasaporte_expedido_por }}</label>
            </div>
-           
+
         </div>
 
-    
+
 
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.estado_pasaporte") }}: {{ $miembro[0]->estado_pasaporte }}</label>
            </div>
-           
+
         </div>
-        
+
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 50%; text-align: justify;">
@@ -289,7 +302,7 @@
             <div class="col" style="width: 100%; font-size: 16px !important;">
                 <label> {{ mayusculas(traducir("traductor.titulo_curriculum")) }}</label>
             </div>
-        
+
         </div>
 
         <div class="clear"></div>
@@ -311,7 +324,7 @@
                <label>{{ traducir("asambleas.miembro_iglesia") }}: {{ $miembro[0]->iglesia }}</label>
            </div>
         </div>
-            
+
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 50%; text-align: justify;">
@@ -332,7 +345,7 @@
            </div>
         </div>
 
-        
+
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 50%; text-align: justify;">
@@ -343,14 +356,14 @@
            </div>
         </div>
 
-        
+
 
         <div class="clear"></div>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.ocupaciones_adicionales") }}: {{ $miembro[0]->ocupacion }}</label>
            </div>
-           
+
         </div>
 
         <div class="clear"></div>
@@ -358,7 +371,7 @@
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.nivel_educacion_alto") }}: {{ $miembro[0]->educacion }}</label>
            </div>
-           
+
         </div>
 
         <div class="clear"></div>
@@ -369,16 +382,16 @@
            <div class="col" style="width: 50%; text-align: justify;">
                <label>{{ traducir("asambleas.areas_estudio") }}: </label>
            </div>
-        </div>  
+        </div>
 
-        
+
         <div class="clear"></div>
         <br>
         <div class="row" style="">
            <div class="col" style="width: 100%; text-align: justify;">
                <label>{{ traducir("asambleas.recientes_cargos") }}: {{ $miembro[0]->tipconv_descripcion }} {{ traducir("asambleas.dentro_smi") }}:</label>
            </div>
-           
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
@@ -391,11 +404,11 @@
             <div class="col" style="width: 25%; font-weight: bold;"">
                 <label for="">{{ traducir("asambleas.anios") }}</label>
             </div>
-           
-        
+
+
         </div>
-    
-        <?php 
+
+        <?php
             foreach ($cargos as $kc => $vc) {
                 echo '<div class="clear"></div>
                         <div class="row" style="">
@@ -410,7 +423,7 @@
                             </div>
                         </div>';
             }
-        
+
         ?>
 
         <div class="clear"></div>
@@ -424,9 +437,9 @@
                <label>{{ traducir("asambleas.texto_covid_certificado_delegado_5") }}</label><br>
                <label>{{ traducir("asambleas.texto_covid_certificado_delegado_6") }}</label><br>
            </div>
-           
-        </div>  
-        
+
+        </div>
+
         <div class="clear"></div>
         <br>
         <div class="row" style="">
@@ -436,7 +449,7 @@
            <div class="col" style="width: 50%; text-align: justify;">
                <label>{{ traducir("asambleas.pasaporte_vigente") }}</label>
            </div>
-        </div>  
+        </div>
 
 
         <div class="clear"></div>
@@ -448,7 +461,7 @@
            <div class="col" style="width: 50%; text-align: justify;">
                <label>{{ traducir("asambleas.en_lugar") }}</label>
            </div>
-        </div>  
+        </div>
 
         <div class="clear"></div>
         <br><br><br><br>
@@ -460,7 +473,7 @@
            <div class="col" style="width: 48%; text-align: justify; border-top: 1px dashed black;">
                <label>{{ traducir("asambleas.nombre_letras_secretario") }}</label>
            </div>
-        </div>  
+        </div>
 
         <div class="clear"></div>
         <br><br><br><br>
@@ -472,7 +485,7 @@
            <div class="col" style="width: 48%; text-align: justify; border-top: 1px dashed black;">
                <label>{{ traducir("traductor.firma_secretario") }}</label>
            </div>
-        </div>  
+        </div>
 
         <br><br><br><br>
         <div class="row" style="">
@@ -483,49 +496,49 @@
            <div class="col" style="width: 48%; text-align: justify; border-top: 1px dashed black;">
                <label>{{ traducir("asambleas.correo_secretario") }}</label>
            </div>
-        </div>  
+        </div>
 
-        
+
         <div class="clear"></div>
         <br>
         <div class="row" style="">
             <div class="col" style="width: 100%; font-size: 16px !important;">
                 <label> {{ mayusculas(traducir("asambleas.revision_envio")) }}</label>
             </div>
-        
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%;">
                 <label> {{ traducir("asambleas.revision_envio_1") }}</label>
             </div>
-        
+
         </div>
         <div class="clear"></div>
         <div class="row" style="">
             <div class="col" style="width: 100%;">
                 <label> {{ traducir("asambleas.revision_envio_2") }}</label>
             </div>
-        
+
         </div>
         <div class="clear"></div>
         <br><br>
         <div class="row" style="">
             <div class="col" style="width: 88%;">
                 <label for=""></label>
-               
+
             </div>
-         
+
             <div class="col" style="width: 12%; text-align: center">
                 <label for=""><strong>{{ fecha_actual_idioma() }}</strong></label><br>
-               
+
             </div>
         </div>
-        
 
 
-        
+
+
     </main>
-    
+
 </body>
 </html>
