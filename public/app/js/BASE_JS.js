@@ -582,16 +582,18 @@ class BASE_JS {
                 elementos[i].parentNode.classList.remove("checked");
 
             }
-            console.log(defaultValue);
+            // console.log(defaultValue);
             if (defaultValue != null) {
                 // alert(defaultValue);
                 inputs[i].value = defaultValue;
             } else {
-                console.log(inputs[i].tagName);
-                console.log(inputs[i].type);
+                // console.log(inputs[i].tagName);
+                // console.log(inputs[i].type);
                 if (inputs[i].tagName != "SELECT" && inputs[i].type != "checkbox" && inputs[i].type != "radio") {
                     inputs[i].value = "";
                 } else {
+                    console.log(inputs[i].classList);
+                    console.log(inputs[i]);
                     if (inputs[i].classList.contains("selectized")) {
                         // console.log(inputs[i].name);
                         // $("#"+inputs[i].name).siblings().find(".selectize-dropdown").find(".selectize-dropdown-content").find(".option").removeClass("selected");
