@@ -35,6 +35,7 @@ use App\Http\Controllers\ResolucionesController;
 use App\Http\Controllers\TiposcargoController;
 use App\Http\Controllers\TrasladosController;
 use App\Http\Controllers\UnionesController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -53,6 +54,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     // return "hola";
     return view('login');
+});
+
+// LIMPIAR CACHE
+Route::get('/clear-cache', function () {
+    echo Artisan::call('config:clear');
+    echo Artisan::call('config:cache');
+    echo Artisan::call('cache:clear');
+    echo Artisan::call('route:clear');
 });
 
 // LOGIN
