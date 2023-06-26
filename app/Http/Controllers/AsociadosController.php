@@ -862,7 +862,7 @@ class AsociadosController extends Controller
 
 
         $array_where = array();
-        $where = '';
+        $where = " WHERE m.estado='1'";
         if($request->input("nombres") != '') {
             array_push($array_where, "(TRIM(m.nombres) || ' ' || TRIM(m.apellidos)) ILIKE '%".$request->input("nombres")."%'");
         }
@@ -882,7 +882,7 @@ class AsociadosController extends Controller
         $where = implode(" AND ", $array_where);
 
         if(!empty($where)) {
-            $where = " WHERE {$where} ";
+            $where = " WHERE {$where} AND m.estado='1'";
         }
         $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || CASE WHEN m.idiglesia IS NULL THEN 0 ELSE m.idiglesia END, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
