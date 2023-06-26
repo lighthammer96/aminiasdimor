@@ -381,7 +381,7 @@ class PropuestasController extends Controller
         LEFT JOIN asambleas.resultados AS r ON(r.votacion_id=v.votacion_id)
         WHERE pt.pt_id=".$pt_id."
         ORDER BY tpt.tpt_id DESC LIMIT 1";
-        echo $sql;
+        // echo $sql;
         $one = DB::select($sql);
         echo json_encode($one);
     }

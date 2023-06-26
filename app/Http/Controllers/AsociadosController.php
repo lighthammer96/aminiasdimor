@@ -1000,7 +1000,7 @@ class AsociadosController extends Controller
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
         {$where} AND  d.estado='A' AND a.estado='A'
         ORDER BY m.idmiembro DESC";
-
+        die($sql);
         $datos["delegados"] = DB::select($sql);
         if(count($datos["delegados"]) <= 0) {
             echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
@@ -1201,7 +1201,7 @@ class AsociadosController extends Controller
         $datos["nivel_organizativo"] = $nivel_organizativo;
 
         $datos["cargos"] = $cargos;
-      
+
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
         $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);
