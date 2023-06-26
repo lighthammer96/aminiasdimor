@@ -597,6 +597,8 @@ class BASE_JS {
                         $("#" + inputs[i].id).selectize()[0].selectize.destroy();
                         inputs[i].selectedIndex = 0;
                         $("#" + inputs[i].id).selectize();
+                        alert("limpiar");
+                        alert($("#" + inputs[i].id).val());
                     } else {
                         inputs[i].selectedIndex = 0;
                     }
