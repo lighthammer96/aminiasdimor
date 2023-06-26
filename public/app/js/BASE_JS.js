@@ -571,7 +571,7 @@ class BASE_JS {
             if(inputs[i].name == "_token") {
                 continue;
             }
-            //console.log(inputs[i]);
+            console.log(inputs[i].name);
             var defaultValue = inputs[i].getAttribute("default-value");
             // console.log(inputs[i].name, inputs[i].type);
             if (inputs[i].type == "checkbox" || inputs[i].type == "radio") {
@@ -590,7 +590,7 @@ class BASE_JS {
                 console.log("tags");
                 console.log(inputs[i].tagName);
                 console.log(inputs[i].type);
-                console.log("endtags");
+                console.log("tags");
                 if (inputs[i].tagName != "SELECT" && inputs[i].type != "checkbox" && inputs[i].type != "radio") {
                     inputs[i].value = "";
                 } else {
