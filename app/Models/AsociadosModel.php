@@ -57,11 +57,17 @@ class AsociadosModel extends Model
             $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
+        if($delegados == "1") {
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, a.asamblea_descripcion");
 
-        $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, a.asamblea_descripcion");
+        } else {
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
+        }
+
         $tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
         {$join}");
+
 
         // die($join);
 
