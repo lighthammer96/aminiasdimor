@@ -97,7 +97,7 @@ class PropuestasModel extends Model
         CASE WHEN pt.estado='A' THEN '".traducir("traductor.estado_activo")."' ELSE '".traducir("traductor.estado_inactivo")."' END AS estado, pt.pt_estado AS estado_propuesta,  date_part('year', pt.pt_fecha) AS anio, pt.estado AS state,
         CASE WHEN tpt.tpt_propuesta IS NULL THEN (SELECT tpt_propuesta FROM asambleas.traduccion_propuestas_temas WHERE pt_id=pt.pt_id AND tpt_idioma='".trim(session("idioma_defecto"))."') ELSE tpt.tpt_propuesta  END AS tpt_propuesta");
         $tabla->setFrom("asambleas.propuestas_temas AS pt
-        \nINNER JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
+        \nLEFT JOIN iglesias.paises AS p on(p.pais_id=pt.pais_id)
         \nLEFT JOIN asambleas.traduccion_propuestas_temas AS tpt ON(tpt.pt_id=pt.pt_id {$and})
         {$join}");
         // die($where);
