@@ -582,13 +582,15 @@ class BASE_JS {
                 elementos[i].parentNode.classList.remove("checked");
 
             }
-            // console.log(defaultValue);
+            console.log("defaultValue "+defaultValue);
             if (defaultValue != null) {
                 // alert(defaultValue);
                 inputs[i].value = defaultValue;
             } else {
-                // console.log(inputs[i].tagName);
-                // console.log(inputs[i].type);
+                console.log("tags");
+                console.log(inputs[i].tagName);
+                console.log(inputs[i].type);
+                console.log("endtags");
                 if (inputs[i].tagName != "SELECT" && inputs[i].type != "checkbox" && inputs[i].type != "radio") {
                     inputs[i].value = "";
                 } else {
