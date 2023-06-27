@@ -987,6 +987,7 @@ document.addEventListener("DOMContentLoaded", function() {
             required = required && propuestas_temas.required("asamblea_id");
 
             required = required && propuestas_temas.required("tpt_titulo");
+            required = required && propuestas_temas.required("pais_id");
 
             required = required && propuestas_temas.required("tpt_idioma");
 
