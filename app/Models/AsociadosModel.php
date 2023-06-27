@@ -35,7 +35,9 @@ class AsociadosModel extends Model
         $tabla->agregarColumna("m.telefono", "telefono", traducir("traductor.telefono"));
         // $tabla->agregarColumna("m.celular", "celular", traducir("traductor.celular"));
         $tabla->agregarColumna($funcion, "iglesia", traducir("traductor.iglesia"));
-
+        if($delegados == "1") {
+            $tabla->agregarColumna("a.asamblea_descripcion", "asamblea_descripcion", traducir("asambleas.asamblea"));
+        }
         $boton = "";
         // print_r($_REQUEST);
         // var_dump($curriculum);
@@ -55,11 +57,17 @@ class AsociadosModel extends Model
             $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
+        if($delegados == "1") {
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, a.asamblea_descripcion");
 
-        $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
+        } else {
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
+        }
+
         $tabla->setFrom("iglesias.miembro AS m
         \nLEFT JOIN public.tipodoc AS td ON(m.idtipodoc=td.idtipodoc)
         {$join}");
+
 
         // die($join);
 

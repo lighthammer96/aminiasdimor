@@ -57,7 +57,7 @@ class PropuestasController extends Controller
 
         $data["botones"] = $botones;
 
-        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?21120211722"]);
+        $data["scripts"] = $this->cargar_js(["propuestas_temas.js?version=260620231922"]);
         return parent::init($view, $data);
 
 
@@ -158,25 +158,26 @@ class PropuestasController extends Controller
             $pais = array();
             if(isset($_POST["asamblea_id"])) {
                 $asamblea = explode("|", $_POST["asamblea_id"]);
+                if(count($asamblea) > 1) {
+                    $_POST["asamblea_id"] = $asamblea[1];
+                }
             }
 
             if(isset($_POST["pais_id"])) {
                 $pais = explode("|", $_POST["pais_id"]);
+                if(count($pais) > 1) {
+                    $_POST["pais_id"] = $pais[0];
+                }
             }
 
-            $_POST["asamblea_id"] = "";
-            $_POST["pais_id"] = "";
+
 
             $_POST["pt_fecha_reunion_cpag"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_cpag"], "server");
             $_POST["pt_fecha_reunion_uya"] = $this->FormatoFecha($_REQUEST["pt_fecha_reunion_uya"], "server");
 
-            if(count($asamblea) > 1) {
-                $_POST["asamblea_id"] = $asamblea[1];
-            }
 
-            if(count($pais) > 1) {
-                $_POST["pais_id"] = $pais[0];
-            }
+
+
             // print_r($_POST); exit;
             // print_r($this->preparar_datos("asambleas.propuestas_temas", $_POST));
             if ($request->input("pt_id") == '') {

@@ -862,7 +862,7 @@ class AsociadosController extends Controller
 
 
         $array_where = array();
-        $where = '';
+        $where = " WHERE m.estado='1'";
         if($request->input("nombres") != '') {
             array_push($array_where, "(TRIM(m.nombres) || ' ' || TRIM(m.apellidos)) ILIKE '%".$request->input("nombres")."%'");
         }
@@ -882,7 +882,7 @@ class AsociadosController extends Controller
         $where = implode(" AND ", $array_where);
 
         if(!empty($where)) {
-            $where = " WHERE {$where} ";
+            $where = " WHERE {$where} AND m.estado='1'";
         }
         $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || CASE WHEN m.idiglesia IS NULL THEN 0 ELSE m.idiglesia END, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
@@ -993,14 +993,14 @@ class AsociadosController extends Controller
         // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || m.idiglesia, ".session("idioma_id").", ".session("idioma_id_defecto").")";
 
         $sql = "SELECT {$select} FROM iglesias.miembro AS m
-        INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)
+        /*INNER JOIN iglesias.cargo_miembro AS cm ON(m.idmiembro=cm.idmiembro)*/
         INNER JOIN iglesias.paises AS p ON(p.pais_id=m.pais_id)
-        INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)
+        /*INNER JOIN public.cargo AS c ON(c.idcargo=cm.idcargo)*/
         INNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro )
         INNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
         {$where} AND  d.estado='A' AND a.estado='A'
         ORDER BY m.idmiembro DESC";
-
+        //die($sql);
         $datos["delegados"] = DB::select($sql);
         if(count($datos["delegados"]) <= 0) {
             echo '<script>alert("'.traducir("traductor.no_hay_datos").'"); window.close();</script>';
@@ -1201,7 +1201,7 @@ class AsociadosController extends Controller
         $datos["nivel_organizativo"] = $nivel_organizativo;
 
         $datos["cargos"] = $cargos;
-      
+
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
 
         $pdf = PDF::loadView("asociados.imprimir_certificado", $datos);

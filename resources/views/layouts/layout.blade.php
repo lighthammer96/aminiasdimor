@@ -236,6 +236,7 @@
     <script>
         var BaseUrl = "<?php echo URL::to('/'); ?>";
         var _token = "<?php echo csrf_token() ?>";
+        console.log("_token: "+_token);
         //alert(_token);
         var session_pais_id = "<?php echo session("pais_id"); ?>";
         var datatable_next = "<?php echo traducir('traductor.datatable_next'); ?>";
@@ -394,7 +395,7 @@
     <!-- libreria para los sockets -->
     <script src="{{ URL::asset('dist/js/socket.io-2.3.0.js') }}"></script>
 
-    <script src="{{ URL::asset('app/js/BASE_JS.js?version=220620231533') }}"></script>
+    <script src="{{ URL::asset('app/js/BASE_JS.js?version=260620231839') }}"></script>
 
     <script>
         // funciona con la libreria: public\dist\js\socket.io.js
