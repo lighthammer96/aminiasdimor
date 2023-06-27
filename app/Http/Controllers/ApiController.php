@@ -140,10 +140,10 @@ class ApiController extends Controller
         //VALIDAMOS QUE EL ASOCIADO LOGUEADO EN LA APP NO HAYA TENIDO NINGUN VOTO
         $sql_validar_voto = "SELECT * FROM asambleas.votos WHERE votacion_id={$_REQUEST["votacion_id"]} AND idmiembro={$_REQUEST["idmiembro"]}";
 
-        echo $sql_validar_voto;
+       
 
         $validar_voto = DB::select($sql_validar_voto);
-
+        echo json_encode($v);
 
         if(count($result["formas_votacion"]) > 0 && count($validar_voto) <= 0) {
 
