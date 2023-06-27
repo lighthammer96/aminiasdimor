@@ -143,7 +143,7 @@ class ApiController extends Controller
        
 
         $validar_voto = DB::select($sql_validar_voto);
-        echo json_encode($v);
+        echo json_encode($validar_voto); exit;
 
         if(count($result["formas_votacion"]) > 0 && count($validar_voto) <= 0) {
 
