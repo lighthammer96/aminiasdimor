@@ -120,8 +120,8 @@ class ApiController extends Controller
 
     public function obtener_votacion_activa() {
         $result = array();
-        $result["formas_votacion"][0] = array();
-        $result["formas_votacion"][0]->propuestas = array();
+        $result["formas_votacion"][0] = (object)array("propuestas" => array());
+
         // print($_REQUEST["idmiembro"]);
         // votacion_status, A votacion abierta, C votacion cerrada
         $sql_forma_votacion = "SELECT fv.*, v.propuesta_id, v.tabla, v.asamblea_id, v.votacion_id
