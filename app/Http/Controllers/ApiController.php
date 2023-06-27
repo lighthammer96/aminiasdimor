@@ -132,7 +132,7 @@ class ApiController extends Controller
 
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
-        //$result["formas_votacion"][0] = (object)array("propuestas" => array());
+        $result["formas_votacion"][0]->propuestas = array();
 
        
 
