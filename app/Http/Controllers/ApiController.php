@@ -132,8 +132,8 @@ class ApiController extends Controller
 
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
-        echo json_decode($result["formas_votacion"]);
-        $result["formas_votacion"][0]->propuestas = array();
+        // echo json_encode($result["formas_votacion"]);
+        // $result["formas_votacion"][0]->propuestas = array();
 
 
 
