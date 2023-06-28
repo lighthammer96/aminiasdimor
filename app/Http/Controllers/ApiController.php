@@ -120,7 +120,7 @@ class ApiController extends Controller
 
     public function obtener_votacion_activa() {
         $result = array();
-       
+
 
         // print($_REQUEST["idmiembro"]);
         // votacion_status, A votacion abierta, C votacion cerrada
@@ -132,15 +132,16 @@ class ApiController extends Controller
 
 
         $result["formas_votacion"] = DB::select($sql_forma_votacion);
+        echo json_decode($result["formas_votacion"]);
         $result["formas_votacion"][0]->propuestas = array();
 
-       
+
 
 
         //VALIDAMOS QUE EL ASOCIADO LOGUEADO EN LA APP NO HAYA TENIDO NINGUN VOTO
         $sql_validar_voto = "SELECT * FROM asambleas.votos WHERE votacion_id={$_REQUEST["votacion_id"]} AND idmiembro={$_REQUEST["idmiembro"]}";
 
-       
+
 
         $validar_voto = DB::select($sql_validar_voto);
         //echo json_encode($validar_voto); exit;
