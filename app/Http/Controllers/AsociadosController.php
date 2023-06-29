@@ -256,8 +256,8 @@ class AsociadosController extends Controller
         //    exit;
             //$_REQUEST["idcargo"] = (array) $_REQUEST["idcargo"];
             // echo gettype($_REQUEST["idcargo"]); exit;
-            DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
             if(isset($_REQUEST["idcargo"]) && gettype($_REQUEST["idcargo"]) == "array" && count($_REQUEST["idcargo"]) > 0) {
+                DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
 
                 //print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D"), "D");
@@ -265,8 +265,8 @@ class AsociadosController extends Controller
             }
 
             //$_REQUEST["capacitacion"] = (array) $_REQUEST["capacitacion"];
-            DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
             if(isset($_REQUEST["capacitacion"]) && gettype($_REQUEST["capacitacion"]) == "array" && count($_REQUEST["capacitacion"]) > 0) {
+                DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
 
                 // print_r($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D")); exit;
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.capacitacion_miembro", $_POST, "D"), "D");
