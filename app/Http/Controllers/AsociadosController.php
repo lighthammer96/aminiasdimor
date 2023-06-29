@@ -166,7 +166,7 @@ class AsociadosController extends Controller
 
             $array_keys_posts = array_keys($_POST);
             
-            print_r($array_keys_posts);
+            // print_r($array_keys_posts);
 
             $idtipodoc = (isset($_REQUEST["idtipodoc"])) ? $request->input("idtipodoc") : 0;
             $nrodoc = (isset($_REQUEST["nrodoc"])) ? $request->input("nrodoc") : 0;
@@ -233,8 +233,8 @@ class AsociadosController extends Controller
                 }
             }
 
-            print_r($_POST);
-            exit;
+            // print_r($_POST);
+            // exit;
 
             if ($request->input("idmiembro") == '') {
                 $_POST["fecharegistro"] = date("Y-m-d H:i:s");
