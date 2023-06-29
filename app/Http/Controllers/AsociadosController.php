@@ -163,6 +163,11 @@ class AsociadosController extends Controller
 
         try {
             DB::beginTransaction();
+
+            $array_keys_posts = array_keys($_POST);
+            
+            print_r($array_keys_posts);
+
             $idtipodoc = (isset($_REQUEST["idtipodoc"])) ? $request->input("idtipodoc") : 0;
             $nrodoc = (isset($_REQUEST["nrodoc"])) ? $request->input("nrodoc") : 0;
             $pais_id_nacimiento = (isset($_REQUEST["pais_id_nacimiento"])) ? $request->input("pais_id_nacimiento") : 0;
@@ -211,7 +216,7 @@ class AsociadosController extends Controller
             // $array_tipo_cargo = explode("|", $_POST["idtipocargo"]);
             // $_POST["idtipocargo"] = $array_tipo_cargo[0];
 
-            $_POST["fechaingresoiglesia"]            = (isset($_REQUEST["fechaingresoiglesia"])) ? $this->FormatoFecha($_REQUEST["fechaingresoiglesia"], "server") : "";
+            $_POST["fechaingresoiglesia"] = (isset($_REQUEST["fechaingresoiglesia"])) ? $this->FormatoFecha($_REQUEST["fechaingresoiglesia"], "server") : "";
             $_POST["fechanacimiento"] = (isset($_REQUEST["fechanacimiento"])) ? $this->FormatoFecha($_REQUEST["fechanacimiento"], "server")." ".date("H:i:s") : "";
             $_POST["fechabautizo"] = (isset($_REQUEST["fechabautizo"])) ? $this->FormatoFecha($_REQUEST["fechabautizo"], "server") : "";
             $_POST["fecha_vencimiento_pasaporte"] = (isset($_REQUEST["fecha_vencimiento_pasaporte"])) ?$this->FormatoFecha($_REQUEST["fecha_vencimiento_pasaporte"], "server") : "";
@@ -221,6 +226,12 @@ class AsociadosController extends Controller
             $_POST["fecha_vencimiento_visa"] = (isset($_REQUEST["fecha_vencimiento_visa"])) ?$this->FormatoFecha($_REQUEST["fecha_vencimiento_visa"], "server") : "";
 
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo", "texto_bautismal"]);
+
+            foreach ($_POST as $key => $value) {
+                if(!in_array($key, $array_keys_posts)) {
+                    unset($_POST[$key]);
+                }
+            }
 
             print_r($_POST);
             exit;
