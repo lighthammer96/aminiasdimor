@@ -710,7 +710,7 @@ class PropuestasController extends Controller
         $datos["propuestas"] = $propuestas;
 
         $datos["nivel_organizativo"] = session("nivel_organizativo");
-        print_r($datos); exit;
+        // print_r($datos); exit;
         // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
         $pdf = PDF::loadView("propuestas.imprimir_propuestas_temas", $datos);
 
