@@ -221,6 +221,10 @@ class AsociadosController extends Controller
             $_POST["fecha_vencimiento_visa"] = (isset($_REQUEST["fecha_vencimiento_visa"])) ?$this->FormatoFecha($_REQUEST["fecha_vencimiento_visa"], "server") : "";
 
             $_POST = $this->toUpper($_POST, ["tipolugarnac", "direccion", "email", "emailalternativo", "tabla_encargado_bautizo", "texto_bautismal"]);
+
+            print_r($_POST);
+            exit;
+
             if ($request->input("idmiembro") == '') {
                 $_POST["fecharegistro"] = date("Y-m-d H:i:s");
                 $result = $this->base_model->insertar($this->preparar_datos("iglesias.miembro", $_POST));
@@ -256,7 +260,9 @@ class AsociadosController extends Controller
         //    exit;
             //$_REQUEST["idcargo"] = (array) $_REQUEST["idcargo"];
             // echo gettype($_REQUEST["idcargo"]); exit;
+
             if(isset($_REQUEST["idcargo"]) && gettype($_REQUEST["idcargo"]) == "array" && count($_REQUEST["idcargo"]) > 0) {
+
                 DB::table("iglesias.cargo_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
 
                 //print_r($this->preparar_datos("iglesias.cargo_miembro", $_POST, "D")); exit;
@@ -265,6 +271,7 @@ class AsociadosController extends Controller
             }
 
             //$_REQUEST["capacitacion"] = (array) $_REQUEST["capacitacion"];
+
             if(isset($_REQUEST["capacitacion"]) && gettype($_REQUEST["capacitacion"]) == "array" && count($_REQUEST["capacitacion"]) > 0) {
                 DB::table("iglesias.capacitacion_miembro")->where("idmiembro", $request->input("idmiembro"))->delete();
 
