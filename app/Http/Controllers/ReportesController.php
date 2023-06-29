@@ -602,9 +602,9 @@ class ReportesController extends Controller
         }
 
         if(count($array_where) > 0 ) {
-            $where .= "WHERE ".implode(" AND ", $array_where);
+            $where .= " WHERE ".implode(" AND ", $array_where)." AND m.estado='1'";
         } else {
-            $where .= "";
+            $where .= " WHERE m.estado='1'";
         }
 
 
