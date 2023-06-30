@@ -134,14 +134,16 @@
                     <tbody>
                     <?php
                             foreach($delegados as $delegado) {
+                                $i = 1;
                                 echo '<tr>';
-                                    $i = 1;
+                                    echo '<td>'.$i.'</td>';
                                     foreach($delegado as $value) {
-                                        echo '<td>'.$i.'</td>';
+
                                         echo '<td>'.$value.'</td>';
-                                        $i ++;
+
                                     }
                                 echo '</tr>';
+                                $i ++;
                             }
                         ?>
                     </tbody>
