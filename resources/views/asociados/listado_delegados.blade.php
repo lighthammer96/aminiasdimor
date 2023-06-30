@@ -119,8 +119,9 @@
                                 $headers = (array)$delegados[0];
                                 $keys = array_keys($headers);
                                 // print_r($keys); exit;
+                                echo '<th>Item</th>';
                                 for ($i=0; $i < count($keys) ; $i++) {
-                                    echo '<th>Item</th>';
+
                                     if($keys[$i] == "delegado" || $keys[$i] == "jerarquia" || $keys[$i] == "correo" || $keys[$i] == "convocatoria") {
                                         echo '<th>'.traducir("asambleas.".$keys[$i]).'</th>';
                                     } else {
