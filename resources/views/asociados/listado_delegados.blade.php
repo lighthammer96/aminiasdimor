@@ -19,7 +19,7 @@
             margin-right: 0.5cm;
             margin-bottom: 2cm;
         }
-            
+
         header {
             position: fixed;
             top: 0.9cm;
@@ -37,17 +37,17 @@
             /* font-weight: bold; */
             font-size: 11px;
         }
-		
+
 
         /* #contenido {
-            
+
             width: 696px; */
             /* border: 1px solid gray */
-					
+
         /* } */
 
         /* #logo img {
-		
+
             width: 100%;
         }
 
@@ -56,8 +56,8 @@
         }
 
         #cliente {
-            border-radius: 5px; 
-            border: 1px solid gray; 
+            border-radius: 5px;
+            border: 1px solid gray;
             padding: 1%;
             height: 70px;
 
@@ -79,27 +79,27 @@
             /* clear: both; */
         }
         .clear {
-            clear: both; 
+            clear: both;
         }
         .col {
             float: left;
             /* border: 1px solid black; */
         }
-        
+
 
         h2, h3, h4, h5 {
             /* text-align: center !important; */
             margin: 2px 0;
             /* padding-botton: 2px; */
-			
+
         }
     </style>
-   
+
 </head>
 <body>
     @include("layouts.cabecera")
     <main>
-        
+
         <div class="clear"></div>
         <div class="row" style="margin-top: 10px; margin-bottom: 20px; text-align: center; font-size: 25px !important;">
             <div class="col" style="width: 100%;">
@@ -107,7 +107,7 @@
             </div>
         </div>
 
-      
+
 
         <div class="clear"></div>
         <div class="row" style="margin-bottom: 250px;">
@@ -115,27 +115,31 @@
                 <table border="1" style="width: 100%;">
                     <thead>
                         <tr>
-                            <?php 
+                            <?php
                                 $headers = (array)$delegados[0];
                                 $keys = array_keys($headers);
                                 // print_r($keys); exit;
-                                for ($i=0; $i < count($keys) ; $i++) { 
+                                for ($i=0; $i < count($keys) ; $i++) {
+                                    echo '<th>Item</th>';
                                     if($keys[$i] == "delegado" || $keys[$i] == "jerarquia" || $keys[$i] == "correo" || $keys[$i] == "convocatoria") {
                                         echo '<th>'.traducir("asambleas.".$keys[$i]).'</th>';
                                     } else {
                                         echo '<th>'.traducir("traductor.".$keys[$i]).'</th>';
                                     }
-                                   
+
                                 }
                             ?>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php 
+                    <?php
                             foreach($delegados as $delegado) {
                                 echo '<tr>';
+                                    $i = 1;
                                     foreach($delegado as $value) {
+                                        echo '<td>'.$i.'</td>';
                                         echo '<td>'.$value.'</td>';
+                                        $i ++;
                                     }
                                 echo '</tr>';
                             }
