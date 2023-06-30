@@ -132,9 +132,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php
+                        <?php
+                            $i = 1;
                             foreach($delegados as $delegado) {
-                                $i = 1;
+
                                 echo '<tr>';
                                     echo '<td>'.$i.'</td>';
                                     foreach($delegado as $value) {
