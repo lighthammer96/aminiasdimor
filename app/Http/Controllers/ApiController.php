@@ -35,7 +35,7 @@ class ApiController extends Controller
         if(count($response) > 0) {
             $sql_sesion = "SELECT * FROM asambleas.sesion_app WHERE idmiembro={$response["miembro"][0]->idmiembro} AND estado='A'";
             $response["sesion"] = DB::select($sql_sesion);
-            if($response["sesion"]  <= 0) {
+            if(count($response["sesion"]) <= 0) {
                 $data = array();
                 $data["idmiembro"] = $response["miembro"][0]->idmiembro;
                 $data["sa_fecha"] = date("Y-m-d");
