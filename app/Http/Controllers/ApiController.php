@@ -31,8 +31,9 @@ class ApiController extends Controller
         WHERE m.nrodoc='{$request->input("user")}' AND m.nrodoc='{$request->input("pass")}' AND m.pais_id={$pais[0]} AND m.idtipodoc={$tipodoc[0]}";
         // die($sql);
         $response["miembro"] = DB::select($sql);
+        $response["sesion"] = array();
 
-        if(count($response) > 0) {
+        if(count($response["miembro"]) > 0) {
             $sql_sesion = "SELECT * FROM asambleas.sesion_app WHERE idmiembro={$response["miembro"][0]->idmiembro} AND estado='A'";
             $response["sesion"] = DB::select($sql_sesion);
             if(count($response["sesion"]) <= 0) {
@@ -46,7 +47,7 @@ class ApiController extends Controller
             } else {
                 $response["sesion_id"] = $response["sesion"][0]->sa_id; 
             }
-        }
+        } 
 
         echo json_encode($response);
         // print("hola");
