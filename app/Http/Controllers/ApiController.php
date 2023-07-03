@@ -296,10 +296,10 @@ class ApiController extends Controller
 
     public function cerrar_sesion() {
      
-        $sd_id = $_REQUEST["sesion_id"];
+        $sa_id = $_REQUEST["sesion_id"];
 
         $update = array();
-        $update["sd_id"] = $sd_id;
+        $update["sa_id"] = $sa_id;
         $update["estado"] = "I";
         $result = $this->base_model->modificar($this->preparar_datos("asambleas.sesion_app", $update));
         
