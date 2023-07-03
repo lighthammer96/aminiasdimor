@@ -294,6 +294,18 @@ class ApiController extends Controller
         echo json_encode($data);
     }
 
+    public function cerrar_sesion() {
+     
+        $sd_id = $_REQUEST["sesion_id"];
+
+        $update = array();
+        $update["sd_id"] = $sd_id;
+        $update["estado"] = "I";
+        $result = $this->base_model->modificar($this->preparar_datos("asambleas.sesion_app", $update));
+        
+
+        echo json_encode($result);
+    }
 
 
 }
