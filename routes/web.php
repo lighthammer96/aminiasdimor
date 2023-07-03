@@ -561,3 +561,4 @@ Route::post('propuestas/select_init', [PropuestasController::class, "select_init
  Route::get('api/obtener_comentarios', [ApiController::class, "obtener_comentarios"]);
  Route::get('api/obtener_votacion_activa', [ApiController::class, "obtener_votacion_activa"]);
  Route::get('api/obtener_url', [ApiController::class, "obtener_url"]);
+ Route::get('api/cerrar_sesion', [ApiController::class, "cerrar_sesion"]);
