@@ -24,10 +24,11 @@ class ApiController extends Controller
         $pais = explode("|", $_REQUEST["pais_id"]);
         $tipodoc = explode("|", $_REQUEST["idtipodoc"]);
         $response = array();
-        $sql = "SELECT m.*, i.idioma_codigo, CASE WHEN d.delegado_id IS NULL THEN 0 ELSE d.delegado_id END AS delegado_id, CASE WHEN d.asamblea_id IS NULL THEN 0 ELSE d.asamblea_id END AS asamblea_id FROM iglesias.miembro AS m
+        $sql = "SELECT m.*, i.idioma_codigo, CASE WHEN d.delegado_id IS NULL THEN 0 ELSE d.delegado_id END AS delegado_id, CASE WHEN d.asamblea_id IS NULL THEN 0 ELSE d.asamblea_id END AS asamblea_id, a.asamblea_descripcion FROM iglesias.miembro AS m
         INNER JOIN iglesias.paises AS p ON(m.pais_id=p.pais_id)
         INNER JOIN public.idiomas AS i ON(i.idioma_id=p.idioma_id)
         LEFT JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
+        LEFT JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id)
         WHERE m.nrodoc='{$request->input("user")}' AND m.nrodoc='{$request->input("pass")}' AND m.pais_id={$pais[0]} AND m.idtipodoc={$tipodoc[0]}";
         // die($sql);
         $response["miembro"] = DB::select($sql);
@@ -43,11 +44,11 @@ class ApiController extends Controller
                 $data["sa_hora"] = date("H:i:s");
                 $data["estado"] = 'A';
                 $result = $this->base_model->insertar($this->preparar_datos("asambleas.sesion_app", $data));
-                $response["sesion_id"] = $result["id"]; 
+                $response["sesion_id"] = $result["id"];
             } else {
-                $response["sesion_id"] = $response["sesion"][0]->sa_id; 
+                $response["sesion_id"] = $response["sesion"][0]->sa_id;
             }
-        } 
+        }
 
         echo json_encode($response);
         // print("hola");
@@ -295,14 +296,14 @@ class ApiController extends Controller
     }
 
     public function cerrar_sesion() {
-     
+
         $sa_id = $_REQUEST["sesion_id"];
 
         $update = array();
         $update["sa_id"] = $sa_id;
         $update["estado"] = "I";
         $result = $this->base_model->modificar($this->preparar_datos("asambleas.sesion_app", $update));
-        
+
 
         echo json_encode($result);
     }
