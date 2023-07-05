@@ -312,6 +312,7 @@ class ApiController extends Controller
         $idmiembro = $_REQUEST["idmiembro"];
         $asistencia_id = $_REQUEST["asistencia_id"];
         $sql = "SELECT * FROM asambleas.detalle_asistencia AS de WHERE de.idmiembro={$idmiembro} AND de.asistencia_id={$asistencia_id}";
+        echo $sql;
         $result = DB::select($sql);
         echo json_encode($result);
     }
