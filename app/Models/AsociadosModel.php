@@ -83,6 +83,13 @@ class AsociadosModel extends Model
             $where = implode(' AND ', $array_where);
         }
 
+        if(isset($_REQUEST["asamblea_id"]) && !empty($_REQUEST["asamblea_id"])) {
+            if(!empty($where)) {
+                $where .= ' AND d.asamblea_id='.$_REQUEST["asamblea_id"];
+            } else {
+                $where .= 'd.asamblea_id='.$_REQUEST["asamblea_id"];
+            }
+        }
 
 
         $tabla->setWhere($where);

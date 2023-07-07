@@ -4,29 +4,29 @@ var asambleas = new BASE_JS('asambleas', 'asambleas');
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  
+
 
     var eventClick = new Event('click');
 
     // asistencia.enter("asamblea_descripcion","tipconv_id");
     // asistencia.enter("tipconv_id","asamblea_anio");
-  
+
     // asistencia.enter("asamblea_fecha_inicio","asamblea_fecha_fin");
     // asistencia.enter("asamblea_fecha_fin","estado");
     // asistencia.enter("estado","detalle");
     // asistencia.enter("detalle","fecha");
     // asistencia.enter("fecha","hora");
 
-   
+
 
     asambleas.select({
         name: 'asamblea_id',
         url: '/obtener_asambleas',
         placeholder: seleccione
     }).then(function() {
-        // asignacion_delegados.enter("idocupacion","observaciones");   
-        
-    }) 
+        // asignacion_delegados.enter("idocupacion","observaciones");
+
+    })
 
     asistencia.TablaListado({
         tablaID: '#tabla-asistencia',
@@ -40,10 +40,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nueva-asistencia").addEventListener("click", function(event) {
         event.preventDefault();
-      
-        asistencia.abrirModal();
 
-        
+        asistencia.abrirModal();
+        $("#imprimir-asistencia").hide();
+
     })
 
     document.getElementById("modificar-asistencia").addEventListener("click", function(event) {
@@ -55,30 +55,30 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
 
 
         var promise = asistencia.get(datos.asistencia_id);
 
         promise.then(function(response) {
-            
-           
-            
+            $("#imprimir-asistencia").show();
+
+
         })
-        
+
 
     })
 
     document.getElementById("eliminar-asistencia").addEventListener("click", function(event) {
         event.preventDefault();
-      
+
         var datos = asistencia.datatable.row('.selected').data();
         if(typeof datos == "undefined") {
             BASE_JS.sweet({
                 text: seleccionar_registro
             });
             return false;
-        } 
+        }
         BASE_JS.sweet({
             confirm: true,
             text: eliminar_registro,
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        
+
     })
 
 
@@ -95,13 +95,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("guardar-asistencia").addEventListener("click", function(event) {
         event.preventDefault();
- 
+
 
         var required = true;
 
         required = required && asistencia.required("asamblea_id");
         required = required && asistencia.required("estado");
- 
+
         if(required) {
             var promise = asistencia.guardar();
             asistencia.CerrarModal();
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
 
-           
+
                 socket.emit("asistencia-activada", response);
             })
 
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-                    
+
             if(event.code == "F3") {
                 //PARA LOS BUSCADORES DE LOS DATATABLES
                 var inputs = document.getElementsByTagName("input");
@@ -153,41 +153,50 @@ document.addEventListener("DOMContentLoaded", function() {
                     // console.log(inputs[index].getAttribute("type"));
                     if(inputs[index].getAttribute("type") == "search") {
                         inputs[index].focus();
-                        
+
                     }
                     //console.log(botones[index].getAttribute("tecla_rapida"));
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                
+
             }
 
             if(event.code == "F9") {
-            
+
                 if($('#modal-asistencia').is(':visible')) {
                     document.getElementById('guardar-asistencia').dispatchEvent(eventClick);
                 }
-                
-            
+
+
                 event.preventDefault();
                 event.stopPropagation();
             }
-          
-            
-        
-            
-        
-        
-        
+
+
+
+
+
+
+
         }
-    
-        
+
+
     })
 
     document.getElementById("cancelar-asistencia").addEventListener("click", function(event) {
         event.preventDefault();
         asistencia.CerrarModal();
     })
+
+    $(document).on("click", "#imprimir-asistencia", function(e) {
+        e.preventDefault();
+
+        var asistencia_id = document.getElementsByName("asistencia_id")[0].value;
+
+        window.open(BaseUrl + "/asistencia/imprimir_asistencia/"+asistencia_id);
+    })
+
 
 
 })

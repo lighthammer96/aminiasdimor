@@ -10,13 +10,13 @@
 <div id="modal-asociados" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
-      
+
             <form id="formulario-asociados" class="form-horizontal" role="form">
 
                 <div class="modal-body">
                     <input type="hidden" name="idmiembro" id="idmiembro" class="input-sm entrada">
                     <div class="row">
-                    
+
                         <div class="col-md-3" style="padding-right: 5px;">
                             <label class="control-label">{{ traducir('asambleas.numero_pasaporte')}}</label>
                             <input type="text" class="form-control input-sm entrada" name="nropasaporte" />
@@ -29,7 +29,7 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
-                   
+
                         </div>
 
                         <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
@@ -40,21 +40,21 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
-                   
+
                         </div>
 
-                        
+
                         <div class="col-md-3" style="padding-left: 5px;">
                             <label class="control-label">{{ traducir('asambleas.expedido_por')}}</label>
                             <input type="text" class="form-control input-sm entrada" name="pasaporte_expedido_por" />
-                   
+
                         </div>
-                       
-                       
+
+
                     </div>
 
                     <div class="row">
-                    
+
                         <div class="col-md-3" style="padding-right: 5px;">
                             <label class="control-label">{{ traducir('asambleas.fecha_pasaje')}}</label>
                             <div class="input-group">
@@ -64,10 +64,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
                             <label class="control-label">{{ traducir("asambleas.hora") }}</label>
-                            
+
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada limpiar" name="hora_arribo" />
@@ -89,20 +89,20 @@
                     </div>
 
                     <div class="row">
-                    
+
                         <div class="col-md-6" style="margin-top: 20px; padding-right: 5px;">
                             <label class="control-label">
                                 <!-- <input type="hidden" name="posee_seguro" id="posee_seguro" class="input-sm entrada"> -->
                                 <input class="minimal entrada" type="checkbox" name="posee_seguro" id="posee_seguro">
-                               
+
                                 {{ traducir('asambleas.posee_seguro_salud')}}
                             </label>
-                           
+
                         </div>
-                        
+
                         <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
                             <label class="control-label">{{ traducir("asambleas.inicia") }}</label>
-                            
+
 
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm entrada" name="fecha_inicia_seguro" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
@@ -122,24 +122,24 @@
                             </div>
                         </div>
 
-                       
+
                     </div>
 
 
                     <div class="row">
-                    
+
                     <div class="col-md-4" style="margin-top: 20px;">
                         <label class="control-label">
                             <!-- <input type="hidden" name="posee_visa" id="posee_visa" class="input-sm entrada"> -->
                             <input class="minimal entrada" type="checkbox" name="posee_visa" id="posee_visa">
                             {{ traducir('asambleas.posee_visa')}}
                         </label>
-                       
+
                     </div>
-                    
+
                     <div class="col-md-3" style="padding-right: 5px; padding-left: 5px;">
                         <label class="control-label">{{ traducir("asambleas.vencimiento_visa") }}</label>
-                        
+
 
                         <div class="input-group">
                             <input type="text" class="form-control input-sm entrada" name="fecha_vencimiento_visa" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask placeholder="" />
@@ -149,11 +149,11 @@
                         </div>
                     </div>
 
-                    
-                   
+
+
                 </div>
-                   
-                   
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" id="cancelar-asociados"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
@@ -163,7 +163,24 @@
 
         </div>
     </div>
-</div>  
+</div>
 
+
+<div class="row">
+
+    <div class="col-md-2" >
+        <label class="control-label">{{ traducir("asambleas.convocatoria") }}</label>
+        <select class="entrada form-control input-sm select" name="asamblea_id" id="asamblea_id">
+
+        </select>
+    </div>
+  
+
+    <div class="col-md-1 " style="margin-top: 7px;">
+        <!-- <label class="control-label">{{ traducir("asambleas.filtrar") }}</label> -->
+        <button type="button" id="filtrar" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/lupa.png') }}" ><br>[{{ traducir('asambleas.filtrar')}}]</button>
+
+    </div>
+</div>
 
 @endsection

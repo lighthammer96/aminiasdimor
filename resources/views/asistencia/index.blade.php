@@ -22,10 +22,10 @@
                         <div class="col-md-6">
                             <label class="control-label">{{ traducir('asambleas.convocatoria')}}</label>
                             <select name="asamblea_id" id="asamblea_id" class="selectizejs entrada">
-                                
+
                             </select>
 
-                          
+
 
                         </div>
                         <div class="col-md-6">
@@ -36,11 +36,17 @@
                             </select>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" id="cancelar-asistencia"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
-                    <button type="button" id="guardar-asistencia" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    <div class="pull-left" id="botones-asistencia">
+                        <button type="button" class="btn btn-default btn-sm" id="imprimir-asistencia"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/printer.png') }}" ><br>{{ traducir('traductor.imprimir')}}</button>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="cancelar-asistencia"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/cancelar.png') }}" ><br>[Esc] [{{ traducir('traductor.cancelar')}}]</button>
+                        <button type="button" id="guardar-asistencia" class="btn btn-default btn-sm"><img style="width: 20px; height: 20px;" src="{{ URL::asset('images/iconos/salvar.png') }}" ><br>[F9] [{{ traducir('traductor.guardar')}}]</button>
+                    </div>
+
                 </div>
             </form>
 
@@ -49,6 +55,6 @@
 </div>
 
 
-   
+
 @endsection
 

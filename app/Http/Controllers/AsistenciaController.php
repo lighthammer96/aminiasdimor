@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaseModel;
 use App\Models\AsistenciaModel;
+use PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class AsistenciaController extends Controller
     //
     private $base_model;
     private $asistencia_model;
-    
+
     public function __construct() {
         parent:: __construct();
         $this->asistencia_model = new AsistenciaModel();
@@ -35,8 +36,8 @@ class AsistenciaController extends Controller
         $data["scripts"] = $this->cargar_js(["asistencia.js"]);
         return parent::init($view, $data);
 
-      
-       
+
+
     }
 
     public function buscar_datos() {
@@ -57,12 +58,12 @@ class AsistenciaController extends Controller
             $result = $this->base_model->modificar($this->preparar_datos("asambleas.asistencia", $_POST));
         }
 
-   
+
         // DB::table("asambleas.asistencia_idiomas")->where("asistencia_id", $result["id"])->delete();
         // if(isset($_REQUEST["idioma_id"]) && isset($_REQUEST["pi_descripcion"])) {
-     
+
         //     $_POST["asistencia_id"] = $result["id"];
-           
+
         //     $this->base_model->insertar($this->preparar_datos("asambleas.asistencia_idiomas", $_POST, "D"), "D");
         // }
         $sql_asamblea = "SELECT * FROM asambleas.asambleas WHERE asamblea_id={$asamblea[1]}";
@@ -72,7 +73,7 @@ class AsistenciaController extends Controller
     }
 
     public function eliminar_asistencia() {
-       
+
 
         try {
             // $sql_usuarios = "SELECT * FROM asambleas.usuarios WHERE asistencia_id=".$_REQUEST["id"];
@@ -108,11 +109,11 @@ class AsistenciaController extends Controller
     }
 
     public function obtener_asistencia() {
-        $sql = "SELECT p.asistencia_id AS id, 
-        CASE WHEN pi.pi_descripcion IS NULL THEN 
+        $sql = "SELECT p.asistencia_id AS id,
+        CASE WHEN pi.pi_descripcion IS NULL THEN
         (SELECT pi_descripcion FROM asambleas.asistencia_idiomas WHERE asistencia_id=p.asistencia_id AND idioma_id=".session("idioma_id_defecto").")
-        ELSE pi.pi_descripcion END AS descripcion 
-        FROM asambleas.asistencia AS p 
+        ELSE pi.pi_descripcion END AS descripcion
+        FROM asambleas.asistencia AS p
         LEFT JOIN asambleas.asistencia_idiomas AS pi ON(pi.asistencia_id=p.asistencia_id AND pi.idioma_id=".session("idioma_id").")
         WHERE p.estado='A'";
         // die($sql);
@@ -121,7 +122,26 @@ class AsistenciaController extends Controller
     }
 
 
-    
+    public function imprimir_asistencia($asistencia_id) {
 
-    
+        $datos = array();
+
+        $sql_asistencia = "
+        SELECT m.nombres, m.apellidos, ".formato_fecha_idioma("da.da_fecha")." AS da_fecha, da.da_hora, aa.asamblea_descripcion FROM asambleas.asistencia AS a
+        INNER JOIN asambleas.asambleas AS aa ON(a.asamblea_id=aa.asamblea_id)
+        INNER JOIN asambleas.detalle_asistencia AS da ON(da.asistencia_id=a.asistencia_id)
+        INNER JOIN iglesias.miembro AS m ON(m.idmiembro=da.idmiembro)
+        WHERE a.estado='A' AND a.asistencia_id={$asistencia_id}";
+        $asistencia = DB::select($sql_asistencia);
+
+        $datos["asistencia"] = $asistencia;
+        $datos["nivel_organizativo"] = session("nivel_organizativo");
+        // referencia: https://styde.net/genera-pdfs-en-laravel-con-el-componente-dompdf/
+        $pdf = PDF::loadView("asistencia.imprimir_asistencia", $datos);
+
+        // return $pdf->save("ficha_asociado.pdf"); // guardar
+        // return $pdf->download("ficha_asociado.pdf"); // descargar
+        return $pdf->stream("lista_asistencia.pdf"); // ver
+    }
+
 }

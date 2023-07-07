@@ -524,7 +524,7 @@ Route::post('propuestas/select_init', [PropuestasController::class, "select_init
  Route::post('asistencia/guardar_asistencia', [AsistenciaController::class, "guardar_asistencia"]);
  Route::post('asistencia/get_asistencia', [AsistenciaController::class, "get_asistencia"]);
  Route::post('asistencia/eliminar_asistencia', [AsistenciaController::class, "eliminar_asistencia"]);
-
+ Route::get('asistencia/imprimir_asistencia/{asistencia_id}', [AsistenciaController::class, "imprimir_asistencia"]);
 
   // FOROS
   Route::get('foros/index', [ForosController::class, "index"]);
