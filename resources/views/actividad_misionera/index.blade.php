@@ -1,21 +1,8 @@
 @extends('layouts.layout')
-{{-- @extends('layouts.header') --}}
-{{-- @extends('layouts.menu') --}}
-{{-- @extends('layouts.aside') --}}
-{{-- @extends('layouts.footer') --}}
 
 
 @section('content')
-<style>
-  .celda:hover {
-    background-color: #FFCC00;
-    cursor: pointer
-  }
 
-  .fila:hover {
-    background-color: #FFFF99
-  }
-</style>
 <form id="formulario-actividad_misionera" class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-2">
@@ -77,8 +64,8 @@
                     <select name="anio" id="anio" class="entrada selectizejs"></select>
                 </div>
                 <!-- <div class="col-md-2">
-                    
-                    
+
+
                 </div> -->
                 <div class="col-md-2">
                     <label class="control-label" style="">{{ traducir("traductor.mes") }}:</label>
@@ -98,8 +85,8 @@
                     </select>
                 </div>
                 <!-- <div class="col-md-2">
-                    
-                    
+
+
                 </div> -->
 
                 <div class="col-md-2">
@@ -130,14 +117,14 @@
                     </div>
                 </div>
                 <!-- <div class="col-md-1">
-                    
-                   
+
+
                 </div> -->
                 <!-- <div class="col-md-1">
                     <label class="control-label" style="float: right;">{{ traducir("traductor.trimestre") }}:</label>
                 </div>
                 <div class="col-md-3">
-                    
+
                     <select name="idtrimestre" id="idtrimestre" class="entrada selectizejs"></select>
                 </div> -->
                 <!-- <div class="col-md-1">
@@ -145,13 +132,13 @@
                 </div>    -->
             </div>
             <div class="row" id="actividades">
-            
+
             </div>
         </div>
     </div>
 
 </form>
 
-   
+
 @endsection
 

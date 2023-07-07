@@ -1,24 +1,12 @@
 @extends('layouts.layout')
-{{-- @extends('layouts.header') --}}
-{{-- @extends('layouts.menu') --}}
-{{-- @extends('layouts.aside') --}}
-{{-- @extends('layouts.footer') --}}
+
 
 
 @section('content')
-<style>
-  /* .celda:hover {
-    background-color: #FFCC00;
-    cursor: pointer
-  } */
 
-  .fila:hover {
-    background-color: #FFFF99
-  }
-</style>
 <form id="formulario-oficiales_iglesia" class="form-horizontal" role="form">
     <div class="row">
-    
+
             <div class="col-md-4 col-md-offset-4">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-1">
@@ -80,15 +68,15 @@
                 </div>
 
             </div>
-      
 
-        
-        
+
+
+
     </div>
-   
+
 
 </form>
 
-   
+
 @endsection
 

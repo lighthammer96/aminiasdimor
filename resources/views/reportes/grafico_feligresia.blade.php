@@ -1,21 +1,8 @@
 @extends('layouts.layout')
-{{-- @extends('layouts.header') --}}
-{{-- @extends('layouts.menu') --}}
-{{-- @extends('layouts.aside') --}}
-{{-- @extends('layouts.footer') --}}
 
 
 @section('content')
-<style>
-  /* .celda:hover {
-    background-color: #FFCC00;
-    cursor: pointer
-  } */
 
-  .fila:hover {
-    background-color: #FFFF99
-  }
-</style>
 <form id="formulario-grafico_feligresia" class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-2">

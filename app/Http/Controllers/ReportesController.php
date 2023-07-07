@@ -23,7 +23,9 @@ class ReportesController extends Controller
 {
     //
     // private $base_model;
-    private $ReportesController_model;
+
+
+
     private $reportes_model;
     private $divisiones_model;
     private $paises_model;
@@ -54,7 +56,7 @@ class ReportesController extends Controller
         $view = "reportes.general_asociados";
         $data["title"] = traducir("traductor.titulo_general_asociados");
         $data["subtitle"] = "";
-        // $data["tabla"] = $this->ReportesController_model->tabla()->HTML();
+        // $data["tabla"] = $this->reportes_model->tabla()->HTML();
 
         // $botones = array();
         // $botones[0] = '<button disabled="disabled" tecla_rapida="F1" style="margin-right: 5px;" class="btn btn-primary btn-sm" id="nuevo-perfil">'.traducir("traductor.nuevo").' [F1]</button>';
@@ -157,10 +159,6 @@ class ReportesController extends Controller
         return parent::init($view, $data);
     }
 
-    public function buscar_datos() {
-        $json_data = $this->ReportesController_model->tabla()->obtenerDatos();
-        echo json_encode($json_data);
-    }
 
 
 

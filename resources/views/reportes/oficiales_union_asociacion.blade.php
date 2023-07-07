@@ -1,21 +1,8 @@
 @extends('layouts.layout')
-{{-- @extends('layouts.header') --}}
-{{-- @extends('layouts.menu') --}}
-{{-- @extends('layouts.aside') --}}
-{{-- @extends('layouts.footer') --}}
 
 
 @section('content')
-<style>
-  /* .celda:hover {
-    background-color: #FFCC00;
-    cursor: pointer
-  } */
 
-  .fila:hover {
-    background-color: #FFFF99
-  }
-</style>
 <form id="formulario-oficiales_union_asociacion" class="form-horizontal" role="form">
     <div class="row">
             <input type="hidden" name="lugar" id="lugar" class="input-sm entrada">
@@ -73,7 +60,7 @@
                         <select name="anio" id="anio" class="entrada selectizejs"></select>
                     </div> -->
                     <div class="col-md-8 col-md-offset-1" style="">
-                        
+
                         <label class="control-label">{{ traducir('traductor.periodo_ini') }}</label>
                         <select class="entrada selectizejs limpiar-cargos" name="periodoini" id="periodoini">
 
@@ -95,15 +82,15 @@
                 </div>
 
             </div>
-      
 
-        
-        
+
+
+
     </div>
-   
+
 
 </form>
 
-   
+
 @endsection
 
