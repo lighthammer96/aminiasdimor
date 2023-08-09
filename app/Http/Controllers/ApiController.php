@@ -292,6 +292,7 @@ class ApiController extends Controller
     public function obtener_url() {
         //$data["url"] = "https://iglesia.solucionesahora.com/";
         $data["url"] = "https://smisystem.org/imssystem/public/";
+        $data["url_eventos"] = "https://smisystem.org/imseventos/public/";
         echo json_encode($data);
     }
 
