@@ -553,18 +553,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 email: email.value,
             }
 
-            var miembros = document.getElementsByName("idmiembro[]");
+            // var miembros = document.getElementsByName("idmiembro[]");
 
-            for (let m = 0; m < miembros.length; m++) {
-                if(idmiembro.value == miembros[m].value) {
-                    BASE_JS.sweet({
-                        text: miembro_agregado
-                    });
-                    return false;
-                }
+            // for (let m = 0; m < miembros.length; m++) {
+            //     if(idmiembro.value == miembros[m].value) {
+            //         BASE_JS.sweet({
+            //             text: miembro_agregado
+            //         });
+            //         return false;
+            //     }
 
 
-            }
+            // }
             // var cargos = document.getElementsByName("idcargo[]");
             // for (let c = 0; c < cargos.length; c++) {
             //     if(idcargo.value == cargos[c].value) {
