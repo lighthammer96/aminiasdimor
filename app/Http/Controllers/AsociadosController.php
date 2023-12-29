@@ -165,7 +165,7 @@ class AsociadosController extends Controller
             DB::beginTransaction();
 
             $array_keys_posts = array_keys($_POST);
-            
+
             // print_r($array_keys_posts);
 
             $idtipodoc = (isset($_REQUEST["idtipodoc"])) ? $request->input("idtipodoc") : 0;
@@ -1243,7 +1243,7 @@ class AsociadosController extends Controller
         $data["idunioncargo"] = $this->uniones_model->obtener_uniones_paises($request);
         $data["idmisioncargo"] = $this->misiones_model->obtener_misiones($request);
         $data["iddistritomisionerocargo"] = $this->distritos_misioneros_model->obtener_distritos_misioneros($request);
-        $data["idiglesia"] = $this->iglesias_model->obtener_iglesias($request);
+        $data["idiglesiacargo"] = $this->iglesias_model->obtener_iglesias($request);
 
         $data["idmotivobaja"] = $this->principal_model->obtener_motivos_baja();
         $data["pais_id_nacimiento"] = $this->paises_model->obtener_todos_paises();

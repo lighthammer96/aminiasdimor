@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class Tabla extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
 
-   
+
     private $columnas;
     // private $table;
     private $id;
@@ -35,7 +35,7 @@ class Tabla extends Model
 
 
     public function __construct() {
-      
+
         $this->columnas = array();
         $this->accion = "";
         $this->classBotonModificar = "modificar";
@@ -469,7 +469,7 @@ class Tabla extends Model
         $consulta = $select . $from . $where. $groupBy . $having. $orderBy. $limit;
         // echo $consulta; exit;
         $registros = DB::select($consulta);
-       
+
 
 
         $json_data = array(
@@ -497,7 +497,7 @@ class Tabla extends Model
         $html .= '<thead><tr>';
 
         foreach ($columnas as $columna) {
-            
+
             $html .= '<th /*bgcolor="#666666" */ bgcolor="#4896c4" style="color: white;" width="'.$columna->width.'" height="'.$columna->height.'">' . $columna->titulo . '</th>';
 
         }

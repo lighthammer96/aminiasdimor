@@ -191,9 +191,9 @@ class BASE_JS {
                     if (code == 13) {
                         table.search(this.value).draw();
                     }
-                    if(this.value == "") {
-                        table.search(this.value).draw();
-                    }
+                    // if(this.value == "") {
+                    //     table.search(this.value).draw();
+                    // }
                 });
             }
         });

@@ -58,3 +58,22 @@ d.iddepartamento, p.idprovincia, dd.iddistrito
 FROM public.departamento AS d
 LEFT JOIN public.provincia AS p ON(d.iddepartamento=p.iddepartamento)
 LEFT JOIN public.distrito AS dd ON(dd.idprovincia=p.idprovincia)
+
+
+
+-- vista_jerarquia_idiomas
+
+SELECT i.idiglesia, id.idioma_id, (di.di_descripcion || ' / ' || p.pais_descripcion || ' / ' || u.descripcion || ' / ' || mi.descripcion || ' / ' || dm.descripcion || ' / ' || i.descripcion) AS jerarquia, id.idioma_descripcion , id.idioma_codigo,
+di.di_descripcion AS division, p.pais_descripcion AS pais, 
+u.descripcion AS "union", mi.descripcion AS mision, 
+dm.descripcion AS distritomisionero, i.descripcion AS iglesia, d.iddivision, 
+p.pais_id, u.idunion, mi.idmision, dm.iddistritomisionero
+FROM iglesias.division d
+JOIN iglesias.division_idiomas AS di ON(d.iddivision=di.iddivision)
+JOIN public.idiomas AS id ON(id.idioma_id=di.idioma_id)
+JOIN iglesias.paises p ON d.iddivision = p.iddivision
+JOIN iglesias.union_paises up ON up.pais_id = p.pais_id
+JOIN iglesias."union" u ON up.idunion = u.idunion
+JOIN iglesias.mision mi ON u.idunion = mi.idunion
+JOIN iglesias.distritomisionero dm ON mi.idmision = dm.idmision
+JOIN iglesias.iglesia i ON dm.iddistritomisionero = i.iddistritomisionero

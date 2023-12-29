@@ -24,7 +24,7 @@ class AsociadosModel extends Model
     }
 
     public function tabla($curriculum = "", $delegados = "") {
-        $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || (CASE WHEN m.idiglesia IS NULL THEN '0' ELSE m.idiglesia END), ".session("idioma_id").", ".session("idioma_id_defecto").")";
+        // $funcion = "iglesias.fn_mostrar_jerarquia('s.division || '' / '' || s.pais  || '' / '' ||  s.union || '' / '' || s.mision || '' / '' || s.distritomisionero || '' / '' || s.iglesia', 'i.idiglesia=' || (CASE WHEN m.idiglesia IS NULL THEN '0' ELSE m.idiglesia END), ".session("idioma_id").", ".session("idioma_id_defecto").")";
         $tabla = new Tabla();
         $tabla->asignarID("tabla-asociados");
         $tabla->agregarColumna("m.idmiembro", "idmiembro", "Id");
@@ -34,7 +34,7 @@ class AsociadosModel extends Model
         $tabla->agregarColumna("m.email", "email", traducir("traductor.email"));
         $tabla->agregarColumna("m.telefono", "telefono", traducir("traductor.telefono"));
         // $tabla->agregarColumna("m.celular", "celular", traducir("traductor.celular"));
-        $tabla->agregarColumna($funcion, "iglesia", traducir("traductor.iglesia"));
+        $tabla->agregarColumna('v.jerarquia', "iglesia", traducir("traductor.iglesia"));
         if($delegados == "1") {
             $tabla->agregarColumna("a.asamblea_descripcion", "asamblea_descripcion", traducir("asambleas.asamblea"));
         }
@@ -52,16 +52,16 @@ class AsociadosModel extends Model
             $boton = ", '<center><button type=\"button\" onclick=\"imprimir_certificado(''' || m.idmiembro || ''')\" class=\"btn btn-xs\" ><img style=\"width: 20px; height: 20px;\" src=\"".URL::asset('images/iconos/print.png')."\"><br></button></center>' AS boton";
         }
 
-        $join = "";
+        $join = "\nLEFT JOIN iglesias.vista_jerarquia_idiomas AS v ON(v.idiglesia=m.idiglesia AND v.idioma_id=".session("idioma_id").")";
         if($delegados == "1") {
             $join = "\nINNER JOIN asambleas.delegados AS d ON(d.idmiembro=m.idmiembro AND d.estado='A')
             \nINNER JOIN asambleas.asambleas AS a ON(a.asamblea_id=d.asamblea_id AND a.estado='A')";
         }
         if($delegados == "1") {
-            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, a.asamblea_descripcion");
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, v.jerarquia AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento, a.asamblea_descripcion");
 
         } else {
-            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, ".$funcion."  AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
+            $tabla->setSelect("m.idmiembro, (m.nombres || ' ' || m.apellidos) AS nombres, td.descripcion, m.nrodoc, m.email, m.telefono/*, m.celular*/, v.jerarquia AS iglesia, m.estado AS state".$boton.", m.fax, m.direccion , ".formato_fecha_idioma("m.fechanacimiento")." AS fechanacimiento");
         }
 
         $tabla->setFrom("iglesias.miembro AS m
@@ -141,7 +141,7 @@ class AsociadosModel extends Model
     public function obtener_periodos_ini() {
         $result = array();
         $array = array();
-        for($i=date("Y"); $i>=1900; $i-- ) {
+        for($i=(date("Y")+1); $i>=1900; $i-- ) {
             $result["id"] = $i;
             $result["descripcion"] = $i;
             array_push($array, $result);
