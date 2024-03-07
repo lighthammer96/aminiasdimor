@@ -514,8 +514,8 @@ document.addEventListener("DOMContentLoaded", function() {
         var numdoc = document.getElementsByName("numdoc")[0];
 
         if(tipodoc == 1) {
-            numdoc.setAttribute("maxlength", 8);
-            numdoc.setAttribute("minlength", 8);
+            numdoc.setAttribute("maxlength", 10);
+            numdoc.setAttribute("minlength", 10);
         }
 
 
