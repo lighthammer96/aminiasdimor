@@ -790,15 +790,20 @@ class ReportesController extends Controller
 
     public function imprimir_oficiales_union_asociacion(Request $request) {
         $datos = array();
+        $where = "";
         // echo "<pre>";
         //  print_r($_REQUEST); exit;
         // echo round(9 / 2); exit;
         $periodoini = $request->input("periodoini");
         $periodofin = $request->input("periodofin");
 
+        if(isset($_REQUEST["idmision"]) && !empty($_REQUEST["idmision"])) {
+            $where = " AND e.idmision=".$request->input("idmision");
+        }
+
         $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
         INNER JOIN iglesias.eleccion_oficiales AS eo ON(e.ideleccion=eo.ideleccion)
-        WHERE e.tipo='A' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
+        WHERE e.tipo='A' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin} {$where}";
         // die($sql_eleccion);
         $eleccion = DB::select($sql_eleccion);
 
@@ -1092,14 +1097,19 @@ class ReportesController extends Controller
 
     public function imprimir_oficiales_union(Request $request) {
         $datos = array();
+        $where = "";
 
         $periodoini = $request->input("periodoini");
         $periodofin = $request->input("periodofin");
 
+        if(isset($_REQUEST["idunion"]) && !empty($_REQUEST["idunion"])) {
+            $where = " AND e.idunion=".$request->input("idunion");
+        }
+
 
         $sql_eleccion = "SELECT e.*, CASE WHEN e.tiporeunion='O' THEN '".traducir("traductor.reunion_ordinaria")."' ELSE '".traducir("traductor.reunion_extraordinaria")."' END AS tiporeunion FROM iglesias.eleccion AS e
         INNER JOIN iglesias.eleccion_oficiales AS eo ON(e.ideleccion=eo.ideleccion)
-        WHERE e.tipo='U' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin}";
+        WHERE e.tipo='U' AND e.periodoini={$periodoini} AND e.periodofin={$periodofin} {$where}";
         // die($sql_eleccion);
         $eleccion = DB::select($sql_eleccion);
 
